@@ -1,0 +1,2370 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Task Manager Service",
+    "version": "v2.0.0"
+  },
+  "host": "localhost:50001",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v2/get_system_info": {
+      "get": {
+        "summary": "获取系统接口参数.",
+        "operationId": "GetSystemInfoV2",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/task_managerGetSystemInfoV2Response"
+            }
+          }
+        },
+        "tags": [
+          "TaskManagerServiceV2"
+        ]
+      }
+    },
+    "/v2/tasks": {
+      "get": {
+        "summary": "查询任务列表请求.",
+        "operationId": "TaskListV2",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/litetask_managerTaskListV2Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page.offset",
+            "description": "可选, 开始位置, 取值:\u003e=0, 0为第一条, 默认值为0. 作为输出时,\n返回本次请求返回的第一条记录实际位置(一般与输入一致).\n[EN] Optional, start position, value: \u003e = 0, 0 is the first line; the default value is 0.\nIn response, actual offset of the first returned record is returned\n(generally equals to the offset in request).",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page.limit",
+            "description": "长度, 默认取值范围[1,100], 如果超出范围, 则返回失败; 在某些接口中limit范围可能会重新定义, 请以其接口的补充说明为准.\n[EN] Length, default value range [1,100], if it is out of the range, error will be returned; as the limit range may be redefined in some APIs, please refer to the supplementary description of these APIs.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page.total",
+            "description": "可选, 请求无须填此参数, 响应时系统填写.\n[EN] Optional, this parameter is not required for request, but will be\nfilled in response.",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "TaskManagerServiceV2"
+        ]
+      },
+      "post": {
+        "summary": "新建任务请求.",
+        "operationId": "TaskNewV2",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/litetask_managerTaskNewV2Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/litetask_managerTaskNewV2Request"
+            }
+          }
+        ],
+        "tags": [
+          "TaskManagerServiceV2"
+        ]
+      },
+      "patch": {
+        "summary": "更新任务.",
+        "operationId": "TaskUpdateV2",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/task_managerTaskUpdateV2Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/task_managerTaskUpdateV2Request"
+            }
+          }
+        ],
+        "tags": [
+          "TaskManagerServiceV2"
+        ]
+      }
+    },
+    "/v2/tasks/{task_id}": {
+      "get": {
+        "summary": "查询任务信息状态请求.",
+        "operationId": "TaskStatusV2",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/litetask_managerTaskStatusV2Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "TaskManagerServiceV2"
+        ]
+      },
+      "delete": {
+        "summary": "删除任务请求.",
+        "operationId": "TaskDeleteV2",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/task_managerTaskDeleteV2Response"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "TaskManagerServiceV2"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "CrowdConfigCrowdOutputMode": {
+      "type": "string",
+      "enum": [
+        "OutputOnAlarm",
+        "OutputOff",
+        "OutputForever"
+      ],
+      "default": "OutputOnAlarm",
+      "description": "人群全景图,密度图和滞留图的输出模式类型 [DEPRECATED].\n[EN] Types of output mode of panoramic, crowd density maps and crowd strand maps [DEPRECATED].\n\n - OutputOnAlarm: 告警时输出.\n[EN] Output when alarm.\n - OutputOff: 一直不输出.\n[EN]Never output.\n - OutputForever: 一直输出.\n[EN] Output always."
+    },
+    "CrowdConfigV2LabelPerson": {
+      "type": "object",
+      "properties": {
+        "head_y": {
+          "type": "number",
+          "format": "float",
+          "description": "头部Y坐标, 大小[0,1].\n[EN] The y coordinate of head. range [0,1]."
+        },
+        "foot_y": {
+          "type": "number",
+          "format": "float",
+          "description": "脚部Y坐标, 大小[0,1].\n[EN] The y coordinate of foot. range [0,1]."
+        }
+      },
+      "description": "人体标签, 用于标定人体身高在画面中的相对坐标.\n[EN] The person label, mark the relative person's height."
+    },
+    "CrowdEventRuleCongregateRule": {
+      "type": "object",
+      "properties": {
+        "roi": {
+          "$ref": "#/definitions/CrowdEventRuleRoiConfig",
+          "description": "人群聚集事件分析的ROI配置 [SINCE v3.2.0].\n[EN] Crowd congregate analyze ROI [SINCE v3.2.0]."
+        },
+        "cnt_thresh": {
+          "type": "integer",
+          "format": "int32",
+          "description": "人群聚集行人个数阈值, 必须大于0 [SINCE v3.2.0].\n[EN] Number threshold of crowd gathering pedestrians must be greater than 0 [SINCE v3.2.0]."
+        },
+        "time_thresh": {
+          "type": "integer",
+          "format": "int32",
+          "description": "人群聚集时间阈值, 必须大于0, 单位为秒 [SINCE v3.2.0].\n[EN] The time threshold of congregate in seconds must be greater than 0, unit: second [SINCE v3.2.0]."
+        },
+        "distance_thresh": {
+          "type": "number",
+          "format": "float",
+          "description": "人与人之间的距离, 必须大于0, 单位为米 [SINCE v3.2.0].\n[EN] The distance threshold of distance between people, must be greater than 0, ut is meter [SINCE v3.2.0]."
+        },
+        "turn_scatter_on": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "开启人群分散处理 [SINCE v3.2.0].\n[EN] turn scatter on [SINCE v3.2.0]."
+        }
+      },
+      "description": "人群聚集/分散分析配置 [SINCE v3.2.0].\n[EN] Crowd Congregate/Scatter  config [SINCE v3.2.0]."
+    },
+    "CrowdEventRuleCrossLineRule": {
+      "type": "object",
+      "properties": {
+        "line_margin": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 跨线线两端延长margin, 单位像素. 若不填时, 值为30px [EXPERIMENTAL].\n[EN] Optional, extend the margin at both ends of the cross-over line, ut is px. If 'line_margin' is not filled, 'line_margin' will equal 30px [EXPERIMENTAL]."
+        },
+        "p_roi_margin": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 正方向至少跨过线margin像素后才记录为跨线, 单位像素. 若不填或者填0, line_margin会取值400px [EXPERIMENTAL].\n[EN] Optional, the positive direction at least crosses line margin pixels before it is recorded as a cross line, ut is px.\nIf 'p_roi_margin' is not filled or equals 0, 'p_roi_margin' will equal the default value 30px [EXPERIMENTAL]."
+        },
+        "n_roi_margin": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 反方向至少跨过线margin像素后才记录为跨线, 单位像素. 若不填或者填0, line_margin会取值100px [EXPERIMENTAL].\n[EN] Optional, the opposite direction at least crosses line margin pixels before it is recorded as a cross line, ut is px\nIf 'n_roi_margin' is not filled or equals 0, 'n_roi_margin' will equal the default value 100px [EXPERIMENTAL]."
+        },
+        "line_neighbor_margin": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 跨线周边之间的margin. 若不填或者填0, line_neighbor_margin会取默认值50px [EXPERIMENTAL].\n[EN] Optional, cross line neighbor margin. If 'line_neighbor_margin' is not filled or equals 0, 'line_neighbor_margin' will equal the default value 50px [EXPERIMENTAL]."
+        },
+        "cross_line": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/commonapisVertex2F"
+          },
+          "description": "跨线坐标, 必须传入两个点表示参考线, 建议参考线尽量穿过画面中部区域, 以达到更好的检测效果 [SINCE v3.2.0].\n[EN] Cross-line coordinate, 2 points must be introduced to represent the reference line.\nIt is suggested that the reference line should pass through the middle area of the image as far as possible to achieve a better detection effect [SINCE v3.2.0]."
+        },
+        "directions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/commonapisVertex2F"
+          },
+          "description": "跨线主方向(主方向对应出, 反方向对应进). 必须传入两个点分别表示起始点和终止点 [SINCE v3.2.0].\n[EN] Cross line main direction(Main direction indicate out, opposite direction indicate in).2 points must be introduced to represent the start point and the end point [SINCE v3.2.0]."
+        }
+      },
+      "description": "人群跨线分析配置 [SINCE v3.2.0].\n[EN] Crowd cross line config [SINCE v3.2.0]."
+    },
+    "CrowdEventRuleDensityRule": {
+      "type": "object",
+      "properties": {
+        "roi": {
+          "$ref": "#/definitions/CrowdEventRuleRoiConfig",
+          "description": "可选, 人群密度分析ROI配置, ROI区域越大, 算法相对精度越高, 建议设置ROI区域面积占画面1/4以上, ROI太小则不能保证精度. 默认值为全屏 [SINCE v3.2.0].\n[EN] Optional, ROI areas of crowd density, It is suggested to set the ROI area to take up more than 1/4q of the screen, and the accuracy cannot be guaranteed if the ROI is too small. default value is full screen [SINCE v3.2.0]."
+        },
+        "crowd_thresh": {
+          "type": "number",
+          "format": "float",
+          "description": "人群过密告警人数阈值, 必须大于0 [SINCE v3.2.0].\n[EN] Number threshold of roi area for overcrowding alarm, must larger than 0 [SINCE v3.2.0]."
+        },
+        "time_thresh_second": {
+          "type": "integer",
+          "format": "int64",
+          "description": "时间阈值, 单位为秒 [SINCE v3.2.0].\n[EN] The time threshold of event in seconds, unit: second [SINCE v3.2.0]."
+        },
+        "min_output_interval_second": {
+          "type": "number",
+          "format": "float",
+          "description": "最小输出时间间隔, 单位为秒, 当内部分析间隔可能高于此值时, 输出事件间隔设置为分析间隔 [SINCE v3.2.0].\n[EN] The event output interval time in seconds, unit: second, when internal analysis interval is large than this, min_output_interval_second will set to internal analysis interval [SINCE v3.2.0]."
+        }
+      },
+      "description": "人群过密分析事件规则 [SINCE v3.2.0].\n[EN] Crowd social distance config [SINCE v3.2.0]."
+    },
+    "CrowdEventRuleHeadTargetRule": {
+      "type": "object",
+      "properties": {
+        "roi": {
+          "$ref": "#/definitions/CrowdEventRuleRoiConfig",
+          "description": "可选, 分析ROI, 默认是全屏 [SINCE v3.2.0].\n[EN] Optional, analysis ROI, default value is full screen [SINCE v3.2.0]."
+        }
+      },
+      "description": "人群人头分析规则 [SINCE v3.2.0].\n[EN] crowd head target rule [SINCE v3.2.0]."
+    },
+    "CrowdEventRuleIntrusionRule": {
+      "type": "object",
+      "properties": {
+        "roi": {
+          "$ref": "#/definitions/CrowdEventRuleRoiConfig",
+          "description": "可选, 事件分析ROI, 默认是全屏 [SINCE v3.2.0].\n[EN] Optional, ROI areas of event analysis, default value is full screen [SINCE v3.2.0]."
+        },
+        "participant_count_thresh": {
+          "type": "integer",
+          "format": "int64",
+          "description": "事件参与人员人数阈值, 默认值为1 [SINCE v3.2.0].\n[EN] Number threshold of event participant, default value is 1 [SINCE v3.2.0]."
+        },
+        "time_thresh_second": {
+          "type": "integer",
+          "format": "int64",
+          "description": "时间阈值, 单位为秒 [SINCE v3.2.0].\n[EN] The time threshold of event in seconds, unit: second [SINCE v3.2.0]."
+        },
+        "min_output_interval_second": {
+          "type": "number",
+          "format": "float",
+          "description": "最小输出时间间隔, 单位为秒, 当内部分析间隔可能高于此值时, 输出事件间隔设置为分析间隔 [SINCE v3.2.0].\n[EN] The event output interval time in seconds, unit: second, when internal analysis interval is large than this, min_output_interval_second will set to internal analysis interval [SINCE v3.2.0]."
+        }
+      },
+      "description": "人群入侵事件规则 [SINCE v3.2.0].\n[EN] crowd intrusion event rule [SINCE v3.2.0]."
+    },
+    "CrowdEventRuleRetrogradeRule": {
+      "type": "object",
+      "properties": {
+        "roi": {
+          "$ref": "#/definitions/CrowdEventRuleRoiConfig",
+          "description": "人群逆行事件分析的ROI配置 [SINCE v3.2.0].\n[EN] Crowd retrograde analyze ROI [SINCE v3.2.0]."
+        },
+        "directions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/commonapisVertex2F"
+          },
+          "description": "逆行主方向. 必须传入两个点分别表示起始点和终止点 [SINCE v3.2.0].\n[EN] Main direction of retrograde event.2 points must be introduced to represent the start point and the end point [SINCE v3.2.0]."
+        },
+        "participant_count_thresh": {
+          "type": "integer",
+          "format": "int64",
+          "description": "事件参与人员人数阈值, 默认值为1 [SINCE v3.2.0].\n[EN] Number threshold of event participant, default value is 1 [SINCE v3.2.0]."
+        },
+        "min_output_interval_second": {
+          "type": "number",
+          "format": "float",
+          "description": "最小输出时间间隔, 单位为秒, 当内部分析间隔可能高于此值时, 输出事件间隔设置为分析间隔 [SINCE v3.2.0].\n[EN] The event output interval time in seconds, unit: second, when internal analysis interval is large than this, min_output_interval_second will set to internal analysis interval [SINCE v3.2.0]."
+        }
+      },
+      "description": "人群逆行事件分析配置 [SINCE v3.2.0].\n[EN] Crowd retrograde config [SINCE v3.2.0]."
+    },
+    "CrowdEventRuleRoiConfig": {
+      "type": "object",
+      "properties": {
+        "polygon": {
+          "$ref": "#/definitions/commonapisBoundingPolyF",
+          "description": "可选, ROI多边形区域. 默认值为全屏 [SINCE v3.2.0].\n[EN] Optional, ROI polygon. default is full screen [SINCE v3.2.0]."
+        }
+      },
+      "description": "事件分析ROI配置 [SINCE v3.2.0].\n[EN] The ROI Config of general crowd event [SINCE v3.2.0]."
+    },
+    "CrowdEventRuleSocialDistanceRule": {
+      "type": "object",
+      "properties": {
+        "roi": {
+          "$ref": "#/definitions/CrowdEventRuleRoiConfig",
+          "description": "人群社交距离分析的ROI配置 [SINCE v3.2.0].\n[EN] Crowd congregate analyze ROI [SINCE v3.2.0]."
+        },
+        "close_distance_threshold": {
+          "type": "number",
+          "format": "float",
+          "description": "相距过近阈值, 单位米, 必须大于0 [SINCE v3.2.0].\n[EN] distance too close threshold. unit: meter, must large than 0 [SINCE v3.2.0]."
+        },
+        "close_pair_threshold": {
+          "type": "number",
+          "format": "float",
+          "description": "人数对阈值, 必须大于0 [SINCE v3.2.0].\n[EN] the number of people threshold, must large than 0 [SINCE v3.2.0]."
+        },
+        "close_time_threshold": {
+          "type": "number",
+          "format": "float",
+          "description": "持续时间时间阈值, 单位秒 [SINCE v3.2.0].\n[EN] the duration threshold. unit: second [SINCE v3.2.0]."
+        },
+        "min_output_interval_second": {
+          "type": "number",
+          "format": "float",
+          "description": "最小输出时间间隔, 单位为秒, 当内部分析间隔可能高于此值时, 输出事件间隔设置为分析间隔 [SINCE v3.2.0].\n[EN] The event output interval time in seconds, unit: second, when internal analysis interval is large than this, min_output_interval_second will set to internal analysis interval [SINCE v3.2.0]."
+        }
+      },
+      "description": "人群社交距离分析配置 [SINCE v3.2.0].\n[EN] Crowd social distance config [SINCE v3.2.0]."
+    },
+    "CrowdEventRuleStrandAnalyzeRule": {
+      "type": "object",
+      "properties": {
+        "roi": {
+          "$ref": "#/definitions/CrowdEventRuleRoiConfig",
+          "description": "可选, 分析ROI, 默认是全屏 [SINCE v3.2.0].\n[EN] Optional, analysis ROI, default value is full screen [SINCE v3.2.0]."
+        },
+        "strand_thresh": {
+          "type": "integer",
+          "format": "int32",
+          "description": "滞留时间的阈值,必须大于0, 单位秒. [SINCE v3.2.0].\n[EN] The time threshold of strand. unit: second [SINCE v3.2.0]."
+        },
+        "min_output_interval_second": {
+          "type": "number",
+          "format": "float",
+          "description": "最小输出时间间隔, 单位为秒, 当内部分析间隔可能高于此值时, 输出事件间隔设置为分析间隔 [SINCE v3.2.0].\n[EN] The event output interval time in seconds, unit: second, when internal analysis interval is large than this, min_output_interval_second will set to internal analysis interval [SINCE v3.2.0]."
+        },
+        "participant_count_thresh": {
+          "type": "integer",
+          "format": "int64",
+          "description": "事件参与人员人数阈值, 默认值为1 [SINCE v3.2.0].\n[EN] Number threshold of event participant, default value is 1 [SINCE v3.2.0]."
+        }
+      },
+      "description": "人群滞留分析规则 [SINCE v3.2.0].\n[EN] crowd head target rule [SINCE v3.2.0]."
+    },
+    "CrowdRealtimeAnalysisConfigDensityMapConfig": {
+      "type": "object",
+      "properties": {
+        "enable": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "是否开启. [SINCE v3.2.0].\n[EN] enable or not, default value is false [SINCE v3.2.0]."
+        }
+      },
+      "description": "实时密度图分析 [SINCE v3.2.0].\n[EN] realtime density map analysis [SINCE v3.2.0]."
+    },
+    "CrowdRealtimeAnalysisConfigHeadTargetConfig": {
+      "type": "object",
+      "properties": {
+        "enable": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "是否开启. [SINCE v3.2.0].\n[EN] enable or not, default value is false [SINCE v3.2.0]."
+        }
+      },
+      "description": "人头点实时分析 [SINCE v3.2.0].\n[EN] Head target realtime analysis. [SINCE v3.2.0]."
+    },
+    "CrowdRealtimeAnalysisConfigRealtimeAnalysisOutputConfig": {
+      "type": "object",
+      "properties": {
+        "enable": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "是否关闭实时分析结果的输出 [SINCE v3.2.0].\n[EN] disable crowd realtime analysis output, default value is false [SINCE v3.2.0]."
+        },
+        "min_interval": {
+          "type": "integer",
+          "format": "int32",
+          "description": "输出间隔时间, 服务可能因为性能原因放大此参数, 单位为ms [SINCE v3.2.0].\n[EN] output interval, service may enlarge this argument for performance reason, unit: ms [SINCE v3.2.0]."
+        }
+      },
+      "description": "人群实时分析结果通用输出配置 [SINCE v3.2.0].\n[EN] Common configuration of crowd realtime analysis output mode [SINCE v3.2.0]."
+    },
+    "commonapisBoundingPolyF": {
+      "type": "object",
+      "properties": {
+        "vertices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/commonapisVertex2F"
+          },
+          "description": "多边形顶点.\n注意: 坐标点为[0.0, 1.0]之间的任意浮点数, 表示相对宽或高的位置.\n注意: 仅包含两个顶点, 目标区域被解释为矩形, 第一个为左上角坐标, 第二个为右下角坐标.\n[EN] Polygon vertices.\nNote: The coordinate point can be any floating point between [0.0, 1.0], indicating a relatively wide or high position.\nNote: when vertices only contains two vertices, the polygon is interoperate as rectangular, the first is the coordinate\nin upper left corner and the second is in the lower right corner."
+        }
+      },
+      "description": "多边形, 可用于表示ROI [SINCE v2.0.0].\n[EN] Polygon, can be used to represent ROI [SINCE v2.0.0]."
+    },
+    "commonapisCameraIdentifier": {
+      "type": "object",
+      "properties": {
+        "region_id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "摄像头所属区域id, 0号id系统保留, 范围: [1, 16383].\n[EN] Region id of the camera, in which id '0' is reserved by the system, range: [1, 16383]."
+        },
+        "camera_idx": {
+          "type": "integer",
+          "format": "int32",
+          "description": "摄像头在区域region_id内的下标, 0号id系统保留, 范围: [1, 127].\n[EN] Camera index in region specified by region_id, in which id '0' is reserved by the system, range: [1, 127]."
+        }
+      },
+      "description": "系统摄像头唯一标识, 一般由业务系统统一分配和管理.\n[EN] The unique id of the system camera, is generally distributed and managed by the service system."
+    },
+    "commonapisCameraInfo": {
+      "type": "object",
+      "properties": {
+        "camera_id": {
+          "type": "string",
+          "description": "可选, 摄像机ID. 摄像机的UUID, 对应相机管理服务的camera_uuid.\n[EN] Optional, camera ID. UUID of camera is corresponding to camera_uuid in camera management."
+        },
+        "device_id": {
+          "type": "string",
+          "description": "可选, 摄像机硬件id.\n- GB28181平台相机时为相机国标ID;\n- GAT1400平台相机时为相机DeviceID(APE_ID);\n- 其他平台接入时为对应平台下相机的ID;\n- 直连相机时为系统内部生成的国标ID.\n[EN] Optional, camera hardware id.\n– Camera GB Standard ID in GB28181 camera;\n- DeviceID (APE_ID) in GAT1400 platform camera;\n- the ID of the camera on the corresponding platform when other platforms are ingressed;\n- GB Standard ID which generate by system when directly connecting cameras."
+        },
+        "device_type": {
+          "type": "string",
+          "description": "可选, 内部自动生成, 为commonapis.ingress.SourceType对应字符串.\n[EN] Optional, it is generated automatically as a string corresponding to commonapis.ingress.SourceType."
+        },
+        "place_code": {
+          "type": "string",
+          "description": "可选, 摄像头所在区域代码 [DEPRECATED].\n[EN] Optional, zone code of the camera [DEPRECATED]."
+        },
+        "place_name": {
+          "type": "string",
+          "description": "可选, 摄像头所在区域名 [DEPRECATED].\n[EN] Optional, zone code of the camera [DEPRECATED]."
+        },
+        "tollgate_id": {
+          "type": "string",
+          "description": "可选, 摄像头所在卡口代码 [DEPRECATED].\n[EN] Optional, tollgate code of the camera [DEPRECATED]."
+        },
+        "tollgate_name": {
+          "type": "string",
+          "description": "可选, 摄像头所在卡口名 [DEPRECATED].\n[EN] Optional, tollgate name of the camera [DEPRECATED]."
+        },
+        "source_id": {
+          "type": "string",
+          "description": "可选, 内部自动生成, 用于表示GAT1400的SourceID.\n- 第三方视图库推图给VIPER IIS时携带, 然后由IIS填入;\n- GB28281视频流提取的图片经IIS推送给第三方视图库时由IIS生成.\n[EN] Optional, generated automatically and used to represent the SourceID of GAT1400.\n- Carried by the third party when pushing image database to VIPER IIS which will then fill it in;\n- images extracted from GB28281 video stream are generated by IIS when they are pushed to a third party image database by IIS."
+        },
+        "internal_id": {
+          "$ref": "#/definitions/commonapisCameraIdentifier",
+          "description": "摄像头内部唯一标识.\n[EN] Unique identification of internal camera."
+        },
+        "zone_id": {
+          "type": "string",
+          "description": "可选, Zone的UUID, 对应相机管理服务的zone_uuid [SINCE v2.0.0].\n[EN] Optional, UUID of Zone is corresponding to zone_uuid in camera management. [SINCEv2.0.0]."
+        }
+      },
+      "description": "摄像机通用信息.\n[EN] Camera information."
+    },
+    "commonapisEventRule": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/commonapisEventType",
+          "description": "事件类型.\n[EN] Event type."
+        },
+        "rule_id": {
+          "type": "string",
+          "description": "可选, 规则ID (注: 如下发任务时未指定则自动生成).\n[EN] Optional, rule ID (note: automatically generated if unspecified when creating tasks)."
+        },
+        "roi": {
+          "$ref": "#/definitions/commonapisBoundingPolyF",
+          "description": "可选, ROI区域.\n- 对于使用多边形作为区域的事件, 一般传入至少4个点, 顺时针方向, 不要求闭合, 不填或置空表示全画面;\n- 对于跨线事件, 必须传入两个点表示参考线, 建议参考线尽量穿过画面中部区域, 以达到更好的检测效果;\n- 各点的坐标为画面下的百分比坐标(如顶点\u003cx=0.1, y=0.1\u003e可以表示1920x1080分标率画面下\u003cx=192,y=108\u003e的点), 前后端根据实际分辨率进行换算.\n[EN] Optional, ROI zone.\n- For events using polygons as zones, 4 points at least are generally passed in clockwise direction, representing the whole image with no required closing, no filling or blank;\n- For cross-line events, 2 points must be introduced to represent the reference line. It is suggested that the reference line should pass through the middle area of the image as far as possible to achieve a better detection effect;\n- The coordinate of each point is a percentage under the image (for example, vertices \u003cx=0.1, y=0.1\u003e can represent points \u003cx=192, y=108\u003e under the resolution of 1920 x 1080), and the front and back ends can be converted according to the actual resolution."
+        },
+        "duration": {
+          "type": "string",
+          "description": "可选, 时长, 事件的时长告警阈值. json中是字符串类型, 例如填写5s表示5秒.\n- 此参数用于逗留事件、徘徊事件及违停事件, 其和Worker配置文件中的min_duration共同起作用，只有同时大于这两者时，才会上报告警事件, 如果不配或置空，则只使用min_duration配置. 其他事件不需要此参数, 不填或置空即可.\n[EN] Optional, duration, event time interval threshold. json is a string type. For example, filling 5s means 5 seconds.\n- It is used for pedestrian stay, pedestrian hover and vehicle park events, and works together with min_duration parameter in worker config file, only exceed these two parameters at same time, the worker will report corresponding event, min_duration alone in worker config is used if this paramter is not filled or blank. Other events do not need it, leave it bland or not filled."
+        },
+        "direction": {
+          "$ref": "#/definitions/commonapisVector",
+          "description": "可选, 方向. 用于跨线事件. 此为非范化向量坐标(图像坐标系), 例如(-1,0)表示左, (1,0)表示右, (0,-1)表示上, (0,1)表示下, (1,1)表示右下, (0,0)表示不限定方向. 不填或置空表示业务不要求方向.\n[EN] Optional, direction. Used for cross-line events. This is a non-normalized vectorial coordinate (image coordinate system). For example (-1,0) means left, (1,0) means right, (0,-1) means upward side, (0,1) means lower side, (1,1) means lower right, (0,0) means unlimited direction. Blank indicates the task has no direction limitation."
+        }
+      },
+      "description": "VIPER平台事件任务规则 [SINCE v2.0.0] [DEPRECATED].\n[EN] VIPER event rule [SINCE v2.0.0] [DEPRECATED]."
+    },
+    "commonapisEventType": {
+      "type": "string",
+      "enum": [
+        "EVENT_UNKNOWN",
+        "EVENT_PEDESTRIAN_STAY",
+        "EVENT_PEDESTRIAN_HOVER",
+        "EVENT_PEDESTRIAN_CROSS_LINE",
+        "EVENT_PEDESTRIAN_INVADE",
+        "EVENT_VEHICLE_PARK"
+      ],
+      "default": "EVENT_UNKNOWN",
+      "description": "VIPER平台支持系统预定义事件规则类型 [SINCE v2.0.0].\n[EN] VIPER system pre-defined event types. [SINCE v2.0.0].\n\n - EVENT_UNKNOWN: unknown. 未知.\n[EN] unknown.\n - EVENT_PEDESTRIAN_STAY: pedestrian stay event. 逗留事件.\n[EN] pedestrian stay event.\n - EVENT_PEDESTRIAN_HOVER: pedestrian hover event. 可疑人员徘徊事件.\n[EN] pedestrian hover event.\n - EVENT_PEDESTRIAN_CROSS_LINE: pedestrian cross line event. 越线事件.\n[EN] pedestrian cross line event.\n - EVENT_PEDESTRIAN_INVADE: pedestrian invade event. 区域入侵事件.\n[EN] pedestrian invade event.\n - EVENT_VEHICLE_PARK: vehicle park event. 违停事件.\n[EN] vehicle park event."
+    },
+    "commonapisGeoPoint": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "format": "double",
+          "description": "纬度, 单位是度. 取值范围 [-90.0, +90.0].\n[EN] The latitude in degrees. It must be in the range [-90.0, +90.0]."
+        },
+        "longitude": {
+          "type": "number",
+          "format": "double",
+          "description": "经度, 单位是度. 取值范围 [-180.0, +180.0].\n[EN] The longitude in degrees. It must be in the range [-180.0, +180.0]."
+        }
+      }
+    },
+    "commonapisJSONPBAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "description": "动态JSONPB Schema支持, 对应的JSON表示形式为:\n`{\"@jsonpb_type\": \"sensetime.com/viper.algo.xx\", \"key1\": \"value1\"}` [SINCE v2.3.0].\n[EN] Dynamic JSONPB Schema support, JSON representation for this type is:\n`{\"@jsonpb_type\": \"sensetime.com/viper.algo.xx\", \"key1\": \"value1\"}` [SINCE v2.3.0]."
+    },
+    "commonapisObjectType": {
+      "type": "string",
+      "enum": [
+        "OBJECT_UNKNOWN",
+        "OBJECT_FACE",
+        "OBJECT_PEDESTRIAN",
+        "OBJECT_AUTOMOBILE",
+        "OBJECT_CYCLIST",
+        "OBJECT_HUMAN_POWERED_VEHICLE",
+        "OBJECT_SCENARIO",
+        "OBJECT_CROWD",
+        "OBJECT_ALGO",
+        "OBJECT_SNAPSHOT",
+        "OBJECT_FACE_EXTEND_PEDESTRIAN",
+        "OBJECT_EVENT",
+        "OBJECT_VIDEO_SOURCE_DIAGNOSIS",
+        "OBJECT_AUTOMOBILE_DETECT",
+        "OBJECT_MULTI_PACH",
+        "OBJECT_SCENARIO_CITY_MANAGEMENT",
+        "OBJECT_FACE_PEDESTRIAN",
+        "OBJECT_SCENARIO_AUTOMOBILE_THROW",
+        "OBJECT_MULTI_FACE_PACH",
+        "OBJECT_TRAFFIC_AUTOMOBILE_COUNT",
+        "OBJECT_TRAFFIC_MULTI_PACH",
+        "OBJECT_HUMAN_ACTION",
+        "OBJECT_TRAFFIC_ANOMALY_EVENT",
+        "OBJECT_TRAFFIC_CAMERA_VISION_INFO"
+      ],
+      "default": "OBJECT_UNKNOWN",
+      "description": "VIPER平台支持物体对象类型.\nObjectType与字符串表示的标准映射如下见对应枚举项注释.\n[EN] VIPER object types.\nThe standard mapping between ObjectType and string representations is shown in the corresponding enumerations in the items below.\n\n - OBJECT_UNKNOWN: unknown. 未知.\n[EN] unknown.\n - OBJECT_FACE: face. 人脸. 输入和输出类型, 输入类型用于创建任务时的枚举, 输出类型用于输出数据对象的枚举.\n[EN] face. Input and output types; input type is used for enumeration when creating tasks, while output type is used for enumeration when outputting data objects.\n - OBJECT_PEDESTRIAN: pedestrian. 人体. 仅为输出类型 [SINCE v1.4.0].\n[EN] pedestrian. pedestrian and other human body. Output type only [SINCE v1.4.0].\n - OBJECT_AUTOMOBILE: automobile. 机动车. 仅为输出类型 [SINCE v1.4.0].\n[EN] automobile. Output type only [SINCE v1.4.0].\n - OBJECT_CYCLIST: cyclist. 骑手, 对象框包含非机动车和人. 仅为输出类型 [SINCE v1.4.0].\n[EN] cyclist. cyclist, target frame include human powered vehicle and human body. Output type only [SINCE v1.4.0].\n - OBJECT_HUMAN_POWERED_VEHICLE: human_powered_vehicle. 非机动车. 仅为输出类型 [SINCE v1.4.0].\n[EN] human_powered_vehicle. Non-motor vehicle. Output type only [SINCE v1.4.0].\n - OBJECT_SCENARIO: scenario. 场景识别. 仅为输出类型 [SINCE v2.0.0].\n[EN] scenario. Scene recognition. Output type only [SINCE v2.0.0].\n - OBJECT_CROWD: crowd. 人群识别. 输入和输出类型 [SINCE v2.0.0].\n[EN] crowd. Crowd recognition. Both input and output types [SINCE v2.0.0].\n - OBJECT_ALGO: algo. 算法仓. 输入和输出类型 [SINCE v2.3.0].\n[EN] algo. Algo store object. Both input and output types [SINCE v2.3.0].\n - OBJECT_SNAPSHOT: snapshot. 抓拍. 仅为输入类型 [SINCE v3.1.0].\n[EN] snapshot. snapshot image from video. Input type only [SINCE v3.1.0].\n - OBJECT_FACE_EXTEND_PEDESTRIAN: face_extend_pedestrian. 人脸人体特殊场景，人体从场景图提取. 仅为输入类型 [SINCE v3.1.0].\n[EN] face_extend_pedestrian. face and pedestrian special scenario,  pedestrian image from panoramic image. Input type only [SINCE v3.1.0].\n - OBJECT_EVENT: event. 事件. 仅为输出类型 [SINCE v3.1.0].\n[EN] event. OutPut type only [SINCE v3.1.0].\n - OBJECT_VIDEO_SOURCE_DIAGNOSIS: video_source_diagnosis. 视频源诊断, 对视频解码图像的质量诊断. 仅为输出类型 [EXPERIMENTAL].\n[EN] video_source_diagnosis. quality diagnosis for decoded frame from video. Output type only [EXPERIMENTAL].\n - OBJECT_AUTOMOBILE_DETECT: automobile_detect. 大图强制检测机动车场景，iis仅保留大图，封装成ted，ips检测出大图内的最大的N个车以及车内人脸，为输出类型 [SINCE v4.0.0].\n[EN] automobile_detect. big image forces to detect the automobile scene, iis only keeps big image and pack it into ted, \nips detects the largest N cars and faces in big image. Output type only [SINCE v4.0.0].\n - OBJECT_MULTI_PACH: pedestrian+automobile+cyclist+human_powered_vehicle. 仅为输入类型 [SINCE v1.4.0].\n[EN] pedestrian+automobile+cyclist+human_powered_vehicle. Input type only [SINCE v1.4.0].\n - OBJECT_SCENARIO_CITY_MANAGEMENT: city management scenario. 城管类场景. 仅为输入类型 [SINCE v2.0.0].\n[EN] city management scenario. Input type only [SINCE v2.0.0].\n - OBJECT_FACE_PEDESTRIAN: face+pedestrian. 人脸人体联合pipeline. 仅为输入类型 [SINCE v2.1.0].\n[EN] face+pedestrian. Face and pedestrian association pipeline. Input type only [SINCE v2.1.0].\n - OBJECT_SCENARIO_AUTOMOBILE_THROW: city management scenario - automobile throw. 城管类场景-车辆抛撒. 仅作为输入类型 [EXPERIMENTAL].\n[EN] city management scenario - automobile throw. autiombile throwing pipeline. Input type only [EXPERIMENTAL].\n - OBJECT_MULTI_FACE_PACH: face+pedestrian+automobile+cyclist+human_powered_vehicle. 仅为输入类型 [SINCE v2.2.0].\n[EN] face+pedestrian+automobile+cyclist+human_powered_vehicle. Input type only [SINCE v2.2.0].\n - OBJECT_TRAFFIC_AUTOMOBILE_COUNT: traffic automobile count. 交通车辆计数. 仅为输入类型 [INTERNAL] [EXPERIMENTAL].\n[EN] traffic automobile count. Input type only [INTERNAL] [EXPERIMENTAL].\n - OBJECT_TRAFFIC_MULTI_PACH: pedestrian+automobile+cyclist+human_powered_vehicle. 仅为输入类型 [INTERNAL] [EXPERIMENTAL].\n[EN] pedestrian+automobile+cyclist+human_powered_vehicle. Input type only [INTERNAL] [EXPERIMENTAL].\n - OBJECT_HUMAN_ACTION: city management - human action. 城管类应用-行人动作识别，仅作为输入类型 [SINCE v3.0.0].\n[EN]  city management - human action. Input type only [SINCE v3.0.0].\n - OBJECT_TRAFFIC_ANOMALY_EVENT: Traffic anomaly event. 交通异常事件. 仅为输入类型 [INTERNAL] [EXPERIMENTAL].\n[EN] Traffic anomaly event. Input type only [INTERNAL] [EXPERIMENTAL].\n - OBJECT_TRAFFIC_CAMERA_VISION_INFO: Traffic camera vision information. 交通场景相机视觉信息. 输入和输出类型 [INTERNAL] [EXPERIMENTAL].\n[EN] Traffic camera vision information. Both input and output types [INTERNAL] [EXPERIMENTAL]."
+    },
+    "commonapisPaging": {
+      "type": "object",
+      "properties": {
+        "offset": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 开始位置, 取值:\u003e=0, 0为第一条, 默认值为0. 作为输出时,\n返回本次请求返回的第一条记录实际位置(一般与输入一致).\n[EN] Optional, start position, value: \u003e = 0, 0 is the first line; the default value is 0.\nIn response, actual offset of the first returned record is returned\n(generally equals to the offset in request)."
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32",
+          "description": "长度, 默认取值范围[1,100], 如果超出范围, 则返回失败; 在某些接口中limit范围可能会重新定义, 请以其接口的补充说明为准.\n[EN] Length, default value range [1,100], if it is out of the range, error will be returned; as the limit range may be redefined in some APIs, please refer to the supplementary description of these APIs."
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 请求无须填此参数, 响应时系统填写.\n[EN] Optional, this parameter is not required for request, but will be\nfilled in response."
+        }
+      },
+      "description": "通用翻页结构.\n[EN] Common paging structure."
+    },
+    "commonapisVector": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number",
+          "format": "float"
+        },
+        "y": {
+          "type": "number",
+          "format": "float"
+        }
+      },
+      "description": "二维图像向量.\n注意: 坐标系与输入图像相同.\n[EN] Vectors of tw-dimensional image. Note: the coordinate system is the same as the input image."
+    },
+    "commonapisVertex2F": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number",
+          "format": "float"
+        },
+        "y": {
+          "type": "number",
+          "format": "float"
+        }
+      },
+      "description": "二维图像坐标(可用于表示百分比以适应不同分辨率) [SINCE v2.0.0].\n[EN] Coordinates of two-dimensional image (can be used to represent\npercentages to accommodate different resolutions) [SINCE v2.0.0]."
+    },
+    "ingressBitRateType": {
+      "type": "string",
+      "enum": [
+        "BRT_UNKNOWN",
+        "CBR",
+        "VBR"
+      ],
+      "default": "BRT_UNKNOWN",
+      "description": "码率类型 [SINCE v1.3.0].\n[EN] Bit rate type [SINCE v1.3.0].\n\n - BRT_UNKNOWN: 未知类型, 禁止作为输入参数.\n[EN] Unknown type, prohibited as input parameter.\n - CBR: 定码率.\n[EN] Constant bit rate.\n - VBR: 变码率.\n[EN] Variable bit rate."
+    },
+    "ingressCVRParameter": {
+      "type": "object",
+      "properties": {
+        "protocol_type": {
+          "$ref": "#/definitions/ingressProtocolType",
+          "description": "网络传输协议类型.\n[EN] Transport protocol type."
+        },
+        "ratio_type": {
+          "$ref": "#/definitions/ingressRatioType",
+          "description": "可选, 分辨率类型, [DEPRECATED].\n[EN] Optional, ratio type, [DEPRECATED]."
+        },
+        "user": {
+          "type": "string",
+          "description": "可选, 登录下级平台用户名.\n[EN] Optional, the user name to login downlink platform."
+        },
+        "password": {
+          "type": "string",
+          "description": "可选, 登录下级平台密码.\n[EN] Optional, the password to login downlink platform."
+        },
+        "downlink_host": {
+          "type": "string",
+          "description": "下级平台主机地址(ip:port).\n[EN] Downlink platform host(ip:port)."
+        },
+        "downlink_id": {
+          "type": "string",
+          "description": "可选, 下级平台ID.\n[EN] Optional, downlink platform ID."
+        },
+        "ipc": {
+          "type": "string",
+          "description": "IPC国标ID.\n[EN] IPC ID in downlink platform."
+        },
+        "command_type": {
+          "$ref": "#/definitions/ingressCommandType",
+          "description": "命令类型: Play (实时流播放), Playback (回放), Download(下载).\n[EN] Command types: Play(real-time stream playing), Playback(playback)， Download(download)."
+        },
+        "start_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "录像回放/录像下载开始时间, Playback/Download时必选，RFC 3339格式; Play时无效.\n[EN] Start time of Playback/Download, required for Playback/Download, in RFC3339 format; invalid for Play."
+        },
+        "stop_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "录像回放/录像下载结束时间, Playback/Download时必选，RFC 3339格式; Play时无效.\n[EN] End time of Playback/Download, required for Playback/Download, in RFC3339 format; invalid for Play."
+        },
+        "speed": {
+          "type": "number",
+          "format": "float",
+          "description": "录像回放/录像下载速度，是否支持视第三方平台情况. Playback/Download时可选; Play时无效.\nPlayback时，取值[1/4, 1/2, 1, 2, 4]为正放倍速，取值[-1/4, -1/2, -1, -2, -4]为倒放倍速。默认为1，正常回放.\nDownload时，取正整数，一般为1,2,4,8，表示下载倍速，实际取值范围需依赖第三方平台能力。默认为1，不加速.\n[EN] Playback/Download speed, supported or not depends on the situation of the third-party platform. Optional for Playback/Download; invalid for Play.\nWhen the command_type is Playback, the value [1/4, 1/2, 1, 2, 4] is the positive speed, and the value [-1/4,-1/2,-1,-2,-4] is the reverse speed. The default value is 1, normal playback.\nWhen the command_type is Download, this value takes a positive integer, generally 1,2,4,8, which indicates the download speed. The actual value range depends on the capabilities of the third-party platform. The default value is 1, which does not accelerate."
+        },
+        "raw_config": {
+          "$ref": "#/definitions/ingressGB28181Item",
+          "description": "可选, 国标28181摄像机时信息有效.\n[EN] Optional, valid for GB28181 camera."
+        },
+        "gb28181_local_uuid": {
+          "type": "string",
+          "description": "可选, 平台接入的本地配置 UUID, 为空时为获取默认的本地配置 [SINCE v3.0.0].\n[EN] Optional, the localconfig UUID of platform joins up, if not set means get default localconfig [SINCE v3.0.0]."
+        }
+      },
+      "description": "接入源参数 -- CVR标准: VP_GB28181_STD 或 VP_HUAWEI_VCN [SINCE v1.3.0].\n[EN] Ingress source parameter -- CVR: VP_GB28181_STD or VP_HUAWEI_VCN [SINCE v1.3.0]."
+    },
+    "ingressCommandType": {
+      "type": "string",
+      "enum": [
+        "Play",
+        "Playback",
+        "Download"
+      ],
+      "default": "Play",
+      "description": "命令请求类型 [SINCE v1.3.0].\n[EN] Command type [SINCE v1.3.0].\n\n - Play: 实时流播放.\n[EN] Play real-time stream.\n - Playback: 历史流回放.\n[EN] Playback historical stream.\n - Download: 历史流下载 [SINCE v2.2.0].\n[EN] Download historical stream [SINCE v2.2.0]."
+    },
+    "ingressDHVideoCloudParameter": {
+      "type": "object",
+      "properties": {
+        "host": {
+          "type": "string",
+          "description": "大华视频云平台主机地址.\n[EN] dahua video cloud platform host."
+        },
+        "user": {
+          "type": "string",
+          "description": "登录云平台用户名.\n[EN] the user name to login cloud platform."
+        },
+        "password": {
+          "type": "string",
+          "description": "登录云平台密码.\n[EN] the password to login cloud platform."
+        },
+        "ipc": {
+          "type": "string",
+          "description": "云平台相机ID.\n[EN] IPC ID in video cloud platform."
+        },
+        "command_type": {
+          "$ref": "#/definitions/ingressCommandType",
+          "description": "命令类型: Play (实时流播放), Playback (回放), Download(下载)，目前仅支持Play方式.\n[EN] Command types: Play(real-time stream playing), Playback(playback)， Download(download)，only Play mode is supported at present."
+        },
+        "protocol_type": {
+          "$ref": "#/definitions/ingressProtocolType",
+          "description": "媒体流网络传输协议类型.\n[EN] Transport protocol type for media stream."
+        }
+      },
+      "description": "接入源参数 -- 大华视频云平台 [SINCE v4.0.0].\n[EN] Ingress source parameter -- dahua video cloud platform [SINCE v4.0.0]."
+    },
+    "ingressFaceCameraParameter": {
+      "type": "object",
+      "properties": {
+        "host": {
+          "type": "string",
+          "description": "更多信息见产品文档.\nhost地址, 目前只支持ipv4和ipv6, 暂不支持域名. 此参数不可为空.\n[EN] Refer to product documentation for more information.\nHost address only supports ipv4 and ipv6 currently, it does not support domain names. This parameter shall not be empty."
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "description": "端口号, 取值: [1~65536). 接入源为ftp类型或主动模式类型时不可为空; 接入源为其他类型时可为空(默认).\n[EN] Port number, value: [1 ~ 65536). Cannot be empty when the ingress source type is ftp type or active mode type; when the ingress source type is  another type, it can be empty (default)."
+        },
+        "user": {
+          "type": "string",
+          "description": "用户名. 接入源为ftp类型时不可为空; 接入源为其他类型时可为空(默认), 主动模式类型视对方相机设置而定.\n[EN]  User name. It cannot be empty when the ingress source type is ftp type; when the ingress source type is other types, it can be empty (default), and the active mode type depends on the camera settings of the opposite side."
+        },
+        "password": {
+          "type": "string",
+          "description": "密码. 接入源为ftp类型时不可为空; 接入源为其他类型时可为空(默认), 主动模式类型视对方相机设置而定.\n[EN] Password. It cannot be empty when the ingress source type is ftp type; when the ingress source type is other types, it can be empty (default), and the active mode type depends on the camera settings of the opposite side."
+        },
+        "dir": {
+          "type": "string",
+          "description": "接入源根目录. 接入源为ftp类型时不可为空; 其他类型时此字段无效, 可为空(默认).\n[EN] Ingress source root directory. It cannot be empty when the ingress source type is ftp type; when the ingress source type is other types, this field is invalid and can be empty (default)."
+        },
+        "ipc": {
+          "type": "string",
+          "description": "订阅相机ID号. 接入源星火视图库平台不可为空；其他类型时此字段无效，可为空(默认).\n[EN] Camera Subscribe ID number. The ingress source type of xinghuo platform cannot be empty; when the ingress source type is other types, this field is invalid and can be empty (default)."
+        }
+      },
+      "description": "常规抓拍相机接入源参数.\n[EN] Ingress source parameter of conventional capture camera."
+    },
+    "ingressGAT1400APEParameter": {
+      "type": "object",
+      "properties": {
+        "ape_id": {
+          "type": "string",
+          "description": "相机id, raw_config不为空时, 应于raw_config中的ape_id一致.\n[EN] Camera id, consistent with ape_id of the raw_config when raw_config is not null."
+        },
+        "user": {
+          "type": "string",
+          "description": "用户名.\n[EN] User name."
+        },
+        "password": {
+          "type": "string",
+          "description": "密码.\n[EN] Password."
+        },
+        "extra_info": {
+          "type": "string",
+          "description": "可选, 可扩展字段.\n[EN] Optional, extra field."
+        },
+        "raw_config": {
+          "$ref": "#/definitions/ingressGAT1400Item",
+          "description": "可选， GAT1400相机信息.\n[EN] Optional, GAT1400 camera information."
+        }
+      },
+      "description": "GAT1400平台采集设备参数 [SINCE v3.2.0].\n[EN] GAT1400 Acquisition ＆ Processing Equipment parameter [SINCE v3.2.0]."
+    },
+    "ingressGAT1400FaceCameraParameter": {
+      "type": "object",
+      "properties": {
+        "server_id": {
+          "type": "string",
+          "description": "第三方视图库平台id, 考虑到同时支持多个第三方视图库平台的情况.\n[EN] The third-party platform id of VIID, in consideration of supporting multiple third-party platforms of VIID at the same time."
+        },
+        "ape_id": {
+          "type": "string",
+          "description": "相机id, raw_config不为空时, 应于raw_config中的ape_id一致.\n[EN] Camera id, consistent with ape_id of the raw_config when raw_config is not null."
+        },
+        "raw_config": {
+          "$ref": "#/definitions/ingressGAT1400Item",
+          "description": "可选， GAT1400相机信息.\n[EN] Optional, GAT1400 camera information."
+        }
+      },
+      "description": "GAT1400抓拍相机接入源参数 [SINCE v1.3.0].\n[EN] Ingress source parameter of GAT1400 capture camera [SINCE v1.3.0]."
+    },
+    "ingressGAT1400Item": {
+      "type": "object",
+      "properties": {
+        "ape_id": {
+          "type": "string",
+          "description": "设备ID, 20字节.\n[EN] Device GAT1400 ID, 20 bytes."
+        },
+        "name": {
+          "type": "string",
+          "description": "名称, 100字节.\n[EN] Name, 100 bytes."
+        },
+        "model": {
+          "type": "string",
+          "description": "型号, 100字节.\n[EN] Model, 100 bytes."
+        },
+        "ip_addr": {
+          "type": "string",
+          "description": "IP地址, 30字节.\n[EN] IP address, 30 bytes."
+        },
+        "ipv6_addr": {
+          "type": "string",
+          "description": "可选, IPv6地址, 64字节.\n[EN] Optional, IPv6 address, 64 bytes."
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "description": "端口号.\n[EN] Port number."
+        },
+        "geo_point": {
+          "$ref": "#/definitions/commonapisGeoPoint",
+          "description": "相机经纬度坐标.\n[EN] Camera latitude and longitude coordinates."
+        },
+        "place_code": {
+          "type": "string",
+          "description": "安装地点行政区划代码, 6字节.\n[EN] Code of administrative division in the installation place, 6 bytes."
+        },
+        "place": {
+          "type": "string",
+          "description": "可选, 位置名, 256字节.\n[EN] Optional, position name, 256 bytes."
+        },
+        "org_code": {
+          "type": "string",
+          "description": "可选, 管辖单位代码, 12字节.\n[EN] Optional, governing unit code, 12 bytes."
+        },
+        "cap_direction": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 车辆抓拍方向.\n[EN] Optional, vehicle capture direction."
+        },
+        "monitor_direction": {
+          "type": "string",
+          "description": "可选, 监视方向.\n[EN] Optional, monitor direction."
+        },
+        "monitor_area_desc": {
+          "type": "string",
+          "description": "可选, 监视区域说明, 256字节.\n[EN] Optional, description of monitor area, 256 bytes."
+        },
+        "is_online": {
+          "type": "string",
+          "description": "作为返回值时必选, 是否在线, 视频设备工作状态:1-在线; 2-离线; 9-其他.\n[EN] Required for return value, online or not, video device working status:1-Online; 2-Offline; 9-Other."
+        },
+        "owner_aps_id": {
+          "type": "string",
+          "description": "可选, 所属采集系统, 20字节.\n[EN] Optional, acquisition system which belong, 20 bytes."
+        },
+        "user_id": {
+          "type": "string",
+          "description": "可选, 用户帐号, 64字节.\n[EN] Optional, user name, 64 bytes."
+        },
+        "password": {
+          "type": "string",
+          "description": "可选, 口令, 32字节.\n[EN] Optional, password, 32 bytes."
+        }
+      },
+      "description": "GAT1400设备目录项类型 [SINCE v1.3.0].\n[EN] GAT1400 type of device catalog item [SINCE v1.3.0]."
+    },
+    "ingressGAT1400PlatformParameter": {
+      "type": "object",
+      "properties": {
+        "host": {
+          "type": "string",
+          "description": "平台主机地址; 支持ipv4和ipv6, 域名.\n[EN] Platform host address; support ipv4 and ipv6, domain names."
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "description": "端口号, 取值[1~65536). 当host为ip地址时必选; 当host为域名时可选.\n[EN] Port number, range [1 ~ 65536). Required when host is an ip address; optional when host is a domain name."
+        },
+        "client_id": {
+          "type": "string",
+          "description": "我方平台在第三方平台里对应的国标ID.\n[EN] The corresponding GAT1400 ID of our platform in the third party platform."
+        },
+        "user": {
+          "type": "string",
+          "description": "用户名.\n[EN] User name."
+        },
+        "password": {
+          "type": "string",
+          "description": "密码.\n[EN] Password."
+        },
+        "extra_info": {
+          "type": "string",
+          "description": "可选, 可扩展字段.\n[EN] Optional, extra field."
+        },
+        "platform_id": {
+          "type": "string",
+          "format": "int64",
+          "description": "可选, 平台在CMS中的ID [SINCE v2.0.0].\n[EN] Optional, platform id in CMS [SINCE v2.0.0]."
+        },
+        "server_id": {
+          "type": "string",
+          "description": "第三方平台的国标ID [SINCE v2.0.0].\n[EN] The third party platform GAT1400 ID [SINCE v2.0.0]."
+        },
+        "relative_role": {
+          "$ref": "#/definitions/ingressRoleType",
+          "description": "可选，我方平台的角色 [SINCE v2.2.0].\n[EN] Optional, our platform role [SINCE v2.2.0]."
+        }
+      },
+      "description": "GAT1400平台参数 [SINCE v1.3.0].\n[EN] GAT1400 platform parameter [SINCE v1.3.0]."
+    },
+    "ingressGAT1400StorageConfig": {
+      "type": "object",
+      "properties": {
+        "enable": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "是否启用GAT1400存储图片.\n[EN] Whether GAT1400 is enabled to store images."
+        },
+        "platform_id": {
+          "type": "string",
+          "format": "int64",
+          "description": "可选，平台id. enable = false时可以不填，enable = true时必须提供.\n[EN] Optional, platform id. when enable = false, this field is no need, required when enable = true."
+        }
+      },
+      "description": "GAT1400存储配置 [SINCE v2.1.0].\n[EN] GAT1400 storage configuration [SINCE v2.1.0]."
+    },
+    "ingressGB28181Item": {
+      "type": "object",
+      "properties": {
+        "device_id": {
+          "type": "string",
+          "description": "设备/区域/系统编码, 为设备时即为IPC国标ID, 要求“\\d{20}”.\n[EN] Device/region/system code, it is IPC GB28181 ID when it is device, requiring “\\d{20}”."
+        },
+        "name": {
+          "type": "string",
+          "description": "设备/区域/系统名称.\n[EN] Device/region/system name."
+        },
+        "manufacturer": {
+          "type": "string",
+          "description": "当为设备时, 设备厂商.\n[EN] The device manufacturer must be selected when it is device."
+        },
+        "model": {
+          "type": "string",
+          "description": "当为设备时必选, 设备型号.\n[EN] The device type must be selected when it is device."
+        },
+        "owner": {
+          "type": "string",
+          "description": "当为设备时必选, 设备归属.\n[EN] The device attribution must be selected when it is device."
+        },
+        "civil_code": {
+          "type": "string",
+          "description": "行政区域.\n[EN] Administrative region."
+        },
+        "block": {
+          "type": "string",
+          "description": "可选, 警区.\n[EN] Optional, alarm district."
+        },
+        "address": {
+          "type": "string",
+          "description": "当为设备时, 安装地址.\n[EN] The device installation address must be selected when it is device."
+        },
+        "parental": {
+          "type": "integer",
+          "format": "int32",
+          "description": "当为设备时必选, 是否有子设备. 1:有, 0:没有.\n[EN] When it is device, it is required to select whether there is subdevice. 1:Yes, 0:No."
+        },
+        "parent_id": {
+          "type": "string",
+          "description": "父设备/区域/系统ID.\n[EN] Parent device/region/system ID."
+        },
+        "safety_way": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 信令安全模式. 缺省为0, 0:不采用; 2:S/MIME签名方式; 3:S/MIME加密签名同时采用方式; 4:数字摘要方式.\n[EN] Optional, signaling security mode. Default to 0, 0: not used; 2:S/MIME signature method; 3:S/MIME encryption and signature method adopted at the same time; 4. Digital digest method."
+        },
+        "register_way": {
+          "type": "integer",
+          "format": "int32",
+          "description": "注册方式, 缺省为1; 1:符合IETF RFC 3261标准的认证注册模式; 2:基于口令的双向认证注册模式; 3:基于数字证书的双向认证注册模式.\n[EN] Register way, default to 1; 1: Authentication registration mode conforming to IETFRFC3261 standard; 2: Two-way authentication registration mode based on password; 3: Two-way authentication registration mode based on digital certificate."
+        },
+        "cert_num": {
+          "type": "string",
+          "description": "证书序列号, 有证书的设备必选.\n[EN] Certificate serial number, required for the device with certificate."
+        },
+        "certifiable": {
+          "type": "integer",
+          "format": "int32",
+          "description": "证书有效标识, 有证书的设备必选. 缺省为0, 证书有效标识: 0:无效; 1:有效.\n[EN] Valid identification of certificate, required for the device with certificate. Default to 0, valid identification of certificate: 0: Invalid; 1: Valid."
+        },
+        "err_code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "无效原因码, 有证书且证书无效的设备必选.\n[EN] Invalid error code, required for the device with invalid certificate."
+        },
+        "end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "证书终止有效期, 有证书的设备必选.\n[EN] The validity period of the certificate, required for the device with the certificate."
+        },
+        "secrecy": {
+          "type": "integer",
+          "format": "int32",
+          "description": "保密属性. 缺省为0, 0:不涉密; 1:涉密.\n[EN] Security attribute. Default to 0, 0: not classified; 1: classified."
+        },
+        "ip_address": {
+          "type": "string",
+          "description": "可选, 设备/区域/系统IP地址.\n[EN] Optional, device/region/system IP address."
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 设备/区域/系统端口.\n[EN] Optional, device/region/system port."
+        },
+        "password": {
+          "type": "string",
+          "description": "可选, 设备口令.\n[EN] Optional, device password."
+        },
+        "status": {
+          "$ref": "#/definitions/ingressGB28181ItemStatus",
+          "description": "设备状态, 作为返回值时必选.\n[EN] Device status, required as return value."
+        },
+        "geo_point": {
+          "$ref": "#/definitions/commonapisGeoPoint",
+          "description": "可选, 相机经纬度坐标.\n[EN] Optional, coordinates of latitude and longitude of camera."
+        },
+        "info": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ingressGB28181ItemInfo"
+          }
+        }
+      },
+      "description": "GB28181设备目录项类型 [SINCE v1.3.0].\n[EN] GB28181 device catalog item type [SINCE v1.3.0]."
+    },
+    "ingressGB28181ItemInfo": {
+      "type": "object",
+      "properties": {
+        "ptz_type": {
+          "type": "integer",
+          "format": "int32",
+          "description": "摄像机类型扩展, 标识摄像机类型: 1-球机; 2-半球; 3-固定枪机; 4-遥控枪机. 当目录项为摄像机时可选.\n[EN] Camera type expansion, identify camera type: 1-Ballhead camera; 2-Dome camera; 3-Fixed-gun-type camera; 4-Remote-control-gun-type camera. Optional when the catalog item is camera."
+        },
+        "position_type": {
+          "type": "integer",
+          "format": "int32",
+          "description": "摄像机位置类型扩展. 1-省际检查站; 2-党政机关; 3-车站码头; 4-中心广场; 5-体育馆; 6-商业中心; 7-宗教场所; 8-校园周边; 9-治安复杂区域; 10-交通干线. 当目录项为摄像机时可选.\n[EN] Camera position type expansion. 1-Provincial checkpoints; 2-Party and government organizations; 3-Station terminal; 4-Central plaza; 5-Gymnasiums; 6-Commercial Centers; 7-Religious sites; 8-Surroundings of the campus; 9-Regions with various public security issues; 10-Artery traffic. Optional when the catalog item is camera."
+        },
+        "room_type": {
+          "type": "integer",
+          "format": "int32",
+          "description": "摄像机安装位置室外/室内属性. 1-室外; 2-室内. 当目录项为摄像机时可选.\n[EN] Outdoor/indoor attributes of camera installation position. 1-Outdoor; 2-Indoor. Optional when the catalog item is camera."
+        },
+        "use_type": {
+          "type": "integer",
+          "format": "int32",
+          "description": "摄像机用途属性. 1-治安; 2-交通; 3-重点. 当目录项为摄像机时可选.\n[EN] Attributes of camera usage. 1-Public security; 2-Transportation; 3-Key point. Optional when the catalog item is camera."
+        },
+        "supply_light_type": {
+          "type": "integer",
+          "format": "int32",
+          "description": "摄像机补光属性. 1-无补光; 2-红外补光; 3-白光补光. 当目录项为摄像机时可选.\n[EN] Camera light supplementary attributes. 1-No light supplement; 2-Infrared supplementary light; 3-White light supplement. Optional when the catalog item is camera."
+        },
+        "direction_type": {
+          "type": "integer",
+          "format": "int32",
+          "description": "摄像机监视方向属性. 1-东; 2-西; 3-南; 4-北; 5-东南; 6-东北; 7-西南; 8-西北. 当目录项为摄像机时且为固定摄像机或设置看守位摄像机时可选.\n[EN] Monitoring Camera Direction Attribute. 1-East; 2-West; 3-South; 4-North; 5-Southeast; 6-Northeast; 7-Southwest; 8-Northwest. Optional when the catalog item is camera and it is a fixed camera or a camera with a guard position."
+        },
+        "resolution": {
+          "type": "string",
+          "description": "摄像机支持的分辨率, 可有多个分辨率值, 各个取值间以“/”分隔. 分辨率取值参见GB28181附录F中SDP-f字段规定. 当目录项为摄像机时可选.\n[EN] The camera supports multiple resolutions, with “/” separating each value. The resolution value is specified in SDP-f field in Appendix F of GB28181. It is optional when the catalog item is  camera."
+        },
+        "business_group_id": {
+          "type": "string",
+          "description": "可选, 虚拟组织所属的业务分组ID, 业务分组根据特定的业务需求制定, 一个业务分组包含一组特定的虚拟组织.\n[EN] Optional, the service group ID to which the virtual organization belongs. The service group is formulated according to specific service requirements. A service group contains a specific group of virtual organizations."
+        },
+        "download_speed": {
+          "type": "string",
+          "description": "可选, 下载倍速范围, 各可选参数以“/”分隔, 如设备支持1,2,4倍速下载则应写为“1/2/4”.\n[EN] Optional, download speed range, each optional parameter is separated by “/”. If the device supports 1,2,4 times speed download, it shall be written as “ 1/2/4”."
+        },
+        "svc_space_support_mode": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 空域编码能力, 取值0:不支持: 1:1级增强(1个增强层); 2:2级增强(2个增强层); 3:3级增强(3个增强层).\n[EN] Optional, spatial coding capability, value 0: not supported: 1: 1 level enhancement (1 enhancement layer); 2:2 level enhancement (2 enhancement layers); Level 3: 3 enhancement (3 enhancement layers)."
+        },
+        "svc_time_support_mode": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 时域编码能力, 取值0:不支持: 1:1级增强(1个增强层); 2:2级增强(2个增强层); 3:3级增强(3个增强层).\n[EN] Optional, time domain coding capability, value 0: not supported: 1: 1 level enhancement (1 enhancement layer); 2: 2 level enhancement (2 enhancement layers); Level 3: 3 enhancement (3 enhancement layers)."
+        }
+      }
+    },
+    "ingressGB28181ItemStatus": {
+      "type": "string",
+      "enum": [
+        "ON",
+        "OFF"
+      ],
+      "default": "ON",
+      "description": "GB28181相机状态.\n[EN] GB28181 camera status.\n\n - ON: 在线.\n[EN] Online.\n - OFF: 不在线.\n[EN] Offline."
+    },
+    "ingressHLSParameter": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "m3u8地址, 支持http和https(格式: http://www.xxx.com/streams/32030001105204007191.m3u8?token=xxx).\n[EN] m3u8 address, supports http and https(format: http://www.xxx.com/streams/32030001105204007191.m3u8?token=xxx)."
+        },
+        "command_type": {
+          "$ref": "#/definitions/ingressCommandType",
+          "description": "可选, 命令类型: 支持Play (实时流播放), Playback (回放), 实时模式不积压数据.\n[EN] Optional, Command types: Play(real-time stream playing), Playback(playback), Play mode don't backlog data."
+        }
+      },
+      "description": "接入源参数 -- HLS [SINCE v3.1.0].\n[EN] Ingress source parameter -- HLS [SINCE v3.1.0]."
+    },
+    "ingressKafkaStorageConfig": {
+      "type": "object",
+      "properties": {
+        "enable": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "是否启用Kafka存储图片.\n[EN] Whether Kafka is enabled to store images."
+        }
+      },
+      "description": "Kafka存储配置 [SINCE v2.1.0].\n[EN] Kafka storage configuration [SINCE v2.1.0]."
+    },
+    "ingressNVRParameter": {
+      "type": "object",
+      "properties": {
+        "protocol_type": {
+          "$ref": "#/definitions/ingressProtocolType",
+          "description": "网络传输协议类型.\n[EN] Transport protocol type."
+        },
+        "ratio_type": {
+          "$ref": "#/definitions/ingressRatioType",
+          "description": "分辨率类型.\n[EN] Ratio type."
+        },
+        "user": {
+          "type": "string",
+          "description": "登录下级平台用户名.\n[EN] User name."
+        },
+        "password": {
+          "type": "string",
+          "description": "登录下级平台密码.\n[EN] Password."
+        },
+        "downlink_host": {
+          "type": "string",
+          "description": "下级平台主机地址(ip:port).\n[EN] Downlink host(ip:port)."
+        },
+        "ipc": {
+          "type": "string",
+          "description": "IPC ID.\n[EN] IPC ID."
+        },
+        "private": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "可选, 当值为true时返回内网的播放IP, 如果为false或者不传则根据实际部署配置; 如部署在公网则返回公网地址, 部署在内网则依然返回内网地址.\n[EN] Optional, When the value is “true”, return the playing IP of the Intranet; if “false” or nil, return the public network address; eg: if deployed on the public network, and return the Intranet address if deployed on the Intranet."
+        }
+      },
+      "description": "接入源参数 -- NVR 标准: Aliyun [SINCE v1.3.0].\n[EN] Ingress source parameter -- NVR standard: Aliyun [SINCE v1.3.0]."
+    },
+    "ingressOSGStorageConfig": {
+      "type": "object",
+      "properties": {
+        "enable": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "是否启用OSG存储图片.\n[EN] Whether OSG is enabled to store images."
+        }
+      },
+      "description": "OSG存储配置 [SINCE v2.1.0].\n[EN] OSG storage configuration [SINCE v2.1.0]."
+    },
+    "ingressOnvifParameter": {
+      "type": "object",
+      "properties": {
+        "host": {
+          "type": "string",
+          "description": "host地址, 目前只支持ipv4和ipv6, 暂不支持域名. 此参数不可为空.\n[EN] Host address, only supports ipv4 and ipv6 currently, it does not support domain names. This parameter shall not be empty."
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "description": "端口号, 取值: [1~65536). 相机ONVIF协议HTTP端口号（默认80）.\n[EN] Port number, range: [1~65536). the http port of ONVIF camera is usually default 80."
+        },
+        "user": {
+          "type": "string",
+          "description": "登录下级平台用户名.\n[EN] User name."
+        },
+        "password": {
+          "type": "string",
+          "description": "登录下级平台密码.\n[EN] Password."
+        },
+        "channel": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 视频通道号, 取值: [1~16], 默认为1, 暂不支持.\n[EN] Optional, video channel number, range: [1~16], 1 by default, temporarily not supported."
+        },
+        "protocol_type": {
+          "$ref": "#/definitions/ingressProtocolType",
+          "description": "网络传输协议类型.\n[EN] Transport protocol type."
+        },
+        "stream_type": {
+          "$ref": "#/definitions/ingressStreamType",
+          "description": "可选, 码流类型, 默认为主码流, 暂不支持.\n[EN] Optional, stream type, default to main stream, temporarily not supported."
+        }
+      },
+      "description": "接入源参数 -- Onvif 标准 [SINCE v1.3.0].\n[EN] Ingress source parameter -- Onvif standard [SINCE v1.3.0]."
+    },
+    "ingressProtocolType": {
+      "type": "string",
+      "enum": [
+        "TCP",
+        "UDP",
+        "TCP_SERVER_MODE"
+      ],
+      "default": "TCP",
+      "description": "网络传输协议类型.\n[EN] Transport protocol type.\n\n - TCP: TCP协议, VIS作为TCP client模式.\n[EN] TCP client mode, VIS is used as a TCP client.\n - UDP: UDP协议.\n[EN] UDP协议.\n - TCP_SERVER_MODE: TCP协议, VIS作为TCP server模式, 主要适用于GB28181中的passive模式, 不常用 [SINCE v1.3.0].\n[EN] TCP server mode, VIS is used as a TCP server, is mainly applicable to passive mode in GB28181 and is not commonly used. [SINCE v1.3.0]."
+    },
+    "ingressRTMPMode": {
+      "type": "string",
+      "enum": [
+        "RTMP_MODE_PUBLISH",
+        "RTMP_MODE_PLAY"
+      ],
+      "default": "RTMP_MODE_PUBLISH",
+      "description": "RTMP流接入模式 [SINCE v3.2.0].\n[EN] RTMP stream ingress mode [SINCE v3.2.0].\n\n - RTMP_MODE_PUBLISH: 推流.\n[EN] publish stream.\n - RTMP_MODE_PLAY: 拉流.\n[EN] play stream."
+    },
+    "ingressRTMPParameter": {
+      "type": "object",
+      "properties": {
+        "rtmp_mode": {
+          "$ref": "#/definitions/ingressRTMPMode",
+          "description": "RTMP流接入模式.\n[EN] RTMP stream ingress mode."
+        },
+        "device_id": {
+          "type": "string",
+          "description": "可选,设备id，用于唯一标识一台设备, 需由调用方保证唯一性,RTMP_MODE_PUBLISH时必选.\n[EN] Optional,Device id, used for uniquely identify a device, and the uniqueness must be guaranteed by the caller,Required when RTMP_MODE_PUBLISH."
+        },
+        "rtmp_url": {
+          "type": "string",
+          "description": "可选，rtmp地址,RTMP_MODE_PLAY时必选.\n[EN] Optional,rtmp url address,Required when RTMP_MODE_PLAY."
+        }
+      },
+      "description": "接入源参数 -- RTMP [SINCE v3.2.0].\n[EN] Ingress source parameter -- RTMP [SINCE v3.2.0]."
+    },
+    "ingressRTSPParameter": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "RTSP地址(格式:rtsp://user:password@ip:port/query).\n[EN] RTSP address (format: rtsp://user:password@ip:port/query)."
+        },
+        "protocol_type": {
+          "$ref": "#/definitions/ingressProtocolType",
+          "description": "网络传输协议类型.\n[EN] Transport protocol type."
+        }
+      },
+      "description": "接入源参数 -- rtsp协议 [SINCE v1.3.0].\n[EN] Ingress source parameter -- rtsp protocol [SINCE v1.3.0]."
+    },
+    "ingressRatioType": {
+      "type": "string",
+      "enum": [
+        "SD",
+        "HD"
+      ],
+      "default": "SD",
+      "description": "分辨率类型, 为阿里平台接入定义 [SINCE v1.3.0].\n[EN] Resolution type, only defined for Aliyun platform ingress [SINCE v1.3.0].\n\n - SD: 标清.\n[EN] Standard definition.\n - HD: 高清.\n[EN] High definition."
+    },
+    "ingressRoleType": {
+      "type": "string",
+      "enum": [
+        "VIAS",
+        "UPPER_VIID",
+        "LOWER_VIID"
+      ],
+      "default": "VIAS",
+      "description": "平台角色类型 [SINCE v2.2.0].\n[EN] platform role type [SINCE v2.2.0].\n\n - VIAS: 视频图像分析系统.\n[EN] video and image analysis system.\n - UPPER_VIID: 上级视图库.\n[EN] upper video and image information database for public security.\n - LOWER_VIID: 下级视图库 [SINCE v3.2.0].\n[EN] lower video and image information database for public security [SINCE v3.2.0]."
+    },
+    "ingressSJKParameter": {
+      "type": "object",
+      "properties": {
+        "ipc": {
+          "type": "string",
+          "description": "相机ID, 如: sxjgl_lxgs_32030001105204007191.\n[EN] IPC ID."
+        }
+      },
+      "description": "接入源参数 -- 江苏交通云视频平台协议 [SINCE v3.1.0].\n[EN] Ingress source parameter -- SJK [SINCE v3.1.0]."
+    },
+    "ingressSourceInformation": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/ingressSourceType",
+          "description": "接入源类型.\n[EN] Ingress source type."
+        },
+        "parameter": {
+          "$ref": "#/definitions/ingressSourceParameter",
+          "description": "接入源参数.\n[EN] Ingress source parameter."
+        }
+      },
+      "description": "接入源信息.\n[EN] Ingress source information."
+    },
+    "ingressSourceParameter": {
+      "type": "object",
+      "properties": {
+        "rtsp": {
+          "$ref": "#/definitions/ingressRTSPParameter",
+          "description": "RTSP协议参数.\n\n任务下发范例(默认端口30080)：curl -XPOST http://${viper-service}:30080/engine/video-ingress/v1/generate_rtsp_address -d '\n{\n   \"source_info\":\n   {\n       \"source_id\":\n       {\n          \"region_id\": 20,\n          \"camera_idx\": 49\n       },\n       \"source\":\n       {\n          \"type\": \"VN_RTSP\",\n          \"parameter\":\n          {\n             \"rtsp\":\n             {\n                \"url\":\"rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov\",\n                \"protocol_type\":\"UDP\"\n             }\n          }\n       }\n    }\n}'\n\n将生成的完整RTSP地址(格式: rtsp://someservice:554/urlbase64Encoded), 通过vps命令下发：\n详情请参考: http://gitlab.sz.sensetime.com/viper/engine-video-process-service/blob/master/pb/engine-video-process-service.proto.\n[EN] RTSP parameter.\n\nExample of task distribution(default port is 30080)：curl -XPOST http://${viper-service}:30080/engine/video-ingress/v1/generate_rtsp_address -d '\n{\n   \"source_info\":\n   {\n       \"source_id\":\n       {\n          \"region_id\": 20,\n          \"camera_idx\": 49\n       },\n       \"source\":\n       {\n          \"type\": \"VN_RTSP\",\n          \"parameter\":\n          {\n             \"rtsp\":\n             {\n                \"url\":\"rtsp://184.72.239.149/vod/mp4:BigBuckBunny_115k.mov\",\n                \"protocol_type\":\"UDP\"\n             }\n          }\n       }\n    }\n}'\n\nwill generate full RTSP address(format: rtsp://someservice:554/urlbase64Encoded), then use vps command：\nmore details please go to: http://gitlab.sz.sensetime.com/viper/engine-video-process-service/blob/master/pb/engine-video-process-service.proto ."
+        },
+        "face_camera": {
+          "$ref": "#/definitions/ingressFaceCameraParameter",
+          "description": "常规人脸抓拍机参数.\n\n 任务下发范例(默认端口30080): curl -XPOST http://${viper-service}:30080/engine/image-ingress/v1/tasks -d '\n {\n    \"task_request\":\n    {\n       \"source_id\":\n       {\n          \"region_id\": 110,\n          \"camera_idx\": 16\n       },\n       \" source\":\n       {\n          \"type\": \"FC_HK\",\n          \"parameter\":\n          {\n             \"face_camera\":\n             {\n                \"host\": \"172.20.13.130\",\n                \"port\":8000,\n                \"user\":\"admin\",\n                \"password\":\"admin1234\"\n             }\n          }\n       },\n       \"extra_info\":\"extra info\"\n    }\n }\n[EN] face camera parameter."
+        },
+        "cvr": {
+          "$ref": "#/definitions/ingressCVRParameter",
+          "description": "CVR标准参数.\n\n任务下发范例(默认端口30080): curl -XPOST http://${viper-service}:30080/engine/video-ingress/v1/generate_rtsp_address -d '\n{\n   \"source_info\":\n   {\n       \"source_id\":\n       {\n          \"region_id\": 20,\n          \"camera_idx\": 49\n       },\n       \"source\":\n       {\n          \"type\": \"VP_GB28181_STD\",\n          \"parameter\":\n          {\n             \"cvr\":\n             {\n                \"protocol_type\":\"UDP\",\n                \"user\":\"sensetime\",\n                \"password\":\"sensetime\",\n                \"downlink_host\":\"47.101.47.201:8900\",\n                \"downlink_id\":\"32000000002000000012\",\n                \"ipc\":\"34020000001330000001\",\n                \"command_type\": \"Play\",\n                \"start_time\":\"2018-01-02T15:04:05Z\",\n                \"stop_time\":\"2018-01-02T16:04:05Z\"\n             }\n          }\n       }\n    }\n}'\n\n将生成的完整RTSP地址(格式：rtsp://someservice:554/urlbase64Encoded), 通过vps命令下发:\n详情请参考: http://gitlab.sz.sensetime.com/viper/engine-video-process-service/blob/master/pb/engine-video-process-service.proto .\n[EN] CVR parameter."
+        },
+        "nvr": {
+          "$ref": "#/definitions/ingressNVRParameter",
+          "description": "NVR参数.\n\n任务下发范例(默认端口30080)：curl -XPOST http://${viper-service}:30080/engine/video-ingress/v1/generate_rtsp_address -d '\n{\n   \"source_info\":\n   {\n       \"source_id\":\n       {\n          \"region_id\": 47,\n          \"camera_idx\": 20\n       },\n       \"source\":\n       {\n          \"type\": \"VP_ALIYUN\",\n          \"parameter\":\n          {\n             \"nvr\":\n             {\n                \"protocol_type\":\"UDP\",\n                \"ratio_type\":\"HD\",\n                \"user\":\"sensetime\",\n                \"password\":\"sensetime\",\n                \"downlink_host\":\"47.101.47.201:8900\",\n                \"ipc\":\"12345678901234567891\"\n             }\n          }\n       }\n    }\n}'\n将生成的完整RTSP地址(格式：rtsp://someservice:554/urlbase64Encoded), 通过vps命令下发:\n详情请参考: http://gitlab.sz.sensetime.com/viper/engine-video-process-service/blob/master/pb/engine-video-process-service.proto .\n[EN] NVR parameter."
+        },
+        "onvif": {
+          "$ref": "#/definitions/ingressOnvifParameter",
+          "description": "Onvif参数.\n\n任务下发范例(默认端口30080)：curl -XPOST http://${viper-service}:30080/engine/video-ingress/v1/generate_rtsp_address -d '\n{\n   \"source_info\":\n   {\n       \"source_id\":\n       {\n          \"region_id\": 47,\n          \"camera_idx\": 20\n       },\n       \"source\":\n       {\n          \"type\": \"VN_ONVIF\",\n          \"parameter\":\n          {\n             \"onvif\":\n             {\n                \"protocol_type\":\"UDP\",\n                \"user\":\"sensetime\",\n                \"password\":\"sensetime\",\n                \"host\":\"47.101.47.201\",\n                \"port\":\"80\"\n             }\n          }\n       }\n    }\n}'\n将生成的完整RTSP地址(格式：rtsp://someservice:554/urlbase64Encoded), 通过vps命令下发:\n详情请参考: http://gitlab.sz.sensetime.com/viper/engine-video-process-service/blob/master/pb/engine-video-process-service.proto .\n[EN] ONVIF parameter."
+        },
+        "gat1400": {
+          "$ref": "#/definitions/ingressGAT1400PlatformParameter",
+          "description": "GAT1400订阅平台参数 [SINCE v1.3.0].\n\n 任务下发范例(默认端口30080): curl -XPOST http://${viper-service}:30080/engine/image-ingress/v1/tasks -d '\n {\n    \"task_request\":\n    {\n       \"source_id\":\n       {\n          \"region_id\": 110,\n          \"camera_idx\": 16\n       },\n       \" source\":\n       {\n          \"type\": \"FP_HK_PLATFORM\",\n          \"parameter\":\n          {\n             \"gat1400_param\":\n             {\n                \"subscribe_host\": \"172.20.13.130:80\",\n                \"subscribe_id\": \"53310000005030000002\",\n                \"user\": \"admin\",\n                \"password\": \"admin1234\",\n                \"resource_uri\": \"53310000002005000005\",\n                \"start_time\": \"2018-01-02T15:04:05Z\",\n                \"stop_time\": \"2018-11-02T15:04:05Z\",\n                \"applicant_name\": \"50000000005030000002\",\n                \"applicant_org\": \"sensetime\"\n             }\n          }\n       },\n       \"extra_info\":\"extra info\"\n    }\n }\n[EN] GAT1400 platform parameter."
+        },
+        "gat1400_face_camera": {
+          "$ref": "#/definitions/ingressGAT1400FaceCameraParameter",
+          "description": "GAT1400抓拍相机接入源参数 [SINCE v1.3.0].\n\n 任务下发范例(默认端口30080): curl -XPOST http://${viper-service}:30080/engine/image-ingress/v1/tasks -d '\n {\n    \"task_request\":\n    {\n       \"source_id\":\n       {\n          \"region_id\": 110,\n          \"camera_idx\": 16\n       },\n       \" source\":\n       {\n          \"type\": \"FP_HK_PLATFORM\",\n          \"parameter\":\n          {\n             \"gat1400_face_camera\":\n             {\n                \"platform\": {\n                    \"host\": \"172.20.13.130\",\n                    \"port\":8000,\n                    \"id\":\"01234567890123456789\",\n                    \"user\":\"admin\",\n                    \"password\":\"admin1234\"\n                    \"start_time\":\"2018-01-02T15:04:05Z\",\n                    \"stop_time\":\"2018-01-02T16:04:05Z\"\n                    ...\n                },\n                \"raw_config\":{\n                    \"ape_id\": \"01234567890123456789\",\n                     ...\n                }\n             }\n          }\n       },\n       \"extra_info\":\"extra info\"\n    }\n }\n[EN] GAT1400 face camera parameter."
+        },
+        "hls": {
+          "$ref": "#/definitions/ingressHLSParameter",
+          "description": "HLS接入源参数 [SINCE v3.1.0].\n[EN] HLS ingress parameter [SINCE v3.1.0]."
+        },
+        "sjk": {
+          "$ref": "#/definitions/ingressSJKParameter",
+          "description": "江苏交通云视频平台接入源参数 [SINCE v3.1.0].\n[EN] SJK ingress parameter [SINCE v3.1.0]."
+        },
+        "symphony_nebula": {
+          "$ref": "#/definitions/ingressSymphonyNebulaParameter",
+          "description": "通过Symphony接入的Nebula下的相机的参数 [SINCE v3.1.0].\n[EN] Symphony Nebula camera parameter [SINCE v3.1.0]."
+        },
+        "symphony_pass": {
+          "$ref": "#/definitions/ingressSymphonyPassParameter",
+          "description": "通过Symphony接入的SensePass参数 [SINCE v3.1.0].\n[EN] Symphony SensePass parameter [SINCE v3.1.0]."
+        },
+        "rtmp": {
+          "$ref": "#/definitions/ingressRTMPParameter",
+          "description": "RTMP接入源参数 [SINCE v3.2.0].\n[EN] RTMP ingress parameter [SINCE v3.2.0]."
+        },
+        "gat1400_ape": {
+          "$ref": "#/definitions/ingressGAT1400APEParameter",
+          "description": "通过1400平台采集设备接入源参数 [SINCE v3.2.0].\n[EN] GAT1400 Acquisition ＆ Processing Equipment parameter [SINCE v3.2.0]."
+        },
+        "dh_video_cloud": {
+          "$ref": "#/definitions/ingressDHVideoCloudParameter",
+          "description": "大华视频云平台接入源参数 [SINCE v4.0.0].\n[EN] Dahua video cloud platform ingress parameter [SINCE v4.0.0]."
+        }
+      },
+      "description": "接入源类型对应的参数.\n[EN] Ingress source parameter."
+    },
+    "ingressSourceType": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "VN_RTSP",
+        "VN_ONVIF",
+        "VN_HLS",
+        "VN_RTMP",
+        "VP_GB28181_STD",
+        "VP_HUAWEI_VCN",
+        "VP_XINGHUO",
+        "VP_ALIYUN",
+        "VP_SJK",
+        "VP_DH_VIDEO_CLOUD",
+        "FC_HK",
+        "FC_HK_ISAPI",
+        "FC_DAHUA",
+        "FC_YUSHI",
+        "FC_YUNTIAN",
+        "FC_HUAWEI",
+        "FC_SENSETIME_001",
+        "FC_SENSETIME_002",
+        "FC_SENSETIME_D",
+        "FC_DEEPGLINT",
+        "FC_KEDA",
+        "FC_TIANDY",
+        "FC_MEGVII",
+        "FC_SYMPHONY_NEBULA",
+        "FC_SYMPHONY_PASS",
+        "FC_GAT1400_APE",
+        "FC_DUMMY",
+        "FC_FTP",
+        "FC_HTTP",
+        "FP_XINGHUO",
+        "FP_GAT1400_PLATFORM",
+        "FP_TAOAN_PLATFORM",
+        "FP_WANGLI_PLATFORM",
+        "FP_SECURITY_FIRST_PLATFORM",
+        "FP_SECURITY_THIRD_PLATFORM",
+        "FP_BAIDU_PLATFORM"
+      ],
+      "default": "UNKNOWN",
+      "description": "接入源类型.\n[EN] Ingress source type.\n\n - UNKNOWN: 未知类型, 禁止作为输入参数.\n[EN] Unknown type, prohibited as input parameter.\n - VN_RTSP: RTSP协议 -- 关联参数RTSPParameter[已支持].\n[EN] RTSP Protocol -- Associated parameter is RTSPParameter [supported].\n - VN_ONVIF: 标准ONVIF协议 -- 关联参数OnvifParameter[已支持].\n[EN] Standard ONVIF Protocol -- Associated parameter is OnvifParameter [supported].\n - VN_HLS: 标准HLS协议 -- 关联参数HLSParameter[已支持] [SINCE v3.1.0].\n[EN] HLS Protocol -- Associated parameter is HLSParameter [supported] [SINCE v3.1.0].\n - VN_RTMP: 标准RTMP协议 -- 关联参数RTMPParameter[已支持] [SINCE v3.2.0].\n[EN] RTMP Protocol -- Associated parameter is RTMPParameter [supported] [SINCE v3.2.0].\n - VP_GB28181_STD: 标准国标28181平台 -- 关联参数CVRParameter[已支持].\n[EN] GB28181 Platform -- Associated parameter is CVRParameter [supported].\n - VP_HUAWEI_VCN: 华为VCN平台 -- 关联参数CVRParameter [已支持] [DEPRECATED] [SINCE v3.1.0].\n[EN] Huawei VCN Platform -- Associated parameter is CVRParameter [supported] [DEPRECATED] [SINCE v3.1.0].\n - VP_XINGHUO: 星火平台 -- 关联参数CVRParameter[已支持].\n[EN] Xinghuo(szxhdz) Platform -- Associated parameter is CVRParameter [supported].\n - VP_ALIYUN: 阿里云平台 -- 关联参数NVRParameter[已支持].\n[EN] Aliyun Platform -- Associated parameter is NVRParameter [supported].\n - VP_SJK: 江苏交通云视频平台协议 -- 关联参数SJKParameter[已支持] [SINCE v3.1.0].\n[EN] SJK Protocol -- Associated parameter is SJKParameter [supported] [SINCE v3.1.0].\n - VP_DH_VIDEO_CLOUD: 大华视频云平台 -- 关联参数DHCloudParameter[已支持] [SINCE v4.0.0].\n[EN] Dahua video cloud platform -- Associated parameter is DHVideoCloudParameter [supported] [SINCE v4.0.0].\n - FC_HK: 海康人脸抓拍机(默认协议版本) -- 关联参数FaceCameraParameter[已支持].\n[EN] Hikvision Face Capture Camera (Default Protocol Version) -- Associated parameter is FaceCameraParameter [supported].\n - FC_HK_ISAPI: 海康人脸抓拍机(ISAPI协议版本) -- 关联参数FaceCameraParameter [SINCE v3.1.0].\n[EN] Hikvision Face Capture Camera (Default Protocol Version) -- Associated parameter is FaceCameraParameter [SINCE v3.1.0].\n - FC_DAHUA: 大华人脸抓拍机(默认协议版本) -- 关联参数FaceCameraParameter[已支持].\n[EN] Dahuatech Face Capture Camera (Default Protocol Version) -- Associated parameter is FaceCameraParameter [supported].\n - FC_YUSHI: 宇视人脸抓拍机(默认协议版本) -- 关联参数FaceCameraParameter[已支持].\n[EN] Uniview Face Capture Camera (Default Protocol Version) -- Association parameter is FaceCameraParameter [supported].\n - FC_YUNTIAN: 云天励飞人脸抓拍机(默认协议版本) -- 关联参数FaceCameraParameter[已支持].\n[EN] Intellifusion Face Capture Camera (Default Protocol Version) -- Associated parameter is FaceCameraParameter [supported].\n - FC_HUAWEI: 华为人脸抓拍机(默认协议版本) -- 关联参数FaceCameraParameter[已支持].\n[EN] Huawei Face Capture Camera (Default Protocol Version) -- Associated parameter is FaceCameraParameter [supported].\n - FC_SENSETIME_001: 商汤人脸抓拍机型号001(型号为VA-ESCC-11***) -- 关联参数FaceCameraParameter[已支持].\n[EN] SenseTime Face Capture Camera 001 (model VA-ESCC-11***) -- Associated parameter is FaceCameraParameter [supported].\n - FC_SENSETIME_002: 商汤人脸抓拍机型号002(型号为***-T, 后两位为-T) -- 关联参数FaceCameraParameter [SINCE v2.1.0].\n[EN] SenseTime Face Capture Camera 002 (model ***-T, with \"-T\" as suffix) -- Associated parameter is FaceCameraParameter [SINCE v2.1.0].\n - FC_SENSETIME_D: 商汤人脸抓拍机(型号为***-D, 后两位为-D) -- 关联参数FaceCameraParameter [SINCE v2.2.0].\n[EN] SenseTime Face Capture Camera (model ***-D, with \"-D\" as suffix) -- Associated parameter is FaceCameraParameter [SINCE v2.2.0].\n - FC_DEEPGLINT: 格林深瞳人眼抓拍机(默认协议版本) -- 关联参数FaceCameraParameter[已支持].\n[EN] DeepGlint Eye Capture Camera (Default Protocol Version) -- Associated parameter is FaceCameraParameter [supported].\n - FC_KEDA: 科达人脸抓拍机(默认协议版本) -- 关联参数FaceCameraParameter[已支持].\n[EN] Kedacom Face Capture Camera (Default Protocol Version) -- Associated parameter is FaceCameraParameter [supported].\n - FC_TIANDY: 天地伟业人脸抓拍机(默认协议版本) -- 关联参数FaceCameraParameter [SINCE v2.1.0].\n[EN] Tiandy Face Capture Camera (Default Protocol Version) -- Associated parameter is FaceCameraParameter [SINCE v2.1.0].\n - FC_MEGVII: 旷视人脸抓拍机(默认协议版本) -- 关联参数FaceCameraParameter [SINCE v2.1.0].\n[EN] Megvii Face Capture Camera (Default Protocol Version) -- Associated parameter is FaceCameraParameter [SINCE v2.1.0].\n - FC_SYMPHONY_NEBULA: Nebula -- 任务关联参数SymphonyNebulaParameter[已支持] [SINCE v3.1.0].\n[EN] Nebula -- Associated parameter is SymphonyNebulaParameter [supported] [SINCE v3.1.0].\n - FC_SYMPHONY_PASS: SensePass -- 关联参数SymphonyPassParameter [SINCE v3.1.0].\n[EN] SensePass -- Associated parameter is SymphonyPassParameter [SINCE v3.1.0].\n - FC_GAT1400_APE: GAT1400采集设备(默认协议:1400) -- 关联参数GAT1400APEParameter [SINCE v3.2.0].\n[EN] GAT1400 Acquisition ＆ Processing Equipment  -- associated parameter is GAT1400APEParameter [SINCE v3.2.0].\n - FC_DUMMY: 压测模拟抓拍相机 --关联参数FaceCameraParameter[已支持].\n[EN] Pressure Measurement Simulation Capture Camera -- Associated parameter is FaceCameraParameter [Supported].\n - FC_FTP: ftp服务器主动抓取图片 -- 关联参数FaceCameraParameter[已支持].\n[EN] ftp Server Actively Captures Images -- Associated parameter is FaceCameraParameter [supported].\n - FC_HTTP: http服务器主动抓取图片 -- 关联参数FaceCameraParameter[已支持].\n[EN] HTTP Server Actively Captures Images -- Association parameter is FaceCameraParameter [supported].\n - FP_XINGHUO: 星火人脸抓拍机(默认协议版本) -- 关联参数FaceCameraParameter[已支持].\n[EN] Xinghuo(szxhdz) Face Capture Camera (Default Protocol Version) -- Associated parameter is FaceCameraParameter [supported].\n - FP_GAT1400_PLATFORM: GAT1400平台 -- 平台任务关联参数GAT1400PlatformParameter, 相机任务关联参数GAT1400FaceCameraParameter[已支持].\n[EN] GAT1400 platform -- Platform task associated parameter is GAT1400PlatformParameter, Camera task associated parameter is GAT1400FaceCameraParameter [supported].\n - FP_TAOAN_PLATFORM: 韬安平台(默认协议: 1400) -- 平台任务关联参数GAT1400PlatformParameter, 相机任务关联参数GAT1400FaceCameraParameter[已支持] [DEPRECATED].\n[EN] Taoan Platform (Default Protocol: 1400) -- Platform task associated parameter is GAT1400PlatformParameter, Camera task associated parameter is GAT1400FaceCameraParameter [supported] [DEPRECATED].\n - FP_WANGLI_PLATFORM: 东方网力平台(默认协议:1400) -- 平台任务关联参数GAT1400PlatformParameter, 相机任务关联参数GAT1400FaceCameraParameter[已支持] [DEPRECATED].\n[EN] Netposa Platform (Default Protocol: 1400) -- Platform task associated parameter is GAT1400PlatformParameter, Camera task associated parameter is GAT1400FaceCameraParameter [supported] [DEPRECATED].\n - FP_SECURITY_FIRST_PLATFORM: 公安一所平台(默认协议:1400) -- 平台任务关联参数GAT1400PlatformParameter, 相机任务关联参数GAT1400FaceCameraParameter[已支持] [DEPRECATED].\n[EN] Security First Platform (Default Protocol: 1400) -- Platform task associated parameter is GAT1400PlatformParameter, Camera task associated parameter is GAT1400FaceCameraPar [supported] [DEPRECATED].\n - FP_SECURITY_THIRD_PLATFORM: 公安三所平台(默认协议:1400) -- 平台任务关联参数GAT1400PlatformParameter, 相机任务关联参数GAT1400FaceCameraParameter[已支持] [DEPRECATED].\n[EN] Security Third Platform (Default Protocol: 1400) -- Platform task associated parameter is GAT1400PlatformParameter, Camera task associated parameter is GAT1400FaceCameraPar [supported] [DEPRECATED].\n - FP_BAIDU_PLATFORM: 百度视图库平台(默认协议:1400) -- 平台任务关联参数GAT1400PlatformParameter, 相机任务关联参数GAT1400FaceCameraParameter[已支持].\n[EN] Baidu VIID Platform (Default Protocol: 1400) -- Platform task associated parameter is GAT1400PlatformParameter, Camera task associated parameter is GAT1400FaceCameraParameter [supported]."
+    },
+    "ingressStorageConfig": {
+      "type": "object",
+      "properties": {
+        "kafka": {
+          "$ref": "#/definitions/ingressKafkaStorageConfig",
+          "description": "kafka存储配置.\n[EN] Kafka storage configuration."
+        },
+        "osg": {
+          "$ref": "#/definitions/ingressOSGStorageConfig",
+          "description": "OSG存储配置.\n[EN] OSG storage configuration."
+        },
+        "gat1400": {
+          "$ref": "#/definitions/ingressGAT1400StorageConfig",
+          "description": "GAT1400存储配置.\n[EN] GAT1400 storage configuration."
+        }
+      },
+      "description": "图片存储配置: 当前版本不支持同时存储两个类型，不能设置多个存储配置为true；所有存储设置为false表示图片不存储 [SINCE v2.1.0].\n[EN] Image storage configuration: The current version does not support storing two types at the same time, and multiple storage configurations cannot be set to “true”; all storage settings set to “false” indicates that the image is not stored [SINCE v2.1.0]."
+    },
+    "ingressStoragePolicy": {
+      "type": "object",
+      "properties": {
+        "portrait_storage_config": {
+          "$ref": "#/definitions/ingressStorageConfig",
+          "description": "可选, 目标区域图存储配置. 不配置表示使用系统默认配置参数.\n[EN] Optional, Storage configuration of the target area images. No configuration means using the default configuration parameters."
+        },
+        "panoramic_storage_config": {
+          "$ref": "#/definitions/ingressStorageConfig",
+          "description": "可选, 目标区域图对应的背景大图存储配置. 不配置表示使用系统默认配置参数.\n[EN] Optional, Storage configuration of the corresponding panoramic images of the target area images. No configuration means using the default configuration parameters."
+        },
+        "binary_storage_config": {
+          "$ref": "#/definitions/ingressStorageConfig",
+          "description": "可选, 对象其他二进制数据存储配置. 不配置表示使用系统默认配置参数 [SINCE v3.2.0].\n[EN] Optional, Storage configuration of the other binary data. No configuration means using the default configuration parameters [SINCE v3.2.0]."
+        }
+      },
+      "description": "存储策略 [SINCE v2.1.0].\n[EN] Storage policy [SINCE v2.1.0]."
+    },
+    "ingressStreamType": {
+      "type": "string",
+      "enum": [
+        "Main",
+        "Second",
+        "Third",
+        "Fourth"
+      ],
+      "default": "Main",
+      "description": "码流类型 [SINCE v1.3.0].\n[EN] Video stream type [SINCE v1.3.0].\n\n - Main: 主码流.\n[EN] The Main stream.\n - Second: 子码流.\n[EN] The second stream.\n - Third: 第三码流.\n[EN] The third stream.\n - Fourth: 第四码流.\n[EN] The fourth stream."
+    },
+    "ingressSymphonyNebulaParameter": {
+      "type": "object",
+      "properties": {
+        "device_id": {
+          "type": "string",
+          "title": "Symphony设备ID，格式为`[a-f0-9]{64}`.\n[EN] Symphony device ID，with format as `[a-f0-9]{64}`"
+        },
+        "task_id": {
+          "type": "string",
+          "description": "标识Nebula任务的ID.\n[EN] Task ID for Nebula cameras."
+        }
+      },
+      "description": "Nebula上的相机接入参数 [SINCE v3.1.0].\n[EN] Camera ingress parameters in Nebula [SINCE v3.1.0]."
+    },
+    "ingressSymphonyPassParameter": {
+      "type": "object",
+      "properties": {
+        "device_id": {
+          "type": "string",
+          "description": "Symphony设备ID，格式为`[a-f0-9]{64}`.\n[EN] Symphony device ID，with format as `[a-f0-9]{64}`."
+        }
+      },
+      "description": "SensePass输入源参数 [SINCE v3.1.0].\n[EN] SensePass ingress source parameter [SINCE v3.1.0]."
+    },
+    "ingressVideoFormat": {
+      "type": "string",
+      "enum": [
+        "VF_UNKNOWN",
+        "VF_MPEG4",
+        "VF_H264",
+        "VF_SVAC",
+        "VF_3GP",
+        "VF_H265"
+      ],
+      "default": "VF_UNKNOWN",
+      "description": "视频格式 [SINCE v1.3.0].\n[EN] Video format [SINCE v1.3.0].\n\n - VF_UNKNOWN: 未知类型, 禁止作为输入参数.\n[EN] Unknown type, prohibited as input parameter.\n - VF_MPEG4: MPEG4格式.\n[EN] MPEG4 format.\n - VF_H264: H264格式.\n[EN] H264 format.\n - VF_SVAC: SVAC格式.\n[EN] SVAC format.\n - VF_3GP: 3GP格式.\n[EN] 3GP format.\n - VF_H265: H265格式.\n[EN] H265 format."
+    },
+    "ingressVideoParameter": {
+      "type": "object",
+      "properties": {
+        "stream_type": {
+          "$ref": "#/definitions/ingressStreamType",
+          "description": "码流类型, 默认主码流.\n[EN] Stream type, default to main stream."
+        },
+        "video_format": {
+          "$ref": "#/definitions/ingressVideoFormat",
+          "description": "视频格式, 默认H264.\n[EN] Video format, default to H264."
+        },
+        "width": {
+          "type": "integer",
+          "format": "int32",
+          "description": "图像宽度.\n[EN] Image width."
+        },
+        "height": {
+          "type": "integer",
+          "format": "int32",
+          "description": "图像高度.\n[EN] Image height."
+        },
+        "frame_rate": {
+          "type": "number",
+          "format": "float",
+          "description": "可选, 帧率, 取值范围:1/16~60, 默认为25.\n[EN] Optional, frame rate, value range: 1/16~60, default to 25."
+        },
+        "bit_rate_type": {
+          "$ref": "#/definitions/ingressBitRateType",
+          "description": "可选, 码率类型, 默认定码率.\n[EN] Optional, bit rate type, default to constant bit rate."
+        },
+        "bit_rate": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 码率大小, 以kb为单位，取值范围:32～16*1024.\n[EN] Optional, bit rate size in kb, value range: 32~16*1024."
+        },
+        "i_frame_interval": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, I帧间隔, 取值范围:1～200, 默认为50.\n[EN] Optional, I frame interval, value range: 1~200, default to 50."
+        }
+      },
+      "description": "视频编码参数 [SINCE v1.3.0].\n[EN] Video codec parameters [SINCE v1.3.0]."
+    },
+    "litetask_manage_commonStatus": {
+      "type": "string",
+      "enum": [
+        "OK",
+        "INTERNAL_ERROR",
+        "IIS_ERROR",
+        "VPS_ERROR",
+        "STATIC_DB_ERROR",
+        "TMS_ERROR",
+        "MCS_ERROR",
+        "MQTT_ERROR",
+        "KAFKA_ERROR",
+        "NO_SURVEILLANCE_TASK"
+      ],
+      "default": "OK",
+      "title": "- OK: 正常状态.\n - INTERNAL_ERROR: 内部异常.\n - IIS_ERROR: IIS任务异常.\n - VPS_ERROR: VPS任务异常.\n - STATIC_DB_ERROR: 静态库服务异常.\n - TMS_ERROR: TMS任务异常.\n - MCS_ERROR: MCS任务异常\n - MQTT_ERROR: MQTT异常\n - KAFKA_ERROR: KAFKA异常\n - NO_SURVEILLANCE_TASK: 无布控任务"
+    },
+    "litetask_manage_commonTaskStatus": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/litetask_manage_commonStatus",
+          "title": "任务状态"
+        },
+        "error_message": {
+          "type": "string",
+          "description": "异常错误信息, 错误信息中体现具体错误."
+        },
+        "last_received_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "最后收到图片/视频数据的时间."
+        },
+        "detail_status": {
+          "$ref": "#/definitions/task_manage_commonDetailStatus",
+          "title": "具体错误码"
+        }
+      }
+    },
+    "litetask_managerTaskInfoV2": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "description": "响应报文填写.\n长度:20字节,任务类型(1位) + timestamp(17位) + sequence(2位).\n任务类型 0-图片,1-视频,3-多视频. 在新建任务响应报文填写,如:12016061718222627096."
+        },
+        "ingress_info": {
+          "$ref": "#/definitions/task_managerIngressInfoV2",
+          "description": "任务接入接入信息."
+        },
+        "post_processes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/message_consume_servicePostProcess"
+          },
+          "description": "后处理信息."
+        }
+      }
+    },
+    "litetask_managerTaskListV2Response": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "$ref": "#/definitions/commonapisPaging",
+          "description": "翻页响应."
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/litetask_managerTaskStatusV2Response"
+          },
+          "description": "任务详细信息列表(当前页)."
+        }
+      }
+    },
+    "litetask_managerTaskNewV2Request": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "$ref": "#/definitions/litetask_managerTaskInfoV2"
+        }
+      }
+    },
+    "litetask_managerTaskNewV2Response": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "$ref": "#/definitions/litetask_managerTaskInfoV2"
+        }
+      }
+    },
+    "litetask_managerTaskStatusV2Response": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "$ref": "#/definitions/litetask_managerTaskInfoV2",
+          "description": "任务详细信息."
+        },
+        "status": {
+          "$ref": "#/definitions/litetask_manage_commonTaskStatus",
+          "description": "任务状态."
+        }
+      }
+    },
+    "message_consume_servicePostProcess": {
+      "type": "object",
+      "properties": {
+        "process_id": {
+          "type": "string",
+          "description": "后处理id,uuid."
+        },
+        "process_search_afd": {
+          "$ref": "#/definitions/message_consume_serviceProcessSearchAfd",
+          "description": "AFD检索,仅对OBJECT_FACE生效."
+        }
+      }
+    },
+    "message_consume_serviceProcessSearchAfd": {
+      "type": "object",
+      "properties": {
+        "dbs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/message_consume_serviceSearchParameter"
+          }
+        }
+      }
+    },
+    "message_consume_serviceSearchParameter": {
+      "type": "object",
+      "properties": {
+        "db_id": {
+          "type": "string",
+          "description": "特征库ID [特征库名称二选一]."
+        },
+        "db_name": {
+          "type": "string",
+          "description": "特征库名称 [特征库ID二选一]."
+        },
+        "top_k": {
+          "type": "integer",
+          "format": "int32",
+          "description": "需要top_k个最相似的结果, 范围:(0, 1024]."
+        },
+        "min_score": {
+          "type": "number",
+          "format": "float",
+          "description": "结果需要满足的最低相似度. 范围: [0.0, 1.0] (默认为0.0)."
+        }
+      }
+    },
+    "task_manage_commonDetailStatus": {
+      "type": "string",
+      "enum": [
+        "VPS_TASK_PENDING",
+        "VPS_TASK_OK",
+        "VPS_TASK_SOURCE_ERROR",
+        "VPS_TASK_INTERNAL_ERROR",
+        "VPS_TASK_FINISHED",
+        "VPS_TASK_DECODER_ERROR",
+        "VPS_TASK_CREATING",
+        "VPS_TASK_RESOLUTION_ERROR",
+        "IIS_TASK_UNKNOWN",
+        "IIS_TASK_CONNECTED",
+        "IIS_TASK_DISCONNECTED",
+        "IIS_TASK_CONNECTING",
+        "IIS_TASK_PLAY_OVER",
+        "IIS_TASK_REQUEST_DUPLICATE",
+        "IIS_TASK_INACTIVE",
+        "MCS_TASK_ERROR",
+        "UNKNOWN_TASK_ERROR",
+        "TASK_OK"
+      ],
+      "default": "VPS_TASK_PENDING",
+      "title": "- VPS_TASK_PENDING: 等待分配节点.\n[EN] Waiting for node allocation.\n - VPS_TASK_OK: 正常状态.\n[EN] Normal status.\n - VPS_TASK_SOURCE_ERROR: 视频接入源异常.\n[EN] Video sources error.\n - VPS_TASK_INTERNAL_ERROR: 内部异常.\n[EN] Internal error.\n - VPS_TASK_FINISHED: 处理结束.\n[EN] Finish status.\n - VPS_TASK_DECODER_ERROR: 解码器异常.\n[EN] Decoder error.\n - VPS_TASK_CREATING: 任务创建状态, 是PENDING和OK状态的中间过渡状态 [SINCE v2.0.0].\n[EN] Task creation status, which is between PENDING and OK status [SINCE v2.0.0].\n - VPS_TASK_RESOLUTION_ERROR: 视频任务分辨率参数错误 [SINCE v2.1.0].\n[EN] Resolution parameter error for video task [SINCE v2.1.0].\n - IIS_TASK_UNKNOWN: 状态未知.\n[EN] Unknown status.\n - IIS_TASK_CONNECTED: 正常连接.\n[EN] Connected.\n - IIS_TASK_DISCONNECTED: 连接断开.\n[EN] Disconnected.\n - IIS_TASK_CONNECTING: 连接中(异步).\n[EN] Connecting (Asynchronous).\n - IIS_TASK_PLAY_OVER: 播放结束.\n[EN] Play finished.\n - IIS_TASK_REQUEST_DUPLICATE: 参数重复, 接入源已连接.\n[EN] Parameters repeat, ingress source connected.\n - IIS_TASK_INACTIVE: 正常连接, 但长时间(默认:超过30分钟)未收到数据.\n[EN] Connected, but no data received for a long time (default: more than 30 minutes).\n - MCS_TASK_ERROR: MCS任务错误\n - UNKNOWN_TASK_ERROR: 未知错误\n - TASK_OK: 任务正常"
+    },
+    "task_managerGetSystemInfoV2Response": {
+      "type": "object"
+    },
+    "task_managerImageIngressInfo": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "$ref": "#/definitions/ingressSourceInformation",
+          "description": "接入源信息,ingress使用."
+        },
+        "camera_info": {
+          "$ref": "#/definitions/commonapisCameraInfo",
+          "description": "摄像头信息,ingress及vps共用."
+        },
+        "object_types": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/commonapisObjectType"
+          },
+          "description": "分析任务目标类型."
+        },
+        "extra_info": {
+          "type": "string"
+        },
+        "ROI": {
+          "$ref": "#/definitions/commonapisBoundingPolyF",
+          "description": "可选, 抓拍小图ROI区域. ROI为矩形区域, 默认为全屏."
+        }
+      },
+      "description": "图片流接入信息."
+    },
+    "task_managerIngressInfoV2": {
+      "type": "object",
+      "properties": {
+        "video": {
+          "$ref": "#/definitions/task_managerVideoIngressInfo",
+          "description": "单视频源接入信息."
+        },
+        "image": {
+          "$ref": "#/definitions/task_managerImageIngressInfo",
+          "description": "图片流接入信息."
+        },
+        "multi_video": {
+          "$ref": "#/definitions/task_managerMultiVideoIngressInfo",
+          "description": "多视频源接入信息."
+        }
+      }
+    },
+    "task_managerMultiVideoIngressInfo": {
+      "type": "object",
+      "properties": {
+        "multi_video_source_info": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/task_managerMultiVideoSourceInfo"
+          },
+          "description": "接入源信息,ingress使用."
+        },
+        "object_type": {
+          "$ref": "#/definitions/commonapisObjectType",
+          "description": "目标类型."
+        },
+        "task_object_config": {
+          "$ref": "#/definitions/video_processTaskObjectConfig",
+          "description": "可选, 特定目标类型配置."
+        },
+        "storage_policy": {
+          "$ref": "#/definitions/ingressStoragePolicy",
+          "title": "可选, 存储策略. 默认按照vps worker配置文件进行存储.\n下发任务类型为 OBJECT_CROWD 或 OBJECT_SCENARIO_CITY_MANAGEMENT 时，不需要设置小图的储存，即使设置也会忽略\n注意，GAT1400存储方式只支持OBJECT_FACE, OBJECT_PEDESTRIAN, OBJECT_AUTOMOBILE 和 OBJECT_HUMAN_POWERED_VEHICLE"
+        }
+      },
+      "description": "多视频流接入信息."
+    },
+    "task_managerMultiVideoSourceInfo": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "$ref": "#/definitions/ingressSourceInformation",
+          "description": "接入源信息,ingress使用."
+        },
+        "source_info": {
+          "$ref": "#/definitions/video_processSourceInfo"
+        },
+        "rtsp_preview_address": {
+          "type": "string",
+          "description": "附带检测对象叠框信息的rtsp预览地址，响应报文填写."
+        }
+      }
+    },
+    "task_managerTaskDeleteV2Response": {
+      "type": "object"
+    },
+    "task_managerTaskUpdateV2Request": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string"
+        },
+        "task": {
+          "$ref": "#/definitions/litetask_managerTaskInfoV2"
+        }
+      }
+    },
+    "task_managerTaskUpdateV2Response": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "$ref": "#/definitions/litetask_managerTaskInfoV2"
+        }
+      }
+    },
+    "task_managerVideoIngressInfo": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "$ref": "#/definitions/ingressSourceInformation",
+          "description": "接入源信息,ingress使用."
+        },
+        "camera_info": {
+          "$ref": "#/definitions/commonapisCameraInfo",
+          "description": "摄像头信息,ingress及vps共用."
+        },
+        "object_type": {
+          "$ref": "#/definitions/commonapisObjectType",
+          "description": "分析任务目标类型."
+        },
+        "extra_info": {
+          "type": "string",
+          "description": "可选, 用户额外扩展信息, 最大大小64KB."
+        },
+        "task_object_config": {
+          "$ref": "#/definitions/video_processTaskObjectConfig",
+          "description": "可选, 特定目标类型配置."
+        },
+        "source_address": {
+          "type": "string",
+          "description": "可选, 视频流rtsp地址.\n地址必须以\"rtsp://\"开头, 如指定该参数则vps直连该rtsp地址, 忽略其它接入信息.\n如不指定则将在任务创建成功后返回不带检测对象叠框信息的rtsp地址."
+        },
+        "rtsp_preview_address": {
+          "type": "string",
+          "description": "附带检测对象叠框信息的rtsp预览地址，响应报文填写."
+        },
+        "video_parameter": {
+          "$ref": "#/definitions/ingressVideoParameter",
+          "description": "可选, 视频流信息. 使用基础调度器不检查该参数. 使用4K调度器时，未填写时默认当作1080P调度，然后检查实际视频参数是否与该参数匹配，如果不匹配，视频流会进入错误状态."
+        },
+        "storage_policy": {
+          "$ref": "#/definitions/ingressStoragePolicy",
+          "title": "可选, 存储策略. 默认按照vps worker配置文件进行存储.\n下发任务类型为 OBJECT_CROWD 或 OBJECT_SCENARIO_CITY_MANAGEMENT 时，不需要设置小图的储存，即使设置也会忽略\n注意，GAT1400存储方式只支持OBJECT_FACE, OBJECT_PEDESTRIAN, OBJECT_AUTOMOBILE 和 OBJECT_HUMAN_POWERED_VEHICLE"
+        }
+      },
+      "description": "单视流接入信息."
+    },
+    "video_processAlgoConfig": {
+      "type": "object",
+      "properties": {
+        "app_name": {
+          "type": "string",
+          "description": "算法应用名称.\n[EN] algo app name."
+        },
+        "app_version": {
+          "type": "integer",
+          "format": "int32",
+          "description": "算法应用版本.\n[EN] algo app version."
+        },
+        "data": {
+          "$ref": "#/definitions/commonapisJSONPBAny",
+          "description": "自定义任务配置，其对应的 json schema 由 commonapis.video_process_schema.task_config_schema_path 指定.\n[EN] custom task config, it's json schema specified by commonapis.video_process_schema.task_config_schema_path."
+        }
+      },
+      "description": "算法仓任务配置 [SINCE v3.0.0].\n[EN] Algo task config."
+    },
+    "video_processCrowdConfig": {
+      "type": "object",
+      "properties": {
+        "roi": {
+          "$ref": "#/definitions/commonapisBoundingPolyF",
+          "title": "人群密度单ROI分析, 推荐使用density_rules字段, 至少3个点. ROI区域越大, 算法相对精度越高, 建议设置ROI区域面积占画面1/4q以上, ROI太小则不能保证精度. ROI区域不设置, 默认为全屏, 此字段将在v3.3删除, 删除后人群过密分析将默认关闭 [DEPRECATED].\n[EN] Single ROI area of crowd density, at least 3 points. The larger the ROI area is, the higher the relative accuracy of the algorithm will be.\nIt is suggested to set the ROI area to take up more than 1/4q of the screen, and the accuracy cannot be guaranteed if the ROI is too small.\nThe ROI area is not set and is set to full screen by default, this field will be delete in v3.3, after deletion, over density event analysis will be disable by default [DEPRECATED]"
+        },
+        "scene_area": {
+          "type": "number",
+          "format": "float",
+          "description": "人群过密告警ROI区域面积, 推荐使用density_rules字段, scene_area若不填或者填0, 人群过密人数阈值使用total_crowd_thresh, 此字段将在v3.3删除, 删除后人群过密分析将默认关闭 [DEPRECATED].\n[EN] ROI area for overcrowding alarm. if 'scene_area' is not filled or equals 0, person count threshold will use value of total_crowd_thresh, this field will be delete in v3.3, after deletion, over density event analysis will be disable by default [DEPRECATED]."
+        },
+        "crowd_thresh": {
+          "type": "number",
+          "format": "float",
+          "description": "人群过密告警单位面积人数阈值, 推荐使用density_rules字段, crowd_thresh若不填或者填0, 人群过密人数阈值使用total_crowd_thresh 此字段将在v3.3删除, 删除后人群过密分析将默认关闭 [DEPRECATED].\n[EN] Number threshold of unit area for overcrowding alarm. if 'crowd_thresh' is not filled or equals 0, person count threshold will use value of total_crowd_thresh. this field will be delete in v3.3, after deletion, over density event analysis will be disable by default [DEPRECATED]."
+        },
+        "enable_density_map": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "可选, 默认值为false. 为false时, 密度图不输出, 为true时, 密度图输出模式CrowdOutputMode与全景图一致 此字段将在v3.3删除, 删除后人群过密分析将默认关闭 [DEPRECATED].\n注意: 当值为'OutputOnAlarm', 密度图只会在告警状态为Start时输出.\n[EN] Optional, the default value is false.When the value is false, the density map does not output. When the value is true, the output mode 'CrowdOutputMode' of the density map is the same as that of the panorama\nNote: When the value is 'OutputOnAlarm', the density map will only be output when the alarm status is Start. this field will be delete in v3.3, after deletion, over density event analysis will be disable by default [DEPRECATED]."
+        },
+        "panoramic_mode": {
+          "$ref": "#/definitions/CrowdConfigCrowdOutputMode",
+          "description": "可选, 默认值为'OutputOnAlarm'. 全景图输出模式. 告警时输出全景图的意思为只要存在密度告警或者滞留告警, 都会输出全景图 [DEPRECATED].\n注意: 当值为'OutputOnAlarm', 全景图只会在告警状态为Start时输出\n[EN] Optional, the default value is 'OutputOnAlarm'. Output mode of panoramic [DEPRECATED].\nPanorama outputs when alarming means that as long as there is a density alarm or a strand alarm, the panorama will be output.\nNote: When the value is 'OutputOnAlarm', the panorama will only be output when the alarm status is Start."
+        },
+        "enable_strand_analyze": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "是否开启滞留分析 [DEPRECATED].\n[EN] Whether to do strand analysis [DEPRECATED]."
+        },
+        "strand_roi": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/commonapisBoundingPolyF"
+          },
+          "description": "可选, 人群滞留告警区域, 每个ROI至少3个点, 不设置表示全屏. 当前版本仅支持一个ROI [DEPRECATED].\n[EN] Optional, ROI areas of crowd strand, at least 3 points per ROI [SINCE v2.2.0].\nWhen strand_roi is not setted, strand_roi will be setted to full screen by default.\nCurrent version supports only one ROI."
+        },
+        "labeled_person": {
+          "$ref": "#/definitions/commonapisBoundingPolyF",
+          "description": "可选, enable_strand_analyze=true时必填, 否则会终止当前任务并提示错误 'strand is enabled, but the LabeledPerson is nil' [DEPRECATED].\n人体目标头部与脚Y坐标的标定,做滞留分析时需要使用, 至少3个点. 一般由四个标定的点组成,每个点的X值是视频画面中的人物头部Y坐标,每个点的Y值是人物脚部Y坐标.若标定的点的数量越多,则滞留分析越准确.\n注意:若视频画面有变化,如摄像头位置变化,摄像头角度变化,摄像头焦距变化,labeled_person均需要重新标定.\n[EN] Optional, when 'enable_strand_analyze' equals true, must be filled [DEPRECATED].\nIf labeled_person is not filled when 'enable_strand_analyze' equals true,the current task will be terminated and the error prompt is 'strand is enabled, but the LabeledPerson is nil'.\nMark of Y coordinates of human head and foot, at least 3 points. Generally, 'labeled_person' are composed of four mark points.\nThe X value of each point is the Y coordinate of human head in the video picture, and the Y value of each point is the Y coordinate of human foot.\nThe more the number of mark points, the more accurate the strand analysis will be.\nNote: If the video picture changes, such as camera position, camera angle, camera focus, 'labeled_person' needs to be re-marked."
+        },
+        "strand_thresh": {
+          "type": "integer",
+          "format": "int32",
+          "description": "滞留时间的阈值,必须大于0，单位秒 [DEPRECATED].\n注意: enable_strand_analyze=true时, strand_thresh若不填或者填0, strand_thresh会取默认值10000.\n[EN] The time threshold of strand in sesconds must be greater than 0 [DEPRECATED].\nNote: when 'enable_strand_analyze' equals true, if 'strand_thresh' is not filled or equals 0, 'strand_thresh' will equal the default value 10000."
+        },
+        "enable_strand_map": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "可选, 默认值为false. 为false时, 滞留图不输出, 为true时, 滞留图输出模式CrowdOutputMode与全景图一致 [SINCE v2.2.0] [DEPRECATED].\n注意: 滞留图只落盘Kafka.\n注意: 当值为'OutputOnAlarm', 滞留图只会在告警状态为Start时输出.\n[EN] Optional, the default value is false.When the value is false, the strand map does not output. When the value is true, the output mode 'CrowdOutputMode' of the strand map is the same as that of the panorama [SINCE v2.2.0] [DEPRECATED].\nNote: Strand map is only stored on Kafka.\nNote: When the value is 'OutputOnAlarm', strand map will only be output when the alarm status is Start."
+        }
+      },
+      "description": "人群任务配置 [DEPRECATED].\n[EN] Crowd task configuration [DEPRECATED]."
+    },
+    "video_processCrowdConfigV2": {
+      "type": "object",
+      "properties": {
+        "realtime_analysis_config": {
+          "$ref": "#/definitions/video_processCrowdRealtimeAnalysisConfig",
+          "description": "人群实时分析配置 [SINCE v3.2.0].\n[EN] Configuration of crowd realtime analysis [SINCE v3.2.0]."
+        },
+        "crowd_event_rule": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/video_processCrowdEventRule"
+          },
+          "description": "人群事件分析规则 [SINCE v3.2.0].\n[EN] crowd event rule [SINCE v3.2.0]."
+        },
+        "labeled_persons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CrowdConfigV2LabelPerson"
+          },
+          "description": "可选, 除了过密分析外的事件开启时, 都是必填. [SINCE v3.2.0].\n至少3个人体标签. 一般由四个组成. 若标定的点的数量越多, 则分析越准确.\n注意:若视频画面有变化,如摄像头位置变化,摄像头角度变化,摄像头焦距变化,labeled_person均需要重新标定.\n[EN] Optional, except over crowd analyze this field must be filled [SINCE v3.2.0].\nAt least 3 LabelPerson. Generally, 'labeled_persons' are composed of four mark points.\nThe more the number of mark points, the more accurate the analysis will be.\nNote: If the video picture changes, such as camera position, camera angle, camera focus, 'labeled_person' needs to be re-marked."
+        }
+      },
+      "description": "人群分析配置 [SINCE v3.2.0].\n[EN] Configuration of crowd analysis [SINCE v3.2.0]."
+    },
+    "video_processCrowdEventRule": {
+      "type": "object",
+      "properties": {
+        "rule_index": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 仅作为输出参数, 事件索引 [SINCE v3.2.0].\n[EN] Optional, output only, event rule index [SINCE v3.2.0]."
+        },
+        "density": {
+          "$ref": "#/definitions/CrowdEventRuleDensityRule",
+          "description": "可选, 人群过密分析事件规则 [SINCE v3.2.0].\n[EN] Crowd over density config [SINCE v3.2.0]."
+        },
+        "intrusion": {
+          "$ref": "#/definitions/CrowdEventRuleIntrusionRule",
+          "description": "可选, 人群入侵分析事件规则 [SINCE v3.2.0].\n[EN] Crowd intrusion config [SINCE v3.2.0]."
+        },
+        "retrograde": {
+          "$ref": "#/definitions/CrowdEventRuleRetrogradeRule",
+          "description": "人群逆行事件分析配置 [SINCE v3.2.0].\n[EN] Crowd retrograde config [SINCE v3.2.0]."
+        },
+        "congregate": {
+          "$ref": "#/definitions/CrowdEventRuleCongregateRule",
+          "description": "人群聚集/分散分析配置 [SINCE v3.2.0].\n[EN] Crowd Congregate/Scatter config [SINCE v3.2.0]."
+        },
+        "head_target": {
+          "$ref": "#/definitions/CrowdEventRuleHeadTargetRule",
+          "description": "人群人头分析规则 [EXPERIMENTAL].\n[EN] crowd head target rule [EXPERIMENTAL]."
+        },
+        "strand": {
+          "$ref": "#/definitions/CrowdEventRuleStrandAnalyzeRule",
+          "description": "人群滞留分析规则 [SINCE v3.2.0].\n[EN] crowd head target rule [SINCE v3.2.0]."
+        },
+        "cross_line": {
+          "$ref": "#/definitions/CrowdEventRuleCrossLineRule",
+          "description": "可选, 跨线分析配置, 用于分析人群跨线事件 [SINCE v3.2.0].\n[EN] Optional, Cross line Config, in order to analysis crowd cross-line event [SINCE v3.2.0]."
+        },
+        "social_distance": {
+          "$ref": "#/definitions/CrowdEventRuleSocialDistanceRule",
+          "description": "可选, 人群社交距离分析配置 [SINCE v3.2.0].\n[EN] Optional, Crowd social distance analysis [SINCE v3.2.0]."
+        }
+      },
+      "description": "人群事件分析规则 [SINCE v3.2.0].\n[EN] crowd event rule [SINCE v3.2.0]."
+    },
+    "video_processCrowdRealtimeAnalysisConfig": {
+      "type": "object",
+      "properties": {
+        "realtime_analysis_output_config": {
+          "$ref": "#/definitions/CrowdRealtimeAnalysisConfigRealtimeAnalysisOutputConfig",
+          "description": "人群实时分析结果通用输出配置 [SINCE v3.2.0].\n[EN] Common configuration of crowd realtime analysis output mode [SINCE v3.2.0]."
+        },
+        "head_target_config": {
+          "$ref": "#/definitions/CrowdRealtimeAnalysisConfigHeadTargetConfig",
+          "description": "人头点实时分析 [SINCE v3.2.0].\n[EN] Head target realtime analysis. [SINCE v3.2.0]."
+        },
+        "density_map_config": {
+          "$ref": "#/definitions/CrowdRealtimeAnalysisConfigDensityMapConfig",
+          "description": "实时密度图分析 [SINCE v3.2.0].\n[EN] realtime density map analysis [SINCE v3.2.0]."
+        }
+      },
+      "description": "人群实时分析配置 [SINCE v3.2.0].\n[EN] Configuration of crowd realtime analysis [SINCE v3.2.0]."
+    },
+    "video_processDecoderConfig": {
+      "type": "object",
+      "properties": {
+        "set_skip_frame_num": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "可选, 是否覆盖解码器跳帧配置 [SINCE v3.0.0].\n[EN] Optional, overwrite configuration value skip_frame_num [SINCE v3.0.0]."
+        },
+        "skip_frame_num": {
+          "type": "number",
+          "format": "float",
+          "description": "可选, 解码器跳帧配置 [SINCE v3.0.0].\n[EN] Optional, skip frame configuration in decoder [SINCE v3.0.0]."
+        }
+      },
+      "description": "可选, 解码器配置 [SINCE v3.0.0].\n[EN] Optional, SNAP task configuration [SINCE v3.0.0]."
+    },
+    "video_processDunkConfig": {
+      "type": "object",
+      "description": "可选, 篮球配置.\n[EN] Optional, dunk task configuration."
+    },
+    "video_processFaceConfig": {
+      "type": "object",
+      "properties": {
+        "target_select_config": {
+          "$ref": "#/definitions/video_processTargetSelectConfig",
+          "description": "可选, 选帧参数 [SINCE v2.2.2].\n[EN] Optional, target selection configuration [SINCE v2.2.2]."
+        },
+        "target_track_config": {
+          "$ref": "#/definitions/video_processTargetTrackConfig",
+          "description": "可选, 跟踪参数.\n[EN] Optional, target tracking configuration."
+        },
+        "roi_filter_config": {
+          "$ref": "#/definitions/video_processROIFilterConfig",
+          "description": "对象ROI过滤 [v3.2].\n[EN] Region of interest filter configure of tracklet [v3.2]."
+        }
+      },
+      "description": "可选, 人脸任务跟踪与选帧配置 [SINCE v2.2.2].\n[EN] Optional, Identity task tacking and selection configuration [SINCE v2.2.2]."
+    },
+    "video_processFacePedConfig": {
+      "type": "object",
+      "properties": {
+        "target_select_config": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/video_processTargetSelectConfig"
+          },
+          "description": "可选, 选帧参数, 键为对象类型, 键可以为\"OBJECT_FACE\"或\"OBJECT_PEDESTRIAN\" [SINCE v3.0.0].\n[EN] Optional, target selection configuration, key is target type, key can be \"OBJECT_FACE\" or \"OBJECT_PEDESTRIAN\" [SINCE v3.0.0]."
+        },
+        "roi": {
+          "$ref": "#/definitions/commonapisBoundingPolyF",
+          "description": "可选, 输出抓拍小图区域. ROI为矩形区域, 默认为全屏 [SINCE v3.1.0].\n[EN] Optional, the area of output captured images. ROI should be rectangle, default value is full screen [SINCE v3.1.0]."
+        },
+        "target_track_config": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/video_processTargetTrackConfig"
+          },
+          "description": "可选, 跟踪参数, 键为对象类型, 键可以为\"OBJECT_FACE\"或\"OBJECT_PEDESTRIAN\" [SINCE v3.1.0].\n[EN] Optional, target tracking configuration, key is target type, key can be \"OBJECT_FACE\" or \"OBJECT_PEDESTRIAN\" [SINCE v3.1.0]."
+        },
+        "roi_filter_config": {
+          "$ref": "#/definitions/video_processROIFilterConfig",
+          "description": "对象ROI过滤 [v3.2].\n[EN] Region of interest filter configure of tracklet [v3.2]."
+        }
+      },
+      "description": "可选, 人脸人体任务跟踪与选帧配置 [SINCE v3.0.0].\n[EN] Optional, faceped task tacking and selection configuration [SINCE v3.0.0]."
+    },
+    "video_processPACHConfig": {
+      "type": "object",
+      "properties": {
+        "target_select_config": {
+          "$ref": "#/definitions/video_processTargetSelectConfig",
+          "description": "可选, 选帧参数 [SINCE v3.0.0].\n[EN] Optional, target selection configuration [SINCE v3.0.0]."
+        },
+        "roi_filter_config": {
+          "$ref": "#/definitions/video_processROIFilterConfig",
+          "description": "对象ROI过滤 [v3.2].\n[EN] Region of interest filter configure of tracklet [v3.2]."
+        }
+      },
+      "description": "可选, 结构化任务跟踪与选帧配置 [SINCE v3.0.0].\n[EN] Optional, PACH task tacking and selection configuration [SINCE v3.0.0]."
+    },
+    "video_processROIFilterConfig": {
+      "type": "object",
+      "properties": {
+        "rois": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/commonapisBoundingPolyF"
+          },
+          "description": "多边形最多5个, 单个多边形最多100个顶点 [v3.2].\n[EN] maximum count of polygon is 5, maximum vertex count of single polygon is 100 [v3.2]."
+        },
+        "reverse_rois": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "是否取全屏与rois并集的差集, 也就是反选rois并集.\n[EN] reverse select union of rois [v3.2]."
+        }
+      },
+      "description": "对象ROI过滤 [v3.2].\n[EN] Region of interest filter configure of tracklet [v3.2]."
+    },
+    "video_processSnapshotConfig": {
+      "type": "object",
+      "properties": {
+        "snapshot_mode": {
+          "$ref": "#/definitions/video_processSnapshotMode",
+          "description": "可选, 抓拍模式 [SINCE v3.1.0].\n[EN] Optional, snapshot mode [SINCE v3.1.0]."
+        }
+      },
+      "description": "可选, 抓拍配置 [SINCE v3.1.0].\n[EN] Optional, snapshot task configuration [SINCE v3.1.0]."
+    },
+    "video_processSnapshotMode": {
+      "type": "string",
+      "enum": [
+        "SNAPSHOT_OFF",
+        "SNAPSHOT_ON",
+        "SNAPSHOT_ONLY"
+      ],
+      "default": "SNAPSHOT_OFF",
+      "description": "抓拍模式 [SINCE v3.0.0].\n[EN] snapshot mode [SINCE v3.0.0].\n\n - SNAPSHOT_OFF: 抓拍关闭 [SINCE v3.0.0].\n[EN] disable snapshot [SINCE v3.0.0].\n - SNAPSHOT_ON: 抓拍和pipeline都开启 [SINCE v3.0.0].\n[EN] enable snapshot and original pipeline [SINCE v3.0.0].\n - SNAPSHOT_ONLY: 抓拍开启, 关闭pipeline [SINCE v3.0.0].\n[EN] enable snapshot and disable original pipeline [SINCE v3.0.0]."
+    },
+    "video_processSourceInfo": {
+      "type": "object",
+      "properties": {
+        "source_address": {
+          "type": "string",
+          "description": "视频流rtsp地址(格式见engine-video-ingress-service.proto的说明).\n地址必须以\"rtsp://\"开头.\n[EN] The rtsp address of the video stream (refer to the description of engine-video-ingress-service.proto for the format).\nThe address must start with “rtsp://”."
+        },
+        "camera_info": {
+          "$ref": "#/definitions/commonapisCameraInfo",
+          "description": "摄像头信息\n[EN] Camera information."
+        },
+        "video_parameter": {
+          "$ref": "#/definitions/ingressVideoParameter",
+          "description": "可选, 视频流信息, 视频源非1080P时必填. 未填写时默认当作1080P调度，然后检查实际视频参数是否与该参数匹配，如果不匹配，视频流会进入错误状态 [SINCE v2.1.0].\n[EN] Optional, if video resolution is large than 1080p, video_parameter is required, if video_parameter is not set, task will be scheduled as 1080P and worker will check whether actual video size match video_parameter, if not match, stream will run into error status. [SINCE v2.1.0]."
+        },
+        "intrinsic_params": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "float"
+          },
+          "title": "可选， 摄像机内参"
+        },
+        "extrinsic_params": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "float"
+          },
+          "title": "可选， 摄像机外参"
+        },
+        "undistortion_params": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "float"
+          },
+          "title": "可选， 摄像机畸变参数"
+        }
+      }
+    },
+    "video_processTargetSelectConfig": {
+      "type": "object",
+      "properties": {
+        "set_quick_response_time": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "可选, 是否覆盖快速选帧配置 [SINCE v2.2.2].\n[EN] Optional, overwrite configuration value quick_response_time [SINCE v2.2.2]."
+        },
+        "quick_response_time": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 快速选帧配置, 当配置时间大于等于0时, 对象在进入画面配置时间后, 对象将被选帧和输出, 单位为秒 [SINCE v2.2.2].\n[EN] Optional, time to select the first frame, target will be selected to output when it has entered the configured second time, unit is second, if configure time is less than 0, this feature will be closed [SINCE v2.2.2]."
+        },
+        "set_time_interval": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "可选, 是否覆盖定时选帧配置 [SINCE v2.2.2].\n[EN] Optional, overwrite configuration value time_interval [SINCE v2.2.2]."
+        },
+        "time_interval": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 定时选帧配置, 单位为秒, 此功能大于0时开启定时输出 [SINCE v2.2.2].\n[EN] Optional, period of periodically select frame configure, unit is second, this feature will be enabled when time_interval is greater than 0 [SINCE v2.2.2]."
+        },
+        "set_max_track_time": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "可选, 是否覆盖超时选帧配置 [SINCE v3.1.0].\n[EN] Optional, overwrite configuration value max_track_time [SINCE v3.1.0]."
+        },
+        "max_track_time": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 超时选帧配置, 单位为秒, 此功能大于0时开启超时输出 [SINCE v3.1.0].\n[EN] Optional, select once and only once after tracking `max_track_time` second(s) but never selected before, unit is second [SINCE v3.1.0]."
+        },
+        "disable_select": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "可选, 任务的object_type为OBJECT_FACE_PEDESTRIAN时生效: 当值为true时, 选帧策略失效, 即目标将不被选帧输出 [EXPERIMENTAL].\n[EN] Optional, only take effect when object_type of task is OBJECT_FACE_PEDESTRIAN. When the value is true, the frame selection strategy is invalid which means the target will not be selected for output [EXPERIMENTAL]."
+        }
+      },
+      "description": "可选, 选帧配置 [SINCE v2.2.2].\n[EN] Optional, target selection configuration [SINCE v2.2.2]."
+    },
+    "video_processTargetTrackConfig": {
+      "type": "object",
+      "properties": {
+        "min_pixel": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 跟踪目标最小像素 [SINCE v3.1.0].\n[EN] Optional, minimal size in pixel of tracking target [SINCE v3.1.0]."
+        },
+        "max_pixel": {
+          "type": "integer",
+          "format": "int32",
+          "description": "可选, 跟踪目标最大像素 [SINCE v3.1.0].\n[EN] Optional, maximal size in pixel of tracking target [SINCE v3.1.0]."
+        }
+      },
+      "description": "可选, 跟踪配置 [SINCE v3.1.0].\n[EN] Optional, target tracking configuration [SINCE v3.1.0]."
+    },
+    "video_processTaskObjectConfig": {
+      "type": "object",
+      "properties": {
+        "rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/commonapisEventRule"
+          },
+          "description": "可选, 结构化增强事件触发规则 [DEPRECATED].\n[EN] Optional, pach event trigger rule [DEPRECATED]."
+        },
+        "algo_config": {
+          "$ref": "#/definitions/video_processAlgoConfig",
+          "description": "可选，算法仓任务配置，下发任务为 OBJECT_ALGO 时生效 [SINCE v3.0.0].\n[EN] Optional, algo task config. valid when ObjectType is OBJECT_ALGO [SINCE v3.0.0]."
+        },
+        "face_config": {
+          "$ref": "#/definitions/video_processFaceConfig",
+          "description": "可选, 人脸任务跟踪与选帧配置 [SINCE v2.2.2].\n[EN] Optional, Identity task tacking and selection configuration [SINCE v2.2.2]."
+        },
+        "faceped_config": {
+          "$ref": "#/definitions/video_processFacePedConfig",
+          "description": "可选, 人脸人体任务跟踪与选帧配置 [SINCE v3.0.0].\n[EN] Optional, faceped task tacking and selection configuration [SINCE v3.0.0]."
+        },
+        "pach_config": {
+          "$ref": "#/definitions/video_processPACHConfig",
+          "description": "可选, 结构化任务跟踪与选帧配置 [SINCE v3.0.0].\n[EN] Optional, PACH task tacking and selection configuration [SINCE v3.0.0]."
+        },
+        "decoder_config": {
+          "$ref": "#/definitions/video_processDecoderConfig",
+          "description": "可选, 解码器配置 [SINCE v3.0.0].\n[EN] Optional, decoder configuration [SINCE v3.0.0]."
+        },
+        "snapshot_config": {
+          "$ref": "#/definitions/video_processSnapshotConfig",
+          "description": "可选, 抓拍配置, 解码后直接存大图, 不检测跟踪分析, 目前仅支持 OBJECT_FACE 任务 [SINCE v3.1.0].\n[EN] Optional, snapshot task configuration, output decoded frame immediately after decoding, not detect, track, and analysis,valid when ObjectType is OBJECT_FACE [SINCE v3.1.0]."
+        },
+        "crowd_config": {
+          "$ref": "#/definitions/video_processCrowdConfig",
+          "description": "人群配置实时分析配置, 任务object_type为OBJECT_CROWD有效, 此字段废弃, 推荐使用 \"crowd_v2\" 字段 [DEPRECATED].\n当object_type为OBJECT_CROWD且crowd_config为空时, 人群ROI为全屏检测, 过密告警阈值较高, 一般不会触发.\n[EN] Optional, crowd configuration, which can be filled in when object_type is OBJECT_ CROWD, this field is deprecated, you are recommended to use \"crowd_v2\" [DEPRECATED].\n[EN] When object_type is OBJECT_CROWD and crowd_config is empty, crowd ROI is full-screen, and overcrowding alarm threshold is very high, which will not be triggered most of the time."
+        },
+        "crowd_v2": {
+          "$ref": "#/definitions/video_processCrowdConfigV2",
+          "description": "人群分析配置, 任务object_type为OBJECT_CROWD有效 [SINCE v3.2.0].\n[EN] Configuration of crowd analysis, which is valid when object_type is OBJECT_ CROWD [SINCE v3.2.0]."
+        },
+        "dunk_config": {
+          "$ref": "#/definitions/video_processDunkConfig",
+          "title": "SenseDunk体育分析配置, 任务object_type为OBJECT_DUNK有效"
+        }
+      },
+      "description": "特定目标类型配置 [SINCE v2.0.0].\n[EN] Configuration for specific object type [SINCE v2.0.0]."
+    }
+  }
+}

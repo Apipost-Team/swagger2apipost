@@ -1,0 +1,5400 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Service API",
+    "description": "客户端访问接口。",
+    "version": "v2.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8082",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "ParkLockerAPI",
+      "description": "车位锁相关API"
+    },
+    {
+      "name": "UserCarAPI",
+      "description": "用户车辆API"
+    },
+    {
+      "name": "UserManageAPI",
+      "description": "用户管理接口"
+    },
+    {
+      "name": "RoleManageAPI",
+      "description": "角色管理接口"
+    },
+    {
+      "name": "MenuManageAPI",
+      "description": "资源(菜单)管理接口"
+    },
+    {
+      "name": "StationConnectorAPI",
+      "description": "电站主机分机信息相关API"
+    },
+    {
+      "name": "CardOrderAPI",
+      "description": "随心充订单相关API"
+    },
+    {
+      "name": "TopupAPI",
+      "description": "储值套餐接口"
+    },
+    {
+      "name": "UserAPI",
+      "description": "用户相关API"
+    },
+    {
+      "name": "StationRatingAPI",
+      "description": "电站评星相关API"
+    },
+    {
+      "name": "StationMoneyPolicyAPI",
+      "description": "电站资费模板相关API"
+    },
+    {
+      "name": "StationTagAPI",
+      "description": "电站标签相关API"
+    },
+    {
+      "name": "TopupOrderAPI",
+      "description": "储值套餐订单接口"
+    },
+    {
+      "name": "LoginAPI",
+      "description": "登录注销接口"
+    },
+    {
+      "name": "StationEquipmentAPI",
+      "description": "电站主机信息相关API"
+    },
+    {
+      "name": "CardPackageAPI",
+      "description": "随心充套餐相关API"
+    },
+    {
+      "name": "ChargerOrderAPI",
+      "description": "充电订单相关API"
+    },
+    {
+      "name": "StationInfoAPI",
+      "description": "电站信息相关API"
+    }
+  ],
+  "paths": {
+    "/web/login": {
+      "post": {
+        "tags": [
+          "LoginAPI"
+        ],
+        "summary": "后台登录入口",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "500": {
+            "description": "该手机号不存在|输入的密码不正确",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultLoginRespVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/user/update/password": {
+      "post": {
+        "tags": [
+          "UserManageAPI"
+        ],
+        "summary": "修改密码",
+        "operationId": "updatePassword",
+        "parameters": [
+          {
+            "name": "password",
+            "in": "query",
+            "description": "密码",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/user/update/name": {
+      "post": {
+        "tags": [
+          "UserManageAPI"
+        ],
+        "summary": "修改管理员名",
+        "operationId": "updateName",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "管理员名称",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/user/update/mobile": {
+      "post": {
+        "tags": [
+          "UserManageAPI"
+        ],
+        "summary": "修改手机号",
+        "operationId": "updateMobile",
+        "parameters": [
+          {
+            "name": "mobile",
+            "in": "query",
+            "description": "手机号",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/user/save": {
+      "post": {
+        "tags": [
+          "UserManageAPI"
+        ],
+        "summary": "添加管理员",
+        "operationId": "saveUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/user/remove": {
+      "post": {
+        "tags": [
+          "UserManageAPI"
+        ],
+        "summary": "删除用户",
+        "operationId": "remove",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/user/page": {
+      "post": {
+        "tags": [
+          "UserAPI"
+        ],
+        "summary": "获取用户列表",
+        "operationId": "getUserPage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebUserPageDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultPageUtilsWeb.UserPageVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/user/list": {
+      "post": {
+        "tags": [
+          "UserManageAPI"
+        ],
+        "summary": "管理员列表",
+        "operationId": "listUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultListUserVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/user/info": {
+      "post": {
+        "tags": [
+          "UserManageAPI"
+        ],
+        "summary": "用户详情",
+        "operationId": "getUser",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "管理员主键",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultUserVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/user/car/update": {
+      "post": {
+        "tags": [
+          "UserCarAPI"
+        ],
+        "summary": "修改用户车辆信息",
+        "operationId": "updateUserCar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserCarDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/user/car/page": {
+      "post": {
+        "tags": [
+          "UserCarAPI"
+        ],
+        "summary": "获取用户车辆列表",
+        "operationId": "getUserCarsPage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCarPageDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultPageUtilsUserCarDO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/topup-package/update-hot": {
+      "post": {
+        "tags": [
+          "TopupAPI"
+        ],
+        "summary": "修改储值套餐的推荐状态",
+        "operationId": "updateTopupPackageHot",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "boolean"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/topup-package/remove": {
+      "post": {
+        "tags": [
+          "TopupAPI"
+        ],
+        "summary": "删除储值套餐",
+        "operationId": "removeTopupPackage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/topup-package/page": {
+      "post": {
+        "tags": [
+          "TopupAPI"
+        ],
+        "summary": "获取储值套餐列表",
+        "operationId": "listTopupPackagePage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BasePageDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/topup-package/give": {
+      "post": {
+        "tags": [
+          "TopupAPI"
+        ],
+        "summary": "赠送储值套餐",
+        "operationId": "updateMemberTopup",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TopupPackageGiveDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/topup-order/remove": {
+      "post": {
+        "tags": [
+          "TopupOrderAPI"
+        ],
+        "summary": "删除储值订单",
+        "operationId": "removeTopupOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/topup-order/page": {
+      "post": {
+        "tags": [
+          "TopupOrderAPI"
+        ],
+        "summary": "获取储值订单列表",
+        "operationId": "listTopupOrderPage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StationPageDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultTopupOrderPageVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/update": {
+      "post": {
+        "tags": [
+          "StationInfoAPI"
+        ],
+        "summary": "修改电站信息接口",
+        "operationId": "updateStationInfo",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStationDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultStationInfoVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/tag/save": {
+      "post": {
+        "tags": [
+          "StationTagAPI"
+        ],
+        "summary": "新增电站标签",
+        "operationId": "saveStationTag",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveStationTagDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/tag/remove": {
+      "post": {
+        "tags": [
+          "StationTagAPI"
+        ],
+        "summary": "删除电站标签",
+        "operationId": "removeStationTag",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "description": "电站标签ID数组",
+                "items": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/tag/remove/stationid": {
+      "post": {
+        "tags": [
+          "StationTagAPI"
+        ],
+        "summary": "通过电站主键删除电站标签",
+        "operationId": "removeStationTagByStationId",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "integer",
+                "description": "电站主键",
+                "format": "int32"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/tag/list": {
+      "post": {
+        "tags": [
+          "StationTagAPI"
+        ],
+        "summary": "获取电站的标签列表",
+        "operationId": "listStationTagsByStationId",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "电站主键",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultListStationTagDO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/save": {
+      "post": {
+        "tags": [
+          "StationInfoAPI"
+        ],
+        "summary": "创建电站信息接口",
+        "operationId": "saveStationInfo",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveStationDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/remove": {
+      "post": {
+        "tags": [
+          "StationInfoAPI"
+        ],
+        "summary": "通过电站ID集合删除电站信息接口",
+        "operationId": "removeStation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveStationDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/rating/reply": {
+      "post": {
+        "tags": [
+          "StationRatingAPI"
+        ],
+        "summary": "回复评价",
+        "operationId": "replyStationRating",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplyStationRatingDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/rating/remove": {
+      "post": {
+        "tags": [
+          "StationRatingAPI"
+        ],
+        "summary": "删除评星",
+        "operationId": "removeStationRating",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "description": "评星ID数组",
+                "items": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/rating/page": {
+      "post": {
+        "tags": [
+          "StationRatingAPI"
+        ],
+        "summary": "获取评星列表",
+        "operationId": "getStationRatingPage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StationRatingPageDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultPageUtilsWeb.StationRatingPageVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/park/locker/update": {
+      "post": {
+        "tags": [
+          "ParkLockerAPI"
+        ],
+        "summary": "修改车位锁信息",
+        "operationId": "updateParkLocker",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateParkLockerDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/park/locker/save": {
+      "post": {
+        "tags": [
+          "ParkLockerAPI"
+        ],
+        "summary": "创建车位锁",
+        "operationId": "saveParkLocker",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveParkLockerDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/park/locker/remove": {
+      "post": {
+        "tags": [
+          "ParkLockerAPI"
+        ],
+        "summary": "删除车位锁",
+        "operationId": "removeParkLocker",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "description": "车位锁ID数组",
+                "items": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/park/locker/list": {
+      "post": {
+        "tags": [
+          "ParkLockerAPI"
+        ],
+        "summary": "获取车位锁列表",
+        "operationId": "listParkLockers",
+        "parameters": [
+          {
+            "name": "lockerNumber",
+            "in": "query",
+            "description": "车位锁编号",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultListParkLockerDO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/page": {
+      "post": {
+        "tags": [
+          "StationInfoAPI"
+        ],
+        "summary": "获取电站列表接口",
+        "operationId": "getStationPage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StationPageDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultPageUtilsStationPageVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/money/policy/update": {
+      "post": {
+        "tags": [
+          "StationMoneyPolicyAPI"
+        ],
+        "summary": "修改电站资费模板信息接口",
+        "operationId": "updateStationMoneyPolicy",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStationMoneyPolicyDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultStationMoneyPolicyVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/money/policy/save": {
+      "post": {
+        "tags": [
+          "StationMoneyPolicyAPI"
+        ],
+        "summary": "创建电站资费模板接口",
+        "operationId": "saveStationMoneyPolicy",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveStationMoneyPolicyDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/money/policy/remove": {
+      "post": {
+        "tags": [
+          "StationMoneyPolicyAPI"
+        ],
+        "summary": "通过电站资费模板ID集合删除电站资费模板接口",
+        "operationId": "removeStationMoneyPolicy",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveStationMoneyPolicyDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/money/policy/page": {
+      "post": {
+        "tags": [
+          "StationMoneyPolicyAPI"
+        ],
+        "summary": "获取电站资费模板列表接口",
+        "operationId": "getStationMoneyPolicyPage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StationMoneyPolicyPageDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultPageUtilsStationMoneyPolicyVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/money/policy/info": {
+      "post": {
+        "tags": [
+          "StationMoneyPolicyAPI"
+        ],
+        "summary": "通过电站资费模板ID获取电站资费模板信息接口",
+        "operationId": "getStationMoneyPolicyVOById",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetStationMoneyPolicyDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultStationMoneyPolicyVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/info": {
+      "post": {
+        "tags": [
+          "StationInfoAPI"
+        ],
+        "summary": "通过电站ID获取电站信息接口",
+        "operationId": "getStationInfoById",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetStationByIdDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultStationInfoVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/equipment/update": {
+      "post": {
+        "tags": [
+          "StationEquipmentAPI"
+        ],
+        "summary": "修改电站主机信息接口",
+        "operationId": "updateStationEquipment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStationEquipmentDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultStationInfoVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/equipment/save": {
+      "post": {
+        "tags": [
+          "StationEquipmentAPI"
+        ],
+        "summary": "创建电站主机接口",
+        "operationId": "saveStationEquipment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveStationEquipmentDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/equipment/remove": {
+      "post": {
+        "tags": [
+          "StationEquipmentAPI"
+        ],
+        "summary": "通过电站主机ID集合删除电站主机接口",
+        "operationId": "removeStationEquipment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveStationEquipmentDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/equipment/list": {
+      "post": {
+        "tags": [
+          "StationEquipmentAPI"
+        ],
+        "summary": "通过电站ID获取电站主机信息集合接口",
+        "operationId": "listStationEquipmentInfoByStationId",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListStationEquipmentDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultListStationEquipmentInfoVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/equipment/info": {
+      "post": {
+        "tags": [
+          "StationEquipmentAPI"
+        ],
+        "summary": "通过电站主机ID获取电站主机信息接口",
+        "operationId": "getStationEquipmentInfoById",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetStationEquipmentByIdDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultStationEquipmentInfoVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/equipment/connector/update": {
+      "post": {
+        "tags": [
+          "StationConnectorAPI"
+        ],
+        "summary": "修改电站主机分机信息接口",
+        "operationId": "updateStationConnector",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStationConnectorDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/equipment/connector/save": {
+      "post": {
+        "tags": [
+          "StationConnectorAPI"
+        ],
+        "summary": "创建电站主机分机接口",
+        "operationId": "saveStationConnector",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveStationConnectorDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/station/equipment/connector/remove": {
+      "post": {
+        "tags": [
+          "StationConnectorAPI"
+        ],
+        "summary": "通过电站主机分机ID集合删除电站主机分机接口",
+        "operationId": "removeStationConnector",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveStationConnectorDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/role/update/role": {
+      "post": {
+        "tags": [
+          "RoleManageAPI"
+        ],
+        "summary": "更新角色",
+        "operationId": "updateRole",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoleMenuDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/role/update/name": {
+      "post": {
+        "tags": [
+          "RoleManageAPI"
+        ],
+        "summary": "更新角色名",
+        "operationId": "updateRoleName",
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "query",
+            "description": "角色主键",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "roleName",
+            "in": "query",
+            "description": "角色名称",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/role/update/backup": {
+      "post": {
+        "tags": [
+          "RoleManageAPI"
+        ],
+        "summary": "更新备注信息",
+        "operationId": "updateBackup",
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "query",
+            "description": "角色主键",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "roleBackup",
+            "in": "query",
+            "description": "角色备注",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/role/save": {
+      "post": {
+        "tags": [
+          "RoleManageAPI"
+        ],
+        "summary": "添加角色",
+        "operationId": "saveRole",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoleDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/role/remove": {
+      "post": {
+        "tags": [
+          "RoleManageAPI"
+        ],
+        "summary": "删除角色",
+        "operationId": "remove_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "description": "角色主键集合",
+                "items": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/role/info": {
+      "post": {
+        "tags": [
+          "RoleManageAPI"
+        ],
+        "summary": "角色详情",
+        "operationId": "getRoleInfo",
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "query",
+            "description": "角色主键",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultRoleVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/menu/update": {
+      "post": {
+        "tags": [
+          "MenuManageAPI"
+        ],
+        "summary": "修改菜单",
+        "operationId": "updateMenu",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MenuDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/menu/select": {
+      "post": {
+        "tags": [
+          "MenuManageAPI"
+        ],
+        "summary": "菜单选择列表(添加时下拉选择)",
+        "operationId": "listMenusWithoutButton",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultListMenuDO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/menu/save": {
+      "post": {
+        "tags": [
+          "MenuManageAPI"
+        ],
+        "summary": "添加菜单",
+        "operationId": "saveMenu",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MenuDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/menu/remove": {
+      "post": {
+        "tags": [
+          "MenuManageAPI"
+        ],
+        "summary": "删除菜单",
+        "operationId": "removeMenu",
+        "parameters": [
+          {
+            "name": "menuId",
+            "in": "query",
+            "description": "菜单ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/menu/nav": {
+      "post": {
+        "tags": [
+          "MenuManageAPI"
+        ],
+        "summary": "左侧菜单项",
+        "operationId": "nav",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultMenuNavVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/menu/list": {
+      "post": {
+        "tags": [
+          "MenuManageAPI"
+        ],
+        "summary": "菜单列表",
+        "operationId": "listMenus",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultListMenuDO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/logout": {
+      "post": {
+        "tags": [
+          "LoginAPI"
+        ],
+        "summary": "后台登录出口",
+        "operationId": "logout",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "用户TOKEN",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/charger-order/remove": {
+      "post": {
+        "tags": [
+          "ChargerOrderAPI"
+        ],
+        "summary": "删除充电订单",
+        "operationId": "removeChargerOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/charger-order/page": {
+      "post": {
+        "tags": [
+          "ChargerOrderAPI"
+        ],
+        "summary": "获取充电订单列表",
+        "operationId": "listChargerOrderPage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChargerOrderPageDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultChargerOrderPageVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/charger-order/cancel": {
+      "post": {
+        "tags": [
+          "ChargerOrderAPI"
+        ],
+        "summary": "取消充电订单",
+        "operationId": "cancelChargerOrder",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/card-package/page": {
+      "post": {
+        "tags": [
+          "CardPackageAPI"
+        ],
+        "summary": "获取随心充套餐列表",
+        "operationId": "listCardPackagePage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BasePageDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultCardPackagePageVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/card-order/remove": {
+      "post": {
+        "tags": [
+          "CardOrderAPI"
+        ],
+        "summary": "删除随心充订单",
+        "operationId": "removeCardOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/card-order/page": {
+      "post": {
+        "tags": [
+          "CardOrderAPI"
+        ],
+        "summary": "获取随心充订单列表",
+        "operationId": "listCardOrderPage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardOrderPageDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultCardOrderPgeVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/user/info/{id}": {
+      "get": {
+        "tags": [
+          "UserAPI"
+        ],
+        "summary": "获取用户详情",
+        "operationId": "getUserInfo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultWeb.UserInfoVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/role/list": {
+      "get": {
+        "tags": [
+          "RoleManageAPI"
+        ],
+        "summary": "角色列表",
+        "operationId": "listRoles",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultListRoleDO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/charger-order/info/{id}": {
+      "get": {
+        "tags": [
+          "ChargerOrderAPI"
+        ],
+        "summary": "获取充电订单详情",
+        "operationId": "getChargerOrderInfo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultChargerOrderInfoVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/card-order/info/{id}": {
+      "get": {
+        "tags": [
+          "CardOrderAPI"
+        ],
+        "summary": "获取随心充订单详情",
+        "operationId": "getCardOrderInfo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultCardOrderInfoVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ResultObject": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "object"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "UserDTO": {
+        "required": [
+          "mobile",
+          "name",
+          "password",
+          "roleIds"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string",
+            "description": "管理员名称"
+          },
+          "mobile": {
+            "type": "string",
+            "description": "手机号"
+          },
+          "password": {
+            "maxLength": 20,
+            "minLength": 4,
+            "type": "string",
+            "description": "密码"
+          },
+          "roleIds": {
+            "type": "array",
+            "description": "角色ID",
+            "items": {
+              "type": "integer",
+              "description": "角色ID",
+              "format": "int32"
+            }
+          }
+        },
+        "description": "系统用户"
+      },
+      "WebUserPageDTO": {
+        "required": [
+          "current",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "current": {
+            "type": "integer",
+            "description": "当前页码",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "description": "每页数据量",
+            "format": "int64"
+          },
+          "key": {
+            "type": "string",
+            "description": "用户昵称/手机号/车牌号"
+          },
+          "method": {
+            "type": "string",
+            "description": "排序方式: DESC / ASC"
+          }
+        },
+        "description": "web获取用户列表的DTO"
+      },
+      "PageUtilsWeb.UserPageVO": {
+        "type": "object",
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/web.UserPageVO"
+            }
+          }
+        }
+      },
+      "ResultPageUtilsWeb.UserPageVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageUtilsWeb.UserPageVO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "web.UserPageVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "用户主键",
+            "format": "int32"
+          },
+          "profileName": {
+            "type": "string",
+            "description": "用户昵称"
+          },
+          "profileAvatar": {
+            "type": "string",
+            "description": "用户头像"
+          },
+          "accountMobile": {
+            "type": "string",
+            "description": "手机号"
+          },
+          "profileScores": {
+            "type": "integer",
+            "description": "用户积分",
+            "format": "int32"
+          },
+          "carNumber": {
+            "type": "string",
+            "description": "车牌号"
+          },
+          "gmtCreate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          }
+        },
+        "description": "用户列表VO"
+      },
+      "ResultListUserVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserVO"
+            }
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "UserVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "管理员主键",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "管理员名称"
+          },
+          "mobile": {
+            "type": "string",
+            "description": "手机号"
+          },
+          "roleName": {
+            "type": "array",
+            "description": "角色名称",
+            "items": {
+              "type": "string",
+              "description": "角色名称"
+            }
+          },
+          "gmtCreate": {
+            "type": "string",
+            "description": "创建日期",
+            "format": "date-time"
+          }
+        },
+        "description": "管理员"
+      },
+      "ResultUserVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/UserVO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "UpdateUserCarDTO": {
+        "required": [
+          "carNumber",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "车辆主键",
+            "format": "int32"
+          },
+          "carNumber": {
+            "type": "string",
+            "description": "车牌"
+          }
+        },
+        "description": "修改用户车辆DTO"
+      },
+      "ResultBoolean": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "boolean"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "UserCarPageDTO": {
+        "required": [
+          "current",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "current": {
+            "type": "integer",
+            "description": "当前页码",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "description": "每页数据量",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "integer",
+            "description": "用户主键",
+            "format": "int32"
+          }
+        },
+        "description": "车辆列表DTO"
+      },
+      "PageUtilsUserCarDO": {
+        "type": "object",
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserCarDO"
+            }
+          }
+        }
+      },
+      "ResultPageUtilsUserCarDO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageUtilsUserCarDO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "UserCarDO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "主键",
+            "format": "int32"
+          },
+          "gmtCreate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "gmtModified": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "userId": {
+            "type": "integer",
+            "description": "用户账号主键",
+            "format": "int32"
+          },
+          "carVin": {
+            "type": "string",
+            "description": "车架号"
+          },
+          "carBrand": {
+            "type": "string",
+            "description": "车辆品牌"
+          },
+          "carType": {
+            "type": "string",
+            "description": "车型"
+          },
+          "carNumber": {
+            "type": "string",
+            "description": "车牌"
+          },
+          "carDefault": {
+            "type": "boolean"
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        },
+        "description": "用户车辆信息"
+      },
+      "BasePageDTO": {
+        "required": [
+          "current",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "current": {
+            "type": "integer",
+            "description": "当前页码",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "description": "每页数据量",
+            "format": "int64"
+          }
+        },
+        "description": "基础的分页DTO"
+      },
+      "TopupPackageGiveDTO": {
+        "required": [
+          "memberId"
+        ],
+        "type": "object",
+        "properties": {
+          "memberId": {
+            "type": "integer",
+            "description": "用户ID",
+            "format": "int32"
+          },
+          "giveMoney": {
+            "type": "integer",
+            "description": "赠送金额 单位：分",
+            "format": "int32"
+          },
+          "giveReason": {
+            "type": "string",
+            "description": "赠送理由"
+          }
+        },
+        "description": "赠送充值套餐DTO"
+      },
+      "StationPageDTO": {
+        "required": [
+          "current",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "current": {
+            "type": "integer",
+            "description": "当前页码",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "description": "每页数据量",
+            "format": "int64"
+          },
+          "stationName": {
+            "type": "string",
+            "description": "电站名称"
+          },
+          "stationProvince": {
+            "type": "string",
+            "description": "电站所在省"
+          },
+          "stationCity": {
+            "type": "string",
+            "description": "电站所在市"
+          },
+          "stationRegion": {
+            "type": "string",
+            "description": "电站所在区"
+          },
+          "stationState": {
+            "type": "string",
+            "description": "电站状态枚举",
+            "enum": [
+              "STATION_STATE_BUSINESS",
+              "STATION_STATE_MAINTAIN",
+              "STATION_STATE_COMING_SOON"
+            ]
+          }
+        },
+        "description": "获取电站列表DTO"
+      },
+      "ResultTopupOrderPageVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/TopupOrderPageVO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "TopupOrderPageVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "储值订单主键",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "integer",
+            "description": "用户主键",
+            "format": "int32"
+          },
+          "transactionId": {
+            "type": "string",
+            "description": "微信支付交易号"
+          },
+          "orderNumber": {
+            "type": "string",
+            "description": "订单号"
+          },
+          "orderMoney": {
+            "type": "integer",
+            "description": "订单金额",
+            "format": "int32"
+          },
+          "topupMoney": {
+            "type": "integer",
+            "description": "实际充值到到账金额",
+            "format": "int32"
+          },
+          "orderState": {
+            "type": "integer",
+            "description": "订单状态",
+            "format": "int32"
+          },
+          "payTime": {
+            "type": "string",
+            "description": "支付时间，回调后更新",
+            "format": "date-time"
+          }
+        },
+        "description": "储值订单列表VO"
+      },
+      "UpdateStationDTO": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "电站ID",
+            "format": "int32"
+          },
+          "stationName": {
+            "type": "string",
+            "description": "电站名称"
+          },
+          "stationProvince": {
+            "type": "string",
+            "description": "省份"
+          },
+          "stationCity": {
+            "type": "string",
+            "description": "市"
+          },
+          "stationRegion": {
+            "type": "string",
+            "description": "区\t"
+          },
+          "stationStreet": {
+            "type": "string",
+            "description": "街道地址"
+          },
+          "stationLat": {
+            "type": "number",
+            "description": "纬度\t"
+          },
+          "stationLng": {
+            "type": "number",
+            "description": "经度"
+          },
+          "stationScale": {
+            "type": "string",
+            "description": "电站规模枚举",
+            "enum": [
+              "STATION_SCALE_FLAGSHIP",
+              "STATION_SCALE_CITY",
+              "STATION_SCALE_BRAND",
+              "STATION_SCALE_MINI"
+            ]
+          },
+          "stationParking": {
+            "type": "integer",
+            "description": "电站提供的车位数量（充电桩数量）。",
+            "format": "int32"
+          },
+          "stationMoneyPolicy": {
+            "type": "integer",
+            "description": "电站资费模板",
+            "format": "int32"
+          },
+          "stationTimeoutPolicy": {
+            "type": "integer",
+            "description": "电站延时费模板",
+            "format": "int32"
+          },
+          "stationIcon": {
+            "type": "string",
+            "description": "电站icon，如果没有值使用系统默认值。"
+          },
+          "stationParkService": {
+            "type": "boolean"
+          }
+        },
+        "description": "修改电站信息DTO"
+      },
+      "ResultStationInfoVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/StationInfoVO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "StationImageVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "图片主键",
+            "format": "int32"
+          },
+          "stationId": {
+            "type": "integer",
+            "description": "电站主键",
+            "format": "int32"
+          },
+          "imageRes": {
+            "type": "string",
+            "description": "图片资源"
+          },
+          "imageSort": {
+            "type": "integer",
+            "description": "排序字段",
+            "format": "int32"
+          }
+        },
+        "description": "电站图集VO"
+      },
+      "StationInfoVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "电站ID",
+            "format": "int32"
+          },
+          "stationName": {
+            "type": "string",
+            "description": "电站名称"
+          },
+          "stationIcon": {
+            "type": "string",
+            "description": "电站图标"
+          },
+          "stationProvince": {
+            "type": "string",
+            "description": "电站所在省份"
+          },
+          "stationCity": {
+            "type": "string",
+            "description": "电站所在市"
+          },
+          "stationRegion": {
+            "type": "string",
+            "description": "电站所在区"
+          },
+          "stationStreet": {
+            "type": "string",
+            "description": "电站所在街道地址"
+          },
+          "stationLat": {
+            "type": "number",
+            "description": "纬度"
+          },
+          "stationLng": {
+            "type": "number",
+            "description": "经度"
+          },
+          "stationParking": {
+            "type": "integer",
+            "description": "充电桩数",
+            "format": "int32"
+          },
+          "stationState": {
+            "type": "string",
+            "description": "电站状态枚举",
+            "enum": [
+              "STATION_STATE_BUSINESS",
+              "STATION_STATE_MAINTAIN",
+              "STATION_STATE_COMING_SOON"
+            ]
+          },
+          "stationMoneyPolicy": {
+            "$ref": "#/components/schemas/StationMoneyPolicyVO"
+          },
+          "stationImages": {
+            "type": "array",
+            "description": "电站图片集合",
+            "items": {
+              "$ref": "#/components/schemas/StationImageVO"
+            }
+          },
+          "stationTags": {
+            "type": "array",
+            "description": "电站标签集合",
+            "items": {
+              "$ref": "#/components/schemas/StationTagListVO"
+            }
+          },
+          "stationParkService": {
+            "type": "boolean"
+          }
+        },
+        "description": "电站详情VO"
+      },
+      "StationMoneyPolicyVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "电站资费模板ID",
+            "format": "int32"
+          },
+          "policyName": {
+            "type": "string",
+            "description": "模板名称"
+          },
+          "policyExplanation": {
+            "type": "string",
+            "description": "模板说明"
+          },
+          "parkingMoney": {
+            "type": "integer",
+            "description": "代客充电费用，默认0",
+            "format": "int32"
+          },
+          "policyType": {
+            "type": "string",
+            "description": "电费费率类型枚举",
+            "enum": [
+              "THROUGHOUT_UNITED",
+              "TIME_CHARGE"
+            ]
+          },
+          "moneyPolicyPeriods": {
+            "type": "array",
+            "description": "电站资费时段费用集合",
+            "items": {
+              "$ref": "#/components/schemas/com.ccharger.api.module.station.po.StationMoneyPolicyPeriodDO"
+            }
+          }
+        },
+        "description": "电站资费模板VO"
+      },
+      "StationTagListVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "主键",
+            "format": "int32"
+          },
+          "stationId": {
+            "type": "integer",
+            "description": "电站主键",
+            "format": "int32"
+          },
+          "tagName": {
+            "type": "string",
+            "description": "标签名称"
+          },
+          "tagSort": {
+            "type": "integer",
+            "description": "标签排序",
+            "format": "int32"
+          }
+        },
+        "description": "获取电站标签列表VO"
+      },
+      "com.ccharger.api.module.station.po.StationMoneyPolicyPeriodDO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "主键",
+            "format": "int32"
+          },
+          "gmtCreate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "gmtModified": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "stationPolicyId": {
+            "type": "integer",
+            "description": "电站资费主键",
+            "format": "int32"
+          },
+          "startTime": {
+            "type": "integer",
+            "description": "开始时间",
+            "format": "int32"
+          },
+          "elecPrice": {
+            "type": "integer",
+            "description": "电费（分）",
+            "format": "int32"
+          },
+          "servicePrice": {
+            "type": "integer",
+            "description": "服务费（分）",
+            "format": "int32"
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        },
+        "description": "电站资费时段费用"
+      },
+      "SaveStationTagDTO": {
+        "required": [
+          "stationId",
+          "tagName"
+        ],
+        "type": "object",
+        "properties": {
+          "stationId": {
+            "type": "integer",
+            "description": "电站主键",
+            "format": "int32"
+          },
+          "tagName": {
+            "type": "string",
+            "description": "标签名称"
+          },
+          "tagSort": {
+            "type": "integer",
+            "description": "标签排序",
+            "format": "int32"
+          }
+        },
+        "description": "新增电站标签DTO"
+      },
+      "ResultListStationTagDO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StationTagDO"
+            }
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "StationTagDO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "主键",
+            "format": "int32"
+          },
+          "gmtCreate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "gmtModified": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "stationId": {
+            "type": "integer",
+            "description": "电站主键",
+            "format": "int32"
+          },
+          "tagName": {
+            "type": "string",
+            "description": "标签名称"
+          },
+          "tagSort": {
+            "type": "integer",
+            "description": "标签排序",
+            "format": "int32"
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        },
+        "description": "电站标签DO"
+      },
+      "SaveStationDTO": {
+        "required": [
+          "stationCity",
+          "stationLat",
+          "stationLng",
+          "stationMoneyPolicy",
+          "stationName",
+          "stationParking",
+          "stationProvince",
+          "stationRegion",
+          "stationScale",
+          "stationStreet"
+        ],
+        "type": "object",
+        "properties": {
+          "stationName": {
+            "type": "string",
+            "description": "电站名称"
+          },
+          "stationProvince": {
+            "type": "string",
+            "description": "省份"
+          },
+          "stationCity": {
+            "type": "string",
+            "description": "市"
+          },
+          "stationRegion": {
+            "type": "string",
+            "description": "区\t"
+          },
+          "stationStreet": {
+            "type": "string",
+            "description": "街道地址"
+          },
+          "stationLat": {
+            "type": "number",
+            "description": "纬度\t"
+          },
+          "stationLng": {
+            "type": "number",
+            "description": "经度"
+          },
+          "stationScale": {
+            "type": "string",
+            "description": "电站规模枚举",
+            "enum": [
+              "STATION_SCALE_FLAGSHIP",
+              "STATION_SCALE_CITY",
+              "STATION_SCALE_BRAND",
+              "STATION_SCALE_MINI"
+            ]
+          },
+          "stationParking": {
+            "type": "integer",
+            "description": "电站提供的车位数量（充电桩数量）。",
+            "format": "int32"
+          },
+          "stationMoneyPolicy": {
+            "type": "integer",
+            "description": "电站资费模板",
+            "format": "int32"
+          },
+          "stationTimeoutPolicy": {
+            "type": "integer",
+            "description": "电站延时费模板",
+            "format": "int32"
+          },
+          "stationImages": {
+            "type": "array",
+            "description": "电站图片集合",
+            "items": {
+              "type": "string",
+              "description": "电站图片集合"
+            }
+          },
+          "stationParkService": {
+            "type": "boolean"
+          }
+        },
+        "description": "新建电站DTO"
+      },
+      "ResultString": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "string"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "RemoveStationDTO": {
+        "required": [
+          "ids"
+        ],
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "description": "电站ID集合",
+            "items": {
+              "type": "integer",
+              "description": "电站ID集合",
+              "format": "int32"
+            }
+          }
+        },
+        "description": "删除电站DTO"
+      },
+      "ReplyStationRatingDTO": {
+        "required": [
+          "id",
+          "ratingReply",
+          "replyAdmin"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "电站评星主键",
+            "format": "int32"
+          },
+          "replyAdmin": {
+            "type": "integer",
+            "description": "回复的管理员主键",
+            "format": "int32"
+          },
+          "ratingReply": {
+            "type": "string",
+            "description": "管理员回复内容"
+          },
+          "replyTime": {
+            "type": "string",
+            "description": "管理员回复时间",
+            "format": "date-time"
+          }
+        },
+        "description": "回复电站评星DTO"
+      },
+      "StationRatingPageDTO": {
+        "required": [
+          "current",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "current": {
+            "type": "integer",
+            "description": "当前页码",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "description": "每页数据量",
+            "format": "int64"
+          },
+          "mobile": {
+            "pattern": "^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\\d{8}$",
+            "type": "string",
+            "description": "用户手机号"
+          },
+          "stationId": {
+            "type": "integer",
+            "description": "所属站点",
+            "format": "int32"
+          }
+        },
+        "description": "电站评星DTO"
+      },
+      "PageUtilsWeb.StationRatingPageVO": {
+        "type": "object",
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/web.StationRatingPageVO"
+            }
+          }
+        }
+      },
+      "ResultPageUtilsWeb.StationRatingPageVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageUtilsWeb.StationRatingPageVO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "web.StationRatingPageVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "电站评星数据主键",
+            "format": "int32"
+          },
+          "gmtCreate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "stationName": {
+            "type": "string",
+            "description": "所属电站名称"
+          },
+          "accountMobile": {
+            "type": "string",
+            "description": "用户手机号"
+          },
+          "ratingEnvironment": {
+            "type": "integer",
+            "description": "环境评分",
+            "format": "int32"
+          },
+          "ratingCharge": {
+            "type": "integer",
+            "description": "充电评分",
+            "format": "int32"
+          },
+          "ratingService": {
+            "type": "integer",
+            "description": "服务评分",
+            "format": "int32"
+          },
+          "ratingComments": {
+            "type": "string",
+            "description": "建议/意见"
+          },
+          "ratingReply": {
+            "type": "string",
+            "description": "管理员回复"
+          },
+          "replyTime": {
+            "type": "string",
+            "description": "回复时间",
+            "format": "date-time"
+          },
+          "replyAdmin": {
+            "type": "integer",
+            "description": "回复的管理员",
+            "format": "int32"
+          }
+        },
+        "description": "电站评星列表VO"
+      },
+      "UpdateParkLockerDTO": {
+        "required": [
+          "connectorId",
+          "id",
+          "lockerNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "车位锁主键",
+            "format": "int32"
+          },
+          "connectorId": {
+            "type": "integer",
+            "description": "分机主键",
+            "format": "int32"
+          },
+          "lockerNumber": {
+            "type": "string",
+            "description": "地锁编号"
+          },
+          "lockerState": {
+            "type": "integer",
+            "description": "地锁状态",
+            "format": "int32"
+          },
+          "lockerType": {
+            "type": "string",
+            "description": "地锁类型枚举",
+            "enum": [
+              "LORA",
+              "LINE",
+              "NB",
+              "BLUETOOTH",
+              "CAMERA"
+            ]
+          }
+        },
+        "description": "修改车位锁DTO"
+      },
+      "SaveParkLockerDTO": {
+        "required": [
+          "connectorId",
+          "lockerNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "connectorId": {
+            "type": "integer",
+            "description": "分机主键",
+            "format": "int32"
+          },
+          "lockerNumber": {
+            "type": "string",
+            "description": "地锁编号"
+          },
+          "lockerState": {
+            "type": "integer",
+            "description": "地锁状态",
+            "format": "int32"
+          },
+          "lockerType": {
+            "type": "string",
+            "description": "地锁类型枚举",
+            "enum": [
+              "LORA",
+              "LINE",
+              "NB",
+              "BLUETOOTH",
+              "CAMERA"
+            ]
+          }
+        },
+        "description": "创建车位锁DTO"
+      },
+      "ParkLockerDO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "主键",
+            "format": "int32"
+          },
+          "gmtCreate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "gmtModified": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "connectorId": {
+            "type": "integer",
+            "description": "分机主键",
+            "format": "int32"
+          },
+          "lockerNumber": {
+            "type": "string",
+            "description": "地锁编号"
+          },
+          "lockerState": {
+            "type": "integer",
+            "description": "地锁状态",
+            "format": "int32"
+          },
+          "lockerType": {
+            "type": "string",
+            "description": "地锁类型枚举",
+            "enum": [
+              "LORA",
+              "LINE",
+              "NB",
+              "BLUETOOTH",
+              "CAMERA"
+            ]
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        },
+        "description": "车位锁DO"
+      },
+      "ResultListParkLockerDO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParkLockerDO"
+            }
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "PageUtilsStationPageVO": {
+        "type": "object",
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StationPageVO"
+            }
+          }
+        }
+      },
+      "ResultPageUtilsStationPageVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageUtilsStationPageVO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "StationPageConnectorVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "电站分机主键",
+            "format": "int32"
+          },
+          "stationId": {
+            "type": "integer",
+            "description": "电站主键",
+            "format": "int32"
+          },
+          "equipmentId": {
+            "type": "integer",
+            "description": "主机主键",
+            "format": "int32"
+          },
+          "connectorNumber": {
+            "type": "string",
+            "description": "分机设备编码"
+          },
+          "connectorState": {
+            "type": "string",
+            "description": "分机状态枚举",
+            "enum": [
+              "OFFLINE",
+              "IDLE",
+              "TAKE_UP_NO_CHARGE",
+              "TAKE_UP_CHARGING",
+              "ERROR",
+              "DISABLED"
+            ]
+          }
+        },
+        "description": "电站列表中分机VO"
+      },
+      "StationPageVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "电站主键",
+            "format": "int32"
+          },
+          "stationName": {
+            "type": "string",
+            "description": "电站名称"
+          },
+          "stationState": {
+            "type": "string",
+            "description": "电站状态枚举",
+            "enum": [
+              "STATION_STATE_BUSINESS",
+              "STATION_STATE_MAINTAIN",
+              "STATION_STATE_COMING_SOON"
+            ]
+          },
+          "stationMoneyPolicy": {
+            "type": "integer",
+            "description": "电站资费模板",
+            "format": "int32"
+          },
+          "stationConnectors": {
+            "type": "array",
+            "description": "电站关联的电桩",
+            "items": {
+              "$ref": "#/components/schemas/StationPageConnectorVO"
+            }
+          }
+        },
+        "description": "电站列表VO"
+      },
+      "UpdateStationMoneyPolicyDTO": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "电站资费模板ID",
+            "format": "int32"
+          },
+          "policyName": {
+            "type": "string",
+            "description": "模板名称"
+          },
+          "policyExplanation": {
+            "type": "string",
+            "description": "模板说明"
+          },
+          "parkingMoney": {
+            "type": "integer",
+            "description": "代客充电费用，默认0",
+            "format": "int32"
+          },
+          "policyType": {
+            "type": "string",
+            "description": "电费费率类型枚举",
+            "enum": [
+              "THROUGHOUT_UNITED",
+              "TIME_CHARGE"
+            ]
+          },
+          "moneyPolicyPeriods": {
+            "type": "array",
+            "description": "电站资费时段费用集合",
+            "items": {
+              "$ref": "#/components/schemas/UpdateStationMoneyPolicyPeriodDTO"
+            }
+          }
+        },
+        "description": "修改电站资费模板DTO"
+      },
+      "UpdateStationMoneyPolicyPeriodDTO": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "电站资费时段费用ID",
+            "format": "int32"
+          },
+          "stationPolicyId": {
+            "type": "integer",
+            "description": "电站资费主键",
+            "format": "int32"
+          },
+          "startTime": {
+            "type": "integer",
+            "description": "开始时间",
+            "format": "int32"
+          },
+          "elecPrice": {
+            "type": "integer",
+            "description": "电费（分）",
+            "format": "int32"
+          },
+          "servicePrice": {
+            "type": "integer",
+            "description": "服务费（分）",
+            "format": "int32"
+          }
+        },
+        "description": "修改电站资费时段费用DTO"
+      },
+      "ResultStationMoneyPolicyVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/StationMoneyPolicyVO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "SaveStationMoneyPolicyDTO": {
+        "required": [
+          "policyName",
+          "policyType"
+        ],
+        "type": "object",
+        "properties": {
+          "policyName": {
+            "type": "string",
+            "description": "模板名称"
+          },
+          "policyExplanation": {
+            "type": "string",
+            "description": "模板说明"
+          },
+          "parkingMoney": {
+            "type": "integer",
+            "description": "代客充电费用，默认0",
+            "format": "int32"
+          },
+          "policyType": {
+            "type": "string",
+            "description": "电费费率类型枚举",
+            "enum": [
+              "THROUGHOUT_UNITED",
+              "TIME_CHARGE"
+            ]
+          },
+          "moneyPolicyPeriods": {
+            "type": "array",
+            "description": "电站资费时段费用集合",
+            "items": {
+              "$ref": "#/components/schemas/SaveStationMoneyPolicyPeriodDTO"
+            }
+          }
+        },
+        "description": "新建电站资费模板DTO"
+      },
+      "SaveStationMoneyPolicyPeriodDTO": {
+        "required": [
+          "elecPrice",
+          "servicePrice",
+          "startTime",
+          "stationPolicyId"
+        ],
+        "type": "object",
+        "properties": {
+          "stationPolicyId": {
+            "type": "integer",
+            "description": "电站资费主键",
+            "format": "int32"
+          },
+          "startTime": {
+            "type": "integer",
+            "description": "开始时间",
+            "format": "int32"
+          },
+          "elecPrice": {
+            "type": "integer",
+            "description": "电费（分）",
+            "format": "int32"
+          },
+          "servicePrice": {
+            "type": "integer",
+            "description": "服务费（分）",
+            "format": "int32"
+          }
+        },
+        "description": "保存电站资费时段费用DTO"
+      },
+      "RemoveStationMoneyPolicyDTO": {
+        "required": [
+          "ids"
+        ],
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "description": "电站资费模板ID集合",
+            "items": {
+              "type": "integer",
+              "description": "电站资费模板ID集合",
+              "format": "int32"
+            }
+          }
+        },
+        "description": "删除电站资费模板DTO"
+      },
+      "StationMoneyPolicyPageDTO": {
+        "required": [
+          "current",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "current": {
+            "type": "integer",
+            "description": "当前页码",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "description": "每页数据量",
+            "format": "int64"
+          },
+          "policyType": {
+            "type": "string",
+            "description": "电费费率类型枚举",
+            "enum": [
+              "THROUGHOUT_UNITED",
+              "TIME_CHARGE"
+            ]
+          }
+        },
+        "description": "获取电站资费模板列表DTO"
+      },
+      "PageUtilsStationMoneyPolicyVO": {
+        "type": "object",
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StationMoneyPolicyVO"
+            }
+          }
+        }
+      },
+      "ResultPageUtilsStationMoneyPolicyVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageUtilsStationMoneyPolicyVO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "GetStationMoneyPolicyDTO": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "电站资费模板ID",
+            "format": "int32"
+          }
+        },
+        "description": "获取电站资费模板信息详情DTO"
+      },
+      "GetStationByIdDTO": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "电站ID",
+            "format": "int32"
+          }
+        },
+        "description": "获取电站信息详情DTO"
+      },
+      "UpdateStationEquipmentDTO": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "电站主机ID",
+            "format": "int32"
+          },
+          "equipmentNumber": {
+            "type": "string",
+            "description": "主机设备编码"
+          },
+          "equipmentManufacturer": {
+            "type": "string",
+            "description": "设备制造商，拼音或英文名字。"
+          },
+          "equipmentType": {
+            "type": "string",
+            "description": "设备类型枚举",
+            "enum": [
+              "DC_DEVICE",
+              "AC_DEVICE",
+              "AC_AND_DC_DEVICE",
+              "WIRELESS_DEVICES",
+              "OTHER"
+            ]
+          }
+        },
+        "description": "修改电站主机信息DTO"
+      },
+      "SaveStationEquipmentDTO": {
+        "required": [
+          "equipmentManufacturer",
+          "equipmentNumber",
+          "equipmentType",
+          "stationId"
+        ],
+        "type": "object",
+        "properties": {
+          "stationId": {
+            "type": "integer",
+            "description": "电站主键",
+            "format": "int32"
+          },
+          "equipmentNumber": {
+            "type": "string",
+            "description": "主机设备编码"
+          },
+          "equipmentManufacturer": {
+            "type": "string",
+            "description": "设备制造商，拼音或英文名字。"
+          },
+          "equipmentType": {
+            "type": "string",
+            "description": "设备类型枚举",
+            "enum": [
+              "DC_DEVICE",
+              "AC_DEVICE",
+              "AC_AND_DC_DEVICE",
+              "WIRELESS_DEVICES",
+              "OTHER"
+            ]
+          }
+        },
+        "description": "新建电站主机DTO"
+      },
+      "RemoveStationEquipmentDTO": {
+        "required": [
+          "ids"
+        ],
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "description": "电站主机ID集合",
+            "items": {
+              "type": "integer",
+              "description": "电站主机ID集合",
+              "format": "int32"
+            }
+          }
+        },
+        "description": "删除电站主机DTO"
+      },
+      "ListStationEquipmentDTO": {
+        "required": [
+          "stationId"
+        ],
+        "type": "object",
+        "properties": {
+          "stationId": {
+            "type": "integer",
+            "description": "电站ID",
+            "format": "int32"
+          }
+        },
+        "description": "获取电站主机信息详情集合DTO"
+      },
+      "ResultListStationEquipmentInfoVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StationEquipmentInfoVO"
+            }
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "StationConnectorVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "电站分机主键",
+            "format": "int32"
+          },
+          "stationId": {
+            "type": "integer",
+            "description": "电站主键",
+            "format": "int32"
+          },
+          "equipmentId": {
+            "type": "integer",
+            "description": "主机主键",
+            "format": "int32"
+          },
+          "connectorNumber": {
+            "type": "string",
+            "description": "分机设备编码"
+          },
+          "connectorName": {
+            "type": "string",
+            "description": "分机名称"
+          },
+          "connectorVoltageUpperLimits": {
+            "type": "integer",
+            "description": "额定电压上限，单位:V",
+            "format": "int32"
+          },
+          "connectorVoltageLowerLimits": {
+            "type": "integer",
+            "description": "额定电压下限，单位:V",
+            "format": "int32"
+          },
+          "connectorCurrent": {
+            "type": "integer",
+            "description": "额定电流，单位：A",
+            "format": "int32"
+          },
+          "connectorPower": {
+            "type": "number",
+            "description": "额定功率，单位：KW"
+          },
+          "connectorState": {
+            "type": "string",
+            "description": "分机状态枚举",
+            "enum": [
+              "OFFLINE",
+              "IDLE",
+              "TAKE_UP_NO_CHARGE",
+              "TAKE_UP_CHARGING",
+              "ERROR",
+              "DISABLED"
+            ]
+          }
+        },
+        "description": "电站分机VO"
+      },
+      "StationEquipmentInfoVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "电站主机主键",
+            "format": "int32"
+          },
+          "stationId": {
+            "type": "integer",
+            "description": "电站主键",
+            "format": "int32"
+          },
+          "equipmentNumber": {
+            "type": "string",
+            "description": "主机设备编码"
+          },
+          "equipmentManufacturer": {
+            "type": "string",
+            "description": "设备制造商，拼音或英文名字。"
+          },
+          "equipmentType": {
+            "type": "string",
+            "description": "设备类型枚举",
+            "enum": [
+              "DC_DEVICE",
+              "AC_DEVICE",
+              "AC_AND_DC_DEVICE",
+              "WIRELESS_DEVICES",
+              "OTHER"
+            ]
+          },
+          "stationConnectors": {
+            "type": "array",
+            "description": "电站主机分机集合",
+            "items": {
+              "$ref": "#/components/schemas/StationConnectorVO"
+            }
+          }
+        },
+        "description": "电站主机详细VO"
+      },
+      "GetStationEquipmentByIdDTO": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "电站主机ID",
+            "format": "int32"
+          }
+        },
+        "description": "获取电站主机信息详情DTO"
+      },
+      "ResultStationEquipmentInfoVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/StationEquipmentInfoVO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "UpdateStationConnectorDTO": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "电站主机分机ID",
+            "format": "int32"
+          },
+          "connectorNumber": {
+            "type": "string",
+            "description": "分机设备编码"
+          },
+          "connectorName": {
+            "type": "string",
+            "description": "分机名称"
+          },
+          "connectorVoltageUpperLimits": {
+            "type": "integer",
+            "description": "额定电压上限，单位:V",
+            "format": "int32"
+          },
+          "connectorVoltageLowerLimits": {
+            "type": "integer",
+            "description": "额定电压下限，单位:V",
+            "format": "int32"
+          },
+          "connectorCurrent": {
+            "type": "integer",
+            "description": "额定电流，单位：A",
+            "format": "int32"
+          },
+          "connectorPower": {
+            "type": "number",
+            "description": "额定功率，单位：KW"
+          },
+          "connectorState": {
+            "type": "string",
+            "description": "分机状态枚举",
+            "enum": [
+              "OFFLINE",
+              "IDLE",
+              "TAKE_UP_NO_CHARGE",
+              "TAKE_UP_CHARGING",
+              "ERROR",
+              "DISABLED"
+            ]
+          },
+          "routingKey": {
+            "type": "string",
+            "description": "消息队列路由"
+          }
+        },
+        "description": "修改电站主机分机DTO"
+      },
+      "SaveStationConnectorDTO": {
+        "required": [
+          "connectorName",
+          "connectorNumber",
+          "connectorState",
+          "equipmentId",
+          "stationId"
+        ],
+        "type": "object",
+        "properties": {
+          "stationId": {
+            "type": "integer",
+            "description": "电站主键",
+            "format": "int32"
+          },
+          "equipmentId": {
+            "type": "integer",
+            "description": "主机主键",
+            "format": "int32"
+          },
+          "connectorNumber": {
+            "type": "string",
+            "description": "分机设备编码"
+          },
+          "connectorName": {
+            "type": "string",
+            "description": "分机名称"
+          },
+          "connectorVoltageUpperLimits": {
+            "type": "integer",
+            "description": "额定电压上限，单位:V",
+            "format": "int32"
+          },
+          "connectorVoltageLowerLimits": {
+            "type": "integer",
+            "description": "额定电压下限，单位:V",
+            "format": "int32"
+          },
+          "connectorCurrent": {
+            "type": "integer",
+            "description": "额定电流，单位：A",
+            "format": "int32"
+          },
+          "connectorPower": {
+            "type": "number",
+            "description": "额定功率，单位：KW"
+          },
+          "connectorState": {
+            "type": "string",
+            "description": "分机状态枚举",
+            "enum": [
+              "OFFLINE",
+              "IDLE",
+              "TAKE_UP_NO_CHARGE",
+              "TAKE_UP_CHARGING",
+              "ERROR",
+              "DISABLED"
+            ]
+          },
+          "routingKey": {
+            "type": "string",
+            "description": "消息队列路由"
+          }
+        },
+        "description": "新建电站主机分机DTO"
+      },
+      "RemoveStationConnectorDTO": {
+        "required": [
+          "ids"
+        ],
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "description": "电站主机分机ID集合",
+            "items": {
+              "type": "integer",
+              "description": "电站主机分机ID集合",
+              "format": "int32"
+            }
+          }
+        },
+        "description": "删除电站主机分机DTO"
+      },
+      "RoleMenuDTO": {
+        "required": [
+          "menuIds",
+          "roleId"
+        ],
+        "type": "object",
+        "properties": {
+          "roleId": {
+            "type": "integer",
+            "description": "角色主键",
+            "format": "int32"
+          },
+          "menuIds": {
+            "type": "array",
+            "description": "资源主键",
+            "items": {
+              "type": "integer",
+              "description": "资源主键",
+              "format": "int32"
+            }
+          }
+        },
+        "description": "角色主键"
+      },
+      "RoleDTO": {
+        "required": [
+          "role"
+        ],
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "description": "角色名称"
+          },
+          "backup": {
+            "type": "string",
+            "description": "备注"
+          }
+        },
+        "description": "系统角色"
+      },
+      "ResultRoleVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/RoleVO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "RoleVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "角色主键",
+            "format": "int32"
+          },
+          "role": {
+            "type": "string",
+            "description": "角色名称"
+          },
+          "backup": {
+            "type": "string",
+            "description": "备注"
+          },
+          "gmtCreate": {
+            "type": "string",
+            "description": "创建日期",
+            "format": "date-time"
+          },
+          "menuIds": {
+            "type": "array",
+            "description": "角色对应的资源ID",
+            "items": {
+              "type": "integer",
+              "description": "角色对应的资源ID",
+              "format": "int32"
+            }
+          }
+        },
+        "description": "系统角色"
+      },
+      "MenuDTO": {
+        "required": [
+          "id",
+          "menu",
+          "pid",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "pid": {
+            "type": "integer",
+            "description": "父ID",
+            "format": "int32"
+          },
+          "menu": {
+            "type": "string",
+            "description": "菜单名称"
+          },
+          "res": {
+            "type": "string",
+            "description": "菜单路径"
+          },
+          "permission": {
+            "type": "string",
+            "description": "菜单所需权限"
+          },
+          "type": {
+            "type": "string",
+            "description": "菜单类型 0：目录   1：菜单   2：按钮",
+            "enum": [
+              "CATALOG",
+              "MENU",
+              "BUTTON"
+            ]
+          },
+          "icon": {
+            "type": "string",
+            "description": "菜单图标"
+          },
+          "sort": {
+            "type": "integer",
+            "description": "菜单排序",
+            "format": "int32"
+          },
+          "id": {
+            "type": "integer",
+            "description": "菜单ID",
+            "format": "int32"
+          }
+        },
+        "description": "菜单（资源）"
+      },
+      "MenuDO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "主键",
+            "format": "int32"
+          },
+          "gmtCreate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "gmtModified": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "pid": {
+            "type": "integer",
+            "description": "父ID",
+            "format": "int32"
+          },
+          "menu": {
+            "type": "string",
+            "description": "菜单名称"
+          },
+          "res": {
+            "type": "string",
+            "description": "菜单路径"
+          },
+          "permission": {
+            "type": "string",
+            "description": "菜单所需权限"
+          },
+          "type": {
+            "type": "string",
+            "description": "菜单类型 0：目录   1：菜单   2：按钮",
+            "enum": [
+              "CATALOG",
+              "MENU",
+              "BUTTON"
+            ]
+          },
+          "icon": {
+            "type": "string",
+            "description": "菜单图标"
+          },
+          "sort": {
+            "type": "integer",
+            "description": "菜单排序",
+            "format": "int32"
+          },
+          "parentName": {
+            "type": "string",
+            "description": "父节点名称"
+          },
+          "open": {
+            "type": "boolean",
+            "description": "是否展开"
+          },
+          "list": {
+            "type": "array",
+            "description": "子项",
+            "items": {
+              "$ref": "#/components/schemas/MenuDO"
+            }
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        },
+        "description": "菜单（资源）"
+      },
+      "ResultListMenuDO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MenuDO"
+            }
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "MenuNavVO": {
+        "type": "object",
+        "properties": {
+          "menu": {
+            "type": "array",
+            "description": "用户角色对应的菜单项",
+            "items": {
+              "$ref": "#/components/schemas/MenuDO"
+            }
+          },
+          "permissions": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "用户角色对应的权限",
+            "items": {
+              "type": "string",
+              "description": "用户角色对应的权限"
+            }
+          }
+        },
+        "description": "用户角色对应的菜单项"
+      },
+      "ResultMenuNavVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/MenuNavVO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "LoginDTO": {
+        "required": [
+          "captcha",
+          "mobile",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "mobile": {
+            "type": "string",
+            "description": "手机号"
+          },
+          "password": {
+            "type": "string",
+            "description": "登录密码"
+          },
+          "captcha": {
+            "type": "string",
+            "description": "验证码"
+          }
+        },
+        "description": "登录参数"
+      },
+      "LoginRespVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "管理员ID",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "管理员名称"
+          },
+          "mobile": {
+            "type": "string",
+            "description": "手机号"
+          },
+          "token": {
+            "type": "string",
+            "description": "TOKEN"
+          }
+        },
+        "description": "登录返回数据"
+      },
+      "ResultLoginRespVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/LoginRespVO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ChargerOrderPageDTO": {
+        "required": [
+          "current",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "current": {
+            "type": "integer",
+            "description": "当前页码",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "description": "每页数据量",
+            "format": "int64"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "开始日期",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "结束日期",
+            "format": "date-time"
+          },
+          "numberStr": {
+            "type": "string",
+            "description": "订单号/微信单号/手机号"
+          },
+          "stationId": {
+            "type": "integer",
+            "description": "所属电站",
+            "format": "int32"
+          },
+          "orderType": {
+            "type": "integer",
+            "description": "订单类型",
+            "format": "int32"
+          },
+          "orderPayWay": {
+            "type": "integer",
+            "description": "支付方式",
+            "format": "int32"
+          }
+        },
+        "description": "获取充电订单列表DTO"
+      },
+      "ChargerOrderPageVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "充电订单主键",
+            "format": "int32"
+          },
+          "orderNumber": {
+            "type": "string",
+            "description": "订单编号"
+          },
+          "orderStationName": {
+            "type": "string",
+            "description": "电站名称"
+          },
+          "orderStartTime": {
+            "type": "string",
+            "description": "开始时间",
+            "format": "date-time"
+          },
+          "orderEndTime": {
+            "type": "string",
+            "description": "结束时间",
+            "format": "date-time"
+          },
+          "orderStartPower": {
+            "type": "number",
+            "description": "起始电量 --no_column"
+          },
+          "orderTargetPower": {
+            "type": "number",
+            "description": "目标电量 --no_column"
+          },
+          "orderTotalPower": {
+            "type": "number",
+            "description": "已充电量"
+          },
+          "orderMemberNickName": {
+            "type": "string",
+            "description": "车主 --no_column"
+          },
+          "orderCarNumber": {
+            "type": "string",
+            "description": "车牌号 --no_column"
+          },
+          "orderChargerInterval": {
+            "type": "integer",
+            "description": "充电时长 --no_column",
+            "format": "int32"
+          },
+          "orderTotalElecMoney": {
+            "type": "integer",
+            "description": "总电费",
+            "format": "int32"
+          },
+          "orderTotalServiceMoney": {
+            "type": "integer",
+            "description": "总服务费",
+            "format": "int32"
+          },
+          "orderTotalMoney": {
+            "type": "integer",
+            "description": "总费用",
+            "format": "int32"
+          },
+          "orderPayWay": {
+            "type": "string",
+            "description": "支付方式"
+          },
+          "orderPresentElec": {
+            "type": "number",
+            "description": "当前已充电量 --no_column"
+          },
+          "orderPresentCurrent": {
+            "type": "number",
+            "description": "当前充电电流 --no_column"
+          },
+          "orderPresentVoltage": {
+            "type": "integer",
+            "description": "当前充电电压 --no_column",
+            "format": "int32"
+          },
+          "orderPresentPower": {
+            "type": "number",
+            "description": "当前充电功率 --no_column"
+          }
+        },
+        "description": "充电订单列表VO"
+      },
+      "ResultChargerOrderPageVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ChargerOrderPageVO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "CardPackagePageVO": {
+        "type": "object",
+        "properties": {
+          "cardName": {
+            "type": "string",
+            "description": "随心充名称"
+          },
+          "cardType": {
+            "type": "integer",
+            "description": "随心充类型",
+            "format": "int32"
+          },
+          "cardPrice": {
+            "type": "integer",
+            "description": "价格",
+            "format": "int32"
+          },
+          "cardIntroduction": {
+            "type": "string",
+            "description": "随心充规则"
+          },
+          "cardSort": {
+            "type": "integer",
+            "description": "排序",
+            "format": "int32"
+          },
+          "cardHot": {
+            "type": "boolean"
+          }
+        },
+        "description": "随心充套餐VO"
+      },
+      "ResultCardPackagePageVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/CardPackagePageVO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "CardOrderPageDTO": {
+        "required": [
+          "current",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "current": {
+            "type": "integer",
+            "description": "当前页码",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "description": "每页数据量",
+            "format": "int64"
+          },
+          "cardState": {
+            "type": "integer",
+            "description": "随心充状态",
+            "format": "int32"
+          },
+          "cardType": {
+            "type": "integer",
+            "description": "随心充类型",
+            "format": "int32"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "开始日期",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "description": "结束日期",
+            "format": "date-time"
+          },
+          "userMobile": {
+            "type": "string",
+            "description": "用户手机号"
+          }
+        },
+        "description": "获取随心充订单列表DTO"
+      },
+      "CardOrderPgeVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "随心充订单主键",
+            "format": "int32"
+          },
+          "packageType": {
+            "type": "integer",
+            "description": "随心充类型",
+            "format": "int32"
+          },
+          "orderState": {
+            "type": "integer",
+            "description": "随心充订单状态",
+            "format": "int32"
+          }
+        },
+        "description": "随心充订单列表VO"
+      },
+      "ResultCardOrderPgeVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/CardOrderPgeVO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ResultWeb.UserInfoVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/web.UserInfoVO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "web.UserInfoVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "用户主键",
+            "format": "int32"
+          },
+          "profileName": {
+            "type": "string",
+            "description": "昵称"
+          },
+          "accountMobile": {
+            "type": "string",
+            "description": "联系电话"
+          },
+          "profileAvatar": {
+            "type": "string",
+            "description": "用户头像"
+          },
+          "profileScores": {
+            "type": "integer",
+            "description": "积分",
+            "format": "int32"
+          },
+          "carNumber": {
+            "type": "string",
+            "description": "车牌号"
+          },
+          "cardExpiredTime": {
+            "type": "string",
+            "description": "随心充截止日期",
+            "format": "date-time"
+          },
+          "profileBalance": {
+            "type": "integer",
+            "description": "钱包余额",
+            "format": "int32"
+          },
+          "profileGender": {
+            "type": "boolean"
+          }
+        },
+        "description": "用户详情VO"
+      },
+      "ResultListRoleDO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoleDO"
+            }
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "RoleDO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "主键",
+            "format": "int32"
+          },
+          "gmtCreate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "gmtModified": {
+            "type": "string",
+            "description": "更新时间",
+            "format": "date-time"
+          },
+          "role": {
+            "type": "string",
+            "description": "角色名称"
+          },
+          "backup": {
+            "type": "string",
+            "description": "备注"
+          },
+          "creator": {
+            "type": "integer",
+            "description": "创建人ID",
+            "format": "int32"
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        },
+        "description": "系统角色"
+      },
+      "ChargeOrderCarInfoVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "车辆主键",
+            "format": "int32"
+          },
+          "carVin": {
+            "type": "string",
+            "description": "车架号"
+          },
+          "carNumber": {
+            "type": "string",
+            "description": "车牌号"
+          },
+          "carBrand": {
+            "type": "string",
+            "description": "车辆品牌"
+          },
+          "carType": {
+            "type": "string",
+            "description": "车型"
+          }
+        },
+        "description": "订单关联的车辆信息VO"
+      },
+      "ChargerOrderInfoVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "充电订单主键",
+            "format": "int32"
+          },
+          "gmtCreate": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time"
+          },
+          "stationId": {
+            "type": "integer",
+            "description": "电站主键",
+            "format": "int32"
+          },
+          "connectorNumber": {
+            "type": "string",
+            "description": "分机编码"
+          },
+          "orderPlatform": {
+            "type": "string",
+            "description": "充电平台"
+          },
+          "orderChargeId": {
+            "type": "string",
+            "description": "充电ID（智充平台的ID）"
+          },
+          "orderStartSeq": {
+            "type": "string",
+            "description": "互联互通订单ID"
+          },
+          "orderNumber": {
+            "type": "string",
+            "description": "订单编号"
+          },
+          "orderState": {
+            "type": "integer",
+            "description": "订单状态",
+            "format": "int32"
+          },
+          "orderStartTime": {
+            "type": "string",
+            "description": "开始时间",
+            "format": "date-time"
+          },
+          "orderEndTime": {
+            "type": "string",
+            "description": "结束时间",
+            "format": "date-time"
+          },
+          "orderStopTime": {
+            "type": "string",
+            "description": "停止时间",
+            "format": "date-time"
+          },
+          "orderPayTime": {
+            "type": "string",
+            "description": "支付时间",
+            "format": "date-time"
+          },
+          "orderTotalPower": {
+            "type": "number",
+            "description": "总电量"
+          },
+          "orderTotalElecMoney": {
+            "type": "integer",
+            "description": "总电费（单位：分）",
+            "format": "int32"
+          },
+          "orderTotalServiceMoney": {
+            "type": "integer",
+            "description": "总服务费（单位：分）",
+            "format": "int32"
+          },
+          "orderTotalMoney": {
+            "type": "integer",
+            "description": "总费用（单位：分）",
+            "format": "int32"
+          },
+          "orderStopReason": {
+            "type": "integer",
+            "description": "充电结束原因",
+            "format": "int32"
+          },
+          "orderPayWay": {
+            "type": "integer",
+            "description": "支付方式",
+            "format": "int32"
+          },
+          "orderTransactionId": {
+            "type": "string",
+            "description": "微信支付交易号/其他支付平台交易号"
+          },
+          "parkingOrderId": {
+            "type": "integer",
+            "description": "代客泊车订单主键",
+            "format": "int32"
+          },
+          "orderCarId": {
+            "type": "integer",
+            "description": "订单车辆ID",
+            "format": "int32"
+          },
+          "orderStationEquipmentInfo": {
+            "$ref": "#/components/schemas/StationEquipmentVO"
+          },
+          "orderMemberNickName": {
+            "type": "string",
+            "description": "用户昵称"
+          },
+          "orderMemberMobile": {
+            "type": "string",
+            "description": "用户手机号"
+          },
+          "orderCarInfo": {
+            "$ref": "#/components/schemas/ChargeOrderCarInfoVO"
+          },
+          "orderTargetElec": {
+            "type": "number",
+            "description": "目标电量 --no_column"
+          },
+          "orderChargeInterval": {
+            "type": "integer",
+            "description": "充电时长 --no_column",
+            "format": "int32"
+          }
+        },
+        "description": "充电订单详情VO"
+      },
+      "ResultChargerOrderInfoVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ChargerOrderInfoVO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "StationEquipmentVO": {
+        "type": "object",
+        "properties": {
+          "stationId": {
+            "type": "integer",
+            "description": "电站主键",
+            "format": "int32"
+          },
+          "equipmentNumber": {
+            "type": "string",
+            "description": "主机设备编码"
+          },
+          "equipmentManufacturer": {
+            "type": "string",
+            "description": "设备制造商，拼音或英文名字。"
+          },
+          "equipmentType": {
+            "type": "string",
+            "description": "设备类型枚举",
+            "enum": [
+              "DC_DEVICE",
+              "AC_DEVICE",
+              "AC_AND_DC_DEVICE",
+              "WIRELESS_DEVICES",
+              "OTHER"
+            ]
+          }
+        },
+        "description": "电站主机VO"
+      },
+      "CardOrderInfoVO": {
+        "type": "object",
+        "description": "随心充订单详情VO"
+      },
+      "ResultCardOrderInfoVO": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/CardOrderInfoVO"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      }
+    }
+  }
+}

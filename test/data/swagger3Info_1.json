@@ -1,0 +1,5752 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "③事件模块",
+    "version": "V1"
+  },
+  "paths": {
+    "/api/Event/EventBrower/GetTemplates": {
+      "post": {
+        "tags": [
+          "Event/EventBrower"
+        ],
+        "summary": "获取模板列表",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--940556668"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--940556668"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--940556668"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--940556668"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Event/EventBrower/SaveTemplate": {
+      "post": {
+        "tags": [
+          "Event/EventBrower"
+        ],
+        "summary": "保存模板",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1060561350"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1060561350"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1060561350"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1060561350"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Event/EventBrower/DelTemplate": {
+      "post": {
+        "tags": [
+          "Event/EventBrower"
+        ],
+        "summary": "删除模板",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--642559868"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--642559868"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--642559868"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--642559868"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Event/EventBrower/SaveTemplateBindEventType": {
+      "post": {
+        "tags": [
+          "Event/EventBrower"
+        ],
+        "summary": "保存摘要配置",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--2077665505"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--2077665505"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--2077665505"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--2077665505"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Event/EventInformationBoard/GetList": {
+      "post": {
+        "tags": [
+          "Event/EventInformationBoard"
+        ],
+        "summary": "获取事件信息看板列表",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1979668880"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1979668880"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1979668880"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1979668880"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Event/EventInformationBoard/GetSingle": {
+      "post": {
+        "tags": [
+          "Event/EventInformationBoard"
+        ],
+        "summary": "获取单个事件信息看板",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-190467916"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-190467916"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-190467916"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-190467916"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Event/EventInformationBoard/SaveEdit": {
+      "post": {
+        "tags": [
+          "Event/EventInformationBoard"
+        ],
+        "summary": "保存编辑事件信息看板",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-2117982894"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-2117982894"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-2117982894"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-2117982894"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Event/EventInformationBoard/TestRun": {
+      "post": {
+        "tags": [
+          "Event/EventInformationBoard"
+        ],
+        "summary": "测试运行事件信息看板",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1499626162"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1499626162"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1499626162"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1499626162"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventConfig/EventConfig/GetThemes": {
+      "post": {
+        "tags": [
+          "EventConfig/EventConfig"
+        ],
+        "summary": "获取事件主题",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-762962700"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-762962700"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-762962700"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-762962700"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventConfig/EventConfig/SaveThemes": {
+      "post": {
+        "tags": [
+          "EventConfig/EventConfig"
+        ],
+        "summary": "保存主题",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--538406089"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--538406089"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--538406089"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--538406089"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventConfig/EventConfig/GetTemplateTypes": {
+      "post": {
+        "tags": [
+          "EventConfig/EventConfig"
+        ],
+        "summary": "保存主题",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1733476607"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1733476607"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1733476607"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1733476607"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventConfig/EventConfig/GetEventFactorCategories": {
+      "post": {
+        "tags": [
+          "EventConfig/EventConfig"
+        ],
+        "summary": "获取事件要素分类",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--532923174"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--532923174"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--532923174"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--532923174"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventAppCategory/CreateEventAppCategory": {
+      "post": {
+        "tags": [
+          "EventNew/EventAppCategory"
+        ],
+        "summary": "创建应用事件",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1679528666"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1679528666"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1679528666"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1679528666"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventAppCategory/GetMetaTableFields": {
+      "post": {
+        "tags": [
+          "EventNew/EventAppCategory"
+        ],
+        "summary": "获取元事件表字段",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1415434318"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1415434318"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1415434318"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1415434318"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMeta/StoreEventMeta": {
+      "post": {
+        "tags": [
+          "EventNew/EventMeta"
+        ],
+        "summary": "元事件入库",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--675801980"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--675801980"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--675801980"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--675801980"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMeta/GetEventMetaTransitionProgress": {
+      "post": {
+        "tags": [
+          "EventNew/EventMeta"
+        ],
+        "summary": "获取元事件数据转换进度",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-705898410"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-705898410"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-705898410"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-705898410"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMeta/AbortEventMetaTransitionTask": {
+      "post": {
+        "tags": [
+          "EventNew/EventMeta"
+        ],
+        "summary": "终止元事件数据转换任务",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-123779204"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-123779204"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-123779204"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-123779204"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMeta/GetTableCategoryWithMeta": {
+      "post": {
+        "tags": [
+          "EventNew/EventMeta"
+        ],
+        "summary": "获取包含元事件分类信息的表分类树",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1407777889"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1407777889"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1407777889"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1407777889"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMeta/GetEventMetas": {
+      "post": {
+        "tags": [
+          "EventNew/EventMeta"
+        ],
+        "summary": "获取元事件列表",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-801511442"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-801511442"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-801511442"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-801511442"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMeta/GetEventMetaData": {
+      "post": {
+        "tags": [
+          "EventNew/EventMeta"
+        ],
+        "summary": "获取单个元事件源数据",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--60404886"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--60404886"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--60404886"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--60404886"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMeta/ExportEventMetasExcel": {
+      "post": {
+        "tags": [
+          "EventNew/EventMeta"
+        ],
+        "summary": "导出元事件到Excel文件",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1673980502"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1673980502"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1673980502"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1673980502"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMeta/ExportEventMetasExcelNew": {
+      "post": {
+        "tags": [
+          "EventNew/EventMeta"
+        ],
+        "summary": "导出元事件Excel文件（新）",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--972547447"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--972547447"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--972547447"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--972547447"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMeta/UndoStoreEventMeta": {
+      "post": {
+        "tags": [
+          "EventNew/EventMeta"
+        ],
+        "summary": "撤销元事件入库",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1102378452"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1102378452"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1102378452"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1102378452"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaCategory/ModifyMetaCategoryNew": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaCategory"
+        ],
+        "summary": "修改元事件分类（新）",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--767756107"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--767756107"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--767756107"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--767756107"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaCategory/ModifyMetaCategory": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaCategory"
+        ],
+        "summary": "修改元事件分类",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1321978960"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1321978960"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1321978960"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1321978960"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaCategory/MultiModifyMetaCategoryNew": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaCategory"
+        ],
+        "summary": "批量修改元事件分类（新）",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1196275978"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1196275978"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1196275978"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1196275978"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaCategory/MultiModifyMetaCategory": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaCategory"
+        ],
+        "summary": "批量修改元事件分类",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1070235111"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1070235111"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1070235111"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1070235111"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaCategory/RemoveMetaCategory": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaCategory"
+        ],
+        "summary": "移除元事件分类",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1404089528"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1404089528"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1404089528"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1404089528"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaCategory/EditMetaCategory": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaCategory"
+        ],
+        "summary": "编辑元事件分类",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1355765080"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1355765080"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1355765080"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1355765080"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaCategory/MultiEditMetaCategory": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaCategory"
+        ],
+        "summary": "批量编辑元事件分类",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--148062558"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--148062558"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--148062558"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--148062558"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaCategory/GetMetaCategoryParents": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaCategory"
+        ],
+        "summary": "获取元事件分类父级列表",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-874835990"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-874835990"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-874835990"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-874835990"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaCategory/AddMetaCategory": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaCategory"
+        ],
+        "summary": "添加元事件分类",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1365286354"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1365286354"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1365286354"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1365286354"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaCategory/MultiAddMetaCategoryNew": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaCategory"
+        ],
+        "summary": "批量添加元事件分类（新）",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-153750106"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-153750106"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-153750106"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-153750106"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaCategory/MultiAddMetaCategory": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaCategory"
+        ],
+        "summary": "批量添加元事件分类",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1433039778"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1433039778"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1433039778"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1433039778"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaCategory/GetMetaCategoryTree": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaCategory"
+        ],
+        "summary": "获取元事件分类树",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--707634950"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--707634950"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--707634950"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--707634950"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaCategory/TestMetaCategory": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaCategory"
+        ],
+        "summary": "测试元事件分类",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-989501433"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-989501433"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-989501433"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-989501433"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaCategory/MetaCategoryTest": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaCategory"
+        ],
+        "summary": "元事件分类检测",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1459010430"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1459010430"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1459010430"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1459010430"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaCategory/LabelDataTableFields": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaCategory"
+        ],
+        "summary": "标注数据表字段",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--262471248"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--262471248"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--262471248"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--262471248"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaCategory/GetMetaCategoryAudits": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaCategory"
+        ],
+        "summary": "获取元事件分类审核列表",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1262048385"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1262048385"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1262048385"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1262048385"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaCategory/SetMetaCategoryAudit": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaCategory"
+        ],
+        "summary": "设置事元事件分类审核状态",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1470611447"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1470611447"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1470611447"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1470611447"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaCategory/ModifyMetaCategoryParent": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaCategory"
+        ],
+        "summary": "修改元事件分类父级",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1105393209"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1105393209"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1105393209"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1105393209"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaSetting/GetMetaSettingHomePageNew": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaSetting"
+        ],
+        "summary": "获取元事件配置主页（新）",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1843517861"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1843517861"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1843517861"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1843517861"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaSetting/GetMetaSettingHomePage": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaSetting"
+        ],
+        "summary": "获取元事件配置主页",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1843517861"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1843517861"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1843517861"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1843517861"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaSetting/SaveMetaSetting": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaSetting"
+        ],
+        "summary": "保存元事件配置",
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--694613045"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--694613045"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--694613045"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--694613045"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaSetting/EditMetaSetting": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaSetting"
+        ],
+        "summary": "编辑元事件设置",
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1359232138"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1359232138"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1359232138"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1359232138"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaSetting/GetFieldNullInfo": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaSetting"
+        ],
+        "summary": "获取字段空值信息",
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1272510391"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1272510391"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1272510391"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1272510391"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaSetting/GetTableFieldInfo": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaSetting"
+        ],
+        "summary": "获取表字段信息",
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1005147636"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1005147636"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1005147636"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1005147636"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaSetting/GetTableFieldInfoWithNullRate": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaSetting"
+        ],
+        "summary": "获取表字段信息（包含空值率）",
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1005147636"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1005147636"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1005147636"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1005147636"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMetaSetting/GetMetaOverview": {
+      "post": {
+        "tags": [
+          "EventNew/EventMetaSetting"
+        ],
+        "summary": "获取元事件配置总览",
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-118452363"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-118452363"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-118452363"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-118452363"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMiddleCategory/GetDataTableConstantFields": {
+      "post": {
+        "tags": [
+          "EventNew/EventMiddleCategory"
+        ],
+        "summary": "获取表常量字段",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1084448790"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1084448790"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1084448790"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1084448790"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMiddleCategory/GenerateMiddleCategorys": {
+      "post": {
+        "tags": [
+          "EventNew/EventMiddleCategory"
+        ],
+        "summary": "生成中间事件分类",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1323049624"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1323049624"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1323049624"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1323049624"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMiddleCategory/GetMiddleCategoryTree": {
+      "post": {
+        "tags": [
+          "EventNew/EventMiddleCategory"
+        ],
+        "summary": "获取中间事件分类树",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1834408542"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1834408542"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1834408542"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1834408542"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMiddleCategory/GetEventMiddles": {
+      "post": {
+        "tags": [
+          "EventNew/EventMiddleCategory"
+        ],
+        "summary": "获取中间事件列表",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-43103530"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-43103530"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-43103530"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-43103530"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMiddleSetting/GetMiddleSettings": {
+      "post": {
+        "tags": [
+          "EventNew/EventMiddleSetting"
+        ],
+        "summary": "获取中间事件配置",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1416508394"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1416508394"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1416508394"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1--1416508394"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EventNew/EventMiddleSetting/UpdateMiddleSettings": {
+      "post": {
+        "tags": [
+          "EventNew/EventMiddleSetting"
+        ],
+        "summary": "更新中间事件配置",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1222136662"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1222136662"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1222136662"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MtRequest`1-1222136662"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MtResult-1805090707"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AbortEventMetaTransitionTaskReq--1027476994": {
+        "type": "object",
+        "properties": {
+          "taskId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AddMetaCategoryReq--1709690788": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tableId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "type": {
+            "$ref": "#/components/schemas/EventType-448549574"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "rule": {
+            "$ref": "#/components/schemas/MetaRule--256033304"
+          },
+          "parentOperationType": {
+            "$ref": "#/components/schemas/ParentOperationTypeEnum--560112530"
+          },
+          "parent": {
+            "type": "string",
+            "nullable": true
+          },
+          "logicalRelation": {
+            "$ref": "#/components/schemas/LogicalRelation-1006943980"
+          },
+          "hasReportPeriod": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Condition--692119203": {
+        "type": "object",
+        "properties": {
+          "sign": {
+            "$ref": "#/components/schemas/Sign--999826890"
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConstantField--375142205": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateEventAppCategoryReq-324868135": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "models": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreatEventAppCateModel--2052302906"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatEventAppCateModel--2052302906": {
+        "type": "object",
+        "properties": {
+          "parentId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "appCateName": {
+            "type": "string",
+            "nullable": true
+          },
+          "rule": {
+            "$ref": "#/components/schemas/EventAppCategoryRule--1136495176"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DataMetaRelation--480682138": {
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "DateBetweenField-970752776": {
+        "type": "object",
+        "properties": {
+          "dateType": {
+            "$ref": "#/components/schemas/DateType--1963846723"
+          },
+          "begin": {
+            "type": "string",
+            "nullable": true
+          },
+          "end": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DateType--1963846723": {
+        "enum": [
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "DelTemplateReq-1508656088": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "templateId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditMetaCategoryReq-1559490356": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "metaCategoryId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditMetaSettingReq--21337626": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "metaSettingId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EventAppCategoryRule--1136495176": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/EventAppCategoryRuleType--1598608288"
+          },
+          "metaCates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MetaCate-494962622"
+            },
+            "nullable": true
+          },
+          "splitRule": {
+            "$ref": "#/components/schemas/SplitRule-695296341"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EventAppCategoryRuleSymbolType-403831011": {
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "EventAppCategoryRuleType--1598608288": {
+        "enum": [
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "EventFactorCategories--1654459266": {
+        "type": "object",
+        "properties": {
+          "templateTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "eventFactorCategoryIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EventMetaCategoryAuditStatus--2096315694": {
+        "enum": [
+          0,
+          101,
+          201,
+          301,
+          401,
+          501,
+          601
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "EventMetaCurrentProcess-558380106": {
+        "enum": [
+          0,
+          101,
+          201,
+          301,
+          302,
+          303,
+          401,
+          501
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "EventMiddleSettingConditionType--565488005": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "EventMiddleSettingType--2126700167": {
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "EventType-448549574": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "ExportEventMetasExcelNewReq-1163060550": {
+        "type": "object",
+        "properties": {
+          "isFetchMetaData": {
+            "$ref": "#/components/schemas/IsFetchMetaDataEnum-1777395020"
+          },
+          "sheetMaxNum": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "metaSettingItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MetaSettingItemEnum--1142039236"
+            },
+            "nullable": true
+          },
+          "metaCategoryIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          },
+          "dateType": {
+            "$ref": "#/components/schemas/DateType--1963846723"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "stocks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "current": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "psize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExportEventMetasExcelReq-306730892": {
+        "type": "object",
+        "properties": {
+          "isExportMetaSetting": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "metaCategoryId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "dateType": {
+            "$ref": "#/components/schemas/DateType--1963846723"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "stocks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "current": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "psize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GenerateMiddleCategorysReq--1430590075": {
+        "type": "object",
+        "properties": {
+          "middleSettingIdsForCate": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          },
+          "middleSettingIdsForDir": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetDataTableConstantFieldsReq--695346947": {
+        "type": "object",
+        "properties": {
+          "dataTableId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetEventFactorCategoriesReq-1759950084": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "GetEventMetaTransitionProgressReq-1560455500": {
+        "type": "object",
+        "properties": {
+          "taskIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetEventMiddlesReq-997944865": {
+        "type": "object",
+        "properties": {
+          "middleCateIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          },
+          "dateType": {
+            "$ref": "#/components/schemas/DateType--1963846723"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "stocks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetFieldNullInfoReq-2138623248": {
+        "type": "object",
+        "properties": {
+          "tableId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetListReq--1935961431": {
+        "required": [
+          "accountId",
+          "current",
+          "psize"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "current": {
+            "pattern": "^[0-9]\\d*$",
+            "type": "integer",
+            "format": "int32"
+          },
+          "psize": {
+            "pattern": "^[1-9]\\d*$",
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "eventTypeId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "creatorId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetMetaCategoryAuditsReq-1287208551": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isJustMe": {
+            "type": "boolean"
+          },
+          "auditStatuses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventMetaCategoryAuditStatus--2096315694"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetMetaCategoryParentsReq-896231490": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dataTableId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetMetaCategoryTreeReq--991928621": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "metaCateTreeType": {
+            "$ref": "#/components/schemas/MetaCategoryTreeTypeEnum-1617489663"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetMetaOverviewReq-1155907690": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "types": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventType-448549574"
+            },
+            "nullable": true
+          },
+          "tableIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          },
+          "metaCategoryIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          },
+          "currentProcesses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventMetaCurrentProcess-558380106"
+            },
+            "nullable": true
+          },
+          "dataMetaRelations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DataMetaRelation--480682138"
+            },
+            "nullable": true
+          },
+          "operators": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetMetaSettingHomePageReq-1353659780": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tableId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetMetaTableFieldsReq--1306492563": {
+        "type": "object",
+        "properties": {
+          "metaCateId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetMiddleCategoryTreeReq--1504554334": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "GetMiddleSettingsReq--1325538848": {
+        "type": "object",
+        "properties": {
+          "metaCateId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetSingleReq-1172249116": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetTableCategoryReq-311783469": {
+        "type": "object",
+        "properties": {
+          "dwId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetTableFieldInfoReq-658418378": {
+        "type": "object",
+        "properties": {
+          "dataTableId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetTemplatesReq--855874017": {
+        "required": [
+          "accountId",
+          "current",
+          "psize"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "current": {
+            "pattern": "^[0-9]\\d*$",
+            "type": "integer",
+            "format": "int32"
+          },
+          "psize": {
+            "pattern": "^[1-9]\\d*$",
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetTemplateTypesReq--1705405035": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "GetThemesReq--986940595": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "IsFetchMetaDataEnum-1777395020": {
+        "enum": [
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "LabelDataTableFieldsReq-98621752": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "labelEventOption": {
+            "$ref": "#/components/schemas/LabelEventOptionEnum-921218627"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LabelEventOptionEnum-921218627": {
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "LogicalRelation-1006943980": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "MetaCate-494962622": {
+        "type": "object",
+        "properties": {
+          "metaCateId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "metaTableId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MetaCategoryTestReq--573588994": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "metaCategoryIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          },
+          "dateBetweenFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DateBetweenField-970752776"
+            },
+            "nullable": true
+          },
+          "securityCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "companyCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MetaCategoryTreeTypeEnum-1617489663": {
+        "enum": [
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "MetaRule--256033304": {
+        "type": "object",
+        "properties": {
+          "groupByFields": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          },
+          "notNullFields": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          },
+          "constantFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConstantField--375142205"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MetaSettingItemEnum--1142039236": {
+        "enum": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "MiddleCondition-549115736": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "fieldId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "fieldName": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/EventMiddleSettingConditionType--565488005"
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Condition--692119203"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MiddleSetting-1074082732": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "parentId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "isRoot": {
+            "type": "boolean"
+          },
+          "type": {
+            "$ref": "#/components/schemas/EventMiddleSettingType--2126700167"
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MiddleSettingCondition-1128443431"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MiddleSettingCondition-1128443431": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDefault": {
+            "type": "boolean"
+          },
+          "type": {
+            "$ref": "#/components/schemas/EventMiddleSettingConditionType--565488005"
+          },
+          "content": {
+            "$ref": "#/components/schemas/MiddleCondition-549115736"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ModifyMetaCategory--1383577805": {
+        "type": "object",
+        "properties": {
+          "metaCategoryId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "newParentId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ModifyMetaCategoryNewReq-1253695352": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "metaCategoryId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "parentOperationType": {
+            "$ref": "#/components/schemas/ParentOperationTypeEnum--560112530"
+          },
+          "parent": {
+            "type": "string",
+            "nullable": true
+          },
+          "hasReportPeriod": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "testResult": {
+            "$ref": "#/components/schemas/TestResult--599620108"
+          },
+          "pubDateField": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "eventDateField": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "rule": {
+            "$ref": "#/components/schemas/MetaRule--256033304"
+          },
+          "isEnabled": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isLocked": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ModifyMetaCategoryParent-1303208776": {
+        "type": "object",
+        "properties": {
+          "metaCategoryParentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "newParentName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ModifyMetaCategoryParentReq--335999762": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "modifyMetaCategorys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModifyMetaCategory--1383577805"
+            },
+            "nullable": true
+          },
+          "modifyMetaCategoryParents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModifyMetaCategoryParent-1303208776"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ModifyMetaCategoryReq-210923625": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "metaCategoryId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "testResult": {
+            "$ref": "#/components/schemas/TestResult--599620108"
+          },
+          "pubDateField": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "eventDateField": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "rule": {
+            "$ref": "#/components/schemas/MetaRule--256033304"
+          },
+          "isEnabled": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isLocked": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--1060561350": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/SaveTemplateReq-2082941172"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--1084448790": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetDataTableConstantFieldsReq--695346947"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--1102378452": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/UndoStoreEventMetaReq--2020513850"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--1105393209": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ModifyMetaCategoryParentReq--335999762"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--1262048385": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetMetaCategoryAuditsReq-1287208551"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--1321978960": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ModifyMetaCategoryReq-210923625"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--1359232138": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/EditMetaSettingReq--21337626"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--1415434318": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetMetaTableFieldsReq--1306492563"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--1416508394": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetMiddleSettingsReq--1325538848"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--1433039778": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/MultiAddMetaCategoryReq--910362296"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--1459010430": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/MetaCategoryTestReq--573588994"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--148062558": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/MultiEditMetaCategoryReq-1074866369"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--1733476607": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetTemplateTypesReq--1705405035"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--1834408542": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetMiddleCategoryTreeReq--1504554334"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--1843517861": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetMetaSettingHomePageReq-1353659780"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--2077665505": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/SaveTemplateBindEventTypeReq--760716341"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--262471248": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LabelDataTableFieldsReq-98621752"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--532923174": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetEventFactorCategoriesReq-1759950084"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--538406089": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/SaveThemesReq-1685082926"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--60404886": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/QueryEventMetaDataReq--1675707434"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--642559868": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/DelTemplateReq-1508656088"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--675801980": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/StoreEventMetaReq--2011775944"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--694613045": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/SaveMetaSettingReq-1472419935"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--707634950": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetMetaCategoryTreeReq--991928621"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--767756107": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ModifyMetaCategoryNewReq-1253695352"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--940556668": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetTemplatesReq--855874017"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1--972547447": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ExportEventMetasExcelNewReq-1163060550"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-1005147636": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetTableFieldInfoReq-658418378"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-1070235111": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModifyMetaCategoryReq-210923625"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-118452363": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetMetaOverviewReq-1155907690"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-1196275978": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModifyMetaCategoryNewReq-1253695352"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-1222136662": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/UpdateMiddleSettingsReq--1428882672"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-123779204": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AbortEventMetaTransitionTaskReq--1027476994"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-1272510391": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetFieldNullInfoReq-2138623248"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-1323049624": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GenerateMiddleCategorysReq--1430590075"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-1355765080": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/EditMetaCategoryReq-1559490356"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-1365286354": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AddMetaCategoryReq--1709690788"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-1404089528": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/RemoveMetaCategoryReq-578805315"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-1407777889": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetTableCategoryReq-311783469"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-1470611447": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/SetMetaCategoryAuditStatusReq--220488830"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-1499626162": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/TestRunReq--1833114448"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-153750106": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/MultiAddMetaCategoryNewReq-971942250"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-1673980502": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ExportEventMetasExcelReq-306730892"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-1679528666": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/CreateEventAppCategoryReq-324868135"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-190467916": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetSingleReq-1172249116"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-1979668880": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetListReq--1935961431"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-2117982894": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/SaveEditReq--56811237"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-43103530": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetEventMiddlesReq-997944865"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-705898410": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetEventMetaTransitionProgressReq-1560455500"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-762962700": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetThemesReq--986940595"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-801511442": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/QueryEventMetasReq--575054025"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-874835990": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetMetaCategoryParentsReq-896231490"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtRequest`1-989501433": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "$ref": "#/components/schemas/TestMetaCategoryReq--1622303119"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MtResult-1805090707": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MultiAddMetaCategoryNewReq-971942250": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tableId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "metaCates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AddMetaCategoryReq--1709690788"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MultiAddMetaCategoryReq--910362296": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tableId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "type": {
+            "$ref": "#/components/schemas/EventType-448549574"
+          },
+          "rules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MetaRule--256033304"
+            },
+            "nullable": true
+          },
+          "parentName": {
+            "type": "string",
+            "nullable": true
+          },
+          "logicalRelation": {
+            "$ref": "#/components/schemas/LogicalRelation-1006943980"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MultiEditMetaCategoryReq-1074866369": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "metaCategoryIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ParentOperationTypeEnum--560112530": {
+        "enum": [
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "QueryEventMetaDataReq--1675707434": {
+        "type": "object",
+        "properties": {
+          "metaCateId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "metaId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "QueryEventMetasReq--575054025": {
+        "type": "object",
+        "properties": {
+          "isExportMetaSetting": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "metaCategoryIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          },
+          "dateType": {
+            "$ref": "#/components/schemas/DateType--1963846723"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "stocks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "current": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "psize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RemoveMetaCategoryReq-578805315": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "metaCategoryId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SaveEditReq--56811237": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "eventTypeId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WdUniversalSection--497795355"
+            },
+            "nullable": true
+          },
+          "table": {
+            "$ref": "#/components/schemas/WdUniversalBlock--1521057585"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SaveMetaSettingReq-1472419935": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tableId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "isMetaOrigin": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isSequenced": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "onlyContainOneMetaCategory": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "dataMetaRelation": {
+            "$ref": "#/components/schemas/DataMetaRelation--480682138"
+          },
+          "subjectCodeField": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "subjectType": {
+            "$ref": "#/components/schemas/SubjectType--1840395426"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SaveTemplateBindEventTypeReq--760716341": {
+        "type": "object",
+        "properties": {
+          "eventTypeId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "templateIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SaveTemplateReq-2082941172": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "templateId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "templateDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TemplateDetail-1730951819"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SaveThemesReq-1685082926": {
+        "type": "object",
+        "properties": {
+          "themes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Theme-271796532"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SetMetaCategoryAuditStatusReq--220488830": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "metaCategoryId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "metaTableId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "auditStatus": {
+            "$ref": "#/components/schemas/EventMetaCategoryAuditStatus--2096315694"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Sign--999826890": {
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "SplitRule-695296341": {
+        "type": "object",
+        "properties": {
+          "fieldId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "fieldValue": {
+            "type": "string",
+            "nullable": true
+          },
+          "symbolType": {
+            "$ref": "#/components/schemas/EventAppCategoryRuleSymbolType-403831011"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StoreEventMetaReq--2011775944": {
+        "type": "object",
+        "properties": {
+          "metaCategoryId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SubjectType--1840395426": {
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "TemplateDetail-1730951819": {
+        "type": "object",
+        "properties": {
+          "eventTypeId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TestMetaCategoryReq--1622303119": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "metaCategoryIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          },
+          "dateBetweenFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DateBetweenField-970752776"
+            },
+            "nullable": true
+          },
+          "subjectCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TestResult--599620108": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "TestRunReq--1833114448": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Theme-271796532": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "parentId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "order": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "active": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lastUpdate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isDelete": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "eventTypes": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          "templateTypes": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          "eventFactorCategories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventFactorCategories--1654459266"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UndoStoreEventMetaReq--2020513850": {
+        "type": "object",
+        "properties": {
+          "metaCategoryId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateMiddleSettingsReq--1428882672": {
+        "required": [
+          "accountId"
+        ],
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "metaCateId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "middleSettings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MiddleSetting-1074082732"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WdUniversalBlock--1521057585": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/WdUniversalBlockType-1211116213"
+          },
+          "num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "$ref": "#/components/schemas/WdUniversalBlockContent-323346230"
+          },
+          "fillDataOption": {
+            "$ref": "#/components/schemas/WdUniversalFillDataOption-268165783"
+          },
+          "refOption": {
+            "$ref": "#/components/schemas/WdUniversalReferenceOption-722909262"
+          },
+          "blockIdentity": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WdUniversalBlockContent-323346230": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WdUniversalBlockType-1211116213": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "WdUniversalFillDataOption-268165783": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "WdUniversalReferenceOption-722909262": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "WdUniversalSection--497795355": {
+        "type": "object",
+        "properties": {
+          "num": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "blocks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WdUniversalBlock--1521057585"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
+}
