@@ -1,5 +1,4 @@
-var url = require('url');
-
+import url from 'url';
 class Swagger2Apipost {
   version: string;
   project: any;
