@@ -1,0 +1,867 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+      "/app/question/list": {
+          "post": {
+              "tags": [
+                  "question"
+              ],
+              "summary": "提问列表",
+              "operationId": "4f945c4c6c76bed3bd6414c63a426597",
+              "parameters": [
+                  {
+                      "name": "version",
+                      "in": "header",
+                      "description": "",
+                      "type": "string",
+                      "default": "1.0"
+                  },
+                  {
+                      "name": "apitoken",
+                      "in": "header",
+                      "description": "apitoken 展示使用",
+                      "type": "string",
+                      "default": ""
+                  },
+                  {
+                      "name": "token",
+                      "in": "header",
+                      "description": "token - 我的提问时使用",
+                      "type": "string",
+                      "default": ""
+                  }
+              ],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "required": [
+                                  "page_no",
+                                  "page_size"
+                              ],
+                              "properties": {
+                                  "page_no": {
+                                      "description": "当前页码",
+                                      "type": "integer"
+                                  },
+                                  "page_size": {
+                                      "description": "每页数量",
+                                      "type": "integer"
+                                  },
+                                  "is_page": {
+                                      "description": "是否分页",
+                                      "type": "integer",
+                                      "example": "0"
+                                  },
+                                  "title": {
+                                      "description": "标题搜索",
+                                      "type": "string"
+                                  },
+                                  "relation_type": {
+                                      "description": "关联类型 0 未关联 1 慧商 2 服务商品 3 方案 4 门店 5 设计师",
+                                      "type": "integer"
+                                  },
+                                  "relation_id": {
+                                      "description": "关联类型ID",
+                                      "type": "integer"
+                                  },
+                                  "cate_id": {
+                                      "description": "分类筛选",
+                                      "type": "integer"
+                                  },
+                                  "is_open": {
+                                      "description": "显示状态 0 未开放 1 已开放",
+                                      "type": "integer"
+                                  },
+                                  "checked": {
+                                      "description": "审核状态 0 未审核 1 已审核 4 已驳回",
+                                      "type": "integer"
+                                  },
+                                  "status": {
+                                      "description": "完结状态：1 已回答 / 0 待回答 / 2 进行中",
+                                      "type": "integer"
+                                  },
+                                  "orderd": {
+                                      "description": "排序规则：0 最新 1 热门(查看量)",
+                                      "type": "integer"
+                                  }
+                              },
+                              "type": "object"
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "successful operation",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "properties": {
+                                      "data": {
+                                          "type": "array",
+                                          "items": {
+                                              "properties": {
+                                                  "id": {
+                                                      "description": "主键id",
+                                                      "type": "integer"
+                                                  },
+                                                  "cate_id": {
+                                                      "description": "分类ID",
+                                                      "type": "integer"
+                                                  },
+                                                  "cate_name": {
+                                                      "description": "分类名称",
+                                                      "type": "integer"
+                                                  },
+                                                  "title": {
+                                                      "description": "提问标题",
+                                                      "type": "string"
+                                                  },
+                                                  "info": {
+                                                      "description": "提问内容",
+                                                      "type": "string"
+                                                  },
+                                                  "relation_type": {
+                                                      "description": "关联类型 0 未关联 1 慧商 2 服务商品 3 方案 4 门店 5 设计师 ",
+                                                      "type": "integer"
+                                                  },
+                                                  "relation_id": {
+                                                      "description": "关联类型ID",
+                                                      "type": "integer"
+                                                  },
+                                                  "tags": {
+                                                      "description": "标签，多个','隔开",
+                                                      "type": "string"
+                                                  },
+                                                  "is_open": {
+                                                      "description": "显示/公开状态 1 公开 0 不公开",
+                                                      "type": "integer"
+                                                  },
+                                                  "checked": {
+                                                      "description": "审核状态 1 已审核 0 待审核 4 已驳回",
+                                                      "type": "integer"
+                                                  },
+                                                  "status": {
+                                                      "description": "状态：1 已回答 / 0 待回答 / 2 进行中",
+                                                      "type": "integer"
+                                                  },
+                                                  "views": {
+                                                      "description": "点击量",
+                                                      "type": "integer"
+                                                  },
+                                                  "answer_total": {
+                                                      "description": "答案数量",
+                                                      "type": "integer"
+                                                  },
+                                                  "nickname": {
+                                                      "description": "提问人昵称",
+                                                      "type": "string"
+                                                  },
+                                                  "user_id": {
+                                                      "description": "提问人通行证ID",
+                                                      "type": "integer"
+                                                  },
+                                                  "complete_time": {
+                                                      "description": "完结时间",
+                                                      "type": "string"
+                                                  },
+                                                  "create_time": {
+                                                      "description": "创建时间",
+                                                      "type": "string"
+                                                  },
+                                                  "update_time": {
+                                                      "description": "更新时间",
+                                                      "type": "string"
+                                                  },
+                                                  "relation_info": {
+                                                      "description": "关联信息",
+                                                      "properties": {
+                                                          "id": {
+                                                              "description": "关联项id",
+                                                              "type": "string"
+                                                          },
+                                                          "name": {
+                                                              "description": "关联项名称",
+                                                              "type": "string"
+                                                          },
+                                                          "pic": {
+                                                              "description": "关联项图片",
+                                                              "type": "string"
+                                                          }
+                                                      },
+                                                      "type": "object"
+                                                  }
+                                              },
+                                              "type": "object"
+                                          }
+                                      }
+                                  },
+                                  "type": "object"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/app/question/merchant/list": {
+          "post": {
+              "tags": [
+                  "question"
+              ],
+              "summary": "商户/设计师 问答列表",
+              "operationId": "549885171a047442551f5c489d5e4c4a",
+              "parameters": [
+                  {
+                      "name": "version",
+                      "in": "header",
+                      "description": "",
+                      "type": "string",
+                      "default": "1.0"
+                  },
+                  {
+                      "name": "token",
+                      "in": "header",
+                      "description": "token - 我的提问时使用",
+                      "type": "string",
+                      "default": ""
+                  }
+              ],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "required": [
+                                  "page_no",
+                                  "page_size"
+                              ],
+                              "properties": {
+                                  "page_no": {
+                                      "description": "当前页码",
+                                      "type": "integer"
+                                  },
+                                  "page_size": {
+                                      "description": "每页数量",
+                                      "type": "integer"
+                                  },
+                                  "type": {
+                                      "description": "问题状态  1已回答   2待回答   默认0",
+                                      "type": "integer"
+                                  },
+                                  "is_page": {
+                                      "description": "是否分页",
+                                      "type": "integer",
+                                      "example": "0"
+                                  }
+                              },
+                              "type": "object"
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "successful operation",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "properties": {
+                                      "data": {
+                                          "type": "array",
+                                          "items": {
+                                              "properties": {
+                                                  "id": {
+                                                      "description": "主键id",
+                                                      "type": "integer"
+                                                  },
+                                                  "cate_id": {
+                                                      "description": "分类ID",
+                                                      "type": "integer"
+                                                  },
+                                                  "cate_name": {
+                                                      "description": "分类名称",
+                                                      "type": "integer"
+                                                  },
+                                                  "title": {
+                                                      "description": "提问标题",
+                                                      "type": "string"
+                                                  },
+                                                  "info": {
+                                                      "description": "提问内容",
+                                                      "type": "string"
+                                                  },
+                                                  "relation_type": {
+                                                      "description": "关联类型 0 未关联 1 慧商 2 服务商品 3 方案 4 门店 5 设计师 ",
+                                                      "type": "integer"
+                                                  },
+                                                  "relation_id": {
+                                                      "description": "关联类型ID",
+                                                      "type": "integer"
+                                                  },
+                                                  "tags": {
+                                                      "description": "标签，多个','隔开",
+                                                      "type": "string"
+                                                  },
+                                                  "is_open": {
+                                                      "description": "显示/公开状态 1 公开 0 不公开",
+                                                      "type": "integer"
+                                                  },
+                                                  "checked": {
+                                                      "description": "审核状态 1 已审核 0 待审核 4 已驳回",
+                                                      "type": "integer"
+                                                  },
+                                                  "status": {
+                                                      "description": "状态：1 已回答 / 0 待回答 / 2 进行中",
+                                                      "type": "integer"
+                                                  },
+                                                  "views": {
+                                                      "description": "点击量",
+                                                      "type": "integer"
+                                                  },
+                                                  "answer_total": {
+                                                      "description": "答案数量",
+                                                      "type": "integer"
+                                                  },
+                                                  "nickname": {
+                                                      "description": "提问人昵称",
+                                                      "type": "string"
+                                                  },
+                                                  "user_id": {
+                                                      "description": "提问人通行证ID",
+                                                      "type": "integer"
+                                                  },
+                                                  "complete_time": {
+                                                      "description": "完结时间",
+                                                      "type": "string"
+                                                  },
+                                                  "create_time": {
+                                                      "description": "创建时间",
+                                                      "type": "string"
+                                                  },
+                                                  "update_time": {
+                                                      "description": "更新时间",
+                                                      "type": "string"
+                                                  },
+                                                  "relation_info": {
+                                                      "description": "关联信息",
+                                                      "properties": {
+                                                          "id": {
+                                                              "description": "关联项id",
+                                                              "type": "string"
+                                                          },
+                                                          "name": {
+                                                              "description": "关联项名称",
+                                                              "type": "string"
+                                                          },
+                                                          "pic": {
+                                                              "description": "关联项图片",
+                                                              "type": "string"
+                                                          }
+                                                      },
+                                                      "type": "object"
+                                                  }
+                                              },
+                                              "type": "object"
+                                          }
+                                      }
+                                  },
+                                  "type": "object"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/app/question/{id}/info": {
+          "get": {
+              "tags": [
+                  "question"
+              ],
+              "summary": "提问详情",
+              "operationId": "8b086a010fdd7042666f861f3ea8064a",
+              "parameters": [
+                  {
+                      "name": "version",
+                      "in": "header",
+                      "description": "",
+                      "type": "string",
+                      "default": "1.0"
+                  },
+                  {
+                      "name": "apitoken",
+                      "in": "header",
+                      "description": "apitoken",
+                      "type": "string",
+                      "default": ""
+                  }
+              ],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "required": [
+                                  "id"
+                              ],
+                              "properties": {
+                                  "id": {
+                                      "description": "问题ID",
+                                      "type": "integer"
+                                  }
+                              },
+                              "type": "object"
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "successful operation",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "properties": {
+                                      "id": {
+                                          "description": "主键id",
+                                          "type": "integer"
+                                      },
+                                      "cate_id": {
+                                          "description": "分类ID",
+                                          "type": "integer"
+                                      },
+                                      "title": {
+                                          "description": "提问标题",
+                                          "type": "string"
+                                      },
+                                      "info": {
+                                          "description": "提问内容",
+                                          "type": "string"
+                                      },
+                                      "relation_type": {
+                                          "description": "关联类型 0 未关联 1 慧商商品 2 方案 3 门店 4 设计师 ",
+                                          "type": "integer"
+                                      },
+                                      "relation_id": {
+                                          "description": "关联类型ID",
+                                          "type": "integer"
+                                      },
+                                      "relation_name": {
+                                          "description": "关键内容名称",
+                                          "type": "string"
+                                      },
+                                      "tags": {
+                                          "description": "标签，多个','隔开",
+                                          "type": "string"
+                                      },
+                                      "is_open": {
+                                          "description": "显示/公开状态 1 公开 0 不公开",
+                                          "type": "integer"
+                                      },
+                                      "checked": {
+                                          "description": "审核状态 1 已审核 0 待审核 4 已驳回",
+                                          "type": "integer"
+                                      },
+                                      "status": {
+                                          "description": "状态：1 已回答 / 0 待回答 / 2 进行中",
+                                          "type": "integer"
+                                      },
+                                      "views": {
+                                          "description": "点击量",
+                                          "type": "integer"
+                                      },
+                                      "nickname": {
+                                          "description": "提问人昵称",
+                                          "type": "string"
+                                      },
+                                      "user_id": {
+                                          "description": "提问人通行证ID",
+                                          "type": "integer"
+                                      },
+                                      "complete_time": {
+                                          "description": "完结时间",
+                                          "type": "string"
+                                      },
+                                      "create_time": {
+                                          "description": "创建时间",
+                                          "type": "string"
+                                      },
+                                      "update_time": {
+                                          "description": "更新时间",
+                                          "type": "string"
+                                      },
+                                      "relation_info": {
+                                          "description": "关联信息",
+                                          "properties": {
+                                              "id": {
+                                                  "description": "关联项id",
+                                                  "type": "string"
+                                              },
+                                              "name": {
+                                                  "description": "关联项名称",
+                                                  "type": "string"
+                                              },
+                                              "pic": {
+                                                  "description": "关联项图片",
+                                                  "type": "string"
+                                              }
+                                          },
+                                          "type": "object"
+                                      },
+                                      "relation_question_num": {
+                                          "description": "关联产品的问题数量",
+                                          "type": "integer"
+                                      }
+                                  },
+                                  "type": "object"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/app/question/{id}/answer": {
+          "post": {
+              "tags": [
+                  "question"
+              ],
+              "summary": "提问 - 回答列表",
+              "operationId": "84d3e240f9e1f6888ea5ede80a745819",
+              "parameters": [
+                  {
+                      "name": "version",
+                      "in": "header",
+                      "description": "",
+                      "type": "string",
+                      "default": "1.0"
+                  },
+                  {
+                      "name": "apitoken",
+                      "in": "header",
+                      "description": "apitoken",
+                      "type": "string",
+                      "default": ""
+                  }
+              ],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "required": [
+                                  "id",
+                                  "page_no",
+                                  "page_size"
+                              ],
+                              "properties": {
+                                  "id": {
+                                      "description": "问题ID",
+                                      "type": "integer"
+                                  },
+                                  "page_no": {
+                                      "description": "当前页码",
+                                      "type": "integer"
+                                  },
+                                  "page_size": {
+                                      "description": "每页数量",
+                                      "type": "integer"
+                                  },
+                                  "answer": {
+                                      "description": "回答搜索",
+                                      "type": "string"
+                                  },
+                                  "checked": {
+                                      "description": "审核状态 1 已审核 0 待审核 4 已驳回",
+                                      "type": "integer"
+                                  }
+                              },
+                              "type": "object"
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "successful operation",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "properties": {
+                                      "data": {
+                                          "type": "array",
+                                          "items": {
+                                              "properties": {
+                                                  "id": {
+                                                      "description": "回答id",
+                                                      "type": "integer"
+                                                  },
+                                                  "question_id": {
+                                                      "description": "问题ID",
+                                                      "type": "integer"
+                                                  },
+                                                  "answer": {
+                                                      "description": "回答内容",
+                                                      "type": "string"
+                                                  },
+                                                  "nickname": {
+                                                      "description": "回答人昵称",
+                                                      "type": "string"
+                                                  },
+                                                  "user_id": {
+                                                      "description": "回答人通行证ID",
+                                                      "type": "integer"
+                                                  },
+                                                  "checked": {
+                                                      "description": "审核状态 1 已审核 0 待审核 4 已驳回",
+                                                      "type": "integer"
+                                                  },
+                                                  "is_complete": {
+                                                      "description": "是否最佳答案 1 是 0 不是",
+                                                      "type": "integer"
+                                                  },
+                                                  "source": {
+                                                      "description": "问题来源",
+                                                      "type": "integer"
+                                                  },
+                                                  "agree": {
+                                                      "description": "赞同量",
+                                                      "type": "integer"
+                                                  },
+                                                  "disagree": {
+                                                      "description": "不赞同",
+                                                      "type": "integer"
+                                                  },
+                                                  "create_time": {
+                                                      "description": "创建时间",
+                                                      "type": "string"
+                                                  }
+                                              },
+                                              "type": "object"
+                                          }
+                                      }
+                                  },
+                                  "type": "object"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/app/question/answer/{id}/agree": {
+          "post": {
+              "tags": [
+                  "question"
+              ],
+              "summary": "答案操作 - 支持",
+              "operationId": "f4209d119931e983a9759610ef31e29c",
+              "parameters": [
+                  {
+                      "name": "version",
+                      "in": "header",
+                      "description": "",
+                      "type": "string",
+                      "default": "1.0"
+                  },
+                  {
+                      "name": "apitoken",
+                      "in": "header",
+                      "description": "apitoken",
+                      "type": "string",
+                      "default": ""
+                  }
+              ],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "required": [
+                                  "id"
+                              ],
+                              "properties": {
+                                  "id": {
+                                      "description": "答案ID",
+                                      "type": "integer"
+                                  }
+                              },
+                              "type": "object"
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "successful operation",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "properties": {
+                                      "agree": {
+                                          "description": "赞同量",
+                                          "type": "integer"
+                                      },
+                                      "disagree": {
+                                          "description": "不赞同",
+                                          "type": "integer"
+                                      }
+                                  },
+                                  "type": "object"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/app/question/answer/{id}/disagree": {
+          "post": {
+              "tags": [
+                  "question"
+              ],
+              "summary": "答案操作 - 不支持",
+              "operationId": "e41cc9381257c6d7018fa2478390c041",
+              "parameters": [
+                  {
+                      "name": "version",
+                      "in": "header",
+                      "description": "",
+                      "type": "string",
+                      "default": "1.0"
+                  },
+                  {
+                      "name": "apitoken",
+                      "in": "header",
+                      "description": "apitoken",
+                      "type": "string",
+                      "default": ""
+                  }
+              ],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "required": [
+                                  "id"
+                              ],
+                              "properties": {
+                                  "id": {
+                                      "description": "答案ID",
+                                      "type": "integer"
+                                  }
+                              },
+                              "type": "object"
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "successful operation",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "properties": {
+                                      "agree": {
+                                          "description": "赞同量",
+                                          "type": "integer"
+                                      },
+                                      "disagree": {
+                                          "description": "不赞同",
+                                          "type": "integer"
+                                      }
+                                  },
+                                  "type": "object"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/home/toutiao/dypay": {
+          "post": {
+              "tags": [
+                  "toutiao"
+              ],
+              "summary": "抖音-服务端预下单",
+              "operationId": "744cf8befeae27edc7b583b45afe240f",
+              "parameters": [
+                  {
+                      "name": "apiToken",
+                      "in": "header",
+                      "description": "",
+                      "type": "string",
+                      "default": ""
+                  }
+              ],
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "properties": {
+                                  "order_id": {
+                                      "description": "慧商订单ID",
+                                      "type": "integer",
+                                      "default": "1",
+                                      "example": "1"
+                                  }
+                              },
+                              "type": "object"
+                          }
+                      }
+                  }
+              }
+          }
+      }
+  },
+  "tags": [
+      {
+          "name": "apps",
+          "description": "基础接口"
+      },
+      {
+          "name": "question",
+          "description": "搜索平台"
+      },
+      {
+          "name": "question",
+          "description": "问答功能"
+      },
+      {
+          "name": "home",
+          "description": "我的家"
+      },
+      {
+          "name": "coupon",
+          "description": "优惠券"
+      },
+      {
+          "name": "invoice",
+          "description": "发票"
+      },
+      {
+          "name": "message",
+          "description": "消息中心"
+      },
+      {
+          "name": "item",
+          "description": "商品"
+      },
+      {
+          "name": "toutiao",
+          "description": "抖音"
+      },
+      {
+          "name": "share",
+          "description": "分享功能"
+      },
+      {
+          "name": "search",
+          "description": "搜素系统"
+      },
+      {
+          "name": "circle",
+          "description": "熊洞圈子"
+      }
+  ]
+}

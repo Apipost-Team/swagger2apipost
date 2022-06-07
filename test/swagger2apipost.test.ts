@@ -3,11 +3,22 @@ let fs = require('fs');
 let path = require('path');
 
 describe('works', () => {
-  // const json1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/swagger2Info_1.json'), 'utf-8'));
-  const json4 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/swagger2Info_4.json'), 'utf-8'));
+  const json3_4 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/swagger3Info_4.json'), 'utf-8'));
+  const json2_4 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/swagger2Info_4.json'), 'utf-8'));
+  const json3_5 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/swagger3Info_5.json'), 'utf-8'));
+  const json3_6 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/swagger3Info_6.json'), 'utf-8'));
   const converter = new Swagger2Apipost();
-  it('测试Swagger2Apipost 2.0 success', () => {
-    expect(converter.convert(json4).status).toBe('success');
+  it('测试Swagger2Apipost 2.0 success', async () => {
+    expect((await converter.convert(json2_4)).status).toBe('success');
+  });
+  it('测试Swagger2Apipost 3.0 success', async () => {
+    expect((await converter.convert(json3_4)).status).toBe('success');
+  });
+  it('测试Swagger2Apipost 3.0 success',async () => {
+    expect((await converter.convert(json3_5)).status).toBe('success');
+  });
+  it('测试Swagger2Apipost 3.0 success',async () => {
+    expect((await converter.convert(json3_6)).status).toBe('success');
   });
 });
 

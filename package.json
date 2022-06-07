@@ -19,7 +19,8 @@
     "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-typescript": "^1.0.1",
-    "rollup-plugin-typescript2": "^0.31.2"
+    "rollup-plugin-typescript2": "^0.31.2",
+    "swagger-client": "^3.18.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.17",
@@ -66,5 +67,8 @@
   },
   "author": "xbw",
   "license": "MIT",
-  "keywords":["swagger","swagger2apipost"]
+  "keywords": [
+    "swagger",
+    "swagger2apipost"
+  ]
 }
