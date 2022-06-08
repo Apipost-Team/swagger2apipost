@@ -372,8 +372,7 @@ class Swagger2Apipost {
         'request': {
           'header': [],
           'description': operation.description || '',
-        },
-        'pathVariables': {},
+        }
       },
       thisParams = this.getParamsForPathItem(params, operation.parameters),
       hasQueryParams = false,
@@ -500,9 +499,9 @@ class Swagger2Apipost {
             })
         }
         else if (thisParams[param].in === 'path') {
-          if (!api.hasOwnProperty('pathVariables')) {
-            api.pathVariables = {};
-          }
+          // if (!api.hasOwnProperty('pathVariables')) {
+          //   api.pathVariables = {};
+          // }
           // api.pathVariables[thisParams[param].name] = defaultVal;
         }
       }
