@@ -1,6 +1,6 @@
 {
   "name": "swagger2apipost",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "swagger2apipost",
   "main": "dist/index.js",
   "files": [
@@ -70,5 +70,9 @@
   "keywords": [
     "swagger",
     "swagger2apipost"
-  ]
+  ],
+  "repository":{
+    "type":"npm",
+    "url":"https://www.npmjs.com/package/swagger2apipost"
+  }
 }
