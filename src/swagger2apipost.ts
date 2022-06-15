@@ -21,7 +21,7 @@ class Swagger2Apipost {
     this.env = [];
     this.options = {
       basePath: true,
-      host:true
+      host: true
     }
   }
   ConvertResult(status: string, message: string, data: any = '') {
@@ -64,7 +64,9 @@ class Swagger2Apipost {
     if (json.host && this.options.host) {
       this.basePath = json.host;
     }
-    if (json.basePath) {
+
+
+    if (json.basePath && this.options.basePath) {
       this.basePath += json.basePath;
     }
 
@@ -116,11 +118,13 @@ class Swagger2Apipost {
         const grandpaFolderPath = tagArray.slice(0, index - 1).join('/');
         if (!this.folders.hasOwnProperty(folderPath)) {
           this.folders[folderPath] = this.createNewFolder(tag);
-        }
-        if (index == 1) {
-          this.apis.push(this.folders[folderPath]);
-        } else {
-          this.folders[grandpaFolderPath].children.push(this.folders[folderPath]);
+          if (index == 1) {
+            this.apis.push(this.folders[folderPath]);
+          } else {
+            console.log('this.folders',grandpaFolderPath,JSON.stringify(this.folders));
+            
+            this.folders[grandpaFolderPath].children.push(this.folders[folderPath]);
+          }
         }
       }
     }
@@ -250,12 +254,14 @@ class Swagger2Apipost {
   }
   handlePath(path: string, pathItem: any) {
     let url = path;
-    if (this.options.basePath) {
-      url = decodeURI(_url.resolve(this.basePath, path))
+    if (url.charAt(0) == '/') {
+      url = url.substring(1);
     }
-    if (path.charAt(0) == '/') {
-      url = path.substring(1);
+    if (url.charAt(url.length - 1) == '/') {
+      url = url.substring(0, url.length - 1);
     }
+    url = decodeURI(this.basePath + url)
+
     for (const method in pathItem) {
       let swaggerApi = pathItem[method];
       if (swaggerApi.hasOwnProperty('tags') && swaggerApi.tags.length > 0) {
@@ -281,8 +287,8 @@ class Swagger2Apipost {
       }
       const { request } = api;
       if (thisProduces && thisProduces.length > 0) {
-        if(!request.hasOwnProperty('header')){
-          request.header=[]
+        if (!request.hasOwnProperty('header')) {
+          request.header = []
         }
         request.header.push({
           is_checked: "1",
@@ -295,8 +301,8 @@ class Swagger2Apipost {
         });
       }
       if (thisConsumes && thisConsumes.length > 0) {
-        if(!request.hasOwnProperty('header')){
-          request.header=[]
+        if (!request.hasOwnProperty('header')) {
+          request.header = []
         }
         request.header.push({
           is_checked: "1",
@@ -308,7 +314,7 @@ class Swagger2Apipost {
           field_type: "Text"
         });
       }
-      
+
       if (swaggerApi.hasOwnProperty('parameters')) {
         let mode = thisConsumes[0];
         let apipostMode = this.getApipostMode(mode);
@@ -483,6 +489,7 @@ class Swagger2Apipost {
       console.log('project', JSON.stringify(validationResult));
       return validationResult;
     } catch (error) {
+      console.log('project', JSON.stringify(String(error)));
       return this.ConvertResult('error', String(error))
     }
   }
