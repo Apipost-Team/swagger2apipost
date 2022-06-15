@@ -16,7 +16,7 @@ npm i swagger2apipost
 ```js
 import Swagger2Apipost from 'swagger2apipost';
 const converter = new Swagger2Apipost();
-const convertResult= await converter.convert(swaggerJson);
+const convertResult= await converter.convert(swaggerJson,options);
 ```
 **检查结果:**
 
@@ -29,6 +29,13 @@ convertResult.status === "error"
 convertResult.status === "success"
 ```
 **成功转换,结果在convertResult.data中**
+
+## Options type:Object
+
+| *参数* | *类型* | *默认值* | *参数描述* |
+| --- | --- | :---: | :---: |
+| basePath | Boolean | true | 接口路径是否添加basePath |
+| host | Boolean | true | 接口路径是否添加host |
 
 # 开源协议
 

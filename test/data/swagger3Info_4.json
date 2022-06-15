@@ -22,7 +22,8 @@
         "deprecated": false,
         "description": "header 说明",
         "tags": [
-          "目录1/目录1—1"
+          "目录1/目录1—1",
+          "目录1/目录1—2"
         ],
         "parameters": [
           {

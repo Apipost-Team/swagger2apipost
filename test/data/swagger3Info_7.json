@@ -1,0 +1,2210 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "商城商品项目",
+    "description": "商城的商品",
+    "contact": {
+      "name": "ykq",
+      "url": "https://www.lenovo.com",
+      "email": "yukq2@lenovo.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "//172.16.2.151:8080/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "AmapInternal",
+      "description": "Amap Internal"
+    },
+    {
+      "name": "GoodsInternal",
+      "description": "Goods Internal"
+    },
+    {
+      "name": "RuZhuInternal",
+      "description": "Ru Zhu Internal"
+    },
+    {
+      "name": "UserInternal",
+      "description": "User Internal"
+    }
+  ],
+  "paths": {
+    "/internal/ruzhu/getSellerInfoListByRuIdList": {
+      "post": {
+        "tags": [
+          "RuZhuInternal"
+        ],
+        "summary": "根据ruIdList获得商家信息",
+        "operationId": "getSellerInfoListByRuIdList",
+        "requestBody": {
+          "description": "GoodsDetailTyingVo",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoodsDetailTyingVo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SellerShopInfoVo"
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "203": {
+              "description": "OK",
+              "content": {
+                "*/*": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/UserVo"
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "content": {}
+            },
+            "403": {
+              "description": "Forbidden",
+              "content": {}
+            },
+            "404": {
+              "description": "Not Found",
+              "content": {}
+            }
+          },
+          "x-codegen-request-body-name": "GoodsDetailTyingVo"
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ActGoodsInfoVo": {
+        "title": "ActGoodsInfoVo",
+        "type": "object",
+        "properties": {
+          "actGoodsCooperationNum": {
+            "type": "integer",
+            "description": "秒杀协同人数",
+            "format": "int32",
+            "example": 100
+          },
+          "actGoodsDiscount": {
+            "type": "number",
+            "description": "秒杀活动折扣",
+            "example": 0
+          },
+          "actGoodsPrice": {
+            "type": "number",
+            "description": "秒杀活动价格",
+            "example": 0
+          },
+          "actGoodsSaleNum": {
+            "type": "integer",
+            "description": "秒杀活动销量",
+            "format": "int32",
+            "example": 0
+          },
+          "actGoodsStock": {
+            "type": "integer",
+            "description": "秒杀活动库存",
+            "format": "int32",
+            "example": 0
+          },
+          "actGoodsWholesalePrice": {
+            "type": "number",
+            "description": "秒杀活动批发价格价格",
+            "example": 0
+          },
+          "actId": {
+            "type": "integer",
+            "description": "秒杀活动id",
+            "format": "int64",
+            "example": 0
+          },
+          "actInfoBeginTime": {
+            "type": "integer",
+            "description": "秒杀活动开始时间",
+            "format": "int64"
+          },
+          "actInfoBeginTimeStr": {
+            "type": "string",
+            "description": "秒杀活动开始时间",
+            "example": "2022-02-24 11:38"
+          },
+          "actInfoEndTime": {
+            "type": "integer",
+            "description": "秒杀活动结束时间",
+            "format": "int64"
+          },
+          "actInfoEndTimeStr": {
+            "type": "string",
+            "description": "秒杀活动结束时间",
+            "example": "2022-02-24 11:38"
+          },
+          "actInfoStatus": {
+            "type": "integer",
+            "description": "秒杀活动状态",
+            "format": "int32"
+          },
+          "actor": {
+            "type": "integer",
+            "description": "1-全部用户；2-会员等级；3-新人专享",
+            "format": "int32",
+            "example": 1
+          },
+          "currentStagBeginTime": {
+            "type": "integer",
+            "description": "当前场次开始时间",
+            "format": "int64"
+          },
+          "currentStagEndTime": {
+            "type": "integer",
+            "description": "当前场次结束时间",
+            "format": "int64"
+          },
+          "isCrossDays": {
+            "pattern": "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$",
+            "type": "string",
+            "description": "下一个档次活动是否跨天",
+            "format": "byte",
+            "example": "0：否；1：是；"
+          },
+          "nextStagBeginTime": {
+            "type": "integer",
+            "description": "当前场次开始时间",
+            "format": "int64"
+          },
+          "nextStagEndTime": {
+            "type": "integer",
+            "description": "当前场次结束时间",
+            "format": "int64"
+          }
+        },
+        "description": "商品秒杀信息"
+      },
+      "ActSecKillWithGoodsVo": {
+        "title": "ActSecKillWithGoodsVo",
+        "type": "object",
+        "properties": {
+          "actPrice": {
+            "type": "number",
+            "description": "活动价格",
+            "example": 11.99
+          },
+          "actSaleNum": {
+            "type": "integer",
+            "description": "活动销量",
+            "format": "int32",
+            "example": 5
+          },
+          "actStock": {
+            "type": "integer",
+            "description": "活动库存",
+            "format": "int32",
+            "example": 10
+          },
+          "actTitle": {
+            "type": "string",
+            "description": "秒杀活动名称",
+            "example": "xxxxxxx"
+          },
+          "actor": {
+            "type": "integer",
+            "description": "1-全部用户；2-会员等级；3-新人专享",
+            "format": "int32",
+            "example": 1
+          },
+          "beginTime": {
+            "type": "string",
+            "description": "秒杀活动开始时间",
+            "example": "2022-01-01T00:00:00.000Z"
+          },
+          "buyLimit": {
+            "type": "integer",
+            "description": "购买限制（0-不限购，>0限购）",
+            "format": "int32",
+            "example": 0
+          },
+          "cooperationNum": {
+            "type": "integer",
+            "description": "协同人数",
+            "format": "int32",
+            "example": 1234
+          },
+          "endTime": {
+            "type": "string",
+            "description": "秒杀活动结束时间",
+            "example": "2022-01-11T00:00:00.000Z"
+          },
+          "goodsId": {
+            "type": "integer",
+            "description": "商品id",
+            "format": "int32",
+            "example": 1
+          },
+          "id": {
+            "type": "integer",
+            "description": "活动id",
+            "format": "int64"
+          },
+          "inCurStage": {
+            "type": "boolean",
+            "description": "是否在当前场次",
+            "example": true
+          },
+          "range": {
+            "type": "string",
+            "description": "活动范围：1-PC客户端；2-小程序；3-商家APP,注(1,2,3)",
+            "example": "1，2"
+          },
+          "ruId": {
+            "type": "integer",
+            "description": "商家id",
+            "format": "int32",
+            "example": 10
+          },
+          "stage": {
+            "type": "string",
+            "description": "参与场次:多个场次分割展示"
+          },
+          "status": {
+            "type": "integer",
+            "description": "活动状态:1-待生效；2-生效中；3-已经失效；4-强制结束",
+            "format": "int32",
+            "example": 1
+          },
+          "useCoupon": {
+            "type": "integer",
+            "description": "优惠券叠加：1-允许；2-不允许",
+            "format": "int32",
+            "example": 1
+          },
+          "useCouponType": {
+            "type": "string",
+            "description": "使用优惠券类型：use_coupon=1的情况 下，1,2,3",
+            "example": "1"
+          }
+        },
+        "description": "秒杀活动加商品信息"
+      },
+      "ChannelPriceJieTiQo": {
+        "title": "ChannelPriceJieTiQo",
+        "type": "object",
+        "properties": {
+          "channelNumber": {
+            "type": "integer",
+            "description": "商品优惠数量",
+            "format": "int32",
+            "example": 1
+          },
+          "channelPrice": {
+            "type": "number",
+            "description": "商品优惠价格",
+            "example": 1
+          },
+          "drpMoney": {
+            "type": "number",
+            "description": "需付佣金",
+            "example": 1
+          },
+          "goodsId": {
+            "type": "integer",
+            "description": "商品id",
+            "format": "int32",
+            "example": 1
+          },
+          "id": {
+            "type": "integer",
+            "description": "渠道阶梯价表主键id",
+            "format": "int32",
+            "example": 1
+          }
+        },
+        "description": "渠道阶梯价"
+      },
+      "EngineerVo": {
+        "title": "EngineerVo",
+        "type": "object",
+        "properties": {
+          "adminUserId": {
+            "type": "integer",
+            "description": "adminUser.id",
+            "format": "int32",
+            "example": 1
+          },
+          "engineerCode": {
+            "type": "string",
+            "description": "工程师编码",
+            "example": "L30982"
+          },
+          "id": {
+            "type": "integer",
+            "description": "id",
+            "format": "int32",
+            "example": 1
+          },
+          "mobilePhone": {
+            "type": "string",
+            "description": "工程师联系电话",
+            "example": "15656565656"
+          },
+          "realName": {
+            "type": "string",
+            "description": "工程师姓名",
+            "example": "刘斌"
+          },
+          "ruId": {
+            "type": "integer",
+            "description": "商家id",
+            "format": "int32",
+            "example": 1
+          },
+          "userId": {
+            "type": "integer",
+            "description": "用户userId",
+            "format": "int32",
+            "example": 1
+          },
+          "userPhoto": {
+            "type": "string",
+            "description": "工程师头像",
+            "example": "https://baiyingxianniu.oss-cn-beijing.aliyuncs.com/EngineerPhoto/20201218194704120011.jpg"
+          }
+        },
+        "description": "工程师信息"
+      },
+      "GetSellerInfoListQo": {
+        "title": "GetSellerInfoListQo",
+        "type": "object",
+        "properties": {
+          "ruIdList": {
+            "type": "array",
+            "description": "商家id列表",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "description": "获取商家列表请求参数"
+      },
+      "GetUserListQo": {
+        "title": "GetUserListQo",
+        "type": "object",
+        "properties": {
+          "mobilePhoneList": {
+            "type": "array",
+            "description": "用户手机号列表",
+            "items": {
+              "type": "string"
+            }
+          },
+          "userIdList": {
+            "type": "array",
+            "description": "用户id列表",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "description": "获取用户列表的请求"
+      },
+      "GoodsDetailTyingVo": {
+        "title": "GoodsDetailTyingVo",
+        "type": "object",
+        "properties": {
+          "tyingGoodsList": {
+            "type": "array",
+            "description": "搭售商品信息",
+            "items": {
+              "$ref": "#/components/schemas/GoodsDetailVo"
+            }
+          },
+          "tyingType": {
+            "type": "integer",
+            "description": "搭售类型",
+            "format": "int32"
+          },
+          "tyingTypeName": {
+            "type": "string",
+            "description": "搭售类型名称",
+            "example": "1：加装服务，2：维修服务，3：远程服务，4：延保服务，5：上门服务，6：特色服务"
+          }
+        },
+        "description": "商品详情页搭售信息"
+      },
+      "GoodsDetailVo": {
+        "title": "GoodsDetailVo",
+        "type": "object",
+        "properties": {
+          "actGoodsInfoVo": {
+            "$ref": "#/components/schemas/ActGoodsInfoVo"
+          },
+          "actSecKillWithGoodsVo": {
+            "$ref": "#/components/schemas/ActSecKillWithGoodsVo"
+          },
+          "appDesc": {
+            "type": "string",
+            "description": "图文"
+          },
+          "buyNum": {
+            "type": "integer",
+            "description": "已购买数量",
+            "format": "int32"
+          },
+          "channelPrice": {
+            "type": "number",
+            "description": "商品渠道价",
+            "example": 56.66
+          },
+          "channelPriceRangeList": {
+            "type": "array",
+            "description": "价格区间列表",
+            "items": {
+              "type": "number"
+            }
+          },
+          "commentNumber": {
+            "type": "integer",
+            "description": "商品评论数",
+            "format": "int32",
+            "example": 6
+          },
+          "disable": {
+            "type": "boolean",
+            "description": "搭售是否可售",
+            "example": false
+          },
+          "discount": {
+            "type": "boolean",
+            "description": "搭售是否有优惠",
+            "example": false
+          },
+          "encouragePrice": {
+            "type": "number",
+            "description": "鼓励金金额",
+            "example": 56.66
+          },
+          "galleryList": {
+            "type": "array",
+            "description": "商品轮播图",
+            "items": {
+              "type": "string"
+            }
+          },
+          "goodsDetailList": {
+            "type": "array",
+            "description": "商品详情图列表",
+            "items": {
+              "type": "string"
+            }
+          },
+          "goodsDetailTxt": {
+            "type": "string",
+            "description": "商品详情图文本描述"
+          },
+          "goodsId": {
+            "type": "integer",
+            "description": "商品id",
+            "format": "int32",
+            "example": 45084
+          },
+          "goodsImg": {
+            "type": "string",
+            "description": "商品主图"
+          },
+          "goodsName": {
+            "type": "string",
+            "description": "商品名称",
+            "example": "立体清洁保养服务"
+          },
+          "goodsNoticeList": {
+            "type": "array",
+            "description": "商品头图列表",
+            "items": {
+              "type": "string"
+            }
+          },
+          "goodsNumber": {
+            "type": "integer",
+            "description": "库存",
+            "format": "int32",
+            "example": 8
+          },
+          "goodsThumb": {
+            "type": "string",
+            "description": "商品主图小图"
+          },
+          "goodsVolumePriceVoList": {
+            "type": "array",
+            "description": "阶梯价信息",
+            "items": {
+              "$ref": "#/components/schemas/GoodsVolumePriceVo"
+            }
+          },
+          "isCanSale": {
+            "type": "integer",
+            "description": "是否可售",
+            "format": "int32"
+          },
+          "isDelete": {
+            "type": "integer",
+            "description": "删除状态",
+            "format": "int32"
+          },
+          "isOnSale": {
+            "type": "integer",
+            "description": "可售状态",
+            "format": "int32"
+          },
+          "isReal": {
+            "type": "integer",
+            "description": "商品是否实物",
+            "format": "int32"
+          },
+          "isVertical": {
+            "type": "integer",
+            "description": "商家APP 多sku判断是否垂直 如果有阶梯价横排，没有就竖排",
+            "format": "int32"
+          },
+          "lenovoParentId": {
+            "type": "integer",
+            "description": "spuId",
+            "format": "int32",
+            "example": 45084
+          },
+          "limitNum": {
+            "type": "integer",
+            "description": "商品限购数量",
+            "format": "int32"
+          },
+          "ruId": {
+            "type": "integer",
+            "description": "商家id",
+            "format": "int32",
+            "example": 10
+          },
+          "salesVolume": {
+            "type": "integer",
+            "description": "销量",
+            "format": "int32",
+            "example": 8
+          },
+          "sellerShopInfoVo": {
+            "$ref": "#/components/schemas/SellerShopInfoVo"
+          },
+          "shippingTempTitle": {
+            "type": "string",
+            "description": "运费模板标题"
+          },
+          "shopPrice": {
+            "type": "number",
+            "description": "商品零售价",
+            "example": 56.66
+          },
+          "sku": {
+            "type": "array",
+            "description": "多sku信息",
+            "items": {
+              "$ref": "#/components/schemas/GoodsDetailVo"
+            }
+          },
+          "skuName": {
+            "type": "string",
+            "description": "商品规格名称",
+            "example": "基础保养"
+          },
+          "ssdActivityVo": {
+            "$ref": "#/components/schemas/SsdActivityVo"
+          },
+          "tying": {
+            "type": "array",
+            "description": "搭售信息",
+            "items": {
+              "$ref": "#/components/schemas/GoodsDetailTyingVo"
+            }
+          },
+          "tyingPrice": {
+            "type": "number",
+            "description": "搭售价",
+            "example": 56.66
+          },
+          "ziTi": {
+            "type": "integer",
+            "description": "是否自提",
+            "format": "int32"
+          }
+        },
+        "description": "商品详情页返回值"
+      },
+      "GoodsImgQo": {
+        "title": "GoodsImgQo",
+        "type": "object",
+        "properties": {
+          "imgId": {
+            "type": "integer",
+            "description": "商品图片id",
+            "format": "int32",
+            "example": 0
+          },
+          "imgUrl": {
+            "type": "string",
+            "description": "商品图片地址",
+            "example": "https://baiyingxianniu.oss-cn-beijing.aliyuncs.com/demand/files/20210914/163160666548378.png"
+          }
+        },
+        "description": "商品图库信息"
+      },
+      "GoodsListToCartQo": {
+        "title": "GoodsListToCartQo",
+        "type": "object",
+        "properties": {
+          "goodsIdList": {
+            "type": "array",
+            "description": "商品idList",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "range": {
+            "type": "integer",
+            "description": "活动范围：1-PC客户端；2-小程序；3-商家APP,注(1,2,3)",
+            "format": "int32",
+            "example": 1
+          },
+          "userId": {
+            "type": "integer",
+            "description": "userId",
+            "format": "int32"
+          }
+        },
+        "description": "购物车获取商品的请求体"
+      },
+      "GoodsQo": {
+        "title": "GoodsQo",
+        "type": "object",
+        "properties": {
+          "applyType": {
+            "type": "integer",
+            "description": "应用类型 1 365 2 好视通 3 zoho",
+            "format": "int32"
+          },
+          "billGoodsName": {
+            "type": "string",
+            "description": "商品开票名称",
+            "example": "技术服务费"
+          },
+          "brandId": {
+            "type": "integer",
+            "description": "品牌id",
+            "format": "int32",
+            "example": 100
+          },
+          "buyDrpShow": {
+            "type": "integer",
+            "description": "是否购买分销商品 0 否，1 是",
+            "format": "int32"
+          },
+          "catId": {
+            "type": "integer",
+            "description": "商品四级分类id",
+            "format": "int32",
+            "example": 1
+          },
+          "crmFirstCatId": {
+            "type": "integer",
+            "description": "crm的大类id",
+            "format": "int64",
+            "example": 1
+          },
+          "crmSecondCatId": {
+            "type": "integer",
+            "description": "crm的小类id",
+            "format": "int64",
+            "example": 2
+          },
+          "customerId": {
+            "type": "integer",
+            "description": "客服ID，customer.id",
+            "format": "int32"
+          },
+          "disCommissionType": {
+            "type": "integer",
+            "description": "分销佣金值类型 0 百分比，1 数值",
+            "format": "int32"
+          },
+          "freeRate": {
+            "type": "integer",
+            "description": "是否免税 0 否 1 是",
+            "format": "int32"
+          },
+          "freight": {
+            "type": "integer",
+            "description": "商品运费模式",
+            "format": "int32"
+          },
+          "goodsBrief": {
+            "type": "string",
+            "description": "商品营销标题",
+            "example": "HP PCB Board XP12000 DKC-MONI SH353-B"
+          },
+          "goodsCause": {
+            "type": "string",
+            "description": "商品退换货标识字段",
+            "example": "0,1,2,3|1,2"
+          },
+          "goodsId": {
+            "type": "integer",
+            "description": "商品id",
+            "format": "int32",
+            "example": 1
+          },
+          "goodsImgQoList": {
+            "type": "array",
+            "description": "上传的图片列表",
+            "items": {
+              "$ref": "#/components/schemas/GoodsImgQo"
+            }
+          },
+          "goodsName": {
+            "type": "string",
+            "description": "商品名称",
+            "example": "笔记本更换键盘"
+          },
+          "goodsToolType": {
+            "type": "string",
+            "description": "商品工具类型",
+            "example": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18"
+          },
+          "goodsType": {
+            "type": "integer",
+            "description": "商品所属类型id，取值表dsc_goods_type的cat_id",
+            "format": "int32",
+            "example": 1
+          },
+          "goodsUnit": {
+            "type": "string",
+            "description": "商品单位",
+            "example": "个"
+          },
+          "goodsVideo": {
+            "type": "string",
+            "description": "商品视频",
+            "example": "data/uploads/goods/48/20200824212108721.mp4"
+          },
+          "goodsVolumePriceQoList": {
+            "type": "array",
+            "description": "阶梯价",
+            "items": {
+              "$ref": "#/components/schemas/GoodsVolumePrice"
+            }
+          },
+          "isFree": {
+            "type": "integer",
+            "description": "联想是否免费",
+            "format": "int32"
+          },
+          "isOnSale": {
+            "type": "integer",
+            "description": "该商品是否开放销售，1，是；0，否",
+            "format": "int32",
+            "example": 1
+          },
+          "isReal": {
+            "type": "integer",
+            "description": "是否是实物，1，是；0，否；比如虚拟卡就为0，不是实物;2:ma商品；3：saas商品；",
+            "format": "int32",
+            "example": 2
+          },
+          "isShipping": {
+            "type": "integer",
+            "description": "0表示此商品免运费，1按照正常运费计算",
+            "format": "int32",
+            "example": 0
+          },
+          "isVolume": {
+            "type": "integer",
+            "description": "是否阶梯价（0非阶梯，1阶梯）",
+            "format": "int32",
+            "example": 0
+          },
+          "keywords": {
+            "type": "string",
+            "description": "商品关键字",
+            "example": "系统安装"
+          },
+          "levelTypeGoods": {
+            "type": "integer",
+            "description": "服务商类型对应的商品：默认=-1、国代=0 、区域=1 、省代=2 、 T2=3",
+            "format": "int32",
+            "example": 0
+          },
+          "libGoodsId": {
+            "type": "integer",
+            "description": "本地商品库ID",
+            "format": "int32",
+            "example": 55
+          },
+          "pinyinKeyword": {
+            "type": "string",
+            "description": "商品名称拼音",
+            "example": "lianxiangbijibenTxilie"
+          },
+          "platform": {
+            "type": "integer",
+            "description": "数据来源 1：联想",
+            "format": "int32"
+          },
+          "priceUnit": {
+            "type": "string",
+            "description": "价格单位",
+            "example": "元/人天"
+          },
+          "reviewContent": {
+            "type": "string",
+            "description": "商品审核不通过内容",
+            "example": "???"
+          },
+          "reviewStatus": {
+            "type": "integer",
+            "description": "商品审核状态",
+            "format": "int32"
+          },
+          "sellerNote": {
+            "type": "string",
+            "description": "商品的商家备注，仅商家可见",
+            "example": "此价格为软件数据恢复起具体情况详细咨询客服"
+          },
+          "shippingFee": {
+            "type": "number",
+            "description": "商品运费",
+            "example": 10
+          },
+          "shopType": {
+            "type": "integer",
+            "description": "商家类型",
+            "format": "int32",
+            "example": 1
+          },
+          "skuQoList": {
+            "type": "array",
+            "description": "sku信息设置",
+            "items": {
+              "$ref": "#/components/schemas/SkuQo"
+            }
+          },
+          "tid": {
+            "type": "integer",
+            "description": "商品运费模板id",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "integer",
+            "description": "商家id seller_shopinfo.ru_id",
+            "format": "int32",
+            "example": 1
+          }
+        },
+        "description": "商品信息"
+      },
+      "GoodsSearchVo": {
+        "title": "GoodsSearchVo",
+        "type": "object",
+        "properties": {
+          "actGoodsCooperationNum": {
+            "type": "integer",
+            "description": "秒杀协同人数",
+            "format": "int32",
+            "example": 100
+          },
+          "actGoodsPrice": {
+            "type": "number",
+            "description": "秒杀活动价格",
+            "example": 0
+          },
+          "actGoodsWholesalePrice": {
+            "type": "number",
+            "description": "秒杀活动批发价格价格",
+            "example": 0
+          },
+          "actId": {
+            "type": "integer",
+            "description": "秒杀活动id",
+            "format": "int64",
+            "example": 0
+          },
+          "actInfoStatus": {
+            "type": "integer",
+            "description": "秒杀活动状态",
+            "format": "int32"
+          },
+          "actor": {
+            "type": "integer",
+            "description": "1-全部用户；2-会员等级；3-新人专享",
+            "format": "int32",
+            "example": 1
+          },
+          "channelPrice": {
+            "type": "number",
+            "description": "商品渠道价 - APP展示",
+            "example": 3.45
+          },
+          "dataSource": {
+            "type": "string",
+            "description": "数据源",
+            "example": "1"
+          },
+          "encouragePrice": {
+            "type": "number",
+            "description": "鼓励金金额",
+            "example": 34.45
+          },
+          "goodsId": {
+            "type": "integer",
+            "description": "商品skuId",
+            "format": "int32",
+            "example": 2
+          },
+          "goodsName": {
+            "type": "string",
+            "description": "商品名字",
+            "example": "3"
+          },
+          "goodsThumb": {
+            "type": "string",
+            "description": "商品图地址",
+            "example": "https://lenovo-test-xianniu.oss-cn-beijing.aliyuncs.com/demand/files/20211014/163417935449938.gif"
+          },
+          "hasStock": {
+            "type": "boolean",
+            "description": "是否有库存 true有库存 false无库存",
+            "example": true
+          },
+          "isReal": {
+            "type": "integer",
+            "description": "是否实物",
+            "format": "int64",
+            "example": 1
+          },
+          "isShowQi": {
+            "type": "integer",
+            "description": "是否显示xx元起",
+            "format": "int32"
+          },
+          "sellerShopInfoVo": {
+            "$ref": "#/components/schemas/SellerShopInfoSearchVo"
+          },
+          "shopPrice": {
+            "type": "number",
+            "description": "商品零售价",
+            "example": 3.45
+          }
+        },
+        "description": "商品搜索的返回值"
+      },
+      "GoodsServerVo": {
+        "title": "GoodsServerVo",
+        "type": "object",
+        "properties": {
+          "goodsEntityList": {
+            "type": "array",
+            "description": "商品集合",
+            "example": 1,
+            "items": {
+              "$ref": "#/components/schemas/ZiYingGoodsEntity"
+            }
+          }
+        },
+        "description": "提供服务商品返回的结构体"
+      },
+      "GoodsVo": {
+        "title": "GoodsVo",
+        "type": "object",
+        "properties": {
+          "addTime": {
+            "type": "integer",
+            "description": "添加时间",
+            "format": "int32",
+            "example": 1631505164
+          },
+          "barCode": {
+            "type": "string",
+            "description": "条形码",
+            "example": "12345"
+          },
+          "brandId": {
+            "type": "integer",
+            "description": "品牌id",
+            "format": "int32",
+            "example": 100
+          },
+          "buyDrpShow": {
+            "type": "integer",
+            "description": "是否购买分销商品",
+            "format": "int32"
+          },
+          "catId": {
+            "type": "integer",
+            "description": "商品四级分类id",
+            "format": "int32",
+            "example": 5
+          },
+          "channelPrice": {
+            "type": "number",
+            "description": "渠道价格",
+            "example": 898.09
+          },
+          "clickCount": {
+            "type": "integer",
+            "description": "点击数",
+            "format": "int32",
+            "example": 100
+          },
+          "commissionRate": {
+            "type": "string",
+            "description": "佣金比例",
+            "example": "0|10"
+          },
+          "costPrice": {
+            "type": "number",
+            "description": "成本价",
+            "example": 11.21
+          },
+          "customerId": {
+            "type": "integer",
+            "description": "客服ID",
+            "format": "int32",
+            "example": 5
+          },
+          "descMobile": {
+            "type": "string",
+            "description": "手机详情",
+            "example": "HP PCB Board XP24000 SSVP/MN SH455-A"
+          },
+          "disCommission": {
+            "type": "number",
+            "description": "分销佣金百分比",
+            "example": 5
+          },
+          "disCommissionType": {
+            "type": "integer",
+            "description": "分销佣金值类型",
+            "format": "int32"
+          },
+          "freight": {
+            "type": "integer",
+            "description": "商品运费模式",
+            "format": "int32"
+          },
+          "goodsBrief": {
+            "type": "string",
+            "description": "商品营销标题",
+            "example": "HP PCB Board XP12000 DKC-MONI SH353-B"
+          },
+          "goodsCause": {
+            "type": "string",
+            "description": "商品退换货标识字段",
+            "example": "0,1,2,3|1,2"
+          },
+          "goodsDesc": {
+            "type": "string",
+            "description": "商品的详细描述",
+            "example": "<p>联想笔记本西悉尼</p>"
+          },
+          "goodsId": {
+            "type": "integer",
+            "description": "商品id",
+            "format": "int32",
+            "example": 5
+          },
+          "goodsImg": {
+            "type": "string",
+            "description": "商品的实际大小图片，如进入该商品页时介绍商品属性所显示的大图片",
+            "example": "https://baiyingxianniu.oss-cn-beijing.aliyuncs.com/images/202007/goods_img/0_G_1593760326547.jpg"
+          },
+          "goodsName": {
+            "type": "string",
+            "description": "商品名称",
+            "example": "笔记本更换键盘"
+          },
+          "goodsNumber": {
+            "type": "integer",
+            "description": "商品数量",
+            "format": "int32",
+            "example": 5
+          },
+          "goodsSn": {
+            "type": "string",
+            "description": "商品货号",
+            "example": "XN016679"
+          },
+          "goodsThumb": {
+            "type": "string",
+            "description": "商品在前台显示的微缩图片，如在分类筛选时显示的小图片",
+            "example": "https://baiyingxianniu.oss-cn-beijing.aliyuncs.com/images/202007/thumb_img/0_thumb_G_1593760326379.jpg"
+          },
+          "goodsToolType": {
+            "type": "string",
+            "description": "商品工具类型",
+            "example": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18"
+          },
+          "goodsUnit": {
+            "type": "string",
+            "description": "商品单位",
+            "example": "个"
+          },
+          "goodsVideo": {
+            "type": "string",
+            "description": "商品视频",
+            "example": "data/uploads/goods/48/20200824212108721.mp4"
+          },
+          "goodsWeight": {
+            "type": "number",
+            "description": "商品重量",
+            "example": 101.11
+          },
+          "isAloneSale": {
+            "type": "integer",
+            "description": "是否能单独销售",
+            "format": "int32"
+          },
+          "isBest": {
+            "type": "integer",
+            "description": "加入推荐",
+            "format": "int32"
+          },
+          "isChannelLadder": {
+            "type": "integer",
+            "description": "成本价格是否阶梯价",
+            "format": "int32"
+          },
+          "isDelete": {
+            "type": "integer",
+            "description": "是否删除到回收站",
+            "format": "int32"
+          },
+          "isDistribution": {
+            "type": "integer",
+            "description": "商品是否参与分销",
+            "format": "int32"
+          },
+          "isHot": {
+            "type": "integer",
+            "description": "加入推荐",
+            "format": "int32"
+          },
+          "isNew": {
+            "type": "integer",
+            "description": "加入推荐",
+            "format": "int32"
+          },
+          "isOnSale": {
+            "type": "integer",
+            "description": "该商品是否开放销售",
+            "format": "int32"
+          },
+          "isReal": {
+            "type": "integer",
+            "description": "是否是实物",
+            "format": "int32"
+          },
+          "isSSDGoods": {
+            "type": "boolean",
+            "description": "是否是ssd商品"
+          },
+          "isShipping": {
+            "type": "integer",
+            "description": "是否有运费",
+            "format": "int32"
+          },
+          "isVolume": {
+            "type": "integer",
+            "description": "是否阶梯价",
+            "format": "int32"
+          },
+          "keywords": {
+            "type": "string",
+            "description": "商品关键字",
+            "example": "系统安装"
+          },
+          "lastUpdate": {
+            "type": "integer",
+            "description": "最后更新时间",
+            "format": "int32",
+            "example": 1631509690
+          },
+          "lenovoParentId": {
+            "type": "integer",
+            "description": "联想产品父级ID",
+            "format": "int32",
+            "example": 5
+          },
+          "levelTypeGoods": {
+            "type": "integer",
+            "description": "levelTypeGoods",
+            "format": "int32",
+            "example": 5
+          },
+          "libGoodsId": {
+            "type": "integer",
+            "description": "本地商品库ID",
+            "format": "int32",
+            "example": 5
+          },
+          "marketPrice": {
+            "type": "number",
+            "description": "市场价格",
+            "example": 11.21
+          },
+          "materialCode": {
+            "type": "string",
+            "description": "联想sku对应物料码",
+            "example": "31085923"
+          },
+          "materialCodeExtend": {
+            "type": "string",
+            "description": "联想sku物料码",
+            "example": "扩展码"
+          },
+          "originalImg": {
+            "type": "string",
+            "description": "上传的商品的原始图片",
+            "example": "https://baiyingxianniu.oss-cn-beijing.aliyuncs.com/images/202007/source_img/0_G_1593760326818.png"
+          },
+          "pinyinKeyword": {
+            "type": "string",
+            "description": "商品名称拼音",
+            "example": "lianxiangbijibenTxilie"
+          },
+          "pn": {
+            "type": "string",
+            "description": "pn",
+            "example": "HP-PCB-Board-XP24000"
+          },
+          "priceUnit": {
+            "type": "string",
+            "description": "价格单位",
+            "example": "元/人天"
+          },
+          "reviewContent": {
+            "type": "string",
+            "description": "商品审核不通过内容",
+            "example": "xxx"
+          },
+          "reviewStatus": {
+            "type": "integer",
+            "description": "商品审核状态",
+            "format": "int32"
+          },
+          "salesVolume": {
+            "type": "integer",
+            "description": "商品销量",
+            "format": "int32",
+            "example": 99
+          },
+          "sellerNote": {
+            "type": "string",
+            "description": "商品的商家备注 仅商家可见 此价格为软件数据恢复起具体情况详细咨询客服",
+            "example": "xxxx"
+          },
+          "shippingFee": {
+            "type": "number",
+            "description": "商品运费",
+            "example": 5
+          },
+          "shopPrice": {
+            "type": "number",
+            "description": "销售价格",
+            "example": 11.21
+          },
+          "skuId": {
+            "type": "integer",
+            "description": "联想商品skuID",
+            "format": "int64"
+          },
+          "skuName": {
+            "type": "string",
+            "description": "联想sku名称",
+            "example": "HP PCB Board XP24000 SSVP/MN SH455-A"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "description": "商品排序",
+            "format": "int32",
+            "example": 5
+          },
+          "tid": {
+            "type": "integer",
+            "description": "商品运费模板id",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "integer",
+            "description": "商家id seller_shopinfo.ru_id",
+            "format": "int32",
+            "example": 5
+          },
+          "warnNumber": {
+            "type": "integer",
+            "description": "商品库存报警数量",
+            "format": "int32",
+            "example": 5
+          },
+          "wholesaleDisCommission": {
+            "type": "number",
+            "description": "批发价佣金百分比"
+          },
+          "wholesaleIsDistribution": {
+            "type": "integer",
+            "description": "批发价是否参与分销",
+            "format": "int32"
+          },
+          "ziYingGoodsExtraVo": {
+            "$ref": "#/components/schemas/ZiYingGoodsExtraVo"
+          }
+        },
+        "description": "商品返回的结构体"
+      },
+      "GoodsVolumePrice": {
+        "title": "GoodsVolumePrice",
+        "type": "object",
+        "properties": {
+          "goodsId": {
+            "type": "integer",
+            "description": "商品ID",
+            "format": "int32",
+            "example": 100
+          },
+          "priceType": {
+            "type": "integer",
+            "description": "价格类别(0为全店优惠比率，1为商品优惠价格，2为分类优惠比率)",
+            "format": "int32",
+            "example": 1
+          },
+          "volumeNumber": {
+            "type": "integer",
+            "description": "商品优惠数量",
+            "format": "int32",
+            "example": 10
+          },
+          "volumePrice": {
+            "type": "number",
+            "description": "商品优惠价格 元",
+            "example": 100
+          }
+        },
+        "description": "商品阶梯价信息"
+      },
+      "GoodsVolumePriceVo": {
+        "title": "GoodsVolumePriceVo",
+        "type": "object",
+        "properties": {
+          "channelNumber": {
+            "type": "integer",
+            "description": "商品优惠数量",
+            "format": "int32",
+            "example": 10
+          },
+          "channelPrice": {
+            "type": "number",
+            "description": "商品优惠价格 元",
+            "example": 100
+          },
+          "maxNumber": {
+            "type": "integer",
+            "description": "商品优惠数量最大值",
+            "format": "int32",
+            "example": 10
+          },
+          "minNumber": {
+            "type": "integer",
+            "description": "商品优惠数量最小值",
+            "format": "int32",
+            "example": 10
+          }
+        },
+        "description": "商品阶梯价返回信息"
+      },
+      "InformationExtendVo": {
+        "title": "InformationExtendVo",
+        "type": "object",
+        "properties": {
+          "bossIdentityCode": {
+            "type": "string",
+            "description": "技服经理身份证号",
+            "example": "130627xxxxxxxxxxx"
+          },
+          "bossMobilePhone": {
+            "type": "string",
+            "description": "技服经理手机号",
+            "example": "17777777777"
+          },
+          "bossName": {
+            "type": "string",
+            "description": "技服经理",
+            "example": "xxx"
+          },
+          "companyId": {
+            "type": "integer",
+            "description": "stepsFields.fid",
+            "format": "int32",
+            "example": 6
+          },
+          "emergencyPhone": {
+            "type": "string",
+            "description": "应急联系电话",
+            "example": "17777777777"
+          },
+          "id": {
+            "type": "integer",
+            "description": "主键",
+            "format": "int32",
+            "example": 6
+          },
+          "isMain": {
+            "type": "integer",
+            "description": "是否主站",
+            "format": "int32",
+            "example": 1
+          },
+          "newStationCode": {
+            "type": "string",
+            "description": "新服务站编号",
+            "example": "53245677"
+          },
+          "servicePhone": {
+            "type": "string",
+            "description": "服务咨询电话",
+            "example": "17777777777"
+          },
+          "shopId": {
+            "type": "integer",
+            "description": "information.shop_id",
+            "format": "int32",
+            "example": 6
+          },
+          "stationName": {
+            "type": "string",
+            "description": "服务站名称",
+            "example": "xxxxx"
+          },
+          "stationType": {
+            "type": "integer",
+            "description": "服务站类型 1=内部 2=三方",
+            "format": "int32",
+            "example": 1
+          },
+          "userId": {
+            "type": "integer",
+            "description": "用户id",
+            "format": "int32",
+            "example": 6
+          }
+        },
+        "description": "服务站扩展信息"
+      },
+      "SellerActivityRankingVo": {
+        "title": "SellerActivityRankingVo",
+        "type": "object",
+        "properties": {
+          "rankingDescribe": {
+            "type": "string",
+            "description": "榜单说明"
+          },
+          "rankingName": {
+            "type": "string",
+            "description": "榜单名称"
+          }
+        },
+        "description": "榜单配置"
+      },
+      "SellerShopInfoSearchVo": {
+        "title": "SellerShopInfoSearchVo",
+        "type": "object",
+        "properties": {
+          "distance": {
+            "type": "string",
+            "description": "距离",
+            "example": "1Km"
+          },
+          "featureNames": {
+            "type": "string",
+            "description": "经营范围",
+            "example": "xxx,eeed"
+          },
+          "goodsList": {
+            "type": "array",
+            "description": "店内商品数据",
+            "items": {
+              "$ref": "#/components/schemas/GoodsSearchVo"
+            }
+          },
+          "isCollect": {
+            "type": "integer",
+            "description": "关注状态 1：关注 0：未关注",
+            "format": "int32",
+            "example": 1
+          },
+          "ruId": {
+            "type": "integer",
+            "description": "商家id",
+            "format": "int32",
+            "example": 1
+          },
+          "shopLogo": {
+            "type": "string",
+            "description": "商家Logo"
+          },
+          "shopName": {
+            "type": "string",
+            "description": "商家名称",
+            "example": "1"
+          },
+          "shopScore": {
+            "type": "number",
+            "description": "商家评分",
+            "example": 4.9
+          }
+        },
+        "description": "商家信息"
+      },
+      "SellerShopInfoVo": {
+        "title": "SellerShopInfoVo",
+        "type": "object",
+        "properties": {
+          "city": {
+            "type": "integer",
+            "description": "所在市id",
+            "format": "int32",
+            "example": 1
+          },
+          "creditMoney": {
+            "type": "number",
+            "description": "信用额度",
+            "example": 100
+          },
+          "district": {
+            "type": "integer",
+            "description": "所在区id",
+            "format": "int32",
+            "example": 1
+          },
+          "frozenMoney": {
+            "type": "number",
+            "description": "冻结资金",
+            "example": 1.98
+          },
+          "goodsSearchVoList": {
+            "type": "array",
+            "description": "商家的商品信息",
+            "items": {
+              "$ref": "#/components/schemas/GoodsSearchVo"
+            }
+          },
+          "informationExtendVo": {
+            "$ref": "#/components/schemas/InformationExtendVo"
+          },
+          "informationId": {
+            "type": "integer",
+            "description": "informationId",
+            "format": "int32",
+            "example": 1
+          },
+          "isCollect": {
+            "type": "integer",
+            "description": "是否关注",
+            "format": "int32",
+            "example": 1
+          },
+          "latitude": {
+            "type": "string",
+            "description": "维度",
+            "example": "1"
+          },
+          "longitude": {
+            "type": "string",
+            "description": "经度",
+            "example": "1"
+          },
+          "mobile": {
+            "type": "string",
+            "description": "联系电话",
+            "example": "16666666666"
+          },
+          "openTimeStr": {
+            "type": "string",
+            "description": "商家营业时间",
+            "example": "xxx"
+          },
+          "payBillActivity": {
+            "type": "object",
+            "properties": {},
+            "description": "买单信息"
+          },
+          "province": {
+            "type": "integer",
+            "description": "所在省id",
+            "format": "int32",
+            "example": 1
+          },
+          "ruId": {
+            "type": "integer",
+            "description": "商家id",
+            "format": "int32",
+            "example": 1
+          },
+          "sellerActivityRankingInfo": {
+            "$ref": "#/components/schemas/SellerActivityRankingVo"
+          },
+          "sellerMoney": {
+            "type": "number",
+            "description": "商家账户金额",
+            "example": 10.09
+          },
+          "serviceLenovoId": {
+            "type": "string",
+            "description": "客服lenovoId",
+            "example": "1"
+          },
+          "shippingTemplateVo": {
+            "$ref": "#/components/schemas/ShippingTemplateVo"
+          },
+          "shopAddress": {
+            "type": "string",
+            "description": "商家地址",
+            "example": "xxx"
+          },
+          "shopLogo": {
+            "type": "string",
+            "description": "店铺头像"
+          },
+          "shopName": {
+            "type": "string",
+            "description": "商家名称",
+            "example": "1"
+          },
+          "shopSales": {
+            "type": "integer",
+            "description": "销量",
+            "format": "int32",
+            "example": 1
+          },
+          "shopScore": {
+            "type": "number",
+            "description": "店铺评分",
+            "example": 1
+          },
+          "shopType": {
+            "type": "integer",
+            "description": "商家类型",
+            "format": "int32",
+            "example": 1
+          },
+          "street": {
+            "type": "integer",
+            "description": "所在街道id",
+            "format": "int32",
+            "example": 1
+          },
+          "supportInvoice": {
+            "type": "integer",
+            "description": "商家 是否可开发票",
+            "format": "int32"
+          }
+        },
+        "description": "商家信息"
+      },
+      "ShippingTemplateVo": {
+        "title": "ShippingTemplateVo",
+        "type": "object",
+        "properties": {
+          "freeMoney": {
+            "type": "number",
+            "description": "免费额度",
+            "example": 10.09
+          },
+          "freightType": {
+            "type": "boolean",
+            "description": "运费类型：0不包含 1=包含",
+            "example": false
+          },
+          "id": {
+            "type": "integer",
+            "description": "运费模板id",
+            "format": "int32",
+            "example": 1
+          },
+          "ruId": {
+            "type": "integer",
+            "description": "商家ID",
+            "format": "int32",
+            "example": 10
+          },
+          "shippingFee": {
+            "type": "number",
+            "description": "基础运费",
+            "example": 109
+          },
+          "shippingTitle": {
+            "type": "string",
+            "description": "运费标题",
+            "example": "xxx"
+          },
+          "status": {
+            "type": "boolean",
+            "description": "状态：0=未生效 1=生效",
+            "example": false
+          },
+          "type": {
+            "type": "integer",
+            "description": "类型：0=全国 1=地区",
+            "format": "int32",
+            "example": 0
+          }
+        },
+        "description": "运费模板"
+      },
+      "SkuQo": {
+        "title": "SkuQo",
+        "type": "object",
+        "properties": {
+          "channelPrice": {
+            "type": "number",
+            "description": "渠道价格",
+            "example": 100.01
+          },
+          "channelPriceJieTiQoList": {
+            "type": "array",
+            "description": "sku 渠道阶梯价设置",
+            "items": {
+              "$ref": "#/components/schemas/ChannelPriceJieTiQo"
+            }
+          },
+          "commissionPrice": {
+            "type": "number",
+            "description": "联想分佣固定值"
+          },
+          "commissionRate": {
+            "type": "string",
+            "description": "佣金比例",
+            "example": "0|10"
+          },
+          "defaultShipping": {
+            "type": "integer",
+            "description": "默认配送方式",
+            "format": "int32"
+          },
+          "descMobile": {
+            "type": "string",
+            "description": "sku手机描述",
+            "example": "1"
+          },
+          "disCommission": {
+            "type": "number",
+            "description": "零售分销佣金比例",
+            "example": 10
+          },
+          "goodsDesc": {
+            "type": "string",
+            "description": "sku描述",
+            "example": "1"
+          },
+          "goodsId": {
+            "type": "integer",
+            "description": "商品id",
+            "format": "int32",
+            "example": 1
+          },
+          "goodsImg": {
+            "type": "string",
+            "description": "商品的实际大小图片，如进入该商品页时介绍商品属性所显示的大图片",
+            "example": "https://baiyingxianniu.oss-cn-beijing.aliyuncs.com/images/202007/goods_img/0_G_1593760326547.jpg"
+          },
+          "goodsNumber": {
+            "type": "integer",
+            "description": "sku库存",
+            "format": "int32",
+            "example": 100
+          },
+          "goodsSn": {
+            "type": "string",
+            "description": "商品货号",
+            "example": "XN016679"
+          },
+          "goodsThumb": {
+            "type": "string",
+            "description": "商品在前台显示的微缩图片，如在分类筛选时显示的小图片",
+            "example": "https://baiyingxianniu.oss-cn-beijing.aliyuncs.com/images/202007/thumb_img/0_thumb_G_1593760326379.jpg"
+          },
+          "goodsWeight": {
+            "type": "number",
+            "description": "商品重量",
+            "example": 101.11
+          },
+          "isChannelLadder": {
+            "type": "integer",
+            "description": "成本价格是否阶梯价（0非阶梯，1阶梯）",
+            "format": "int32"
+          },
+          "isDistribution": {
+            "type": "integer",
+            "description": "商品是否参与分销",
+            "format": "int32"
+          },
+          "isOnSale": {
+            "type": "integer",
+            "description": "sku是否在售",
+            "format": "int32",
+            "example": 1
+          },
+          "lenovoParentId": {
+            "type": "integer",
+            "description": "联想产品父级ID",
+            "format": "int32",
+            "example": 100
+          },
+          "materialCode": {
+            "type": "string",
+            "description": "联想sku对应物料码",
+            "example": "31085923"
+          },
+          "materialCodeExtend": {
+            "type": "string",
+            "description": "联想sku物料码 扩展码",
+            "example": "感觉暂时没用可以忽略"
+          },
+          "originalImg": {
+            "type": "string",
+            "description": "上传的商品的原始图片",
+            "example": "https://baiyingxianniu.oss-cn-beijing.aliyuncs.com/images/202007/source_img/0_G_1593760326818.png"
+          },
+          "pn": {
+            "type": "string",
+            "description": "商品sku pn号",
+            "example": "edcvfrff"
+          },
+          "salesVolume": {
+            "type": "integer",
+            "description": "商品销量",
+            "format": "int32",
+            "example": 99
+          },
+          "shopPrice": {
+            "type": "number",
+            "description": "零售价（含税）",
+            "example": 100.01
+          },
+          "skuName": {
+            "type": "string",
+            "description": "商品sku名称",
+            "example": "guige1"
+          },
+          "sortOrder": {
+            "type": "integer",
+            "description": "商品排序",
+            "format": "int32",
+            "example": 100
+          },
+          "warnNumber": {
+            "type": "integer",
+            "description": "sku报警库存",
+            "format": "int32",
+            "example": 5
+          },
+          "wholesaleDisCommission": {
+            "type": "number",
+            "description": "批发价佣金百分比"
+          },
+          "wholesaleIsDistribution": {
+            "type": "integer",
+            "description": "批发价是否参与分销",
+            "format": "int32"
+          }
+        },
+        "description": "sku信息"
+      },
+      "SsdActivityVo": {
+        "title": "SsdActivityVo",
+        "type": "object",
+        "properties": {
+          "isActivityCity": {
+            "type": "boolean",
+            "description": "是否是活动城市"
+          },
+          "isSSDGoods": {
+            "type": "boolean",
+            "description": "是否是ssd商品"
+          },
+          "showOriPrice": {
+            "type": "integer",
+            "description": "显示原价",
+            "format": "int32"
+          },
+          "unActivityCityTips": {
+            "type": "string",
+            "description": "非活动城市的提示信息"
+          }
+        },
+        "description": "ssd加装活动"
+      },
+      "UserVo": {
+        "title": "UserVo",
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "string",
+            "description": "头像"
+          },
+          "email": {
+            "type": "string",
+            "description": "用户邮箱",
+            "example": "12345@qq.com"
+          },
+          "levelType": {
+            "type": "integer",
+            "description": "levelType",
+            "format": "int32",
+            "example": 2
+          },
+          "mobilePhone": {
+            "type": "string",
+            "description": "手机号",
+            "example": "16666666666"
+          },
+          "nickName": {
+            "type": "string",
+            "description": "昵称",
+            "example": "cde"
+          },
+          "thirdPartyId": {
+            "type": "string",
+            "description": "用户lenovoId",
+            "example": "1"
+          },
+          "userId": {
+            "type": "integer",
+            "description": "用户id",
+            "format": "int32",
+            "example": 1
+          },
+          "userName": {
+            "type": "string",
+            "description": "用户名",
+            "example": "16666666666"
+          }
+        },
+        "description": "用户结构体"
+      },
+      "ZiYingGoodsEntity": {
+        "title": "ZiYingGoodsEntity",
+        "type": "object",
+        "properties": {
+          "addTime": {
+            "type": "integer",
+            "description": "首次添加时间",
+            "format": "int32"
+          },
+          "approveSale": {
+            "type": "integer",
+            "description": "立项可售",
+            "format": "int32",
+            "example": 1
+          },
+          "crmFirstCateId": {
+            "type": "integer",
+            "description": "crm一级分类",
+            "format": "int64"
+          },
+          "crmFirstCateName": {
+            "type": "string",
+            "description": "一级分类名称",
+            "example": "5l"
+          },
+          "crmSecondCateId": {
+            "type": "integer",
+            "description": "crm二级分类",
+            "format": "int64"
+          },
+          "crmSecondCateName": {
+            "type": "string",
+            "description": "二级分类名称",
+            "example": "5l"
+          },
+          "goodsId": {
+            "type": "integer",
+            "description": "商品id",
+            "format": "int32"
+          },
+          "goodsImg": {
+            "type": "string",
+            "description": "商品实际大小图片"
+          },
+          "goodsName": {
+            "type": "string",
+            "description": "商品名称"
+          },
+          "goodsNumber": {
+            "type": "integer",
+            "description": "sku库存",
+            "format": "int32",
+            "example": 100
+          },
+          "goodsUnit": {
+            "type": "string",
+            "description": "单位 "
+          },
+          "isDelete": {
+            "type": "integer",
+            "description": "删除标示：0-正常；1-删除",
+            "format": "int32",
+            "example": 100
+          },
+          "isOnSale": {
+            "type": "integer",
+            "description": "该商品是否开放销售，1，是；0，否 ",
+            "format": "int32",
+            "example": 100
+          },
+          "isReal": {
+            "type": "integer",
+            "description": "是否是实物，1，是；0，否；比如虚拟卡就为0，不是实物;2:ma商品；3：saas商品； ",
+            "format": "int32"
+          },
+          "lastUpdate": {
+            "type": "integer",
+            "description": "最后更新时间",
+            "format": "int32"
+          },
+          "materialCode": {
+            "type": "string",
+            "description": "联想sku对应物料码",
+            "example": "31085923"
+          },
+          "peiZhi": {
+            "type": "string",
+            "description": "备注信息",
+            "example": "xxxx"
+          },
+          "pn": {
+            "type": "string",
+            "description": "物料编号"
+          },
+          "shopPrice": {
+            "type": "number",
+            "description": "零售价（含税）",
+            "example": 100.01
+          },
+          "shopSale": {
+            "type": "integer",
+            "description": "自营店可售",
+            "format": "int32",
+            "example": 1
+          },
+          "skuName": {
+            "type": "string",
+            "description": "sku名称"
+          },
+          "userId": {
+            "type": "integer",
+            "description": "商品归属商家id ",
+            "format": "int32"
+          },
+          "ziyingBeizhu": {
+            "type": "string",
+            "description": "备注信息",
+            "example": "xxxx"
+          }
+        },
+        "description": "商品"
+      },
+      "ZiYingGoodsExtraVo": {
+        "title": "ZiYingGoodsExtraVo",
+        "type": "object",
+        "properties": {
+          "approveSale": {
+            "type": "integer",
+            "description": "立项可售",
+            "format": "int32",
+            "example": 1
+          },
+          "billGoodsName": {
+            "type": "string",
+            "description": "商品开票名称",
+            "example": "技术服务费"
+          },
+          "crmFirstCateId": {
+            "type": "integer",
+            "description": "crm一级分类",
+            "format": "int64"
+          },
+          "crmSecondCateId": {
+            "type": "integer",
+            "description": "crm二级分类",
+            "format": "int64"
+          },
+          "goodsId": {
+            "type": "integer",
+            "description": "商品id",
+            "format": "int32",
+            "example": 5
+          },
+          "id": {
+            "type": "integer",
+            "description": "自增id",
+            "format": "int32",
+            "example": 5
+          },
+          "peiZhi": {
+            "type": "string",
+            "description": "配置信息",
+            "example": "xxxx"
+          },
+          "shopSale": {
+            "type": "integer",
+            "description": "自营店可售",
+            "format": "int32",
+            "example": 1
+          },
+          "ziyingBeizhu": {
+            "type": "string",
+            "description": "备注信息",
+            "example": "xxxx"
+          }
+        },
+        "description": "自营商品扩展信息返回的结构体"
+      }
+    }
+  }
+}
