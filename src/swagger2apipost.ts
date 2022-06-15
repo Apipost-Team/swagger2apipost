@@ -70,12 +70,12 @@ class Swagger2Apipost {
       this.basePath += json.basePath;
     }
 
-    if (json.schemes && json.schemes.indexOf('https') != -1) {
-      this.basePath = 'https://' + this.basePath;
-    }
-    else {
-      this.basePath = 'http://' + this.basePath;
-    }
+    // if (json.schemes && json.schemes.indexOf('https') != -1) {
+    //   this.basePath = 'https://' + this.basePath;
+    // }
+    // else {
+    //   this.basePath = 'http://' + this.basePath;
+    // }
 
     if (!this.endsWith(this.basePath, '/')) {
       this.basePath += '/';
