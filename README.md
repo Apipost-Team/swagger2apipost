@@ -3,7 +3,7 @@ swagger2apipost 是一个swagger JSON 到 ApiPost 导入项目数据 的转换�
 # 🎉 特性
 
 - 支持格式 
-- swagger2.0 支持swagger(openapi) 3.0
+- swagger2.0 支持swagger(openapi) 3.0  还支持传入swagger url
 # 安装
 
 ```shell
@@ -16,7 +16,7 @@ npm i swagger2apipost
 ```js
 import Swagger2Apipost from 'swagger2apipost';
 const converter = new Swagger2Apipost();
-const convertResult= await converter.convert(swaggerJson,options);
+const convertResult= await converter.convert(swaggerJson 或者 swaggerUrl,options);
 ```
 **检查结果:**
 

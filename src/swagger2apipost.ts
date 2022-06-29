@@ -121,8 +121,6 @@ class Swagger2Apipost {
           if (index == 1) {
             this.apis.push(this.folders[folderPath]);
           } else {
-            console.log('this.folders',grandpaFolderPath,JSON.stringify(this.folders));
-            
             this.folders[grandpaFolderPath].children.push(this.folders[folderPath]);
           }
         }
@@ -134,7 +132,7 @@ class Swagger2Apipost {
     // if(this.options.basePath){
     //   url=decodeURI(_url.resolve(this.basePath, path))
     // }
-    if (path.charAt(0) == '/') {
+    if (path && path.charAt(0) == '/') {
       url = path.substring(1);
     }
     for (const method in pathItem) {
@@ -200,7 +198,7 @@ class Swagger2Apipost {
       }
       if (swaggerApi.hasOwnProperty('requestBody') && swaggerApi.requestBody.hasOwnProperty('content')) {
         let content = swaggerApi.requestBody.content;
-        let mode = Object.keys(content)[0];
+        let mode = content instanceof Object ? Object.keys(content)[0] : "none";
         let bodyData = content[mode];
         let apipostMode = this.getApipostMode(mode)
         let properties: any = {};
@@ -316,7 +314,10 @@ class Swagger2Apipost {
       }
 
       if (swaggerApi.hasOwnProperty('parameters')) {
-        let mode = thisConsumes[0];
+        let mode = 'none'
+        if (thisConsumes && thisConsumes.length > 0) {
+          mode = thisConsumes[0]
+        }
         let apipostMode = this.getApipostMode(mode);
         request.body = {
           "mode": apipostMode,
@@ -458,21 +459,27 @@ class Swagger2Apipost {
     };
     return newFolder;
   }
-  async convert(json: object, options: any = null) {
+  async convert(json: any, options: any = null) {
     try {
-      var validationResult = this.validate(json);
-      if (validationResult.status === 'error') {
-        return validationResult;
-      }
       if (options && options instanceof Object) {
         this.options = { ...this.options, ...options };
       }
       let swagger3Json = {};
-      this.handleInfo(json);
-      await SwaggerClient.resolve({ spec: json }).then((swaggerJson: any) => {
-        swagger3Json = swaggerJson.spec;
-      });
-
+      if (json instanceof Object) {
+        await SwaggerClient.resolve({ spec: json }).then((swaggerJson: any) => {
+          swagger3Json = swaggerJson.spec;
+        })
+      } else {
+        await SwaggerClient.resolve({ url: json }).then((swaggerJson: any) => {
+          swagger3Json = swaggerJson.spec;
+        })
+      }
+      console.log(JSON.stringify(swagger3Json));
+      var validationResult = this.validate(swagger3Json);
+      if (validationResult.status === 'error') {
+        return validationResult;
+      }
+      this.handleInfo(swagger3Json);
       if (this.version == '2.0') {
         this.setBasePath(swagger3Json);
         this.handlePaths(swagger3Json);
@@ -488,8 +495,10 @@ class Swagger2Apipost {
       }
       console.log('project', JSON.stringify(validationResult));
       return validationResult;
-    } catch (error) {
-      console.log('project', JSON.stringify(String(error)));
+    } catch (error: any) {
+      if (error?.name === 'AbortError') {
+        return this.ConvertResult('error', '数据过大，请求超时。')
+      }
       return this.ConvertResult('error', String(error))
     }
   }

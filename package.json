@@ -1,6 +1,6 @@
 {
   "name": "swagger2apipost",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "swagger2apipost",
   "main": "dist/index.js",
   "files": [
@@ -71,8 +71,8 @@
     "swagger",
     "swagger2apipost"
   ],
-  "repository":{
-    "type":"git",
-    "url":"https://github.com/Apipost-Team/swagger2apipost.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Apipost-Team/swagger2apipost.git"
   }
 }
