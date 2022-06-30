@@ -9,10 +9,16 @@ describe('works',() => {
   const json3_5 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/swagger3Info_5.json'), 'utf-8'));
   const json3_6 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/swagger3Info_6.json'), 'utf-8'));
   const json3_7 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/swagger3Info_7.json'), 'utf-8'));
+  const json3_8 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/swagger3Info_8.json'), 'utf-8'));
 
   const converter = new Swagger2Apipost();
   // it('测试Swagger2Apipost 2.0 success', async () => {
   //   expect((await converter.convert(json2_2,{
+  //     basePath:false
+  //   })).status).toBe('success');
+  // });
+  // it('测试Swagger2Apipost 2.0 success', async () => {
+  //   expect((await converter.convert(json2_4,{
   //     basePath:false
   //   })).status).toBe('success');
   // });
@@ -28,5 +34,8 @@ describe('works',() => {
   // it('测试Swagger2Apipost 3.0 success', async () => {
   //   expect((await converter.convert(json3_7)).status).toBe('success');
   // });
+  it('测试Swagger2Apipost 3.0 success', async () => {
+    expect((await converter.convert(json3_8)).status).toBe('success');
+  });
 });
 

@@ -59,6 +59,25 @@ class Swagger2Apipost {
 
     return this.ConvertResult('success', '');
   }
+  handleBodyJsonSchema(result: any, properties: any) {
+    for (const key in properties) {
+      let type = 'string';
+      let item = properties[key];
+      if (item.hasOwnProperty('type') && item.type instanceof String) {
+        type = item.type.toLowerCase();
+      }
+      if (type === 'object') {
+        result[key]={};
+        this.handleBodyJsonSchema(result[key],item?.properties || {})
+      } else if (type === 'array') {
+        let arrayObj={};
+        result[key]=[arrayObj];
+        this.handleBodyJsonSchema(arrayObj,item?.items?.properties || {})
+      } else {
+        result[key] = item?.example || "";
+      }
+    }
+  }
   setBasePath(json: any) {
     this.basePath = '';
     if (json.host && this.options.host) {
@@ -236,6 +255,12 @@ class Swagger2Apipost {
               example = JSON.stringify(example);
             }
             request.body.raw = example;
+          } else {
+            if (JSON.stringify(properties) !== "{}") {
+              let RawObj: any = {};
+              this.handleBodyJsonSchema(RawObj, properties);
+              request.body.raw = JSON.stringify(RawObj);
+            }
           }
         }
       }
@@ -367,7 +392,13 @@ class Swagger2Apipost {
                 field_type: "Text" // 类型
               })
             } else if (parameter.in == 'body') {
-              request.body.raw = parameter?.description || ''
+              if (parameter.hasOwnProperty('schema') && parameter.schema.hasOwnProperty('properties') && JSON.stringify(parameter.schema.properties) !== "{}") {
+                let RawObj={};
+                this.handleBodyJsonSchema(RawObj, parameter.schema.properties);
+                request.body.raw = JSON.stringify(RawObj);
+              }else{
+                request.body.raw = parameter?.description || ''
+              }
             } else if (parameter.in == 'formData') {
               parameter.name && request.body.parameter.push({
                 is_checked: "1", // 是否选择
@@ -474,7 +505,7 @@ class Swagger2Apipost {
           swagger3Json = swaggerJson.spec;
         })
       }
-      console.log(JSON.stringify(swagger3Json));
+      console.log('swagger3Jsonswagger3Json', JSON.stringify(swagger3Json));
       var validationResult = this.validate(swagger3Json);
       if (validationResult.status === 'error') {
         return validationResult;

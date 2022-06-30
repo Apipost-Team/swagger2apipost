@@ -1,0 +1,266 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+      "title": "AIM-5G智能短信平台",
+      "description": "俊高软件科技 AIM-5G智能短信平台API接入文档-v1.0\n# API指南\nAIM-5G智能短信平台统一使用`HTTP/HTTPS + JSON`的方式进行接入\n\n编码格式：UTF-8\n\n## \n\n## API加密方式\n- 将GET参数的KEY安装字典顺序排序\n- 排序后将参数的VALUE进行拼接成字符串\n- 获取`timestamp`时间戳（精确到秒）\n- 后与`account` `paramString` `secret` `timestamp`拼接在一起获取MD5摘要\n\n**PHP示例：strtoupper(md5(strtoupper( $account + implode(\"\",ksort($params)) + $secret + $timestamp) ))**\n\n**注意：`timestamp` 误差在5分钟内；加密过程字符串需大写**\n\n****\n# 如何将模板管理嵌入到系统后台\n\n**请使用 `iframe` 嵌入该URL**\n",
+      "contact": {
+          "email": "technical@jungo.com.cn"
+      },
+      "version": "v1.0"
+  },
+  "servers": [
+      {
+          "url": "https://aim.yx.run/api/v1",
+          "description": "生产环境"
+      },
+      {
+          "url": "https://test.aim.yx.run/api/v1",
+          "description": "测试环境"
+      }
+  ],
+  "paths": {
+      "/aim/applyurl": {
+          "post": {
+              "tags": [
+                  "短信"
+              ],
+              "summary": "申请5G智能短信URL",
+              "description": "申请5G智能短信URL，通过携带该URL发送普通短信到用户，智能显示5G信息",
+              "operationId": "8a2ee15920c035740ba5680cb43b818c",
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "properties": {
+                                  "tplid": {
+                                      "description": "5G智能短信模板ID",
+                                      "type": "string",
+                                      "example": "600082343"
+                                  },
+                                  "signs": {
+                                      "description": "短信签名，需要与发送的短信签名保持一致，多个短信签名使用（,）分隔",
+                                      "type": "string",
+                                      "example": "俊高科技,俊网网络"
+                                  },
+                                  "showTimes": {
+                                      "description": "展示次数，群发单个智能短信短链短信给N个号码的场景，防止展示次数超过预期带来安全风险，指定此智能短信短链最大成功展示次数。考虑到异常解析、网络异常、手机终端重置操作、SIM 卡换机等操作，需要适当放大展示次数的限定值。如：预计群发消息为 100W 条，参考设置目标解析次数为11OW次。智能短信短链个性化发送，即一个短链对应一个发送号码的场景，考虑到异常解析、网络异常、手机终端重置操作、SIM 卡换机等操作，展示次数的参考值为10次。",
+                                      "type": "string",
+                                      "example": "10"
+                                  },
+                                  "aimCodeType": {
+                                      "description": "智能短信编码类型，1：群发，2：个性化",
+                                      "type": "integer",
+                                      "example": "2"
+                                  },
+                                  "expireTime": {
+                                      "description": "过期天数，智能短信编码类型为群发：时间可任意填，不填则默认 7天；智能短信编码类型为个性化：时间最小1天，最大7天，不填则默认 7天；",
+                                      "type": "integer",
+                                      "example": "7"
+                                  },
+                                  "paramList": {
+                                      "description": "参数列表",
+                                      "type": "array",
+                                      "items": {
+                                          "properties": {
+                                              "dyncParams": {
+                                                  "description": "动态参数，按照param顺序传递动态参数",
+                                                  "type": "string",
+                                                  "example": {
+                                                      "param1": "中秋",
+                                                      "param2": "50"
+                                                  }
+                                              },
+                                              "customUrl": {
+                                                  "description": "自定义URL，长度不超过 128 个字符。末填时，终端用户点击访问短信原文中的短链，跳转智能短信15页：己填时，终端用户点击访问短信原文中的短链，跳转客户填写的链接落地页，填写时必须为 http 或https 做为前缀。",
+                                                  "type": "string",
+                                                  "example": "1"
+                                              },
+                                              "custShortCode": {
+                                                  "description": "自定义短码",
+                                                  "type": "string",
+                                                  "example": ""
+                                              }
+                                          },
+                                          "type": "object"
+                                      }
+                                  }
+                              },
+                              "type": "object"
+                          },
+                          "examples": {
+                              "请求示例": {
+                                  "summary": "请求示例",
+                                  "value": {
+                                      "tplid": "600082343",
+                                      "signs": "俊高科技",
+                                      "showTimes": 10,
+                                      "aimCodeType": 1,
+                                      "expireTime": 7,
+                                      "paramList": [
+                                          {
+                                              "dyncParams": {
+                                                  "param1": "中秋",
+                                                  "param2": "50"
+                                              },
+                                              "customUrl": "https://xx.com/xx",
+                                              "custShortCode": ""
+                                          }
+                                      ]
+                                  }
+                              },
+                              "请求示例2": {
+                                  "summary": "请求示例2",
+                                  "value": {
+                                      "tplid": "600082343",
+                                      "signs": "俊高科技",
+                                      "showTimes": 10,
+                                      "aimCodeType": 1,
+                                      "expireTime": 7,
+                                      "paramList": [
+                                          {
+                                              "dyncParams": {
+                                                  "param1": "中秋",
+                                                  "param2": "50"
+                                              },
+                                              "customUrl": "https://xx.com/xx",
+                                              "custShortCode": ""
+                                          }
+                                      ]
+                                  }
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "The data",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "title": "创建",
+                                  "description": "发送成功",
+                                  "properties": {
+                                      "id": {
+                                          "description": "发送成功的短信ID",
+                                          "type": "string",
+                                          "example": "1000001"
+                                      }
+                                  },
+                                  "type": "object"
+                              },
+                              "examples": {
+                                  "请求成功示例": {
+                                      "summary": "发送成功",
+                                      "description": "发送成功",
+                                      "value": {
+                                          "url": "1000001"
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/sms/send": {
+          "post": {
+              "tags": [
+                  "短信"
+              ],
+              "summary": "短信发送",
+              "description": "发送短信，包括智能短信和普通短信",
+              "operationId": "ee74ab210994a7d768de79d0b4b4c079",
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "properties": {
+                                  "mobile": {
+                                      "description": "接收短信的手机号码，多个手机号码通过(,)号分隔",
+                                      "type": "string",
+                                      "example": "13300013305,13300013306"
+                                  },
+                                  "content": {
+                                      "description": "要发送的短信内容",
+                                      "type": "string",
+                                      "example": "您的验证码为9825，请在两分钟内使用"
+                                  }
+                              },
+                              "type": "object"
+                          },
+                          "examples": {
+                              "请求示例": {
+                                  "summary": "请求示例",
+                                  "value": {
+                                      "mobiles": "13300013305,13300013306",
+                                      "content": "您的验证码为9825，请在两分钟内使用"
+                                  }
+                              }
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "The data",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "title": "创建",
+                                  "description": "发送成功",
+                                  "properties": {
+                                      "id": {
+                                          "description": "发送成功的短信ID",
+                                          "type": "string",
+                                          "example": "1000001"
+                                      }
+                                  },
+                                  "type": "object"
+                              },
+                              "examples": {
+                                  "请求成功示例": {
+                                      "summary": "发送成功",
+                                      "description": "发送成功",
+                                      "value": {
+                                          "id": "1000001"
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      }
+  },
+  "components": {
+      "schemas": {
+          "applyParamList": {
+              "properties": {
+                  "dyncParams": {
+                      "description": "动态参数，按照param顺序传递动态参数",
+                      "type": "string",
+                      "example": {
+                          "param1": "中秋",
+                          "param2": "50"
+                      }
+                  },
+                  "customUrl": {
+                      "description": "自定义URL，长度不超过 128 个字符。末填时，终端用户点击访问短信原文中的短链，跳转智能短信15页：己填时，终端用户点击访问短信原文中的短链，跳转客户填写的链接落地页，填写时必须为 http 或https 做为前缀。",
+                      "type": "string",
+                      "example": "1"
+                  }
+              },
+              "type": "object"
+          }
+      }
+  },
+  "tags": [
+      {
+          "name": "短信",
+          "description": "短信的发送、查询等"
+      }
+  ]
+}
