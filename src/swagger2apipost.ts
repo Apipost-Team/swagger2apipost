@@ -63,16 +63,16 @@ class Swagger2Apipost {
     for (const key in properties) {
       let type = 'string';
       let item = properties[key];
-      if (item.hasOwnProperty('type') && item.type instanceof String) {
+      if (item.hasOwnProperty('type') && typeof item.type === 'string') {
         type = item.type.toLowerCase();
       }
       if (type === 'object') {
-        result[key]={};
-        this.handleBodyJsonSchema(result[key],item?.properties || {})
+        result[key] = {};
+        this.handleBodyJsonSchema(result[key], item?.properties || {})
       } else if (type === 'array') {
-        let arrayObj={};
-        result[key]=[arrayObj];
-        this.handleBodyJsonSchema(arrayObj,item?.items?.properties || {})
+        let arrayObj = {};
+        result[key] = [arrayObj];
+        this.handleBodyJsonSchema(arrayObj, item?.items?.properties || {})
       } else {
         result[key] = item?.example || "";
       }
@@ -393,10 +393,10 @@ class Swagger2Apipost {
               })
             } else if (parameter.in == 'body') {
               if (parameter.hasOwnProperty('schema') && parameter.schema.hasOwnProperty('properties') && JSON.stringify(parameter.schema.properties) !== "{}") {
-                let RawObj={};
+                let RawObj = {};
                 this.handleBodyJsonSchema(RawObj, parameter.schema.properties);
                 request.body.raw = JSON.stringify(RawObj);
-              }else{
+              } else {
                 request.body.raw = parameter?.description || ''
               }
             } else if (parameter.in == 'formData') {
