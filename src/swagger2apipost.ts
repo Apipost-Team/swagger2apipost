@@ -166,9 +166,20 @@ class Swagger2Apipost {
         'method': method.toUpperCase() || 'GET',
         'request': {
           'description': swaggerApi?.description || '',
+        },
+        'response': {
+          'success': {
+            parameter: [],
+            raw: ''
+          },
+          'error': {
+            parameter: [],
+            raw: ''
+          }
         }
       }
       const { request } = api;
+      const { response } = api;
       if (swaggerApi.hasOwnProperty('parameters')) {
         for (const parameter of swaggerApi.parameters) {
           if (parameter.hasOwnProperty('in')) {
@@ -215,6 +226,7 @@ class Swagger2Apipost {
           }
         }
       }
+
       if (swaggerApi.hasOwnProperty('requestBody') && swaggerApi.requestBody.hasOwnProperty('content')) {
         let content = swaggerApi.requestBody.content;
         let mode = content instanceof Object ? Object.keys(content)[0] : "none";
@@ -264,6 +276,52 @@ class Swagger2Apipost {
           }
         }
       }
+      if (swaggerApi.hasOwnProperty('responses')) {
+        let successRawObj = {};
+        let errorRawObj = {};
+        for (const status in swaggerApi.responses) {
+          if (Object.prototype.hasOwnProperty.call(swaggerApi.responses, status)) {
+            const element = swaggerApi.responses[status];
+            if (element.hasOwnProperty('content') && Object.keys(element.content)?.length > 0) {
+              let content = element.content;
+              let mode = content instanceof Object ? Object.keys(content)[0] : "none";
+              let bodyData = content[mode];
+              let apipostMode = this.getApipostMode(mode)
+              let properties: any = {};
+              if (bodyData.hasOwnProperty('schema')) {
+                let { schema } = bodyData;
+                if (schema.hasOwnProperty('properties')) {
+                  properties = schema.properties;
+                }
+              }
+              if (apipostMode == 'json') {
+                if (bodyData.hasOwnProperty('example')) {
+                  let example = bodyData.example;
+                  if (typeof example == 'object') {
+                    if (/^2\d{2}$/.test(status)) {
+                      successRawObj[status] = { ...example };
+                    } else {
+                      errorRawObj[status] = { ...example };
+                    }
+                  }
+                } else {
+                  if (JSON.stringify(properties) !== "{}") {
+                    let RawObj: any = {};
+                    this.handleBodyJsonSchema(RawObj, properties);
+                    if (/^2\d{2}$/.test(status)) {
+                      successRawObj[status] = { ...RawObj }
+                    } else {
+                      errorRawObj[status] = { ...RawObj }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        response.success.raw = JSON.stringify(successRawObj);
+        response.error.raw = JSON.stringify(errorRawObj);
+      }
       if (swaggerApi.hasOwnProperty('tags') && swaggerApi.tags.length > 0) {
         for (const folder of swaggerApi.tags) {
           if (this.folders.hasOwnProperty(folder)) {
@@ -297,6 +355,16 @@ class Swagger2Apipost {
         'method': method.toUpperCase() || 'GET',
         'request': {
           'description': swaggerApi?.description || '',
+        },
+        'response': {
+          'success': {
+            'parameter': [],
+            'raw': ''
+          },
+          'error': {
+            'parameter': [],
+            'raw': ''
+          }
         }
       },
         thisProduces,
@@ -309,6 +377,7 @@ class Swagger2Apipost {
         thisConsumes = swaggerApi.consumes;
       }
       const { request } = api;
+      const { response } = api;
       if (thisProduces && thisProduces.length > 0) {
         if (!request.hasOwnProperty('header')) {
           request.header = []
@@ -412,6 +481,32 @@ class Swagger2Apipost {
             }
           }
         }
+      }
+      if (swaggerApi.hasOwnProperty('responses')) {
+        let successRawObj = {};
+        let errorRawObj = {};
+        for (const status in swaggerApi.responses) {
+          if (Object.prototype.hasOwnProperty.call(swaggerApi.responses, status)) {
+            const element = swaggerApi.responses[status];
+            if (element.hasOwnProperty('schema') && element.schema.hasOwnProperty('properties') && JSON.stringify(element.schema.properties) !== "{}") {
+              let RawObj = {};
+              this.handleBodyJsonSchema(RawObj, element.schema.properties);
+              if (/^2\d{2}$/.test(status)) {
+                successRawObj[status] = { ...RawObj }
+              } else {
+                errorRawObj[status] = { ...RawObj }
+              }
+            } else {
+              if (/^2\d{2}$/.test(status)) {
+                successRawObj[status] = element?.description || ''
+              } else {
+                errorRawObj[status] = element?.description || ''
+              }
+            }
+          }
+        }
+        response.success.raw = JSON.stringify(successRawObj);
+        response.error.raw = JSON.stringify(errorRawObj);
       }
       if (swaggerApi.hasOwnProperty('tags') && swaggerApi.tags.length > 0) {
         for (const folder of swaggerApi.tags) {
