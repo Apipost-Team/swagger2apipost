@@ -128,7 +128,7 @@ class Swagger2Apipost {
       this.env.push(newEnv);
     }
   }
-  handleTags(tags: any[]) {
+  handleTags(tags: any[], tagsInfo: any) {
     for (const tagString of tags) {
       let tagArray = tagString.split('/');
       for (let index = 1; index < tagArray.length + 1; index++) {
@@ -136,7 +136,7 @@ class Swagger2Apipost {
         const folderPath = tagArray.slice(0, index).join('/');
         const grandpaFolderPath = tagArray.slice(0, index - 1).join('/');
         if (!this.folders.hasOwnProperty(folderPath)) {
-          this.folders[folderPath] = this.createNewFolder(tag);
+          this.folders[folderPath] = this.createNewFolder(tag, tagsInfo);
           if (index == 1) {
             this.apis.push(this.folders[folderPath]);
           } else {
@@ -146,7 +146,7 @@ class Swagger2Apipost {
       }
     }
   }
-  handlePathV3(path: string, pathItem: any) {
+  handlePathV3(path: string, pathItem: any, tags: any) {
     let url = path;
     // if(this.options.basePath){
     //   url=decodeURI(_url.resolve(this.basePath, path))
@@ -157,7 +157,7 @@ class Swagger2Apipost {
     for (const method in pathItem) {
       let swaggerApi = pathItem[method];
       if (swaggerApi.hasOwnProperty('tags') && swaggerApi.tags.length > 0) {
-        this.handleTags(swaggerApi.tags);
+        this.handleTags(swaggerApi.tags, tags);
       }
       let api: any = {
         'name': swaggerApi?.summary || '新建接口',
@@ -333,7 +333,7 @@ class Swagger2Apipost {
       }
     }
   }
-  handlePath(path: string, pathItem: any) {
+  handlePath(path: string, pathItem: any, tags: any) {
     let url = path;
     if (url.charAt(0) == '/') {
       url = url.substring(1);
@@ -346,7 +346,7 @@ class Swagger2Apipost {
     for (const method in pathItem) {
       let swaggerApi = pathItem[method];
       if (swaggerApi.hasOwnProperty('tags') && swaggerApi.tags.length > 0) {
-        this.handleTags(swaggerApi.tags);
+        this.handleTags(swaggerApi.tags, tags);
       }
       let api: any = {
         'name': swaggerApi?.summary || '新建接口',
@@ -521,14 +521,16 @@ class Swagger2Apipost {
   }
   handlePathsV3(json: any) {
     var paths = json.paths;
+    var tags = json.tags;
     for (const path in paths) {
-      this.handlePathV3(path, paths[path]);
+      this.handlePathV3(path, paths[path], tags);
     }
   }
   handlePaths(json: any) {
     var paths = json.paths;
+    var tags = json.tags;
     for (const path in paths) {
-      this.handlePath(path, paths[path]);
+      this.handlePath(path, paths[path], tags);
     }
   }
   getParamsForPathItem(oldParams: any, newParams: any) {
@@ -576,11 +578,12 @@ class Swagger2Apipost {
 
     return retVal;
   }
-  createNewFolder(name: string) {
+  createNewFolder(name: string, tags: any) {
+    const description = tags.find((tag: any) => tag.name === name)?.description || '';
     var newFolder = {
       'name': name,
       'target_type': 'folder',
-      'description': 'Folder for ' + name,
+      'description': description,
       'children': [],
     };
     return newFolder;
