@@ -579,7 +579,7 @@ class Swagger2Apipost {
     return retVal;
   }
   createNewFolder(name: string, tags: any) {
-    const description = tags.find((tag: any) => tag.name === name)?.description || '';
+    const description = tags?.find((tag: any) => tag.name === name)?.description || '';
     var newFolder = {
       'name': name,
       'target_type': 'folder',
