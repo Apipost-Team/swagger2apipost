@@ -1,6 +1,6 @@
 {
   "name": "swagger2apipost",
-  "version": "0.1.9-0",
+  "version": "0.1.9",
   "description": "swagger2apipost",
   "main": "dist/index.js",
   "files": [
@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "test": "jest",
-    "build": "npm version prerelease && rollup -c rollup.config.js"
+    "build": "npm version patch && rollup -c rollup.config.js"
   },
   "dependencies": {
     "@rollup/plugin-node-resolve": "^13.3.0",
