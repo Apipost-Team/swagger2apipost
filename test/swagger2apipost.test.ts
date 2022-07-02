@@ -35,7 +35,7 @@ describe('works',() => {
   //   expect((await converter.convert(json3_7)).status).toBe('success');
   // });
   it('测试Swagger2Apipost 3.0 success', async () => {
-    expect((await converter.convert(json3_8)).status).toBe('success');
+    expect((await converter.convert(json3_7)).status).toBe('success');
   });
 });
 

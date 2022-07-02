@@ -67,7 +67,9 @@ class Swagger2Apipost {
         type = item.type.toLowerCase();
       }
       if (type === 'object') {
+        console.log('itemitem', item);
         result[key] = {};
+
         if (item.hasOwnProperty('additionalProperties') && item?.additionalProperties) {
           this.handleBodyJsonSchema(result[key], item?.additionalProperties?.properties || {})
         } else {
@@ -88,7 +90,13 @@ class Swagger2Apipost {
           this.handleBodyJsonSchema(arrayObj, item?.properties || {})
         }
       } else {
-        result[key] = item?.example || "";
+        let oneOfObj = {};
+        if (item.hasOwnProperty('oneOf') && item?.oneOf) {
+          this.handleBodyJsonSchema(oneOfObj, item?.oneOf?.[0]?.properties || {})
+          result[key] = oneOfObj;
+        } else {
+          result[key] = item?.example || "";
+        }
       }
     }
   }
@@ -657,7 +665,7 @@ class Swagger2Apipost {
         apis: this.apis,
         env: this.env,
       }
-      console.log('project', JSON.stringify(validationResult));
+      // console.log('project', JSON.stringify(validationResult));
       return validationResult;
     } catch (error: any) {
       if (error?.name === 'AbortError') {
