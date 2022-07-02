@@ -68,7 +68,7 @@ class Swagger2Apipost {
       }
       if (type === 'object') {
         result[key] = {};
-        if (item.hasOwnProperty('additionalProperties')) {
+        if (item.hasOwnProperty('additionalProperties') && item?.additionalProperties) {
           this.handleBodyJsonSchema(result[key], item?.additionalProperties?.properties || {})
         } else {
           this.handleBodyJsonSchema(result[key], item?.properties || {})
@@ -76,7 +76,17 @@ class Swagger2Apipost {
       } else if (type === 'array') {
         let arrayObj = {};
         result[key] = [arrayObj];
-        this.handleBodyJsonSchema(arrayObj, item?.items?.properties || {})
+        if (item.hasOwnProperty('items') && item?.items) {
+          if (item?.items.hasOwnProperty('oneOf') && item?.items?.oneOf) {
+            this.handleBodyJsonSchema(arrayObj, item?.items?.oneOf?.[0]?.properties || {})
+          } else {
+            this.handleBodyJsonSchema(arrayObj, item?.items?.properties || {})
+          }
+        } else if (item.hasOwnProperty('additionalProperties') && item?.additionalProperties) {
+          this.handleBodyJsonSchema(arrayObj, item?.additionalProperties?.properties || {})
+        } else {
+          this.handleBodyJsonSchema(arrayObj, item?.properties || {})
+        }
       } else {
         result[key] = item?.example || "";
       }
@@ -290,6 +300,7 @@ class Swagger2Apipost {
             const element = swaggerApi.responses[status];
             if (element.hasOwnProperty('content') && Object.keys(element.content)?.length > 0) {
               let content = element.content;
+
               let mode = content instanceof Object ? Object.keys(content)[0] : "none";
               let bodyData = content[mode];
               let apipostMode = this.getApipostMode(mode)
@@ -325,6 +336,12 @@ class Swagger2Apipost {
                     }
                   }
                 }
+              }
+            } else {
+              if (/^2\d{2}$/.test(status)) {
+                successRawObj[status] = element?.description || ""
+              } else {
+                errorRawObj[status] = element?.description || ""
               }
             }
           }
@@ -621,7 +638,7 @@ class Swagger2Apipost {
           swagger3Json = swaggerJson.spec;
         })
       }
-      console.log('swagger3Jsonswagger3Json', JSON.stringify(swagger3Json));
+      // console.log('swagger3Jsonswagger3Json', JSON.stringify(swagger3Json));
       var validationResult = this.validate(swagger3Json);
       if (validationResult.status === 'error') {
         return validationResult;
