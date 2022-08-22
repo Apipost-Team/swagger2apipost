@@ -59,7 +59,7 @@ class Swagger2Apipost {
 
     return this.ConvertResult('success', '');
   }
-  handleBodyJsonSchema(result: any, properties: any) {
+  handleBodyJsonSchema(result: any, properties: any, raw_para?: any) {
     for (const key in properties) {
       let type = 'string';
       let item = properties[key];
@@ -67,34 +67,44 @@ class Swagger2Apipost {
         type = item.type.toLowerCase();
       }
       if (type === 'object') {
-        console.log('itemitem', item);
         result[key] = {};
 
         if (item.hasOwnProperty('additionalProperties') && item?.additionalProperties) {
-          this.handleBodyJsonSchema(result[key], item?.additionalProperties?.properties || {})
+          this.handleBodyJsonSchema(result[key], item?.additionalProperties?.properties || {}, raw_para)
         } else {
-          this.handleBodyJsonSchema(result[key], item?.properties || {})
+          this.handleBodyJsonSchema(result[key], item?.properties || {}, raw_para)
         }
       } else if (type === 'array') {
         let arrayObj = {};
         result[key] = [arrayObj];
         if (item.hasOwnProperty('items') && item?.items) {
           if (item?.items.hasOwnProperty('oneOf') && item?.items?.oneOf) {
-            this.handleBodyJsonSchema(arrayObj, item?.items?.oneOf?.[0]?.properties || {})
+            this.handleBodyJsonSchema(arrayObj, item?.items?.oneOf?.[0]?.properties || {}, raw_para)
           } else {
-            this.handleBodyJsonSchema(arrayObj, item?.items?.properties || {})
+            this.handleBodyJsonSchema(arrayObj, item?.items?.properties || {}, raw_para)
           }
         } else if (item.hasOwnProperty('additionalProperties') && item?.additionalProperties) {
-          this.handleBodyJsonSchema(arrayObj, item?.additionalProperties?.properties || {})
+          this.handleBodyJsonSchema(arrayObj, item?.additionalProperties?.properties || {}, raw_para)
         } else {
-          this.handleBodyJsonSchema(arrayObj, item?.properties || {})
+          this.handleBodyJsonSchema(arrayObj, item?.properties || {}, raw_para)
         }
       } else {
         let oneOfObj = {};
         if (item.hasOwnProperty('oneOf') && item?.oneOf) {
-          this.handleBodyJsonSchema(oneOfObj, item?.oneOf?.[0]?.properties || {})
+          this.handleBodyJsonSchema(oneOfObj, item?.oneOf?.[0]?.properties || {}, raw_para)
           result[key] = oneOfObj;
         } else {
+          if (item.hasOwnProperty('description') && Object.prototype.toString.call(raw_para) === '[object Array]') {
+            raw_para.push({
+              key: key,
+              value: item?.example || "",
+              description: String(item.description),
+              not_null: 1,
+              field_type: type ? type.charAt(0).toUpperCase() + type.slice(1) : "Text",
+              type: "Text",
+              is_checked: 1,
+            });
+          }
           result[key] = item?.example || "";
         }
       }
@@ -294,8 +304,10 @@ class Swagger2Apipost {
           } else {
             if (JSON.stringify(properties) !== "{}") {
               let RawObj: any = {};
-              this.handleBodyJsonSchema(RawObj, properties);
+              let raw_para: any = [];
+              this.handleBodyJsonSchema(RawObj, properties, raw_para);
               request.body.raw = JSON.stringify(RawObj);
+              request.body.raw_para = raw_para;
             }
           }
         }
@@ -498,10 +510,11 @@ class Swagger2Apipost {
             } else if (parameter.in == 'body') {
               if ((parameter.hasOwnProperty('schema') && parameter.schema.hasOwnProperty('properties') && JSON.stringify(parameter.schema.properties) !== "{}") || parameter?.schema?.type === 'array') {
                 let RawObj = {};
+                let raw_para:any = [];
                 if (parameter.schema.type === 'array') {
-                  this.handleBodyJsonSchema(RawObj, parameter.schema.items.properties);
+                  this.handleBodyJsonSchema(RawObj, parameter.schema.items.properties, raw_para);
                 } else {
-                  this.handleBodyJsonSchema(RawObj, parameter.schema.properties);
+                  this.handleBodyJsonSchema(RawObj, parameter.schema.properties, raw_para);
                 }
                 request.body.raw = JSON.stringify(RawObj);
               } else {
@@ -646,7 +659,6 @@ class Swagger2Apipost {
           swagger3Json = swaggerJson.spec;
         })
       }
-      // console.log('swagger3Jsonswagger3Json', JSON.stringify(swagger3Json));
       var validationResult = this.validate(swagger3Json);
       if (validationResult.status === 'error') {
         return validationResult;
@@ -665,7 +677,6 @@ class Swagger2Apipost {
         apis: this.apis,
         env: this.env,
       }
-      // console.log('project', JSON.stringify(validationResult));
       return validationResult;
     } catch (error: any) {
       if (error?.name === 'AbortError') {
