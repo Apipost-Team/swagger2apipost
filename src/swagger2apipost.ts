@@ -90,10 +90,10 @@ class Swagger2Apipost {
         }
       } else {
         let oneOfObj = {};
-        if (item.hasOwnProperty('oneOf') && item?.oneOf) {
-          this.handleBodyJsonSchema(oneOfObj, item?.oneOf?.[0]?.properties || {}, raw_para)
-          result[key] = oneOfObj;
-        } else {
+        // if (item.hasOwnProperty('oneOf') && item?.oneOf) {
+        //   this.handleBodyJsonSchema(oneOfObj, item?.oneOf?.[0]?.properties || {}, raw_para)
+        //   result[key] = oneOfObj;
+        // } else {
           if (item.hasOwnProperty('description') && Object.prototype.toString.call(raw_para) === '[object Array]') {
             raw_para.push({
               key: key,
@@ -106,7 +106,7 @@ class Swagger2Apipost {
             });
           }
           result[key] = item?.example || "";
-        }
+        // }
       }
     }
   }
