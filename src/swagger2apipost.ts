@@ -302,7 +302,7 @@ class Swagger2Apipost {
             }
             request.body.raw = example;
           } else {
-            if (JSON.stringify(properties) !== "{}") {
+            if (Object.prototype.toString.call(properties) === "[object Object]") {
               let RawObj: any = {};
               let raw_para: any = [];
               this.handleBodyJsonSchema(RawObj, properties, raw_para);
@@ -346,7 +346,7 @@ class Swagger2Apipost {
                     }
                   }
                 } else {
-                  if (JSON.stringify(properties) !== "{}") {
+                  if (Object.prototype.toString.call(properties) === "[object Object]") {
                     let RawObj: any = {};
                     this.handleBodyJsonSchema(RawObj, properties);
                     if (/^2\d{2}$/.test(status)) {
@@ -366,8 +366,8 @@ class Swagger2Apipost {
             }
           }
         }
-        response.success.raw = JSON.stringify(successRawObj);
-        response.error.raw = JSON.stringify(errorRawObj);
+        response.success.raw = String(successRawObj);
+        response.error.raw = String(errorRawObj);
       }
       if (swaggerApi.hasOwnProperty('tags') && swaggerApi.tags.length > 0) {
         for (const folder of swaggerApi.tags) {
@@ -561,8 +561,8 @@ class Swagger2Apipost {
             }
           }
         }
-        response.success.raw = JSON.stringify(successRawObj);
-        response.error.raw = JSON.stringify(errorRawObj);
+        response.success.raw = String(successRawObj);
+        response.error.raw = String(errorRawObj);
       }
       if (swaggerApi.hasOwnProperty('tags') && swaggerApi.tags.length > 0) {
         for (const folder of swaggerApi.tags) {
@@ -679,6 +679,7 @@ class Swagger2Apipost {
       }
       return validationResult;
     } catch (error: any) {
+      console.log(error,"error");
       if (error?.name === 'AbortError') {
         return this.ConvertResult('error', '数据过大，请求超时。')
       }
