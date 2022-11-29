@@ -94,18 +94,18 @@ class Swagger2Apipost {
         //   this.handleBodyJsonSchema(oneOfObj, item?.oneOf?.[0]?.properties || {}, raw_para)
         //   result[key] = oneOfObj;
         // } else {
-          if (item.hasOwnProperty('description') && Object.prototype.toString.call(raw_para) === '[object Array]') {
-            raw_para.push({
-              key: key,
-              value: item?.example || "",
-              description: String(item.description),
-              not_null: 1,
-              field_type: type ? type.charAt(0).toUpperCase() + type.slice(1) : "Text",
-              type: "Text",
-              is_checked: 1,
-            });
-          }
-          result[key] = item?.example || "";
+        if (item.hasOwnProperty('description') && Object.prototype.toString.call(raw_para) === '[object Array]') {
+          raw_para.push({
+            key: key,
+            value: item?.example || "",
+            description: String(item.description),
+            not_null: 1,
+            field_type: type ? type.charAt(0).toUpperCase() + type.slice(1) : "Text",
+            type: "Text",
+            is_checked: 1,
+          });
+        }
+        result[key] = item?.example || "";
         // }
       }
     }
@@ -366,8 +366,16 @@ class Swagger2Apipost {
             }
           }
         }
-        response.success.raw = String(successRawObj);
-        response.error.raw = String(errorRawObj);
+        try {
+          response.success.raw = JSON.stringify(successRawObj);
+        } catch (error) {
+          response.success.raw = String(successRawObj);
+        }
+        try {
+          response.error.raw = JSON.stringify(errorRawObj);
+        } catch (error) {
+          response.error.raw = String(errorRawObj);
+        }
       }
       if (swaggerApi.hasOwnProperty('tags') && swaggerApi.tags.length > 0) {
         for (const folder of swaggerApi.tags) {
@@ -510,7 +518,7 @@ class Swagger2Apipost {
             } else if (parameter.in == 'body') {
               if ((parameter.hasOwnProperty('schema') && parameter.schema.hasOwnProperty('properties') && JSON.stringify(parameter.schema.properties) !== "{}") || parameter?.schema?.type === 'array') {
                 let RawObj = {};
-                let raw_para:any = [];
+                let raw_para: any = [];
                 if (parameter.schema.type === 'array') {
                   this.handleBodyJsonSchema(RawObj, parameter.schema.items.properties, raw_para);
                 } else {
@@ -561,8 +569,16 @@ class Swagger2Apipost {
             }
           }
         }
-        response.success.raw = String(successRawObj);
-        response.error.raw = String(errorRawObj);
+        try {
+          response.success.raw = JSON.stringify(successRawObj);
+        } catch (error) {
+          response.success.raw = String(successRawObj);
+        }
+        try {
+          response.error.raw = JSON.stringify(errorRawObj);
+        } catch (error) {
+          response.error.raw = String(errorRawObj);
+        }
       }
       if (swaggerApi.hasOwnProperty('tags') && swaggerApi.tags.length > 0) {
         for (const folder of swaggerApi.tags) {
@@ -679,7 +695,7 @@ class Swagger2Apipost {
       }
       return validationResult;
     } catch (error: any) {
-      console.log(error,"error");
+      console.log(error, "error");
       if (error?.name === 'AbortError') {
         return this.ConvertResult('error', '数据过大，请求超时。')
       }
