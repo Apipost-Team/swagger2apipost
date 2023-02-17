@@ -161,7 +161,8 @@ class Swagger2Apipost {
     }
   }
   handleTags(tags: any[], tagsInfo: any) {
-    for (const tagString of tags) {
+    for (let i = 0; i < tags.length; i++) {
+      let tagString = tags[i];
       let tagArray = tagString.split('/');
       for (let index = 1; index < tagArray.length + 1; index++) {
         const tag = tagArray[index - 1];
@@ -170,9 +171,15 @@ class Swagger2Apipost {
         if (!this.folders.hasOwnProperty(folderPath)) {
           this.folders[folderPath] = this.createNewFolder(tag, tagsInfo);
           if (index == 1) {
-            this.apis.push(this.folders[folderPath]);
+            this.apis.push({
+              ...this.folders[folderPath],
+              sort: i + 1,
+            });
           } else {
-            this.folders[grandpaFolderPath].children.push(this.folders[folderPath]);
+            this.folders[grandpaFolderPath].children.push({
+              ...this.folders[folderPath],
+              sort: this.folders[grandpaFolderPath].children.length + 1,
+            });
           }
         }
       }
@@ -583,7 +590,13 @@ class Swagger2Apipost {
       if (swaggerApi.hasOwnProperty('tags') && swaggerApi.tags.length > 0) {
         for (const folder of swaggerApi.tags) {
           if (this.folders.hasOwnProperty(folder)) {
-            this.folders[folder].children.push(api);
+            if (Object.prototype.toString.call(this.folders[folder].children) === '[object Array]') {
+              this.folders[folder].children.push({
+                ...api,
+                sort: this.folders[folder].children.length + 1,
+              });
+            }
+            
           }
         }
       } else {
@@ -693,6 +706,7 @@ class Swagger2Apipost {
         apis: this.apis,
         env: this.env,
       }
+
       return validationResult;
     } catch (error: any) {
       console.log(error, "error");
