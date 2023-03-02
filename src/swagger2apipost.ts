@@ -1,5 +1,6 @@
 import _url from 'url';
 import SwaggerClient from 'swagger-client';
+import { ConvertResult, getApipostMode, handleBodyJsonSchema } from './utils';
 class Swagger2Apipost {
   version: string;
   project: any;
@@ -24,28 +25,10 @@ class Swagger2Apipost {
       host: true
     }
   }
-  ConvertResult(status: string, message: string, data: any = '') {
-    return {
-      status,
-      message,
-      data
-    }
-  }
-  getApipostMode(mode: string) {
-    let apipostMode = 'none';
-    if (mode == 'multipart/form-data') {
-      apipostMode = 'form-data';
-    } else if (mode == 'application/x-www-form-urlencoded') {
-      apipostMode = 'urlencoded';
-    } else if (mode && mode != undefined) {
-      apipostMode = 'json';
-    }
-    return apipostMode;
-  }
   validate(json: any) {
     if (json.hasOwnProperty('swagger')) {
       if (json.swagger !== '2.0') {
-        return this.ConvertResult('error', 'Must contain a swagger field 2.0');
+        return ConvertResult('error', 'Must contain a swagger field 2.0');
       } else {
         this.version = '2.0';
       }
@@ -54,61 +37,10 @@ class Swagger2Apipost {
       this.version = '3.0';
     }
     if (!json.hasOwnProperty('swagger') && !json.hasOwnProperty('openapi')) {
-      return this.ConvertResult('error', 'Must contain a swagger field 2.0 or 3.0');
+      return ConvertResult('error', 'Must contain a swagger field 2.0 or 3.0');
     }
 
-    return this.ConvertResult('success', '');
-  }
-  handleBodyJsonSchema(result: any, properties: any, raw_para?: any) {
-    for (const key in properties) {
-      let type = 'string';
-      let item = properties[key];
-      if (item.hasOwnProperty('type') && typeof item.type === 'string') {
-        type = item.type.toLowerCase();
-      }
-      if (type === 'object') {
-        result[key] = {};
-
-        if (item.hasOwnProperty('additionalProperties') && item?.additionalProperties) {
-          this.handleBodyJsonSchema(result[key], item?.additionalProperties?.properties || {}, raw_para)
-        } else {
-          this.handleBodyJsonSchema(result[key], item?.properties || {}, raw_para)
-        }
-      } else if (type === 'array') {
-        let arrayObj = {};
-        result[key] = [arrayObj];
-        if (item.hasOwnProperty('items') && item?.items) {
-          if (item?.items.hasOwnProperty('oneOf') && item?.items?.oneOf) {
-            this.handleBodyJsonSchema(arrayObj, item?.items?.oneOf?.[0]?.properties || {}, raw_para)
-          } else {
-            this.handleBodyJsonSchema(arrayObj, item?.items?.properties || {}, raw_para)
-          }
-        } else if (item.hasOwnProperty('additionalProperties') && item?.additionalProperties) {
-          this.handleBodyJsonSchema(arrayObj, item?.additionalProperties?.properties || {}, raw_para)
-        } else {
-          this.handleBodyJsonSchema(arrayObj, item?.properties || {}, raw_para)
-        }
-      } else {
-        let oneOfObj = {};
-        // if (item.hasOwnProperty('oneOf') && item?.oneOf) {
-        //   this.handleBodyJsonSchema(oneOfObj, item?.oneOf?.[0]?.properties || {}, raw_para)
-        //   result[key] = oneOfObj;
-        // } else {
-        if (item.hasOwnProperty('description') && Object.prototype.toString.call(raw_para) === '[object Array]') {
-          raw_para.push({
-            key: key,
-            value: item?.example || "",
-            description: String(item.description),
-            not_null: 1,
-            field_type: type ? type.charAt(0).toUpperCase() + type.slice(1) : "Text",
-            type: "Text",
-            is_checked: 1,
-          });
-        }
-        result[key] = item?.example || "";
-        // }
-      }
-    }
+    return ConvertResult('success', '');
   }
   setBasePath(json: any) {
     this.basePath = '';
@@ -270,7 +202,7 @@ class Swagger2Apipost {
         let content = swaggerApi.requestBody.content;
         let mode = content instanceof Object ? Object.keys(content)[0] : "none";
         let bodyData = content[mode];
-        let apipostMode = this.getApipostMode(mode)
+        let apipostMode = getApipostMode(mode)
         let properties: any = {};
         if (bodyData.hasOwnProperty('schema')) {
           let { schema } = bodyData;
@@ -302,6 +234,7 @@ class Swagger2Apipost {
           }
         }
         else if (apipostMode == 'json') {
+
           if (bodyData.hasOwnProperty('example')) {
             let example = bodyData.example;
             if (typeof example == 'object') {
@@ -312,7 +245,7 @@ class Swagger2Apipost {
             if (Object.prototype.toString.call(properties) === "[object Object]") {
               let RawObj: any = {};
               let raw_para: any = [];
-              this.handleBodyJsonSchema(RawObj, properties, raw_para);
+              handleBodyJsonSchema(RawObj, properties, raw_para);
               request.body.raw = JSON.stringify(RawObj);
               request.body.raw_para = raw_para;
             }
@@ -330,7 +263,7 @@ class Swagger2Apipost {
 
               let mode = content instanceof Object ? Object.keys(content)[0] : "none";
               let bodyData = content[mode];
-              let apipostMode = this.getApipostMode(mode)
+              let apipostMode = getApipostMode(mode)
               let properties: any = {};
               if (bodyData.hasOwnProperty('schema')) {
                 let { schema } = bodyData;
@@ -355,7 +288,7 @@ class Swagger2Apipost {
                 } else {
                   if (Object.prototype.toString.call(properties) === "[object Object]") {
                     let RawObj: any = {};
-                    this.handleBodyJsonSchema(RawObj, properties);
+                    handleBodyJsonSchema(RawObj, properties);
                     if (/^2\d{2}$/.test(status)) {
                       successRawObj[status] = { ...RawObj }
                     } else {
@@ -474,7 +407,7 @@ class Swagger2Apipost {
         if (thisConsumes && thisConsumes.length > 0) {
           mode = thisConsumes[0]
         }
-        let apipostMode = this.getApipostMode(mode);
+        let apipostMode = getApipostMode(mode);
         request.body = {
           "mode": apipostMode,
           "parameter": [],
@@ -523,15 +456,17 @@ class Swagger2Apipost {
                 field_type: "Text" // 类型
               })
             } else if (parameter.in == 'body') {
+
               if ((parameter.hasOwnProperty('schema') && parameter.schema.hasOwnProperty('properties') && JSON.stringify(parameter.schema.properties) !== "{}") || parameter?.schema?.type === 'array') {
                 let RawObj = {};
                 let raw_para: any = [];
                 if (parameter.schema.type === 'array') {
-                  this.handleBodyJsonSchema(RawObj, parameter.schema.items.properties, raw_para);
+                  handleBodyJsonSchema(RawObj, parameter.schema.items.properties, raw_para);
                 } else {
-                  this.handleBodyJsonSchema(RawObj, parameter.schema.properties, raw_para);
+                  handleBodyJsonSchema(RawObj, parameter.schema.properties, raw_para);
                 }
                 request.body.raw = JSON.stringify(RawObj);
+                request.body.raw_para = raw_para;
               } else {
                 request.body.raw = parameter?.description || ''
               }
@@ -558,9 +493,9 @@ class Swagger2Apipost {
             if ((element.hasOwnProperty('schema') && element.schema.hasOwnProperty('properties') && JSON.stringify(element.schema.properties) !== "{}") || element?.schema?.type === 'array') {
               let RawObj = {};
               if (element.schema.type === 'array') {
-                this.handleBodyJsonSchema(RawObj, element.schema.items.properties);
+                handleBodyJsonSchema(RawObj, element.schema.items.properties);
               } else {
-                this.handleBodyJsonSchema(RawObj, element.schema.properties);
+                handleBodyJsonSchema(RawObj, element.schema.properties);
               }
               if (/^2\d{2}$/.test(status)) {
                 successRawObj[status] = { ...RawObj }
@@ -596,7 +531,7 @@ class Swagger2Apipost {
                 sort: this.folders[folder].children.length + 1,
               });
             }
-            
+
           }
         }
       } else {
@@ -706,14 +641,14 @@ class Swagger2Apipost {
         apis: this.apis,
         env: this.env,
       }
-
+      
       return validationResult;
     } catch (error: any) {
       console.log(error, "error");
       if (error?.name === 'AbortError') {
-        return this.ConvertResult('error', '数据过大，请求超时。')
+        return ConvertResult('error', '数据过大，请求超时。')
       }
-      return this.ConvertResult('error', String(error))
+      return ConvertResult('error', String(error))
     }
   }
   endsWith(str: string, suffix: string) {
