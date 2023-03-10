@@ -734,8 +734,7 @@ class Swagger2Apipost {
         apis: this.apis,
         env: this.env,
       }
-      console.log(JSON.stringify(this.apis), "apisss");
-
+      
       return validationResult;
     } catch (error: any) {
       console.log(error, "error");
