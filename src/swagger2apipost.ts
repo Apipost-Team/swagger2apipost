@@ -1,6 +1,8 @@
 import _url from 'url';
 import SwaggerClient from 'swagger-client';
 import { ConvertResult, getApipostMode, handleBodyJsonSchema } from './utils';
+import { isEmpty } from 'lodash';
+import { v4 as uuidV4 } from 'uuid';
 class Swagger2Apipost {
   version: string;
   project: any;
@@ -253,10 +255,54 @@ class Swagger2Apipost {
         }
       }
       if (swaggerApi.hasOwnProperty('responses')) {
-        let successRawObj = {};
-        let errorRawObj = {};
-        for (const status in swaggerApi.responses) {
-          if (Object.prototype.hasOwnProperty.call(swaggerApi.responses, status)) {
+        if (Object.prototype.toString.call(swaggerApi.responses) === '[object Object]') {
+          Object.keys(swaggerApi.responses).forEach((status: any) => {
+            const element = swaggerApi.responses[status];
+            if ((element.hasOwnProperty('schema') && element.schema.hasOwnProperty('properties') && JSON.stringify(element.schema.properties) !== "{}") || element?.schema?.type === 'array') {
+              let RawObj = {};
+              let raw_para: any = [];
+              if (element.schema.type === 'array') {
+                handleBodyJsonSchema(RawObj, element.schema.items.properties, raw_para);
+              } else {
+                handleBodyJsonSchema(RawObj, element.schema.properties, raw_para);
+              }
+              // 成功响应示例
+              if (status == 200) {
+                try {
+                  response.success.raw = JSON.stringify({ ...RawObj });
+                } catch (error) {
+                  response.success.raw = String({ ...RawObj });
+                }
+                response.success.parameter = raw_para;
+              } else {
+                // 其他示例
+                if (!isEmpty(RawObj)) {
+                  let newUUID = uuidV4();
+                  response[newUUID] = {
+                    expect: {
+                      name: element?.description || status,
+                      isDefault: -1,
+                      code: status,
+                      contentType: "json",
+                      schema: "",
+                      mock: "",
+                      verifyType: "schema",
+                    },
+                    raw: '',
+                    parameter: raw_para,
+                  }
+                  try {
+                    response[newUUID].raw = JSON.stringify({ ...RawObj });
+                  } catch (error) {
+                    response[newUUID].raw = String({ ...RawObj });
+                  }
+                }
+              }
+            }
+          })
+        }
+        if (Object.prototype.toString.call(swaggerApi.responses) === '[object Object]') {
+          Object.keys(swaggerApi.responses).forEach((status: any) => {
             const element = swaggerApi.responses[status];
             if (element.hasOwnProperty('content') && Object.keys(element.content)?.length > 0) {
               let content = element.content;
@@ -279,42 +325,79 @@ class Swagger2Apipost {
                 if (bodyData.hasOwnProperty('example')) {
                   let example = bodyData.example;
                   if (typeof example == 'object') {
-                    if (/^2\d{2}$/.test(status)) {
-                      successRawObj[status] = { ...example };
+                    if (status == 200) {
+                      try {
+                        response.success.raw = JSON.stringify({ ...example });
+                      } catch (error) {
+                        response.success.raw = String({ ...example });
+                      }
+                      response.success.parameter = [];
                     } else {
-                      errorRawObj[status] = { ...example };
+                      // 其他示例
+                      if (!isEmpty(example)) {
+                        let newUUID = uuidV4();
+                        response[newUUID] = {
+                          expect: {
+                            name: element?.description || status,
+                            isDefault: -1,
+                            code: status,
+                            contentType: "json",
+                            schema: "",
+                            mock: "",
+                            verifyType: "schema",
+                          },
+                          raw: '',
+                          parameter: [],
+                        }
+                        try {
+                          response[newUUID].raw = JSON.stringify({ ...example });
+                        } catch (error) {
+                          response[newUUID].raw = String({ ...example });
+                        }
+                      }
                     }
                   }
                 } else {
                   if (Object.prototype.toString.call(properties) === "[object Object]") {
                     let RawObj: any = {};
-                    handleBodyJsonSchema(RawObj, properties);
-                    if (/^2\d{2}$/.test(status)) {
-                      successRawObj[status] = { ...RawObj }
+                    let raw_para: any = [];
+                    handleBodyJsonSchema(RawObj, properties, raw_para);
+                    if (status == 200) {
+                      try {
+                        response.success.raw = JSON.stringify({ ...RawObj });
+                      } catch (error) {
+                        response.success.raw = String({ ...RawObj });
+                      }
+                      response.success.parameter = raw_para;
                     } else {
-                      errorRawObj[status] = { ...RawObj }
+                      // 其他示例
+                      if (!isEmpty(RawObj)) {
+                        let newUUID = uuidV4();
+                        response[newUUID] = {
+                          expect: {
+                            name: element?.description || status,
+                            isDefault: -1,
+                            code: status,
+                            contentType: "json",
+                            schema: "",
+                            mock: "",
+                            verifyType: "schema",
+                          },
+                          raw: '',
+                          parameter: raw_para,
+                        }
+                        try {
+                          response[newUUID].raw = JSON.stringify({ ...RawObj });
+                        } catch (error) {
+                          response[newUUID].raw = String({ ...RawObj });
+                        }
+                      }
                     }
                   }
                 }
               }
-            } else {
-              if (/^2\d{2}$/.test(status)) {
-                successRawObj[status] = element?.description || ""
-              } else {
-                errorRawObj[status] = element?.description || ""
-              }
             }
-          }
-        }
-        try {
-          response.success.raw = JSON.stringify(successRawObj);
-        } catch (error) {
-          response.success.raw = String(successRawObj);
-        }
-        try {
-          response.error.raw = JSON.stringify(errorRawObj);
-        } catch (error) {
-          response.error.raw = String(errorRawObj);
+          })
         }
       }
       if (swaggerApi.hasOwnProperty('tags') && swaggerApi.tags.length > 0) {
@@ -485,41 +568,51 @@ class Swagger2Apipost {
         }
       }
       if (swaggerApi.hasOwnProperty('responses')) {
-        let successRawObj = {};
-        let errorRawObj = {};
-        for (const status in swaggerApi.responses) {
-          if (Object.prototype.hasOwnProperty.call(swaggerApi.responses, status)) {
+        if (Object.prototype.toString.call(swaggerApi.responses) === '[object Object]') {
+          Object.keys(swaggerApi.responses).forEach((status: any) => {
             const element = swaggerApi.responses[status];
             if ((element.hasOwnProperty('schema') && element.schema.hasOwnProperty('properties') && JSON.stringify(element.schema.properties) !== "{}") || element?.schema?.type === 'array') {
               let RawObj = {};
+              let raw_para: any = [];
               if (element.schema.type === 'array') {
-                handleBodyJsonSchema(RawObj, element.schema.items.properties);
+                handleBodyJsonSchema(RawObj, element.schema.items.properties, raw_para);
               } else {
-                handleBodyJsonSchema(RawObj, element.schema.properties);
+                handleBodyJsonSchema(RawObj, element.schema.properties, raw_para);
               }
-              if (/^2\d{2}$/.test(status)) {
-                successRawObj[status] = { ...RawObj }
+              // 成功响应示例
+              if (status == 200) {
+                try {
+                  response.success.raw = JSON.stringify({ ...RawObj });
+                } catch (error) {
+                  response.success.raw = String({ ...RawObj });
+                }
+                response.success.parameter = raw_para;
               } else {
-                errorRawObj[status] = { ...RawObj }
-              }
-            } else {
-              if (/^2\d{2}$/.test(status)) {
-                successRawObj[status] = element?.description || ''
-              } else {
-                errorRawObj[status] = element?.description || ''
+                // 其他示例
+                if (!isEmpty(RawObj)) {
+                  let newUUID = uuidV4();
+                  response[newUUID] = {
+                    expect: {
+                      name: element?.description || status,
+                      isDefault: -1,
+                      code: status,
+                      contentType: "json",
+                      schema: "",
+                      mock: "",
+                      verifyType: "schema",
+                    },
+                    raw: '',
+                    parameter: raw_para,
+                  }
+                  try {
+                    response[newUUID].raw = JSON.stringify({ ...RawObj });
+                  } catch (error) {
+                    response[newUUID].raw = String({ ...RawObj });
+                  }
+                }
               }
             }
-          }
-        }
-        try {
-          response.success.raw = JSON.stringify(successRawObj);
-        } catch (error) {
-          response.success.raw = String(successRawObj);
-        }
-        try {
-          response.error.raw = JSON.stringify(errorRawObj);
-        } catch (error) {
-          response.error.raw = String(errorRawObj);
+          })
         }
       }
       if (swaggerApi.hasOwnProperty('tags') && swaggerApi.tags.length > 0) {
@@ -641,7 +734,8 @@ class Swagger2Apipost {
         apis: this.apis,
         env: this.env,
       }
-      
+      console.log(JSON.stringify(this.apis), "apisss");
+
       return validationResult;
     } catch (error: any) {
       console.log(error, "error");

@@ -15,12 +15,14 @@
   "dependencies": {
     "@rollup/plugin-node-resolve": "^13.3.0",
     "core-js": "^3.9.0",
+    "lodash": "^4.17.21",
     "rollup": "^2.74.1",
     "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-typescript": "^1.0.1",
     "rollup-plugin-typescript2": "^0.31.2",
-    "swagger-client": "^3.18.5"
+    "swagger-client": "^3.18.5",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.17",
@@ -29,6 +31,8 @@
     "@babel/preset-react": "^7.12.13",
     "@babel/preset-typescript": "^7.14.5",
     "@types/jest": "^27.5.1",
+    "@types/lodash": "^4.14.191",
+    "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
     "autoprefixer": "^10.3.1",
