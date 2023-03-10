@@ -72,8 +72,20 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AssetsPatrolRecord1"
+            }
+          },
           "405": {
             "description": "Invalid input"
+          },
+          "502": {
+            "description": "失败了啊",
+            "schema": {
+              "$ref": "#/definitions/AssetsPatrolRecord1"
+            }
           }
         },
         "security": [
@@ -151,6 +163,36 @@
     }
   },
   "definitions": {
+    "AssetsPatrolRecord1": {
+      "type": "object",
+      "required": [
+        "code",
+        "msg",
+        "success"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "状态码"
+        },
+        "data": {
+          "description": "承载数据",
+          "originalRef": "AssetsPatrolRecord对象",
+          "$ref": "#/definitions/AssetsPatrolRecord对象"
+        },
+        "msg": {
+          "type": "string",
+          "description": "返回消息"
+        },
+        "success": {
+          "type": "boolean",
+          "description": "是否成功"
+        }
+      },
+      "title": "R«AssetsPatrolRecord对象»",
+      "description": "返回信息"
+    },
     "Order": {
       "type": "object",
       "properties": {
