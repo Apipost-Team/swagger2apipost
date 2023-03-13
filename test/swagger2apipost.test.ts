@@ -4,7 +4,7 @@ let path = require('path');
 
 describe('works',() => {
   const json2_1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/swagger2Info_1.json'), 'utf-8'));
-  const json2_2 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/swagger2Info_2.json'), 'utf-8'));
+  const json2_2 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/swagger2Info_5.json'), 'utf-8'));
   const json2_3 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/swagger2Info_3.json'), 'utf-8'));
   const json2_4 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/swagger2Info_4.json'), 'utf-8'));
   const json3_4 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/swagger3Info_4.json'), 'utf-8'));

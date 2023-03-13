@@ -1,7 +1,7 @@
 import _url from 'url';
 import SwaggerClient from 'swagger-client';
 import { ConvertResult, getApipostMode, handleBodyJsonSchema } from './utils';
-import { isEmpty } from 'lodash';
+import { isEmpty, isPlainObject, isString } from 'lodash';
 import { v4 as uuidV4 } from 'uuid';
 class Swagger2Apipost {
   version: string;
@@ -494,7 +494,7 @@ class Swagger2Apipost {
         request.body = {
           "mode": apipostMode,
           "parameter": [],
-          "raw": "",
+          "raw": {},
           "raw_para": []
         };
         for (const parameter of swaggerApi.parameters) {
@@ -539,19 +539,51 @@ class Swagger2Apipost {
                 field_type: "Text" // 类型
               })
             } else if (parameter.in == 'body') {
-
               if ((parameter.hasOwnProperty('schema') && parameter.schema.hasOwnProperty('properties') && JSON.stringify(parameter.schema.properties) !== "{}") || parameter?.schema?.type === 'array') {
                 let RawObj = {};
+                let handleRawObj={};
                 let raw_para: any = [];
-                if (parameter.schema.type === 'array') {
-                  handleBodyJsonSchema(RawObj, parameter.schema.items.properties, raw_para);
-                } else {
-                  handleBodyJsonSchema(RawObj, parameter.schema.properties, raw_para);
+
+                if(isString(parameter?.name) && parameter.name.length > 0){
+                  RawObj[parameter.name] = {};
+                  handleRawObj = RawObj[parameter.name];
+                  raw_para.push({
+                    key: parameter.name,
+                    value: "",
+                    description: String(parameter?.description || ''),
+                    not_null: 1,
+                    field_type: "Object",
+                    type: "Text",
+                    is_checked: 1,
+                  });
+                }else{
+                  handleRawObj = RawObj;
                 }
-                request.body.raw = JSON.stringify(RawObj);
-                request.body.raw_para = raw_para;
+
+                if (parameter.schema.type === 'array') {
+                  handleBodyJsonSchema(handleRawObj, parameter.schema.items.properties, raw_para);
+                } else {
+                  handleBodyJsonSchema(handleRawObj, parameter.schema.properties, raw_para);
+                }
+                request.body.raw = { ...request.body.raw,...RawObj };
+                request.body.raw_para = [ ...request.body.raw_para,...raw_para];
               } else {
-                request.body.raw = parameter?.description || ''
+                if(isString(parameter?.name) && parameter.name.length > 0){
+                  let RawObj = {};
+                  let raw_para: any = [];
+                  RawObj[parameter.name] = {};
+                  raw_para.push({
+                    key: parameter.name,
+                    value: "",
+                    description: String(parameter?.description || ''),
+                    not_null: 1,
+                    field_type: "Object",
+                    type: "Text",
+                    is_checked: 1,
+                  });
+                  request.body.raw = { ...request.body.raw,...RawObj };
+                  request.body.raw_para = [ ...request.body.raw_para,...raw_para];
+                }
               }
             } else if (parameter.in == 'formData') {
               parameter.name && request.body.parameter.push({
@@ -566,6 +598,7 @@ class Swagger2Apipost {
             }
           }
         }
+        request.body.raw = isEmpty(request.body.raw) ? '' : JSON.stringify(request.body.raw);
       }
       if (swaggerApi.hasOwnProperty('responses')) {
         if (Object.prototype.toString.call(swaggerApi.responses) === '[object Object]') {

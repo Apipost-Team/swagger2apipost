@@ -126,13 +126,22 @@
         ],
         "responses": {
           "400": {
-            "description": "Invalid ID supplied"
+            "description": "Invalid ID supplied",
+            "schema": {
+              "$ref": "#/definitions/AssetsPatrolRecord1"
+            }
           },
           "404": {
-            "description": "Pet not found"
+            "description": "Pet not found",
+            "schema": {
+              "$ref": "#/definitions/AssetsPatrolRecord1"
+            }
           },
           "405": {
-            "description": "Validation exception"
+            "description": "Validation exception",
+            "schema": {
+              "$ref": "#/definitions/AssetsPatrolRecord1"
+            }
           }
         },
         "security": [

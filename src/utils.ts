@@ -1,4 +1,4 @@
-export const ConvertResult = (status: string, message: string, data: any = '')=> {
+export const ConvertResult = (status: string, message: string, data: any = '') => {
   return {
     status,
     message,
@@ -6,7 +6,7 @@ export const ConvertResult = (status: string, message: string, data: any = '')=>
   }
 }
 
-export const getApipostMode=(mode: string)=> {
+export const getApipostMode = (mode: string) => {
   let apipostMode = 'none';
   if (mode == 'multipart/form-data') {
     apipostMode = 'form-data';
@@ -18,7 +18,7 @@ export const getApipostMode=(mode: string)=> {
   return apipostMode;
 }
 
-export const  handleBodyJsonSchema =(result: any, properties: any, raw_para?: any)=> {
+export const handleBodyJsonSchema = (result: any, properties: any, raw_para?: any) => {
   for (const key in properties) {
     let type = 'string';
     let item = properties[key];
