@@ -16,7 +16,8 @@ describe('works',() => {
   const converter = new Swagger2Apipost();
   it('测试Swagger2Apipost 2.0 success', async () => {
     expect((await converter.convert(json2_2,{
-      basePath:false
+      basePath:false,
+      host:false,
     })).status).toBe('success');
   });
   // it('测试Swagger2Apipost 2.0 success', async () => {

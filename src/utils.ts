@@ -53,11 +53,11 @@ export const handleBodyJsonSchema = (result: any, properties: any, raw_para?: an
       //   handleBodyJsonSchema(oneOfObj, item?.oneOf?.[0]?.properties || {}, raw_para)
       //   result[key] = oneOfObj;
       // } else {
-      if (item.hasOwnProperty('description') && Object.prototype.toString.call(raw_para) === '[object Array]') {
+      if (Object.prototype.toString.call(raw_para) === '[object Array]') {
         raw_para.push({
           key: key,
           value: item?.example || "",
-          description: String(item.description),
+          description: String(item?.description || ''),
           not_null: 1,
           field_type: type ? type.charAt(0).toUpperCase() + type.slice(1) : "Text",
           type: "Text",
