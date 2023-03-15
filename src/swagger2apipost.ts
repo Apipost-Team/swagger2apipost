@@ -62,7 +62,7 @@ class Swagger2Apipost {
     //   this.basePath = 'http://' + this.basePath;
     // }
 
-    if (!this.endsWith(this.basePath, '/')) {
+    if (!isEmpty(this.basePath) && !this.endsWith(this.basePath, '/')) {
       this.basePath += '/';
     }
   }
