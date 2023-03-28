@@ -27,7 +27,15 @@ export const handleBodyJsonSchema = (result: any, properties: any, raw_para?: an
     }
     if (type === 'object') {
       result[key] = {};
-
+      raw_para.push({
+        key,
+        value: "",
+        description: String(item?.description || ''),
+        not_null: 1,
+        field_type: "Object",
+        type: "Text",
+        is_checked: 1,
+      });
       if (item.hasOwnProperty('additionalProperties') && item?.additionalProperties) {
         handleBodyJsonSchema(result[key], item?.additionalProperties?.properties || {}, raw_para)
       } else {
@@ -36,6 +44,15 @@ export const handleBodyJsonSchema = (result: any, properties: any, raw_para?: an
     } else if (type === 'array') {
       let arrayObj = {};
       result[key] = [arrayObj];
+      raw_para.push({
+        key,
+        value: "",
+        description: String(item?.description || ''),
+        not_null: 1,
+        field_type: "Array",
+        type: "Text",
+        is_checked: 1,
+      });
       if (item.hasOwnProperty('items') && item?.items) {
         if (item?.items.hasOwnProperty('oneOf') && item?.items?.oneOf) {
           handleBodyJsonSchema(arrayObj, item?.items?.oneOf?.[0]?.properties || {}, raw_para)
