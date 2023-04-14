@@ -561,9 +561,9 @@ class Swagger2Apipost {
                 }
 
                 if (parameter.schema.type === 'array') {
-                  handleBodyJsonSchema(handleRawObj, parameter.schema.items.properties, raw_para);
+                  handleBodyJsonSchema(handleRawObj, parameter.schema.items.properties, raw_para, parameter?.name ? `${parameter.name}.` : '');
                 } else {
-                  handleBodyJsonSchema(handleRawObj, parameter.schema.properties, raw_para);
+                  handleBodyJsonSchema(handleRawObj, parameter.schema.properties, raw_para, parameter?.name ? `${parameter.name}.` : '');
                 }
                 request.body.raw = { ...request.body.raw,...RawObj };
                 request.body.raw_para = [ ...request.body.raw_para,...raw_para];
