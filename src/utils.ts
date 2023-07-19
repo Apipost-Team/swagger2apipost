@@ -18,21 +18,23 @@ export const getApipostMode = (mode: string) => {
   return apipostMode;
 }
 
-export const handleBodyJsonSchema = (result: any, properties: any, raw_para?: any, pre = '') => {
+export const handleBodyJsonSchema = (result: any, properties: any, raw_para?: any, pre = '', requiredArr = []) => {
+  // console.log(requiredArr, properties);
+  requiredArr = requiredArr && Array.isArray(requiredArr) ? requiredArr : []
   for (const key in properties) {
     let type = 'string';
     let item = properties[key];
     if (item.hasOwnProperty('type') && typeof item.type === 'string') {
       type = item.type.toLowerCase();
     }
-    
+
     if (type === 'object') {
       result[key] = {};
       raw_para.push({
         key: `${pre}${key}`,
         value: "",
         description: String(item?.description || ''),
-        not_null: 1,
+        not_null: requiredArr?.find(it => it == key) ? "1" : "-1",
         field_type: "Object",
         type: "Text",
         is_checked: 1,
@@ -49,7 +51,7 @@ export const handleBodyJsonSchema = (result: any, properties: any, raw_para?: an
         key: `${pre}${key}`,
         value: "",
         description: String(item?.description || ''),
-        not_null: 1,
+        not_null: requiredArr?.find(it => it == key) ? "1" : "-1",
         field_type: "Array",
         type: "Text",
         is_checked: 1,
@@ -76,7 +78,7 @@ export const handleBodyJsonSchema = (result: any, properties: any, raw_para?: an
           key: `${pre}${key}`,
           value: item?.example || "",
           description: String(item?.description || ''),
-          not_null: 1,
+          not_null: requiredArr?.find(it => it == key) ? "1" : "-1",
           field_type: type ? type.charAt(0).toUpperCase() + type.slice(1) : "Text",
           type: "Text",
           is_checked: 1,
