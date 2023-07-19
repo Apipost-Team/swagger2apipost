@@ -247,6 +247,7 @@ class Swagger2Apipost {
             if (Object.prototype.toString.call(properties) === "[object Object]") {
               let RawObj: any = {};
               let raw_para: any = [];
+              
               handleBodyJsonSchema(RawObj, properties, raw_para);
               request.body.raw = JSON.stringify(RawObj);
               request.body.raw_para = raw_para;
@@ -543,6 +544,7 @@ class Swagger2Apipost {
                 let RawObj = {};
                 let handleRawObj={};
                 let raw_para: any = [];
+                console.log('properties',parameter,'properties');
 
                 if(isString(parameter?.name) && parameter.name.length > 0){
                   RawObj[parameter.name] = {};
@@ -559,9 +561,8 @@ class Swagger2Apipost {
                 }else{
                   handleRawObj = RawObj;
                 }
-
                 if (parameter.schema.type === 'array') {
-                  handleBodyJsonSchema(handleRawObj, parameter.schema.items.properties, raw_para, parameter?.name ? `${parameter.name}.` : '');
+                  handleBodyJsonSchema(handleRawObj, parameter.schema.items.properties, raw_para, parameter?.name ? `${parameter.name}.` : '',parameter?.schema?.items?.required);
                 } else {
                   handleBodyJsonSchema(handleRawObj, parameter.schema.properties, raw_para, parameter?.name ? `${parameter.name}.` : '');
                 }

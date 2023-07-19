@@ -37,10 +37,11 @@ export const handleBodyJsonSchema = (result: any, properties: any, raw_para?: an
         type: "Text",
         is_checked: 1,
       });
+      
       if (item.hasOwnProperty('additionalProperties') && item?.additionalProperties) {
-        handleBodyJsonSchema(result[key], item?.additionalProperties?.properties || {}, raw_para, `${pre}${key}.`)
+        handleBodyJsonSchema(result[key], item?.additionalProperties?.properties || {}, raw_para, `${pre}${key}.`,item?.required)
       } else {
-        handleBodyJsonSchema(result[key], item?.properties || {}, raw_para, `${pre}${key}.`)
+        handleBodyJsonSchema(result[key], item?.properties || {}, raw_para, `${pre}${key}.`,item?.required)
       }
     } else if (type === 'array') {
       let arrayObj = {};
@@ -61,9 +62,9 @@ export const handleBodyJsonSchema = (result: any, properties: any, raw_para?: an
           handleBodyJsonSchema(arrayObj, item?.items?.properties || {}, raw_para, `${pre}${key}.`)
         }
       } else if (item.hasOwnProperty('additionalProperties') && item?.additionalProperties) {
-        handleBodyJsonSchema(arrayObj, item?.additionalProperties?.properties || {}, raw_para, `${pre}${key}.`)
+        handleBodyJsonSchema(arrayObj, item?.additionalProperties?.properties || {}, raw_para, `${pre}${key}.`,item?.required)
       } else {
-        handleBodyJsonSchema(arrayObj, item?.properties || {}, raw_para, `${pre}${key}.`)
+        handleBodyJsonSchema(arrayObj, item?.properties || {}, raw_para, `${pre}${key}.`,item?.required)
       }
     } else {
       let oneOfObj = {};
