@@ -165,7 +165,7 @@ class Swagger2Apipost {
                 type: "Text", // 参数值类型 Text/File
                 key: parameter?.name || '', //参数名
                 value: parameter?.example || '', //参数值
-                not_null: parameter.hasOwnProperty('required') && !parameter.required ? "-1" : "1", // 是否为空
+                not_null: parameter?.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
                 field_type: "Text" // 类型
               })
@@ -178,7 +178,7 @@ class Swagger2Apipost {
                 type: "Text", // 参数值类型 Text/File
                 key: parameter?.name || '', //参数名
                 value: parameter?.example || '', //参数值
-                not_null: parameter.hasOwnProperty('required') && !parameter.required ? "-1" : "1", // 是否为空
+                not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
                 field_type: "Text" // 类型
               })
@@ -191,7 +191,7 @@ class Swagger2Apipost {
                 type: "Text", // 参数值类型 Text/File
                 key: parameter?.name || '', //参数名
                 value: parameter?.example || '', //参数值
-                not_null: parameter.hasOwnProperty('required') && !parameter.required ? "-1" : "1", // 是否为空
+                not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
                 field_type: "Text" // 类型
               })
@@ -223,13 +223,14 @@ class Swagger2Apipost {
         if (apipostMode == 'urlencoded' || apipostMode == 'form-data') {
           for (const key in properties) {
             let item = properties[key];
+
             key && request.body.parameter.push(
               {
                 is_checked: "1",
                 type: item.hasOwnProperty('format') && item.format == 'binary' ? 'File' : 'Text',
                 key: key || "",
                 value: item?.example || "",
-                not_null: "1",
+                not_null: item?.required ? "1" : "-1",
                 description: item?.description || "",
                 field_type: item.hasOwnProperty('type') ? item.type.charAt(0).toUpperCase() + item.type.slice(1) : "Text"
               })
@@ -247,7 +248,6 @@ class Swagger2Apipost {
             if (Object.prototype.toString.call(properties) === "[object Object]") {
               let RawObj: any = {};
               let raw_para: any = [];
-              
               handleBodyJsonSchema(RawObj, properties, raw_para);
               request.body.raw = JSON.stringify(RawObj);
               request.body.raw_para = raw_para;
@@ -263,9 +263,9 @@ class Swagger2Apipost {
               let RawObj = {};
               let raw_para: any = [];
               if (element.schema.type === 'array') {
-                handleBodyJsonSchema(RawObj, element.schema.items.properties, raw_para);
+                handleBodyJsonSchema(RawObj, element.schema.items.properties, raw_para, element?.schema?.required);
               } else {
-                handleBodyJsonSchema(RawObj, element.schema.properties, raw_para);
+                handleBodyJsonSchema(RawObj, element.schema.properties, raw_para, element?.schema?.required);
               }
               // 成功响应示例
               if (status == 200) {
@@ -457,6 +457,7 @@ class Swagger2Apipost {
       }
       const { request } = api;
       const { response } = api;
+
       if (thisProduces && thisProduces.length > 0) {
         if (!request.hasOwnProperty('header')) {
           request.header = []
@@ -492,6 +493,7 @@ class Swagger2Apipost {
           mode = thisConsumes[0]
         }
         let apipostMode = getApipostMode(mode);
+
         request.body = {
           "mode": apipostMode,
           "parameter": [],
@@ -509,7 +511,7 @@ class Swagger2Apipost {
                 type: "Text", // 参数值类型 Text/File
                 key: parameter?.name || '', //参数名
                 value: parameter?.example || parameter?.default || '', //参数值
-                not_null: parameter.hasOwnProperty('required') && !parameter.required ? "-1" : "1", // 是否为空
+                not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
                 field_type: "Text" // 类型
               })
@@ -517,12 +519,13 @@ class Swagger2Apipost {
               if (!request.hasOwnProperty('header')) {
                 request['header'] = [];
               }
+
               parameter?.name && request.header.push({
                 is_checked: "1", // 是否选择
                 type: "Text", // 参数值类型 Text/File
                 key: parameter?.name || '', //参数名
                 value: parameter?.example || parameter?.default || '', //参数值
-                not_null: parameter.hasOwnProperty('required') && !parameter.required ? "-1" : "1", // 是否为空
+                not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
                 field_type: "Text" // 类型
               })
@@ -535,55 +538,56 @@ class Swagger2Apipost {
                 type: "Text", // 参数值类型 Text/File
                 key: parameter?.name || '', //参数名
                 value: parameter?.example || parameter?.default || '', //参数值
-                not_null: parameter.hasOwnProperty('required') && !parameter.required ? "-1" : "1", // 是否为空
+                not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
                 field_type: "Text" // 类型
               })
             } else if (parameter.in == 'body') {
               if ((parameter.hasOwnProperty('schema') && parameter.schema.hasOwnProperty('properties') && JSON.stringify(parameter.schema.properties) !== "{}") || parameter?.schema?.type === 'array') {
                 let RawObj = {};
-                let handleRawObj={};
+                let handleRawObj = {};
                 let raw_para: any = [];
-                console.log('properties',parameter,'properties');
 
-                if(isString(parameter?.name) && parameter.name.length > 0){
+                if (isString(parameter?.name) && parameter.name.length > 0) {
                   RawObj[parameter.name] = {};
                   handleRawObj = RawObj[parameter.name];
                   raw_para.push({
                     key: parameter.name,
                     value: "",
                     description: String(parameter?.description || ''),
-                    not_null: 1,
+                    not_null: parameter.required ? "1" : "-1",
                     field_type: "Object",
                     type: "Text",
                     is_checked: 1,
                   });
-                }else{
+                } else {
                   handleRawObj = RawObj;
                 }
+
                 if (parameter.schema.type === 'array') {
-                  handleBodyJsonSchema(handleRawObj, parameter.schema.items.properties, raw_para, parameter?.name ? `${parameter.name}.` : '',parameter?.schema?.items?.required);
+                  handleBodyJsonSchema(handleRawObj, parameter.schema.items.properties, raw_para, parameter?.name ? `${parameter.name}.` : '');
                 } else {
-                  handleBodyJsonSchema(handleRawObj, parameter.schema.properties, raw_para, parameter?.name ? `${parameter.name}.` : '');
+                  handleBodyJsonSchema(handleRawObj, parameter.schema.properties, raw_para, parameter?.name ? `${parameter.name}.` : '', parameter?.schema?.required);
                 }
-                request.body.raw = { ...request.body.raw,...RawObj };
-                request.body.raw_para = [ ...request.body.raw_para,...raw_para];
+                request.body.raw = { ...request.body.raw, ...RawObj };
+                request.body.raw_para = [...request.body.raw_para, ...raw_para];
               } else {
-                if(isString(parameter?.name) && parameter.name.length > 0){
+                if (isString(parameter?.name) && parameter.name.length > 0) {
                   let RawObj = {};
                   let raw_para: any = [];
                   RawObj[parameter.name] = {};
+
                   raw_para.push({
                     key: parameter.name,
                     value: "",
                     description: String(parameter?.description || ''),
-                    not_null: 1,
+                    not_null: parameter.required ? "1" : "-1",
                     field_type: "Object",
                     type: "Text",
                     is_checked: 1,
                   });
-                  request.body.raw = { ...request.body.raw,...RawObj };
-                  request.body.raw_para = [ ...request.body.raw_para,...raw_para];
+                  request.body.raw = { ...request.body.raw, ...RawObj };
+                  request.body.raw_para = [...request.body.raw_para, ...raw_para];
                 }
               }
             } else if (parameter.in == 'formData') {
@@ -592,7 +596,7 @@ class Swagger2Apipost {
                 type: parameter.hasOwnProperty('type') && parameter.type == 'file' ? 'File' : "Text", // 参数值类型 Text/File
                 key: parameter?.name || '', //参数名
                 value: parameter?.example || parameter?.default || '', //参数值
-                not_null: parameter.hasOwnProperty('required') && !parameter.required ? "-1" : "1", // 是否为空
+                not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
                 field_type: "Text" // 类型
               })
@@ -768,7 +772,8 @@ class Swagger2Apipost {
         apis: this.apis,
         env: this.env,
       }
-      
+      console.log(JSON.stringify(validationResult.data.apis));
+
       return validationResult;
     } catch (error: any) {
       console.log(error, "error");
