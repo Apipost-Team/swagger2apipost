@@ -20,7 +20,7 @@ export const getApipostMode = (mode: string) => {
 
 export const handleBodyJsonSchema = (result: any, properties: any, raw_para?: any, pre = '', requiredArr = []) => {
   // console.log(requiredArr, properties);
-  requiredArr = requiredArr && Array.isArray(requiredArr) ? requiredArr : []
+  requiredArr = (requiredArr && Array.isArray(requiredArr)) ? requiredArr : []
   for (const key in properties) {
     let type = 'string';
     let item = properties[key];
@@ -40,9 +40,9 @@ export const handleBodyJsonSchema = (result: any, properties: any, raw_para?: an
         is_checked: 1,
       });
       if (item.hasOwnProperty('additionalProperties') && item?.additionalProperties) {
-        handleBodyJsonSchema(result[key], item?.additionalProperties?.properties || {}, raw_para, `${pre}${key}.`)
+        handleBodyJsonSchema(result[key], item?.additionalProperties?.properties || {}, raw_para, `${pre}${key}.`, item?.additionalProperties?.required)
       } else {
-        handleBodyJsonSchema(result[key], item?.properties || {}, raw_para, `${pre}${key}.`)
+        handleBodyJsonSchema(result[key], item?.properties || {}, raw_para, `${pre}${key}.`, item?.required)
       }
     } else if (type === 'array') {
       let arrayObj = {};
@@ -58,14 +58,14 @@ export const handleBodyJsonSchema = (result: any, properties: any, raw_para?: an
       });
       if (item.hasOwnProperty('items') && item?.items) {
         if (item?.items.hasOwnProperty('oneOf') && item?.items?.oneOf) {
-          handleBodyJsonSchema(arrayObj, item?.items?.oneOf?.[0]?.properties || {}, raw_para, `${pre}${key}.`)
+          handleBodyJsonSchema(arrayObj, item?.items?.oneOf?.[0]?.properties || {}, raw_para, `${pre}${key}.`, item?.items?.required)
         } else {
-          handleBodyJsonSchema(arrayObj, item?.items?.properties || {}, raw_para, `${pre}${key}.`)
+          handleBodyJsonSchema(arrayObj, item?.items?.properties || {}, raw_para, `${pre}${key}.`, item?.items?.required)
         }
       } else if (item.hasOwnProperty('additionalProperties') && item?.additionalProperties) {
-        handleBodyJsonSchema(arrayObj, item?.additionalProperties?.properties || {}, raw_para, `${pre}${key}.`)
+        handleBodyJsonSchema(arrayObj, item?.additionalProperties?.properties || {}, raw_para, `${pre}${key}.`, item?.additionalProperties?.required)
       } else {
-        handleBodyJsonSchema(arrayObj, item?.properties || {}, raw_para, `${pre}${key}.`)
+        handleBodyJsonSchema(arrayObj, item?.properties || {}, raw_para, `${pre}${key}.`, item?.required)
       }
     } else {
       let oneOfObj = {};
