@@ -563,9 +563,9 @@ class Swagger2Apipost {
                 } else {
                   handleRawObj = RawObj;
                 }
-
+                debugger;
                 if (parameter.schema.type === 'array') {
-                  handleBodyJsonSchema(handleRawObj, parameter.schema.items.properties, raw_para, parameter?.name ? `${parameter.name}.` : '');
+                  handleBodyJsonSchema(handleRawObj, parameter.schema.items.properties, raw_para, parameter?.name ? `${parameter.name}.` : '',parameter.schema.items.required);
                 } else {
                   handleBodyJsonSchema(handleRawObj, parameter.schema.properties, raw_para, parameter?.name ? `${parameter.name}.` : '', parameter?.schema?.required);
                 }
