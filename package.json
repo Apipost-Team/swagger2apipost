@@ -2,7 +2,7 @@
   "name": "swagger2apipost",
   "version": "0.1.29",
   "description": "swagger2apipost",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "files": [
     "libs",
     "icons",
