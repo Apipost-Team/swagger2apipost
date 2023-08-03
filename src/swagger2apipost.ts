@@ -3,6 +3,43 @@ import SwaggerClient from 'swagger-client';
 import { ConvertResult, getApipostMode, handleBodyJsonSchema } from './utils';
 import { isEmpty, isPlainObject, isString } from 'lodash';
 import { v4 as uuidV4 } from 'uuid';
+
+const swaggerSchema2apipostSchema = (schemaObj: any) => {
+  let jsonSchema: any = {};
+  try {
+    // x-apifox-orders 2 APIPOST_ORDERS x-apifox-refs 2 APIPOST_REFS  $ref 2 ref  x-apifox-overrides 2 APIPOST_OVERRIDES
+    let jsonSchemaStr = JSON.stringify(schemaObj);
+    // 替换 x-apifox-orders 为 APIPOST_ORDERS
+    jsonSchemaStr = jsonSchemaStr.replace(/\"x-apifox-orders\"/g, '\"APIPOST_ORDERS\"');
+    // 替换 x-apifox-refs 为 APIPOST_REFS
+    jsonSchemaStr = jsonSchemaStr.replace(/\"x-apifox-refs\"/g, '\"APIPOST_REFS\"');
+    // 替换 $ref 为 ref
+    jsonSchemaStr = jsonSchemaStr.replace(/\"\$ref\"/g, '\"ref\"');
+    // 替换 $ref 为 ref
+    jsonSchemaStr = jsonSchemaStr.replace(/\"\$\$ref\"/g, '\"ref\"');
+    // 替换 x-apifox-overrides 为 APIPOST_OVERRIDES
+    jsonSchemaStr = jsonSchemaStr.replace(/\"x-apifox-overrides\"/g, '\"APIPOST_OVERRIDES\"');
+    // 还原为对象
+    jsonSchema = JSON.parse(jsonSchemaStr);
+    jsonSchema['APIPOST_ORDERS'] = [];
+    if (jsonSchema.hasOwnProperty('ref') || jsonSchema.hasOwnProperty('$$ref')) {
+      let newIuid = uuidV4();
+      jsonSchema = {
+        APIPOST_REFS: {
+          [newIuid]: {
+            ref: jsonSchema?.ref || jsonSchema?.['$$ref']
+          },
+        },
+        properties: {},
+        APIPOST_ORDERS: [newIuid],
+        type: "object",
+      }
+    }
+  } catch (error) { }
+
+  return jsonSchema;
+}
+
 class Swagger2Apipost {
   version: string;
   project: any;
@@ -14,6 +51,7 @@ class Swagger2Apipost {
   globalProduces: any;
   env: any[];
   options: any;
+  dataModel: any[];
   constructor() {
     this.version = '2.0';
     this.project = {};
@@ -26,6 +64,7 @@ class Swagger2Apipost {
       basePath: true,
       host: true
     }
+    this.dataModel = [];
   }
   validate(json: any) {
     if (json.hasOwnProperty('swagger')) {
@@ -135,6 +174,7 @@ class Swagger2Apipost {
       let api: any = {
         'name': swaggerApi?.summary || '新建接口',
         'target_type': 'api',
+        'tags': swaggerApi?.tags || [],
         'url': url || '',
         'method': method.toUpperCase() || 'GET',
         'request': {
@@ -143,7 +183,16 @@ class Swagger2Apipost {
         'response': {
           'success': {
             parameter: [],
-            raw: ''
+            raw: '',
+            expect: {
+              name: '成功',
+              isDefault: 1,
+              code: '200',
+              contentType: "json",
+              schema: {},
+              mock: "",
+              verifyType: "schema",
+            },
           },
           'error': {
             parameter: [],
@@ -253,6 +302,9 @@ class Swagger2Apipost {
               request.body.raw_para = raw_para;
             }
           }
+          if (Object.prototype.toString.call(bodyData?.schema?.['$$ref']) === "[object String]") {
+            request.body.raw_schema = swaggerSchema2apipostSchema(bodyData.schema);
+          }
         }
       }
       if (swaggerApi.hasOwnProperty('responses')) {
@@ -267,6 +319,11 @@ class Swagger2Apipost {
               } else {
                 handleBodyJsonSchema(RawObj, element.schema.properties, raw_para, element?.schema?.required);
               }
+              let jsonSchema = {};
+
+              if (Object.prototype.toString.call(element?.schema?.['$$ref']) === "[object String]") {
+                jsonSchema = swaggerSchema2apipostSchema(element.schema);
+              }
               // 成功响应示例
               if (status == 200) {
                 try {
@@ -275,6 +332,7 @@ class Swagger2Apipost {
                   response.success.raw = String({ ...RawObj });
                 }
                 response.success.parameter = raw_para;
+                response.success.expect.schema = jsonSchema;
               } else {
                 // 其他示例
                 if (!isEmpty(RawObj)) {
@@ -285,7 +343,7 @@ class Swagger2Apipost {
                       isDefault: -1,
                       code: status,
                       contentType: "json",
-                      schema: "",
+                      schema: jsonSchema,
                       mock: "",
                       verifyType: "schema",
                     },
@@ -323,6 +381,11 @@ class Swagger2Apipost {
               }
 
               if (apipostMode == 'json') {
+                let jsonSchema = {};
+
+                if (Object.prototype.toString.call(bodyData?.schema?.['$$ref']) === "[object String]") {
+                  jsonSchema = swaggerSchema2apipostSchema(bodyData.schema);
+                }
                 if (bodyData.hasOwnProperty('example')) {
                   let example = bodyData.example;
                   if (typeof example == 'object') {
@@ -333,6 +396,7 @@ class Swagger2Apipost {
                         response.success.raw = String({ ...example });
                       }
                       response.success.parameter = [];
+                      response.success.expect.schema = jsonSchema;
                     } else {
                       // 其他示例
                       if (!isEmpty(example)) {
@@ -343,7 +407,7 @@ class Swagger2Apipost {
                             isDefault: -1,
                             code: status,
                             contentType: "json",
-                            schema: "",
+                            schema: jsonSchema,
                             mock: "",
                             verifyType: "schema",
                           },
@@ -363,6 +427,7 @@ class Swagger2Apipost {
                     let RawObj: any = {};
                     let raw_para: any = [];
                     handleBodyJsonSchema(RawObj, properties, raw_para);
+
                     if (status == 200) {
                       try {
                         response.success.raw = JSON.stringify({ ...RawObj });
@@ -370,6 +435,7 @@ class Swagger2Apipost {
                         response.success.raw = String({ ...RawObj });
                       }
                       response.success.parameter = raw_para;
+                      response.success.expect.schema = jsonSchema;
                     } else {
                       // 其他示例
                       if (!isEmpty(RawObj)) {
@@ -380,7 +446,7 @@ class Swagger2Apipost {
                             isDefault: -1,
                             code: status,
                             contentType: "json",
-                            schema: "",
+                            schema: jsonSchema,
                             mock: "",
                             verifyType: "schema",
                           },
@@ -429,6 +495,7 @@ class Swagger2Apipost {
       }
       let api: any = {
         'name': swaggerApi?.summary || '新建接口',
+        'tags': swaggerApi?.tags || [],
         'target_type': 'api',
         'url': url || '',
         'method': method.toUpperCase() || 'GET',
@@ -438,11 +505,29 @@ class Swagger2Apipost {
         'response': {
           'success': {
             'parameter': [],
-            'raw': ''
+            'raw': '',
+            expect: {
+              name: '成功',
+              isDefault: 'success',
+              code: "200",
+              contentType: "json",
+              schema: {},
+              mock: "",
+              verifyType: "schema",
+            },
           },
           'error': {
             'parameter': [],
-            'raw': ''
+            'raw': '',
+            expect: {
+              name: '失败',
+              isDefault: 'success',
+              code: "404",
+              contentType: "json",
+              schema: {},
+              mock: "",
+              verifyType: "schema",
+            },
           }
         }
       },
@@ -563,14 +648,17 @@ class Swagger2Apipost {
                 } else {
                   handleRawObj = RawObj;
                 }
-                debugger;
+
                 if (parameter.schema.type === 'array') {
-                  handleBodyJsonSchema(handleRawObj, parameter.schema.items.properties, raw_para, parameter?.name ? `${parameter.name}.` : '',parameter.schema.items.required);
+                  handleBodyJsonSchema(handleRawObj, parameter.schema.items.properties, raw_para, parameter?.name ? `${parameter.name}.` : '', parameter.schema.items.required);
                 } else {
                   handleBodyJsonSchema(handleRawObj, parameter.schema.properties, raw_para, parameter?.name ? `${parameter.name}.` : '', parameter?.schema?.required);
                 }
                 request.body.raw = { ...request.body.raw, ...RawObj };
                 request.body.raw_para = [...request.body.raw_para, ...raw_para];
+                if (Object.prototype.toString.call(parameter?.schema?.['$$ref']) === "[object String]") {
+                  request.body.raw_schema = swaggerSchema2apipostSchema(parameter.schema);
+                }
               } else {
                 if (isString(parameter?.name) && parameter.name.length > 0) {
                   let RawObj = {};
@@ -617,6 +705,10 @@ class Swagger2Apipost {
               } else {
                 handleBodyJsonSchema(RawObj, element.schema.properties, raw_para);
               }
+              let jsonSchema = {};
+              if (Object.prototype.toString.call(element?.schema?.['$$ref']) === "[object String]") {
+                jsonSchema = swaggerSchema2apipostSchema(element.schema);
+              }
               // 成功响应示例
               if (status == 200) {
                 try {
@@ -625,6 +717,7 @@ class Swagger2Apipost {
                   response.success.raw = String({ ...RawObj });
                 }
                 response.success.parameter = raw_para;
+                response.success.expect.schema = jsonSchema;
               } else {
                 // 其他示例
                 if (!isEmpty(RawObj)) {
@@ -635,7 +728,7 @@ class Swagger2Apipost {
                       isDefault: -1,
                       code: status,
                       contentType: "json",
-                      schema: "",
+                      schema: jsonSchema,
                       mock: "",
                       verifyType: "schema",
                     },
@@ -739,6 +832,48 @@ class Swagger2Apipost {
     };
     return newFolder;
   }
+  createDataModelNewFolder(folder_name: string) {
+    var newFolder: any = {
+      'model_id': '',
+      'name': folder_name || '新建目录',
+      'model_type': 'folder',
+      'description': folder_name || '',
+      'children': [],
+    };
+    return newFolder;
+  }
+  createNewModelData(item: any, key: any, folder_name: string) {
+    var model: any = {
+      model_id: `#/components/${folder_name}/${key}`,
+      name: item?.title || '新建数据模型',
+      displayName: item?.title || '',
+      model_type: 'model',
+      description: item?.description || '',
+      schema: {},
+    }
+    try {
+      model.schema = swaggerSchema2apipostSchema(item);
+    } catch (error) { }
+    return model;
+  }
+  handleModelApiAndFolder(folder_name: string, modals: any) {
+    var root = this;
+    if (Object.prototype.toString.call(modals) == '[object Object]') {
+      const folder = root.createDataModelNewFolder(folder_name);
+      root.dataModel.push(folder);
+      Object.keys(modals).forEach(key => {
+        let target = root.createNewModelData(modals[key], key, folder_name);
+        folder.children.push(target)
+      })
+    }
+  }
+  handleModelData(json: any) {
+    if (json.hasOwnProperty('components') && Object.prototype.toString.call(json.components) == '[object Object]') {
+      Object.keys(json.components).forEach((key) => {
+        this.handleModelApiAndFolder(key, json.components[key]);
+      });
+    }
+  }
   async convert(json: any, options: any = null) {
     try {
       if (options && options instanceof Object) {
@@ -758,6 +893,7 @@ class Swagger2Apipost {
       if (validationResult.status === 'error') {
         return validationResult;
       }
+
       this.handleInfo(swagger3Json);
       if (this.version == '2.0') {
         this.setBasePath(swagger3Json);
@@ -766,13 +902,14 @@ class Swagger2Apipost {
         this.handleServers(swagger3Json);
         this.handlePathsV3(swagger3Json);
       }
-
+      this.handleModelData(swagger3Json);
       validationResult.data = {
         project: this.project,
         apis: this.apis,
         env: this.env,
+        dataModel: this.dataModel,
       }
-      console.log(JSON.stringify(validationResult.data.apis));
+      console.log(JSON.stringify(validationResult.data.dataModel));
 
       return validationResult;
     } catch (error: any) {

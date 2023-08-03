@@ -8,7 +8,7 @@ export default [{
   output: {
     name: 'swagger2apipost',
     file: 'dist/index.js',
-    format: 'cjs'
+    format: 'esm'
   },
   plugins: [
     typescript(),
