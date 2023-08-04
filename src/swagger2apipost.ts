@@ -9,7 +9,7 @@ function replaceRef(schemaObj: any) {
     for (const key in schemaObj) {
       const value = schemaObj[key];
       // 如果当前属性的值是一个对象，则递归遍历该对象
-      
+
       if (typeof value === 'object' && value !== null) {
         // 查找并替换 insAppInfo 对象
         if (value.hasOwnProperty('ref') || value.hasOwnProperty('$$ref')) {
@@ -323,17 +323,15 @@ class Swagger2Apipost {
               example = JSON.stringify(example);
             }
             request.body.raw = example;
-          } else {
-            if (Object.prototype.toString.call(properties) === "[object Object]") {
-              let RawObj: any = {};
-              let raw_para: any = [];
-              handleBodyJsonSchema(RawObj, properties, raw_para);
-              request.body.raw = JSON.stringify(RawObj);
-              request.body.raw_para = raw_para;
-            }
           }
           if (Object.prototype.toString.call(bodyData?.schema?.['$$ref']) === "[object String]") {
             request.body.raw_schema = swaggerSchema2apipostSchema(bodyData.schema);
+          } else if (Object.prototype.toString.call(properties) === "[object Object]") {
+            let RawObj: any = {};
+            let raw_para: any = [];
+            handleBodyJsonSchema(RawObj, properties, raw_para);
+            request.body.raw = JSON.stringify(RawObj);
+            request.body.raw_para = raw_para;
           }
         }
       }
