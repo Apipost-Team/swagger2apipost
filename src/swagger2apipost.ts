@@ -1064,7 +1064,7 @@ class Swagger2Apipost {
         env: this.env,
         dataModel: this.dataModel,
       }
-      console.log(JSON.stringify(validationResult.dataModel));
+      console.log(JSON.stringify(validationResult.data.dataModel));
 
       return validationResult;
     } catch (error: any) {
