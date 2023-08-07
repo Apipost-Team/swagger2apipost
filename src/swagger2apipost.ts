@@ -780,7 +780,7 @@ class Swagger2Apipost {
                 } else {
                   handleBodyJsonSchema(handleRawObj, parameter.schema.properties, raw_para, '', parameter?.schema?.required);
                 }
-                request.body.raw = handleRawObj;
+                request.body.raw = parameter?.example || handleRawObj;
                 request.body.raw_para = raw_para;
               }
               if (Object.prototype.toString.call(parameter?.schema?.['$$ref']) === "[object String]") {
