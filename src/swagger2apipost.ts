@@ -204,7 +204,7 @@ class Swagger2Apipost {
       let api: any = {
         'name': swaggerApi?.summary || '新建接口',
         'target_type': 'api',
-        'tags': swaggerApi?.tags || [],
+        'apipost_tags': swaggerApi?.apipost_tags || [],
         'url': url || '',
         'method': method.toUpperCase() || 'GET',
         'request': {
@@ -637,7 +637,7 @@ class Swagger2Apipost {
       }
       let api: any = {
         'name': swaggerApi?.summary || '新建接口',
-        'tags': swaggerApi?.tags || [],
+        'apipost_tags': swaggerApi?.apipost_tags || [],
         'target_type': 'api',
         'url': url || '',
         'method': method.toUpperCase() || 'GET',
