@@ -1,117 +1,187 @@
 {
-  "openapi": "3.0.3",
-  "info": {
-      "title": "API资产管理接口文档",
-      "description": "API资产管理接口文档",
-      "version": "1.0"
-  },
-  "servers": [
-      {
-          "url": "http://apilm-management-web.qd-huangdao-ctcc.haier.net:80",
-          "description": "Inferred Url"
-      }
-  ],
-  "tags": [
-      {
-          "name": "API列表管理",
-          "description": "Api Operation Controller"
-      },
-      {
-          "name": "apipost调用接口",
-          "description": "Apipost Noauth Controller"
-      },
-      {
-          "name": "应用分析",
-          "description": "App Analysis Controller"
-      },
-      {
-          "name": "应用列表管理",
-          "description": "App Operation Controller"
-      },
-      {
-          "name": "开放接口",
-          "description": "Open Api Controller"
-      }
-  ],
-  "components": {
-      "schemas": {
-          "API列表结构类": {
-              "title": "API列表结构类",
-              "type": "object",
-              "properties": {
-                  "app": {
-                      "type": "string",
-                      "description": "应用"
-                  },
-                  "appSwaggerVersion": {
-                      "type": "string",
-                      "description": "swagger版本(用户在swagger config中声明的swagger版本)"
-                  },
-                  "createUserId": {
-                      "type": "string",
-                      "description": "创建人工号"
-                  },
-                  "createUserName": {
-                      "type": "string",
-                      "description": "创建人姓名"
-                  },
-                  "env": {
-                      "type": "string",
-                      "description": "版本环境"
-                  },
-                  "escapeUrl": {
-                      "type": "string",
-                      "description": "接口转义路径"
-                  },
-                  "id": {
-                      "type": "integer",
-                      "description": "id",
-                      "format": "int64"
-                  },
-                  "isOpen": {
-                    "type": "boolean",
-                      "description": "开放API状态，true-已开放，false-未开放",
-                      "example": false
-                  },
-                  "method": {
-                      "type": "string",
-                      "description": "调用方式"
-                  },
-                  "project": {
-                      "type": "string",
-                      "description": "项目空间"
-                  },
-                  "summary": {
-                      "type": "string",
-                      "description": "接口名称"
-                  },
-                  "updateChannel": {
-                      "type": "string",
-                      "description": "创建方式"
-                  },
-                  "updateTime": {
-                      "type": "string",
-                      "description": "版本时间",
-                      "format": "date-time"
-                  },
-                  "updateUserId": {
-                      "type": "string",
-                      "description": "更新人工号"
-                  },
-                  "updateUserName": {
-                      "type": "string",
-                      "description": "更新人姓名"
-                  },
-                  "url": {
-                      "type": "string",
-                      "description": "调用地址"
-                  },
-                  "version": {
-                      "type": "string",
-                      "description": "版本"
-                  }
-              }
-          }
-      }
-  }
+	"info": {
+		"title": "Gala的私有项目",
+		"description": "",
+		"version": "1.0.0"
+	},
+	"openapi": "3.0.0",
+	"components": {
+		"schemas": {
+			"新建数据模型": {
+				"type": "object",
+				"properties": {
+					"13123": {
+						"type": "string",
+						"mock": {
+							"mock": "12321"
+						},
+						"description": "312312"
+					},
+					"13213": {
+						"type": "string",
+						"mock": {
+							"mock": "321321"
+						},
+						"description": "321123"
+					}
+				},
+				"APIPOST_ORDERS": [
+					"13123",
+					"13213"
+				],
+				"required": [],
+				"title": "8888"
+			},
+			"新建数据模型21321": {
+				"type": "object",
+				"properties": [],
+				"title": "3213"
+			},
+			"新建数据模型1232112321": {
+				"type": "object",
+				"properties": [],
+				"title": "321321213"
+			}
+		}
+	},
+	"paths": {
+		"12321321": {
+			"POST": {
+				"summary": "新建接口21321",
+				"description": "",
+				"apipost_tags": [
+					"aaaa",
+					"asdsadas"
+				],
+				"parameters": [
+					{
+						"name": "21321",
+						"in": "query",
+						"description": "",
+						"required": true,
+						"example": "13212"
+					},
+					{
+						"name": "123213",
+						"in": "header",
+						"description": "",
+						"required": true,
+						"example": "21321"
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": [],
+								"APIPOST_ORDERS": [
+									"40931073592843ddbee009b33756b40c"
+								],
+								"APIPOST_REFS": {
+									"40931073592843ddbee009b33756b40c": {
+										"ref": "b8de8a53-3ccc-484c-89fc-f30c6a737d25"
+									}
+								},
+								"required": [],
+								"$ref": "#/components/schemas/新建数据模型"
+							},
+							"example": "{\n\t\"13123\": \"12321\",\n\t\"13213\": \"321321\"\n}"
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "成功",
+						"content": {
+							"*/*": {
+								"schema": []
+							}
+						},
+						"example": ""
+					},
+					"304": {
+						"description": "12321",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "object",
+									"properties": [],
+									"APIPOST_ORDERS": [
+										"d95a8839fea341bf8f6d3618c2a0b255"
+									],
+									"APIPOST_REFS": {
+										"d95a8839fea341bf8f6d3618c2a0b255": {
+											"ref": "b8de8a53-3ccc-484c-89fc-f30c6a737d25"
+										}
+									},
+									"$ref": "#/components/schemas/新建数据模型"
+								}
+							}
+						},
+						"example": ""
+					},
+					"404": {
+						"description": "失败",
+						"content": {
+							"*/*": {
+								"schema": []
+							}
+						},
+						"example": ""
+					},
+					"500": {
+						"description": "123213",
+						"content": {
+							"*/*": {
+								"schema": {}
+							}
+						},
+						"example": ""
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "",
+			"description": "默认环境",
+			"variables": {
+				"A": {
+					"default": "0",
+					"description": ""
+				},
+				"AA": {
+					"default": "https://",
+					"description": ""
+				}
+			}
+		},
+		{
+			"url": "http://172.17.101.188:30999/mock/609e7121-d80b-4020-9c0a-f955f4b807ae/",
+			"description": "Mock环境",
+			"variables": {}
+		},
+		{
+			"url": "",
+			"description": "2",
+			"variables": {}
+		},
+		{
+			"url": "",
+			"description": "1副本",
+			"variables": {}
+		},
+		{
+			"url": "",
+			"description": "3",
+			"variables": {}
+		},
+		{
+			"url": "",
+			"description": "1",
+			"variables": {}
+		}
+	]
 }

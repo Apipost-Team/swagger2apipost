@@ -316,7 +316,7 @@ class Swagger2Apipost {
           }
         }
         else if (apipostMode == 'json') {
-
+         
           if (bodyData.hasOwnProperty('example')) {
             let example = bodyData.example;
             if (typeof example == 'object') {
@@ -771,54 +771,20 @@ class Swagger2Apipost {
               })
             } else if (parameter.in == 'body') {
               if ((parameter.hasOwnProperty('schema') && parameter.schema.hasOwnProperty('properties') && JSON.stringify(parameter.schema.properties) !== "{}") || parameter?.schema?.type === 'array') {
-                let RawObj = {};
                 let handleRawObj = {};
                 let raw_para: any = [];
-
-                if (isString(parameter?.name) && parameter.name.length > 0) {
-                  RawObj[parameter.name] = {};
-                  handleRawObj = RawObj[parameter.name];
-                  raw_para.push({
-                    key: parameter.name,
-                    value: "",
-                    description: String(parameter?.description || ''),
-                    not_null: parameter.required ? "1" : "-1",
-                    field_type: "Object",
-                    type: "Text",
-                    is_checked: 1,
-                  });
-                } else {
-                  handleRawObj = RawObj;
-                }
-
+               
+                
                 if (parameter.schema.type === 'array') {
                   handleBodyJsonSchema(handleRawObj, parameter.schema.items.properties, raw_para, parameter?.name ? `${parameter.name}.` : '', parameter.schema.items.required);
                 } else {
-                  handleBodyJsonSchema(handleRawObj, parameter.schema.properties, raw_para, parameter?.name ? `${parameter.name}.` : '', parameter?.schema?.required);
+                  handleBodyJsonSchema(handleRawObj, parameter.schema.properties, raw_para, '', parameter?.schema?.required);
                 }
-                request.body.raw = { ...request.body.raw, ...RawObj };
-                request.body.raw_para = [...request.body.raw_para, ...raw_para];
-                if (Object.prototype.toString.call(parameter?.schema?.['$$ref']) === "[object String]") {
-                  request.body.raw_schema = swaggerSchema2apipostSchema(parameter.schema);
-                }
-              } else {
-                if (isString(parameter?.name) && parameter.name.length > 0) {
-                  let RawObj = {};
-                  let raw_para: any = [];
-                  RawObj[parameter.name] = {};
-
-                  raw_para.push({
-                    key: parameter.name,
-                    value: "",
-                    description: String(parameter?.description || ''),
-                    not_null: parameter.required ? "1" : "-1",
-                    field_type: "Object",
-                    type: "Text",
-                    is_checked: 1,
-                  });
-                  request.body.raw = { ...request.body.raw, ...RawObj };
-                  request.body.raw_para = [...request.body.raw_para, ...raw_para];
-                }
+                request.body.raw = handleRawObj;
+                request.body.raw_para = raw_para;
+              }
+              if (Object.prototype.toString.call(parameter?.schema?.['$$ref']) === "[object String]") {
+                request.body.raw_schema = swaggerSchema2apipostSchema(parameter.schema);
               }
             } else if (parameter.in == 'formData') {
               parameter.name && request.body.parameter.push({
@@ -1023,10 +989,38 @@ class Swagger2Apipost {
       })
     }
   }
+  createNewModelData2(item: any, model_name: string) {
+    var model: any = {
+      model_id: `#/definitions/${model_name}`,
+      name: model_name || '新建数据模型',
+      displayName: model_name || '',
+      model_type: 'model',
+      description: item?.description || '',
+      schema: {},
+    }
+    try {
+      model.schema = swaggerSchema2apipostSchema(item);
+    } catch (error) { }
+    return model;
+  }
+  handleModelApiAndFolder2(model_name: string, modals: any) {
+    var root = this;
+    if (Object.prototype.toString.call(modals) == '[object Object]') {
+      let target = root.createNewModelData2(modals, model_name);
+      root.dataModel.push(target)
+    }
+  }
   handleModelData(json: any) {
     if (json.hasOwnProperty('components') && Object.prototype.toString.call(json.components) == '[object Object]') {
       Object.keys(json.components).forEach((key) => {
         this.handleModelApiAndFolder(key, json.components[key]);
+      });
+    }
+  }
+  handleModelData2(json:any){
+    if (json.hasOwnProperty('definitions') && Object.prototype.toString.call(json.definitions) == '[object Object]') {
+      Object.keys(json.definitions).forEach((key) => {
+        this.handleModelApiAndFolder2(key, json.definitions[key]);
       });
     }
   }
@@ -1058,14 +1052,19 @@ class Swagger2Apipost {
         this.handleServers(swagger3Json);
         this.handlePathsV3(swagger3Json);
       }
-      this.handleModelData(swagger3Json);
+      if(this.version == '2.0'){
+        this.handleModelData2(swagger3Json);
+      }else{
+        this.handleModelData(swagger3Json);
+      }
+     
       validationResult.data = {
         project: this.project,
         apis: this.apis,
         env: this.env,
         dataModel: this.dataModel,
       }
-      console.log(JSON.stringify(validationResult.data.dataModel));
+      console.log(JSON.stringify(validationResult.dataModel));
 
       return validationResult;
     } catch (error: any) {
