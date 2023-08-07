@@ -145,6 +145,7 @@ class Swagger2Apipost {
     }
     var servers = json.servers;
     for (const server of servers) {
+      
       let newEnv: any = {
         name: server?.description || server?.url || '未命名环境',
         pre_url: server.url || '',
@@ -806,6 +807,8 @@ class Swagger2Apipost {
         if (Object.prototype.toString.call(swaggerApi.responses) === '[object Object]') {
           Object.keys(swaggerApi.responses).forEach((status: any) => {
             const element = swaggerApi.responses[status];
+       
+            
             if ((element.hasOwnProperty('schema') && element.schema.hasOwnProperty('properties') && JSON.stringify(element.schema.properties) !== "{}") || element?.schema?.type === 'array') {
               let RawObj = {};
               let raw_para: any = [];
@@ -853,24 +856,50 @@ class Swagger2Apipost {
               let content = element?.content;
               let mode = content instanceof Object ? Object.keys(content)[0] : "none";
               let bodyData = content[mode];
-              let properties: any = {};
-              if (bodyData.hasOwnProperty('schema')) {
-                let { schema } = bodyData;
-                if (schema?.type === 'array') {
-                  properties = schema?.items?.properties;
-                } else {
-                  properties = schema?.properties;
+
+              let RawObj = {};
+              let raw_para: any = [];
+              if (bodyData?.schema?.type === 'array') {
+                handleBodyJsonSchema(RawObj, bodyData?.schema?.items?.properties || {}, raw_para);
+              } else {
+                handleBodyJsonSchema(RawObj, bodyData?.schema?.properties || {}, raw_para);
+              }
+              let jsonSchema = {};
+              if (Object.prototype.toString.call(bodyData?.schema?.['$$ref']) === "[object String]") {
+                jsonSchema = swaggerSchema2apipostSchema(bodyData.schema);
+              } 
+              
+              if (status == 200) {
+                try {
+                  response.success.raw = JSON.stringify({ ...RawObj });
+                } catch (error) {
+                  response.success.raw = String({ ...RawObj });
+                }
+                response.success.parameter = raw_para;
+                response.success.expect.schema = jsonSchema;
+              } else {
+                // 其他示例
+                let newUUID = uuidV4();
+                response[newUUID] = {
+                  expect: {
+                    name: element?.description || status,
+                    isDefault: -1,
+                    code: status,
+                    contentType: "json",
+                    schema: jsonSchema,
+                    mock: "",
+                    verifyType: "schema",
+                  },
+                  raw: '',
+                  parameter: raw_para,
+                }
+                try {
+                  response[newUUID].raw = JSON.stringify({ ...RawObj });
+                } catch (error) {
+                  response[newUUID].raw = String({ ...RawObj });
                 }
               }
-              if (Object.prototype.toString.call(bodyData?.schema?.['$$ref']) === "[object String]") {
-                request.body.raw_schema = swaggerSchema2apipostSchema(bodyData.schema);
-              } else if (Object.prototype.toString.call(properties) === "[object Object]") {
-                let RawObj: any = {};
-                let raw_para: any = [];
-                handleBodyJsonSchema(RawObj, properties, raw_para);
-                request.body.raw = JSON.stringify(RawObj);
-                request.body.raw_para = raw_para;
-              }
+
               if (bodyData.hasOwnProperty('example')) {
                 let example = bodyData.example;
                 if (typeof example == 'object') {
@@ -1094,7 +1123,7 @@ class Swagger2Apipost {
         env: this.env,
         dataModel: this.dataModel,
       }
-      console.log(JSON.stringify(validationResult.data.apis));
+      console.log(JSON.stringify(validationResult.data.env));
 
       return validationResult;
     } catch (error: any) {

@@ -15,7 +15,7 @@ describe('works',() => {
 
   const converter = new Swagger2Apipost();
   it('测试Swagger2Apipost 2.0 success', async () => {
-    expect((await converter.convert(json2_1,{
+    expect((await converter.convert(json3_8,{
       basePath:false,
       host:false,
     })).status).toBe('success');
