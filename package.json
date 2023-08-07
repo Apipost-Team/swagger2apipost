@@ -1,6 +1,6 @@
 {
   "name": "swagger2apipost",
-  "version": "0.1.36",
+  "version": "0.1.37",
   "description": "swagger2apipost",
   "main": "dist/index.js",
   "files": [
