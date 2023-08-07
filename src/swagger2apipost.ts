@@ -204,7 +204,7 @@ class Swagger2Apipost {
       let api: any = {
         'name': swaggerApi?.summary || '新建接口',
         'target_type': 'api',
-        'apipost_tags': swaggerApi?.apipost_tags || [],
+        'tags': swaggerApi?.apipost_tags || [],
         'url': url || '',
         'method': method.toUpperCase() || 'GET',
         'request': {
@@ -637,7 +637,7 @@ class Swagger2Apipost {
       }
       let api: any = {
         'name': swaggerApi?.summary || '新建接口',
-        'apipost_tags': swaggerApi?.apipost_tags || [],
+        'tags': swaggerApi?.apipost_tags || [],
         'target_type': 'api',
         'url': url || '',
         'method': method.toUpperCase() || 'GET',
@@ -783,6 +783,7 @@ class Swagger2Apipost {
                 request.body.raw = parameter?.example || handleRawObj;
                 request.body.raw_para = raw_para;
               }
+              
               if (Object.prototype.toString.call(parameter?.schema?.['$$ref']) === "[object String]") {
                 request.body.raw_schema = swaggerSchema2apipostSchema(parameter.schema);
               }
@@ -848,7 +849,36 @@ class Swagger2Apipost {
                   response[newUUID].raw = String({ ...RawObj });
                 }
               }
-            } else {
+            } else if(isPlainObject(element?.content)){
+              let content = element?.content;
+              let mode = content instanceof Object ? Object.keys(content)[0] : "none";
+              let bodyData = content[mode];
+              let properties: any = {};
+              if (bodyData.hasOwnProperty('schema')) {
+                let { schema } = bodyData;
+                if (schema?.type === 'array') {
+                  properties = schema?.items?.properties;
+                } else {
+                  properties = schema?.properties;
+                }
+              }
+              if (Object.prototype.toString.call(bodyData?.schema?.['$$ref']) === "[object String]") {
+                request.body.raw_schema = swaggerSchema2apipostSchema(bodyData.schema);
+              } else if (Object.prototype.toString.call(properties) === "[object Object]") {
+                let RawObj: any = {};
+                let raw_para: any = [];
+                handleBodyJsonSchema(RawObj, properties, raw_para);
+                request.body.raw = JSON.stringify(RawObj);
+                request.body.raw_para = raw_para;
+              }
+              if (bodyData.hasOwnProperty('example')) {
+                let example = bodyData.example;
+                if (typeof example == 'object') {
+                  example = JSON.stringify(example);
+                }
+                request.body.raw = example;
+              }
+            }else{
               // 其他示例
               let newUUID = uuidV4();
               response[newUUID] = {
@@ -1064,7 +1094,7 @@ class Swagger2Apipost {
         env: this.env,
         dataModel: this.dataModel,
       }
-      console.log(JSON.stringify(validationResult.data.dataModel));
+      console.log(JSON.stringify(validationResult.data.apis));
 
       return validationResult;
     } catch (error: any) {
