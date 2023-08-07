@@ -1,607 +1,117 @@
 {
-	"openapi": "3.0.3",
-	"info": {
-		"title": "大家养老标准中台接口平台",
-		"version": "v1.0.0"
-	},
-	"servers": [{
-		"url": "https://apitest-yl.djbx.com"
-	}],
-	"tags": [{
-		"name": "E助手相关接口",
-		"description": "Djpint Api For Inner Controller"
-	}, {
-		"name": "external-api-no-sign-key-controller",
-		"description": "External Api No Sign Key Controller"
-	}, {
-		"name": "health-investment-equity-controller",
-		"description": "Health Investment Equity Controller"
-	}, {
-		"name": "test-controller",
-		"description": "Test Controller"
-	}, {
-		"name": "医保服务接口",
-		"description": "Medical Insurance Controller"
-	}, {
-		"name": "外部接口",
-		"description": "Djpint Api Controller"
-	}, {
-		"name": "对接互联网渠道外部接口",
-		"description": "Djpint Api For Bic Controller"
-	}],
-	"paths": {
-		"/djpint/api/intService/CancelOrder": {
-			"post": {
-				"tags": ["外部接口"],
-				"summary": "同步撤单接口",
-				"description": "同步撤单接口",
-				"operationId": "cancelOrderUsingPOST",
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/CancelOrderRequest"
-							}
-						},
-						"application/xml": {
-							"schema": {
-								"$ref": "#/components/schemas/CancelOrderRequest"
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/xml": {
-								"schema": {
-									"$ref": "#/components/schemas/CancelOrderResponse"
-								}
-							},
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/CancelOrderResponse"
-								}
-							}
-						}
-					},
-					"209": {
-						"description": "Created"
-					},
-					"401": {
-						"description": "Unauthorized"
-					},
-					"403": {
-						"description": "Forbidden"
-					},
-					"404": {
-						"description": "Not Found"
-					}
-				}
-			}
-		},
-		"/djpint/api/intService/CheckDirectSaleCert": {
-      "post": {
-        "summary": "校验直销业务员销售资格证接口",
-        "x-apifox-folder": "外部接口",
-        "x-apifox-status": "released",
-        "deprecated": false,
-        "description": "校验直销业务员销售资格证接口",
-        "operationId": "checkDirectSaleCertUsingPOST",
-        "tags": [
-          "外部接口"
-        ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "description": "保单详情信息",
-                "$ref": "#/components/schemas/InsAppBeginRequest"
-              },
-              "example": ""
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CheckDirectSaleCertResponse"
-                }
-              }
-            }
-          },
-          "201": {
-            "description": "Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {},
-                  "x-apifox-orders": [],
-                  "x-apifox-ignore-properties": []
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {},
-                  "x-apifox-orders": [],
-                  "x-apifox-ignore-properties": []
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {},
-                  "x-apifox-orders": [],
-                  "x-apifox-ignore-properties": []
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {},
-                  "x-apifox-orders": [],
-                  "x-apifox-ignore-properties": []
-                }
-              }
-            }
-          }
-        },
-        "x-run-in-apifox": "https://apifox.com/web/project/2587066/apis/api-100276294-run"
+  "openapi": "3.0.3",
+  "info": {
+      "title": "API资产管理接口文档",
+      "description": "API资产管理接口文档",
+      "version": "1.0"
+  },
+  "servers": [
+      {
+          "url": "http://apilm-management-web.qd-huangdao-ctcc.haier.net:80",
+          "description": "Inferred Url"
       }
-    }
-	},
-	"components": {
-		"schemas": {
-			"CancelOrderRequest": {
-				"title": "CancelOrderRequest",
-				"required": ["agentId", "appTaskNo", "canceltime", "policyNo", "prtNo", "sourceOrderNo"],
-				"type": "object",
-				"properties": {
-					"agentId": {
-						"type": "string",
-						"description": "合作方ID"
-					},
-					"appTaskNo": {
-						"type": "string",
-						"description": "投保任务号"
-					},
-					"cancelOrderReason": {
-						"type": "string",
-						"description": "撤单原因"
-					},
-					"canceltime": {
-						"type": "string",
-						"description": "取消时间",
-						"format": "date-time"
-					},
-					"policyNo": {
-						"type": "string",
-						"description": "投保任务号"
-					},
-					"prtNo": {
-						"type": "string",
-						"description": "投保单号"
-					},
-					"sourceOrderNo": {
-						"type": "string",
-						"description": "第三方系统订单号"
-					}
-				},
-				"description": "取消订单接口请求对象",
-				"xml": {
-					"name": "CancelOrderRequest",
-					"attribute": false,
-					"wrapped": false
-				}
-			},
-			"CancelOrderResponse": {
-				"title": "CancelOrderResponse",
-				"required": ["appTaskNo", "resultCode", "resultMsg", "sourceOrderNo"],
-				"type": "object",
-				"properties": {
-					"appTaskNo": {
-						"type": "string",
-						"description": "投保任务号"
-					},
-					"resultCode": {
-						"type": "string",
-						"description": "结果代码"
-					},
-					"resultMsg": {
-						"type": "string",
-						"description": "结果内容"
-					},
-					"sourceOrderNo": {
-						"type": "string",
-						"description": "第三方系统订单号"
-					}
-				},
-				"description": "取消订单接口返回对象",
-				"xml": {
-					"name": "CancelOrderResponse",
-					"attribute": false,
-					"wrapped": false
-				}
-			},
-			"RenewalQueryRequest": {
-				"title": "RenewalQueryRequest",
-				"type": "object",
-				"properties": {
-					"agentId": {
-						"type": "string"
-					},
-					"payTimes": {
-						"type": "string"
-					},
-					"policyNo": {
-						"type": "string"
-					}
-				},
-				"description": "续期查询请求",
-				"xml": {
-					"attribute": false,
-					"wrapped": false
-				}
-			},
-			"RenewalQueryResponse": {
-				"title": "RenewalQueryResponse",
-				"required": ["resultCode", "resultMsg"],
-				"type": "object",
-				"properties": {
-					"renewalQueryInfo": {
-						"$ref": "#/components/schemas/RenewalQueryInfo"
-					},
-					"resultCode": {
-						"type": "string",
-						"description": "结果代码"
-					},
-					"resultMsg": {
-						"type": "string",
-						"description": "结果内容"
-					}
-				},
-				"description": "续期查询返回对象",
-				"xml": {
-					"name": "RenewalLockResponse",
-					"attribute": false,
-					"wrapped": false
-				}
-			},
-			"InsAppBeginRequest": {
-        "title": "InsAppBeginRequest",
-        "required": [
-          "agentId",
-          "insAppInfo"
-        ],
-        "type": "object",
-        "properties": {
-          "agentId": {
-            "type": "string",
-            "description": "合作方ID"
-          },
-          "insAppInfo": {
-            "description": "投保信息对象",
-            "$ref": "#/components/schemas/InsAppInfo"
-          },
-          "originAgentId": {
-            "type": "string",
-            "description": "半对接模式引流标记/源系统ID"
-          }
-        },
-        "description": "投保服务请求对象",
-        "xml": {
-          "name": "InsAppBeginRequest",
-          "attribute": false,
-          "wrapped": false
-        },
-        "x-apifox-orders": [
-          "agentId",
-          "insAppInfo",
-          "originAgentId"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
+  ],
+  "tags": [
+      {
+          "name": "API列表管理",
+          "description": "Api Operation Controller"
       },
-			"InsAppInfo": {
-        "title": "InsAppInfo",
-        "required": [
-          "bankCity",
-          "bankCode",
-          "bankProvince",
-          "insAppApplicantInfo",
-          "insAppInsuredInfos",
-          "payAccNo",
-          "payMode",
-          "payOrderId",
-          "payerType",
-          "premium",
-          "renewalBankCity",
-          "renewalBankCode",
-          "renewalBankProvince",
-          "renewalPayAccNo",
-          "sourceOrderNo"
-        ],
-        "type": "object",
-        "properties": {
-          "actDate": {
-            "type": "string",
-            "description": "指定生效日",
-            "format": "date-time"
-          },
-          "actType": {
-            "type": "string",
-            "description": "活动类型"
-          },
-          "activities": {
-            "type": "array",
-            "description": "活动信息列表"
-          },
-          "appPkgNo": {
-            "type": "string",
-            "description": "投保批次号（税延代扣代缴必传）"
-          },
-          "applyDate": {
-            "type": "string",
-            "description": "投保申请日期",
-            "format": "date-time"
-          },
-          "bankCity": {
-            "type": "string",
-            "description": "银行卡开户市代码"
-          },
-          "bankCode": {
-            "type": "string",
-            "description": "银行代码"
-          },
-          "bankProvince": {
-            "type": "string",
-            "description": "银行卡开户省代码"
-          },
-          "chargeDate": {
-            "type": "string",
-            "description": "卡单扣款日期",
-            "format": "date-time"
-          },
-          "ciitcPersonalPensionAccNo": {
-            "type": "string",
-            "description": "银保信个养账户号"
-          },
-          "contNo": {
-            "type": "string"
-          },
-          "contractNo": {
-            "type": "string",
-            "description": "保单合同印刷号"
-          },
-          "customerImgInfos": {
-            "type": "array",
-            "description": "投保人影像件信息",
-            "xml": {
-              "name": "customerImgInfos",
-              "attribute": false,
-              "wrapped": true
-            }
-          },
-          "doubleRecordSystem": {
-            "type": "string",
-            "description": "双录合作厂商"
-          },
-          "grpRegId": {
-            "type": "string",
-            "description": "投保注册码"
-          },
-          "insAppApplicantInfo": {
-            "description": "投保人信息"
-          },
-          "insAppInsuredInfos": {
-            "type": "array",
-            "description": "多被保人信息",
-            "xml": {
-              "name": "insAppInsuredInfos",
-              "attribute": false,
-              "wrapped": true
-            },
-            "items": {
-              "description": "被保人信息"
-            }
-          },
-          "isRenewal": {
-            "type": "string",
-            "description": "是否为续保"
-          },
-          "orderNo": {
-            "type": "string"
-          },
-          "originOrderNo": {
-            "type": "string",
-            "description": "源系统订单号"
-          },
-          "originalPolicyNo": {
-            "type": "string",
-            "description": "原保单号"
-          },
-          "payAccNo": {
-            "type": "string",
-            "description": "支付账号"
-          },
-          "payMode": {
-            "type": "string",
-            "description": "支付方式"
-          },
-          "payOrderId": {
-            "type": "string",
-            "description": "支付流水号"
-          },
-          "payerType": {
-            "type": "string",
-            "description": "缴费人类型"
-          },
-          "policyDeliveryMethod": {
-            "type": "string",
-            "description": "保单递送方式"
-          },
-          "premium": {
-            "type": "number",
-            "description": "总保费",
-            "format": "bigdecimal"
-          },
-          "prtNo": {
-            "type": "string"
-          },
-          "renewalBankCity": {
-            "type": "string",
-            "description": "续期银行卡开户市代码"
-          },
-          "renewalBankCode": {
-            "type": "string",
-            "description": "续期银行代码"
-          },
-          "renewalBankProvince": {
-            "type": "string",
-            "description": "续期银行卡开户省代码"
-          },
-          "renewalPayAccNo": {
-            "type": "string",
-            "description": "续期支付账号"
-          },
-          "renewalPayMode": {
-            "type": "string",
-            "description": "续期支付方式"
-          },
-          "salesScenarioInfo": {
-            "description": "销售场景信息"
-          },
-          "sourceOrderNo": {
-            "type": "string",
-            "description": "第三方系统订单号"
-          },
-          "supplements": {
-            "type": "array",
-            "description": "订单补充信息",
-            "xml": {
-              "name": "supplements",
-              "attribute": false,
-              "wrapped": true
-            }
-          },
-          "tagInfo": {
-            "description": "保单标签信息"
-          },
-          "uwNoticeInfos": {
-            "type": "array",
-            "description": "核保通知书信息"
-          },
-          "validBeginTime": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "validEndTime": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "description": "投保信息对象",
-        "xml": {
-          "attribute": false,
-          "wrapped": false
-        },
-        "x-apifox-orders": [
-          "actDate",
-          "actType",
-          "activities",
-          "appPkgNo",
-          "applyDate",
-          "bankCity",
-          "bankCode",
-          "bankProvince",
-          "chargeDate",
-          "ciitcPersonalPensionAccNo",
-          "contNo",
-          "contractNo",
-          "customerImgInfos",
-          "doubleRecordSystem",
-          "grpRegId",
-          "insAppApplicantInfo",
-          "insAppInsuredInfos",
-          "isRenewal",
-          "orderNo",
-          "originOrderNo",
-          "originalPolicyNo",
-          "payAccNo",
-          "payMode",
-          "payOrderId",
-          "payerType",
-          "policyDeliveryMethod",
-          "premium",
-          "prtNo",
-          "renewalBankCity",
-          "renewalBankCode",
-          "renewalBankProvince",
-          "renewalPayAccNo",
-          "renewalPayMode",
-          "salesScenarioInfo",
-          "sourceOrderNo",
-          "supplements",
-          "tagInfo",
-          "uwNoticeInfos",
-          "validBeginTime",
-          "validEndTime"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
+      {
+          "name": "apipost调用接口",
+          "description": "Apipost Noauth Controller"
       },
-			"CheckDirectSaleCertResponse": {
-        "title": "CheckDirectSaleCertResponse",
-        "required": [
-          "resultCode",
-          "resultMsg"
-        ],
-        "type": "object",
-        "properties": {
-          "resultCode": {
-            "type": "string",
-            "description": "结果代码"
-          },
-          "resultMsg": {
-            "type": "string",
-            "description": "结果内容"
-          }
-        },
-        "description": "校验直销业务员销售资格证接口返回对象",
-        "xml": {
-          "name": "CheckDirectSaleCertResponse",
-          "attribute": false,
-          "wrapped": false
-        },
-        "x-apifox-orders": [
-          "resultCode",
-          "resultMsg"
-        ],
-        "x-apifox-ignore-properties": [],
-        "x-apifox-folder": "Schemas"
+      {
+          "name": "应用分析",
+          "description": "App Analysis Controller"
+      },
+      {
+          "name": "应用列表管理",
+          "description": "App Operation Controller"
+      },
+      {
+          "name": "开放接口",
+          "description": "Open Api Controller"
       }
-		}
-	}
+  ],
+  "components": {
+      "schemas": {
+          "API列表结构类": {
+              "title": "API列表结构类",
+              "type": "object",
+              "properties": {
+                  "app": {
+                      "type": "string",
+                      "description": "应用"
+                  },
+                  "appSwaggerVersion": {
+                      "type": "string",
+                      "description": "swagger版本(用户在swagger config中声明的swagger版本)"
+                  },
+                  "createUserId": {
+                      "type": "string",
+                      "description": "创建人工号"
+                  },
+                  "createUserName": {
+                      "type": "string",
+                      "description": "创建人姓名"
+                  },
+                  "env": {
+                      "type": "string",
+                      "description": "版本环境"
+                  },
+                  "escapeUrl": {
+                      "type": "string",
+                      "description": "接口转义路径"
+                  },
+                  "id": {
+                      "type": "integer",
+                      "description": "id",
+                      "format": "int64"
+                  },
+                  "isOpen": {
+                    "type": "boolean",
+                      "description": "开放API状态，true-已开放，false-未开放",
+                      "example": false
+                  },
+                  "method": {
+                      "type": "string",
+                      "description": "调用方式"
+                  },
+                  "project": {
+                      "type": "string",
+                      "description": "项目空间"
+                  },
+                  "summary": {
+                      "type": "string",
+                      "description": "接口名称"
+                  },
+                  "updateChannel": {
+                      "type": "string",
+                      "description": "创建方式"
+                  },
+                  "updateTime": {
+                      "type": "string",
+                      "description": "版本时间",
+                      "format": "date-time"
+                  },
+                  "updateUserId": {
+                      "type": "string",
+                      "description": "更新人工号"
+                  },
+                  "updateUserName": {
+                      "type": "string",
+                      "description": "更新人姓名"
+                  },
+                  "url": {
+                      "type": "string",
+                      "description": "调用地址"
+                  },
+                  "version": {
+                      "type": "string",
+                      "description": "版本"
+                  }
+              }
+          }
+      }
+  }
 }

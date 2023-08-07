@@ -146,7 +146,7 @@ class Swagger2Apipost {
     var servers = json.servers;
     for (const server of servers) {
       let newEnv: any = {
-        name: server.url || '未命名环境',
+        name: server?.description || server?.url || '未命名环境',
         pre_url: server.url || '',
         type: 'custom',
         list: {},
@@ -1065,7 +1065,7 @@ class Swagger2Apipost {
         env: this.env,
         dataModel: this.dataModel,
       }
-      // console.log(JSON.stringify(validationResult.data.apis));
+      console.log(JSON.stringify(validationResult.data.dataModel));
 
       return validationResult;
     } catch (error: any) {
