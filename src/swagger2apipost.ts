@@ -1,7 +1,7 @@
 import _url from 'url';
 import SwaggerClient from 'swagger-client';
 import { ConvertResult, getApipostMode, handleBodyJsonSchema } from './utils';
-import { isEmpty, isPlainObject, isString } from 'lodash';
+import { isArray, isEmpty, isPlainObject, isString } from 'lodash';
 import { v4 as uuidV4 } from 'uuid';
 
 function replaceRef(schemaObj: any) {
@@ -76,6 +76,7 @@ class Swagger2Apipost {
   basePath: string;
   apis: any[];
   folders: any;
+  folderNames:any;
   baseParams: any;
   globalConsumes: any;
   globalProduces: any;
@@ -88,6 +89,7 @@ class Swagger2Apipost {
     this.basePath = '';
     this.apis = [];
     this.folders = {};
+    this.folderNames = {};
     this.baseParams = {};
     this.env = [];
     this.options = {
@@ -145,7 +147,7 @@ class Swagger2Apipost {
     }
     var servers = json.servers;
     for (const server of servers) {
-      
+
       let newEnv: any = {
         name: server?.description || server?.url || '未命名环境',
         pre_url: server.url || '',
@@ -317,7 +319,7 @@ class Swagger2Apipost {
           }
         }
         else if (apipostMode == 'json') {
-         
+
           if (bodyData.hasOwnProperty('example')) {
             let example = bodyData.example;
             if (typeof example == 'object') {
@@ -774,8 +776,8 @@ class Swagger2Apipost {
               if ((parameter.hasOwnProperty('schema') && parameter.schema.hasOwnProperty('properties') && JSON.stringify(parameter.schema.properties) !== "{}") || parameter?.schema?.type === 'array') {
                 let handleRawObj = {};
                 let raw_para: any = [];
-               
-                
+
+
                 if (parameter.schema.type === 'array') {
                   handleBodyJsonSchema(handleRawObj, parameter.schema.items.properties, raw_para, parameter?.name ? `${parameter.name}.` : '', parameter.schema.items.required);
                 } else {
@@ -784,7 +786,7 @@ class Swagger2Apipost {
                 request.body.raw = parameter?.example || handleRawObj;
                 request.body.raw_para = raw_para;
               }
-              
+
               if (Object.prototype.toString.call(parameter?.schema?.['$$ref']) === "[object String]") {
                 request.body.raw_schema = swaggerSchema2apipostSchema(parameter.schema);
               }
@@ -807,8 +809,8 @@ class Swagger2Apipost {
         if (Object.prototype.toString.call(swaggerApi.responses) === '[object Object]') {
           Object.keys(swaggerApi.responses).forEach((status: any) => {
             const element = swaggerApi.responses[status];
-       
-            
+
+
             if ((element.hasOwnProperty('schema') && element.schema.hasOwnProperty('properties') && JSON.stringify(element.schema.properties) !== "{}") || element?.schema?.type === 'array') {
               let RawObj = {};
               let raw_para: any = [];
@@ -852,7 +854,7 @@ class Swagger2Apipost {
                   response[newUUID].raw = String({ ...RawObj });
                 }
               }
-            } else if(isPlainObject(element?.content)){
+            } else if (isPlainObject(element?.content)) {
               let content = element?.content;
               let mode = content instanceof Object ? Object.keys(content)[0] : "none";
               let bodyData = content[mode];
@@ -867,8 +869,8 @@ class Swagger2Apipost {
               let jsonSchema = {};
               if (Object.prototype.toString.call(bodyData?.schema?.['$$ref']) === "[object String]") {
                 jsonSchema = swaggerSchema2apipostSchema(bodyData.schema);
-              } 
-              
+              }
+
               if (status == 200) {
                 try {
                   response.success.raw = JSON.stringify({ ...RawObj });
@@ -907,7 +909,7 @@ class Swagger2Apipost {
                 }
                 request.body.raw = example;
               }
-            }else{
+            } else {
               // 其他示例
               let newUUID = uuidV4();
               response[newUUID] = {
@@ -1011,6 +1013,7 @@ class Swagger2Apipost {
       'description': description,
       'children': [],
     };
+    this.folderNames[name] = true;
     return newFolder;
   }
   createDataModelNewFolder(folder_name: string) {
@@ -1076,11 +1079,26 @@ class Swagger2Apipost {
       });
     }
   }
-  handleModelData2(json:any){
+  handleModelData2(json: any) {
     if (json.hasOwnProperty('definitions') && Object.prototype.toString.call(json.definitions) == '[object Object]') {
       Object.keys(json.definitions).forEach((key) => {
         this.handleModelApiAndFolder2(key, json.definitions[key]);
       });
+    }
+  }
+  handleGlobalTags(json: any) {
+    let that = this;
+    if (isArray(json?.tags)) {
+      json.tags.forEach((item: any) => {
+        let folder_name = item?.name || '新建目录';
+        if(!that.folderNames[folder_name]){
+          that.apis.push({
+            ...that.createNewFolder(folder_name,json.tags),
+            sort: 1,
+          });
+          
+        }
+      })
     }
   }
   async convert(json: any, options: any = null) {
@@ -1111,12 +1129,16 @@ class Swagger2Apipost {
         this.handleServers(swagger3Json);
         this.handlePathsV3(swagger3Json);
       }
-      if(this.version == '2.0'){
+
+      // 添加空目录数据到apis
+      this.handleGlobalTags(swagger3Json);
+
+      if (this.version == '2.0') {
         this.handleModelData2(swagger3Json);
-      }else{
+      } else {
         this.handleModelData(swagger3Json);
       }
-     
+
       validationResult.data = {
         project: this.project,
         apis: this.apis,
