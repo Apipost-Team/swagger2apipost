@@ -928,10 +928,11 @@ class Swagger2Apipost {
   }
   handleGlobalTags(json: any) {
     let that = this;
+    
     if (isArray(json?.tags)) {
       json.tags.forEach((item: any) => {
         let folder_name = item?.name || '新建目录';
-        if (!that.folderNames[folder_name]) {
+        if (!that.folderNames[folder_name] && !Object.keys(that.folders).includes(folder_name)) {
           that.apis.push({
             ...that.createNewFolder(folder_name, json.tags),
             sort: 1,
