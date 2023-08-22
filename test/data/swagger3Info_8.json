@@ -1,1354 +1,3825 @@
 {
-	"openapi": "3.0.1",
-	"info": {
-		"title": "效能平台",
-		"description": "",
-		"version": "1.0.0"
-	},
-	"tags": [{
-			"name": "研发模块"
-		},
-		{
-			"name": "研发模块/移动端包管理"
-		},
-		{
-			"name": "研发模块/移动端包管理/对内无登录"
-		},
-		{
-			"name": "研发模块/移动端包管理/对内"
-		},
-		{
-			"name": "研发模块/移动端包管理/对外"
-		}
-	],
-	"paths": {
-		"/api/develop/mpipm/public/listChannelPackage": {
-			"get": {
-				"summary": "获取渠道包信息",
-				"x-apifox-folder": "研发模块/移动端包管理/对外",
-				"x-apifox-status": "released",
-				"deprecated": false,
-				"description": "",
-				"tags": [
-					"研发模块/移动端包管理/对外"
-				],
-				"parameters": [],
-				"responses": {
-					"200": {
-						"description": "成功",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"code": {
-											"type": "integer",
-											"title": ""
-										},
-										"message": {
-											"type": "string",
-											"title": ""
-										},
-										"data": {
-											"type": "array",
-											"items": {
-												"type": "object",
-												"properties": {
-													"name": {
-														"type": "string",
-														"title": "名称"
-													},
-													"uri": {
-														"type": "string",
-														"title": "下载路径"
-													},
-													"size": {
-														"type": "string",
-														"title": "大小,带单位"
-													},
-													"date": {
-														"type": "string",
-														"title": "创建时间"
-													}
-												},
-												"x-apifox-orders": [
-													"name",
-													"uri",
-													"size",
-													"date"
-												],
-												"x-apifox-ignore-properties": []
-											},
-											"title": ""
-										},
-										"timestamp": {
-											"type": "long",
-											"title": ""
-										},
-										"executeTime": {
-											"type": "integer",
-											"title": ""
-										}
-									},
-									"x-apifox-orders": [
-										"code",
-										"message",
-										"data",
-										"timestamp",
-										"executeTime"
-									],
-									"x-apifox-ignore-properties": []
-								}
-							}
-						}
-					}
-				},
-				"x-run-in-apifox": "https://apifox.com/web/project/1730355/apis/api-76330622-run"
-			}
-		},
-		"/api/develop/mpipm/public/downloadPageInfo": {
-			"post": {
-				"summary": "下载页面信息",
-				"x-apifox-folder": "研发模块/移动端包管理/对外",
-				"x-apifox-status": "released",
-				"deprecated": false,
-				"description": "",
-				"tags": [
-					"研发模块/移动端包管理/对外"
-				],
-				"parameters": [],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"appPlatform": {
-										"type": "string",
-										"title": ""
-									},
-									"urlSuffix": {
-										"type": "string",
-										"title": ""
-									}
-								},
-								"x-apifox-orders": [
-									"appPlatform",
-									"urlSuffix"
-								],
-								"x-apifox-ignore-properties": []
-							},
-							"example": ""
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "成功",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"code": {
-											"type": "integer",
-											"title": ""
-										},
-										"message": {
-											"type": "string",
-											"title": ""
-										},
-										"data": {
-											"type": "object",
-											"properties": {
-												"gtjaqhLogoUri": {
-													"type": "string",
-													"title": "国泰君安期货logouir"
-												},
-												"platformLogoUri": {
-													"type": "string",
-													"title": "平台logouri"
-												},
-												"appName": {
-													"type": "string",
-													"title": "app名称"
-												},
-												"version": {
-													"type": "string",
-													"title": "版本"
-												},
-												"size": {
-													"type": "string",
-													"title": "大小，带有单位"
-												},
-												"update_at": {
-													"type": "string",
-													"title": "更新时间"
-												}
-											},
-											"x-apifox-orders": [
-												"gtjaqhLogoUri",
-												"platformLogoUri",
-												"appName",
-												"version",
-												"size",
-												"update_at"
-											],
-											"x-apifox-ignore-properties": []
-										},
-										"timestamp": {
-											"type": "long",
-											"title": ""
-										},
-										"executeTime": {
-											"type": "integer",
-											"title": ""
-										}
-									},
-									"x-apifox-orders": [
-										"code",
-										"message",
-										"data",
-										"timestamp",
-										"executeTime"
-									],
-									"x-apifox-ignore-properties": []
-								}
-							}
-						}
-					}
-				},
-				"x-run-in-apifox": "https://apifox.com/web/project/1730355/apis/api-76330623-run"
-			}
-		},
-		"/api/develop/mpipm/private/delete": {
-			"post": {
-				"summary": "包删除",
-				"x-apifox-folder": "研发模块/移动端包管理/对内",
-				"x-apifox-status": "released",
-				"deprecated": false,
-				"description": "",
-				"tags": [
-					"研发模块/移动端包管理/对内"
-				],
-				"parameters": [],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"idList": {
-										"type": "array",
-										"items": {
-											"type": "integer",
-											"properties": {},
-											"x-apifox-orders": []
-										},
-										"title": "id列表"
-									}
-								},
-								"x-apifox-orders": [
-									"idList"
-								],
-								"x-apifox-ignore-properties": []
-							},
-							"example": ""
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "成功",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"code": {
-											"type": "integer",
-											"title": ""
-										},
-										"message": {
-											"type": "string",
-											"title": ""
-										},
-										"data": {
-											"type": "object",
-											"properties": {
-												"result": {
-													"type": "boolean",
-													"title": ""
-												},
-												"msg": {
-													"type": "string",
-													"title": ""
-												}
-											},
-											"x-apifox-orders": [
-												"result",
-												"msg"
-											],
-											"x-apifox-ignore-properties": []
-										},
-										"timestamp": {
-											"type": "long",
-											"title": ""
-										},
-										"executeTime": {
-											"type": "integer",
-											"title": ""
-										}
-									},
-									"x-apifox-orders": [
-										"code",
-										"message",
-										"data",
-										"timestamp",
-										"executeTime"
-									],
-									"x-apifox-ignore-properties": []
-								}
-							}
-						}
-					}
-				},
-				"x-run-in-apifox": "https://apifox.com/web/project/1730355/apis/api-76330670-run"
-			}
-		},
-		"/api/develop/mpipm/private/getChannelUrl": {
-			"get": {
-				"summary": "查看渠道包链接",
-				"x-apifox-folder": "研发模块/移动端包管理/对内",
-				"x-apifox-status": "released",
-				"deprecated": false,
-				"description": "",
-				"tags": [
-					"研发模块/移动端包管理/对内"
-				],
-				"parameters": [],
-				"responses": {
-					"200": {
-						"description": "成功",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"code": {
-											"type": "integer",
-											"title": ""
-										},
-										"message": {
-											"type": "string",
-											"title": ""
-										},
-										"data": {
-											"type": "string",
-											"title": "渠道包页面路径"
-										},
-										"timestamp": {
-											"type": "long",
-											"title": ""
-										},
-										"executeTime": {
-											"type": "integer",
-											"title": ""
-										}
-									},
-									"x-apifox-orders": [
-										"code",
-										"message",
-										"data",
-										"timestamp",
-										"executeTime"
-									],
-									"x-apifox-ignore-properties": []
-								}
-							}
-						}
-					}
-				},
-				"x-run-in-apifox": "https://apifox.com/web/project/1730355/apis/api-76330672-run"
-			}
-		},
-		"/api/develop/mpipm/private/getDownloadUrl": {
-			"post": {
-				"summary": "查看下载链接",
-				"x-apifox-folder": "研发模块/移动端包管理/对内",
-				"x-apifox-status": "released",
-				"deprecated": false,
-				"description": "",
-				"tags": [
-					"研发模块/移动端包管理/对内"
-				],
-				"parameters": [],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"id": {
-										"type": "integer",
-										"title": "id"
-									}
-								},
-								"x-apifox-orders": [
-									"id"
-								],
-								"x-apifox-ignore-properties": []
-							},
-							"example": ""
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "成功",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"code": {
-											"type": "integer",
-											"title": ""
-										},
-										"message": {
-											"type": "string",
-											"title": ""
-										},
-										"data": {
-											"type": "object",
-											"properties": {
-												"pageUrl": {
-													"type": "string",
-													"title": "页面路径"
-												}
-											},
-											"x-apifox-orders": [
-												"pageUrl"
-											],
-											"x-apifox-ignore-properties": []
-										},
-										"timestamp": {
-											"type": "long",
-											"title": ""
-										},
-										"executeTime": {
-											"type": "integer",
-											"title": ""
-										}
-									},
-									"x-apifox-orders": [
-										"code",
-										"message",
-										"data",
-										"timestamp",
-										"executeTime"
-									],
-									"x-apifox-ignore-properties": []
-								}
-							}
-						}
-					}
-				},
-				"x-run-in-apifox": "https://apifox.com/web/project/1730355/apis/api-76330673-run"
-			}
-		},
-		"/api/develop/mpipm/private/upload": {
-			"post": {
-				"summary": "打包上传文件",
-				"x-apifox-folder": "研发模块/移动端包管理/对内",
-				"x-apifox-status": "released",
-				"deprecated": false,
-				"description": "",
-				"tags": [
-					"研发模块/移动端包管理/对内"
-				],
-				"parameters": [{
-						"name": "appType",
-						"in": "query",
-						"description": "app类型，LUCY-超体",
-						"required": true,
-						"example": "LUCY",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "appPlatform",
-						"in": "query",
-						"description": "app平台，iOS/Android",
-						"required": true,
-						"example": "iOS",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "appName",
-						"in": "query",
-						"description": "app名称",
-						"required": true,
-						"example": "%E5%9B%BD%E6%B3%B0%E5%90%9B%E5%AE%89%E6%9C%9F%E8%B4%A7",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "urlSuffix",
-						"in": "query",
-						"description": "urlSuffix",
-						"required": true,
-						"example": "gtjaqh_310_dev",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "bundleId",
-						"in": "query",
-						"description": "ios的bundleId",
-						"required": true,
-						"example": "net.gtja.mobile.qhapp",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "version",
-						"in": "query",
-						"description": "版本",
-						"required": true,
-						"example": "3.1.0",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "file",
-						"in": "query",
-						"description": "文件",
-						"required": false,
-						"example": "[object Object]",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "description",
-						"in": "query",
-						"description": "描述",
-						"required": false,
-						"example": "测试",
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {}
-							},
-							"example": ""
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "成功",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"code": {
-											"type": "integer",
-											"title": ""
-										},
-										"message": {
-											"type": "string",
-											"title": ""
-										},
-										"data": {
-											"type": "object",
-											"properties": {
-												"result": {
-													"type": "boolean",
-													"title": ""
-												},
-												"msg": {
-													"type": "string",
-													"title": ""
-												}
-											},
-											"x-apifox-orders": [
-												"result",
-												"msg"
-											],
-											"x-apifox-ignore-properties": []
-										},
-										"timestamp": {
-											"type": "long",
-											"title": ""
-										},
-										"executeTime": {
-											"type": "integer",
-											"title": ""
-										}
-									},
-									"x-apifox-orders": [
-										"code",
-										"message",
-										"data",
-										"timestamp",
-										"executeTime"
-									],
-									"x-apifox-ignore-properties": []
-								}
-							}
-						}
-					}
-				},
-				"x-run-in-apifox": "https://apifox.com/web/project/1730355/apis/api-76330674-run"
-			}
-		},
-		"/api/develop/mpipm/private/createChannelPackage": {
-			"post": {
-				"summary": "生成渠道包",
-				"x-apifox-folder": "研发模块/移动端包管理/对内",
-				"x-apifox-status": "released",
-				"deprecated": false,
-				"description": "",
-				"tags": [
-					"研发模块/移动端包管理/对内"
-				],
-				"parameters": [],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"id": {
-										"type": "string",
-										"title": "id"
-									}
-								},
-								"x-apifox-orders": [
-									"id"
-								],
-								"x-apifox-ignore-properties": []
-							},
-							"example": ""
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "成功",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"code": {
-											"type": "integer",
-											"title": ""
-										},
-										"message": {
-											"type": "string",
-											"title": ""
-										},
-										"data": {
-											"type": "object",
-											"properties": {
-												"result": {
-													"type": "boolean",
-													"title": ""
-												},
-												"msg": {
-													"type": "string",
-													"title": ""
-												}
-											},
-											"x-apifox-orders": [
-												"result",
-												"msg"
-											],
-											"x-apifox-ignore-properties": []
-										},
-										"timestamp": {
-											"type": "long",
-											"title": ""
-										},
-										"executeTime": {
-											"type": "integer",
-											"title": ""
-										}
-									},
-									"x-apifox-orders": [
-										"code",
-										"message",
-										"data",
-										"timestamp",
-										"executeTime"
-									],
-									"x-apifox-ignore-properties": []
-								}
-							}
-						}
-					}
-				},
-				"x-run-in-apifox": "https://apifox.com/web/project/1730355/apis/api-76330675-run"
-			}
-		},
-		"/api/develop/mpipm/private/selectByCondition": {
-			"post": {
-				"summary": "条件查询",
-				"x-apifox-folder": "研发模块/移动端包管理/对内",
-				"x-apifox-status": "released",
-				"deprecated": false,
-				"description": "",
-				"tags": [
-					"研发模块/移动端包管理/对内"
-				],
-				"parameters": [],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"appType": {
-										"type": "string",
-										"title": ""
-									},
-									"appPlatform": {
-										"type": "string",
-										"title": ""
-									},
-									"urlSuffix": {
-										"type": "string",
-										"title": ""
-									},
-									"version": {
-										"type": "string",
-										"title": ""
-									},
-									"pageCount": {
-										"type": "string",
-										"title": ""
-									},
-									"pageSize": {
-										"type": "integer",
-										"title": ""
-									}
-								},
-								"x-apifox-orders": [
-									"appType",
-									"appPlatform",
-									"urlSuffix",
-									"version",
-									"pageCount",
-									"pageSize"
-								],
-								"x-apifox-ignore-properties": []
-							},
-							"example": ""
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "成功",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"code": {
-											"type": "integer",
-											"title": ""
-										},
-										"message": {
-											"type": "string",
-											"title": ""
-										},
-										"data": {
-											"type": "object",
-											"properties": {
-												"total": {
-													"type": "integer",
-													"title": "总条数"
-												},
-												"list": {
-													"type": "array",
-													"items": {
-														"type": "object",
-														"properties": {
-															"id": {
-																"type": "integer",
-																"title": "id"
-															},
-															"name": {
-																"type": "string",
-																"title": "app名称"
-															},
-															"platform": {
-																"type": "string",
-																"title": "平台：ios/android"
-															},
-															"typeId": {
-																"type": "string",
-																"title": "类型id:LUCY-超体"
-															},
-															"ossKey": {
-																"type": "string",
-																"title": "文件保存的osskey"
-															},
-															"urlSuffix": {
-																"type": "string",
-																"title": "urlSuffix"
-															},
-															"version": {
-																"type": "string",
-																"title": "版本"
-															},
-															"description": {
-																"type": "string",
-																"title": "描述"
-															},
-															"bundleid": {
-																"type": "string",
-																"title": "bundleId"
-															},
-															"createAt": {
-																"type": "string",
-																"title": "创建时间"
-															}
-														},
-														"x-apifox-orders": [
-															"id",
-															"name",
-															"platform",
-															"typeId",
-															"ossKey",
-															"urlSuffix",
-															"version",
-															"description",
-															"bundleid",
-															"createAt"
-														],
-														"x-apifox-ignore-properties": []
-													},
-													"title": "数据列表"
-												}
-											},
-											"x-apifox-orders": [
-												"total",
-												"list"
-											],
-											"x-apifox-ignore-properties": []
-										},
-										"timestamp": {
-											"type": "long",
-											"title": ""
-										},
-										"executeTime": {
-											"type": "integer",
-											"title": ""
-										}
-									},
-									"x-apifox-orders": [
-										"code",
-										"message",
-										"data",
-										"timestamp",
-										"executeTime"
-									],
-									"x-apifox-ignore-properties": []
-								}
-							}
-						}
-					}
-				},
-				"x-run-in-apifox": "https://apifox.com/web/project/1730355/apis/api-76330676-run"
-			}
-		},
-		"/api/develop/mpipm/private/uploadAliyun": {
-			"post": {
-				"summary": "文件上传阿里云",
-				"x-apifox-folder": "研发模块/移动端包管理/对内",
-				"x-apifox-status": "released",
-				"deprecated": false,
-				"description": "",
-				"tags": [
-					"研发模块/移动端包管理/对内"
-				],
-				"parameters": [],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"id": {
-										"type": "string",
-										"title": ""
-									}
-								},
-								"x-apifox-orders": [
-									"id"
-								],
-								"x-apifox-ignore-properties": []
-							},
-							"example": ""
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "成功",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {},
-									"x-apifox-orders": [],
-									"x-apifox-ignore-properties": []
-								}
-							}
-						}
-					}
-				},
-				"x-run-in-apifox": "https://apifox.com/web/project/1730355/apis/api-76330677-run"
-			}
-		},
-		"/api/develop/mpipm/private/listAppType": {
-			"get": {
-				"summary": "应用类型",
-				"x-apifox-folder": "研发模块/移动端包管理/对内",
-				"x-apifox-status": "released",
-				"deprecated": false,
-				"description": "",
-				"tags": [
-					"研发模块/移动端包管理/对内"
-				],
-				"parameters": [],
-				"responses": {
-					"200": {
-						"description": "成功",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"code": {
-											"type": "integer",
-											"title": ""
-										},
-										"message": {
-											"type": "string",
-											"title": ""
-										},
-										"data": {
-											"type": "array",
-											"items": {
-												"type": "object",
-												"properties": {
-													"id": {
-														"type": "string",
-														"title": "id"
-													},
-													"name": {
-														"type": "string",
-														"title": "名称"
-													},
-													"createAt": {
-														"type": "string",
-														"title": "创建时间"
-													}
-												},
-												"x-apifox-orders": [
-													"id",
-													"name",
-													"createAt"
-												],
-												"x-apifox-ignore-properties": []
-											},
-											"title": ""
-										},
-										"timestamp": {
-											"type": "long",
-											"title": ""
-										},
-										"executeTime": {
-											"type": "integer",
-											"title": ""
-										}
-									},
-									"x-apifox-orders": [
-										"code",
-										"message",
-										"data",
-										"timestamp",
-										"executeTime"
-									],
-									"x-apifox-ignore-properties": []
-								}
-							}
-						}
-					}
-				},
-				"x-run-in-apifox": "https://apifox.com/web/project/1730355/apis/api-76330678-run"
-			}
-		},
-		"/api/develop/mpipm/public/downloadFileUrl": {
-			"post": {
-				"summary": "包下载链接",
-				"x-apifox-folder": "研发模块/移动端包管理/对外",
-				"x-apifox-status": "released",
-				"deprecated": false,
-				"description": "",
-				"tags": [
-					"研发模块/移动端包管理/对外"
-				],
-				"parameters": [],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"appPlatform": {
-										"type": "string",
-										"title": "平台，ios/android"
-									},
-									"urlSuffix": {
-										"type": "string",
-										"title": "urlSuffix"
-									}
-								},
-								"x-apifox-orders": [
-									"appPlatform",
-									"urlSuffix"
-								],
-								"x-apifox-ignore-properties": []
-							},
-							"example": ""
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "成功",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"code": {
-											"type": "integer",
-											"title": ""
-										},
-										"message": {
-											"type": "string",
-											"title": ""
-										},
-										"data": {
-											"type": "object",
-											"properties": {
-												"uri": {
-													"type": "string",
-													"title": "包资源定位"
-												}
-											},
-											"x-apifox-orders": [
-												"uri"
-											],
-											"x-apifox-ignore-properties": []
-										},
-										"timestamp": {
-											"type": "long",
-											"title": ""
-										},
-										"executeTime": {
-											"type": "integer",
-											"title": ""
-										}
-									},
-									"x-apifox-orders": [
-										"code",
-										"message",
-										"data",
-										"timestamp",
-										"executeTime"
-									],
-									"x-apifox-ignore-properties": []
-								}
-							}
-						}
-					}
-				},
-				"x-run-in-apifox": "https://apifox.com/web/project/1730355/apis/api-76332091-run"
-			}
-		},
-		"/develop/api/develop/mpipm/inner/upload": {
-			"post": {
-				"summary": "打包上传文件",
-				"x-apifox-folder": "研发模块/移动端包管理/对内无登录",
-				"x-apifox-status": "released",
-				"deprecated": false,
-				"description": "",
-				"tags": [
-					"研发模块/移动端包管理/对内无登录"
-				],
-				"parameters": [{
-						"name": "appType",
-						"in": "query",
-						"description": "app类型，LUCY-超体",
-						"required": true,
-						"example": "LUCY",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "appPlatform",
-						"in": "query",
-						"description": "app平台，iOS/Android",
-						"required": true,
-						"example": "android",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "appName",
-						"in": "query",
-						"description": "app名称",
-						"required": true,
-						"example": "国泰君安期货",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "urlSuffix",
-						"in": "query",
-						"description": "urlSuffix",
-						"required": true,
-						"example": "gtjaqh_4.0.4_sim",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "bundleId",
-						"in": "query",
-						"description": "ios的bundleId",
-						"required": true,
-						"example": "net.gtja.mobile.qhapp",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "version",
-						"in": "query",
-						"description": "版本",
-						"required": true,
-						"example": "4.0.4",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "description",
-						"in": "query",
-						"description": "描述",
-						"required": false,
-						"example": "进行测试",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "upload",
-						"in": "query",
-						"description": "是否上传阿里云",
-						"required": false,
-						"example": "y",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "reinforce",
-						"in": "query",
-						"description": "是否加固",
-						"required": false,
-						"example": "y",
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"content": {
-						"multipart/form-data": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"file": {
-										"type": "string",
-										"example": "file:///Users/wangxin/Desktop/TempFile.nosync/IosAndroid/gtjaqh_16351.apk",
-										"format": "binary"
-									}
-								}
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "成功",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"code": {
-											"type": "integer",
-											"title": ""
-										},
-										"message": {
-											"type": "string",
-											"title": ""
-										},
-										"data": {
-											"type": "object",
-											"properties": {
-												"result": {
-													"type": "boolean",
-													"title": ""
-												},
-												"msg": {
-													"type": "string",
-													"title": ""
-												}
-											},
-											"x-apifox-orders": [
-												"result",
-												"msg"
-											],
-											"x-apifox-ignore-properties": []
-										},
-										"timestamp": {
-											"type": "long",
-											"title": ""
-										},
-										"executeTime": {
-											"type": "integer",
-											"title": ""
-										}
-									},
-									"x-apifox-orders": [
-										"code",
-										"message",
-										"data",
-										"timestamp",
-										"executeTime"
-									],
-									"x-apifox-ignore-properties": []
-								}
-							}
-						}
-					}
-				},
-				"x-run-in-apifox": "https://apifox.com/web/project/1730355/apis/api-77144514-run"
-			}
-		},
-		"/api/test": {
-			"get": {
-				"summary": "测试接口",
-				"x-apifox-folder": "研发模块",
-				"x-apifox-status": "developing",
-				"deprecated": false,
-				"description": "",
-				"tags": [
-					"研发模块"
-				],
-				"parameters": [{
-						"name": "Test1",
-						"in": "query",
-						"description": "",
-						"required": false,
-						"example": "测试参数1",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "test",
-						"in": "query",
-						"description": "",
-						"required": false,
-						"example": "",
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "成功",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {},
-									"x-apifox-ignore-properties": [],
-									"x-apifox-orders": []
-								}
-							}
-						}
-					},
-					"401": {
-						"description": "没有权限",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"msg": {
-											"type": "string"
-										}
-									},
-									"x-apifox-orders": [
-										"msg"
-									],
-									"required": [
-										"msg"
-									],
-									"x-apifox-ignore-properties": []
-								}
-							}
-						}
-					}
-				},
-				"x-run-in-apifox": "https://apifox.com/web/project/1730355/apis/api-77593056-run"
-			}
-		}
-	},
-	"components": {
-		"schemas": {}
-	},
-	"servers": []
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "Dating",
+    "description" : "This is a sample api doc for  [rudatingclub.com](http://rudatingclub.com) Git repository [Git ENGINE](https://github.com/lemonbucks/sdating_engine)",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "description" : "SwaggerHub API Auto Mocking",
+    "url" : "https://virtserver.swaggerhub.com/freeze000/sdating/1.0.0"
+  }, {
+    "description" : "SwaggerHub API Auto Mocking",
+    "url" : "https://api.sdating.net"
+  } ],
+  "tags" : [ {
+    "name" : "auth",
+    "description" : "Auntification in api"
+  } ],
+  "paths" : {
+    "/v1/auth/signup" : {
+      "post" : {
+        "tags" : [ "auth" ],
+        "summary" : "Signup",
+        "operationId" : "signup",
+        "requestBody" : {
+          "description" : "Trying signup to project",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Signup"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "successful",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "Email is not a valid email address."
+          }
+        }
+      }
+    },
+    "/v1/auth/login" : {
+      "post" : {
+        "tags" : [ "auth" ],
+        "summary" : "Login",
+        "operationId" : "login",
+        "requestBody" : {
+          "description" : "Trying login to project",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Login"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "New password saved.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "Error"
+          }
+        }
+      }
+    },
+    "/v1/auth/request-sms-signup" : {
+      "post" : {
+        "tags" : [ "auth" ],
+        "summary" : "Send request sms for signup",
+        "operationId" : "RequestSmsSignup",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/sendSmsSignup"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Successful. Next you need use sms-signup"
+          },
+          "422" : {
+            "description" : "Validation errors from SignupPlatinForm|PhoneSms models"
+          }
+        }
+      }
+    },
+    "/v1/auth/sms-signup" : {
+      "post" : {
+        "tags" : [ "auth" ],
+        "summary" : "Check sms code and signup",
+        "operationId" : "CheckSmsCodeAndSignup",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/smsSignup"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful TODO return user",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "Validation error from SignupPlatinForm"
+          },
+          "500" : {
+            "description" : "We can not check sms code"
+          }
+        }
+      }
+    },
+    "/v1/auth/request-password-reset" : {
+      "post" : {
+        "tags" : [ "auth" ],
+        "summary" : "Send request for reset pasword and get token. First step.",
+        "operationId" : "resetpass",
+        "requestBody" : {
+          "description" : "Password reset method",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ResetPassword"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "successful",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RequestPasswordReset"
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "Validation error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RequestPasswordResetNoValid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/reset-password" : {
+      "post" : {
+        "tags" : [ "auth" ],
+        "summary" : "Password reset method. Second step.",
+        "operationId" : "resetpasswithnew",
+        "requestBody" : {
+          "description" : "Password reset method. We must send password_reset_token and password for email or phone and sms_code by sms.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ResetWithTokenPassword"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "successful",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "message" : {
+                      "type" : "string",
+                      "example" : "New password saved."
+                    },
+                    "access_token" : {
+                      "type" : "string",
+                      "example" : "qxlGKGo0_2nSS8KgKr9-hzU9qO67V8-i_1580892730"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "There is no user with this email address."
+          }
+        }
+      }
+    },
+    "/v1/auth/join" : {
+      "post" : {
+        "summary" : "Register user with only phone param",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "phone" : {
+                    "type" : "string",
+                    "description" : "phone is base64 encoded",
+                    "example" : "Nzk5OTg4ODc3NjY=",
+                    "required" : true
+                  },
+                  "remoteIp" : {
+                    "type" : "string",
+                    "description" : "you can redeclare remote ip for example mobil send data",
+                    "example" : "127.0.0.1"
+                  },
+                  "userAgent" : {
+                    "type" : "string",
+                    "description" : "you can redeclare user agent for example mobil send data",
+                    "example" : "Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 5.1)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "access_token" : {
+                      "type" : "string",
+                      "example" : "qxlGKGo0_2nSS8KgKr9-hzU9qO67V8-i_1580892730"
+                    },
+                    "login" : {
+                      "type" : "string"
+                    },
+                    "password" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "Validation error from UserModel"
+          }
+        },
+        "tags" : [ "auth" ]
+      }
+    },
+    "/v1/auth/unsubscribe" : {
+      "get" : {
+        "summary" : "Unsubscribe user",
+        "description" : "The Mobile can send query to unsubscribe user",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "domain",
+          "description" : "available front domain",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "path",
+          "name" : "login",
+          "description" : "phone or email",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "status" : {
+                      "type" : "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "auth" ]
+      }
+    },
+    "/v1/message" : {
+      "summary" : "Message",
+      "post" : {
+        "summary" : "Message add into exists dialog. New dialog will create if not exists(if param dialog_id is null).",
+        "operationId" : "create",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/MessageCreate"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Successful",
+            "headers" : {
+              "Location" : {
+                "$ref" : "#/components/headers/MessageSuccessLocation"
+              }
+            }
+          },
+          "422" : {
+            "description" : "Validation errors from Dialog|DialogUser|MessageText|Message models"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Dialog id can not found"
+          },
+          "500" : {
+            "description" : "Dialog can not create | Message can not create"
+          }
+        },
+        "tags" : [ "message" ]
+      },
+      "get" : {
+        "summary" : "List dialogs with last message",
+        "operationId" : "dialog",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "unread",
+          "description" : "Only unread",
+          "required" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "$ref" : "#/components/parameters/pageParam"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "headers" : {
+              "X-Pagination-Total-Count" : {
+                "$ref" : "#/components/headers/X-Pagination-Total-Count"
+              },
+              "X-Pagination-Per-Page" : {
+                "$ref" : "#/components/headers/X-Pagination-Per-Page"
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessageDialogList"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "message" ]
+      }
+    },
+    "/v1/message/expert" : {
+      "get" : {
+        "summary" : "List dialogs with last experts message",
+        "operationId" : "MessageController/actionExpertDialog",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "unread",
+          "description" : "Only unread",
+          "required" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "$ref" : "#/components/parameters/pageParam"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "headers" : {
+              "X-Pagination-Total-Count" : {
+                "$ref" : "#/components/headers/X-Pagination-Total-Count"
+              },
+              "X-Pagination-Per-Page" : {
+                "$ref" : "#/components/headers/X-Pagination-Per-Page"
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessageDialogList"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "message" ]
+      }
+    },
+    "/v1/messsage/(dialog|user)/{id}" : {
+      "head" : {
+        "summary" : "List message with concrete dialog",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "$ref" : "#/components/parameters/pageParam"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "headers" : {
+              "X-Pagination-Total-Count" : {
+                "$ref" : "#/components/headers/X-Pagination-Total-Count"
+              },
+              "X-Pagination-Per-Page" : {
+                "$ref" : "#/components/headers/X-Pagination-Per-Page"
+              }
+            }
+          }
+        },
+        "tags" : [ "message" ]
+      },
+      "get" : {
+        "summary" : "List message with concrete dialog",
+        "operationId" : "dialog-view",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "$ref" : "#/components/parameters/pageParam"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MessageList"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "message" ]
+      }
+    },
+    "/v1/message/{messageId}" : {
+      "delete" : {
+        "summary" : "Delete message",
+        "operationId" : "MessageController/actionDelete",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "messageId",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Not Found"
+          },
+          "422" : {
+            "description" : "errors from Message model"
+          }
+        },
+        "tags" : [ "message" ]
+      }
+    },
+    "/v1/message/image/{id}" : {
+      "delete" : {
+        "summary" : "Delete image from message",
+        "operationId" : "MessageController/actionDeleteImage",
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Image not found"
+          }
+        },
+        "tags" : [ "message/image" ]
+      },
+      "parameters" : [ {
+        "in" : "path",
+        "name" : "id",
+        "required" : true,
+        "schema" : {
+          "type" : "integer"
+        }
+      } ]
+    },
+    "/v1/message/{messageId}/mark-as-read" : {
+      "patch" : {
+        "summary" : "Mark as read",
+        "operationId" : "MessageController/actionMarkAsRead",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "messageId",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        },
+        "tags" : [ "message" ]
+      }
+    },
+    "/v1/dialog/{dialogId}" : {
+      "get" : {
+        "summary" : "Get dialog user data",
+        "description" : "If you need userDetail please use get param extra=userDetail",
+        "operationId" : "DialogController/actionUser",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "dialogId",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "<userId>" : {
+                      "type" : "object",
+                      "properties" : {
+                        "dialogUser" : {
+                          "type" : "object",
+                          "properties" : {
+                            "id" : {
+                              "type" : "integer"
+                            },
+                            "dialog_id" : {
+                              "type" : "integer"
+                            },
+                            "user_id" : {
+                              "type" : "integer"
+                            },
+                            "unread" : {
+                              "type" : "integer"
+                            },
+                            "last_message_read_at" : {
+                              "type" : "integer",
+                              "description" : "last read message"
+                            },
+                            "userDetail" : {
+                              "type" : "object",
+                              "properties" : {
+                                "user_id" : {
+                                  "type" : "integer",
+                                  "description" : "User id"
+                                },
+                                "country_id" : {
+                                  "type" : "integer",
+                                  "description" : "Country id from geo tables"
+                                },
+                                "region_id" : {
+                                  "type" : "integer",
+                                  "description" : "Region id from geo tables"
+                                },
+                                "city_id" : {
+                                  "type" : "integer",
+                                  "description" : "City id from geo tables"
+                                },
+                                "dating_gender_id" : {
+                                  "type" : "integer",
+                                  "description" : "Gender. Gender id from dating_gender"
+                                },
+                                "dating_purpose_id" : {
+                                  "type" : "integer",
+                                  "description" : "Purpose of dating. Goal id from dating_purpose table"
+                                },
+                                "dating_orientation_id" : {
+                                  "type" : "integer",
+                                  "description" : "Orientation. Orientation id from dating_orientation table"
+                                },
+                                "image_id_avatar" : {
+                                  "type" : "integer",
+                                  "description" : "Avatar. Image id from image table"
+                                },
+                                "dob" : {
+                                  "type" : "integer",
+                                  "description" : "date of brithday - timestamp"
+                                },
+                                "firstname" : {
+                                  "type" : "string",
+                                  "description" : "User firstname"
+                                },
+                                "plot" : {
+                                  "type" : "string",
+                                  "description" : "User description"
+                                },
+                                "premium" : {
+                                  "type" : "integer",
+                                  "description" : "Is premium? -1 - termless, 0 - disable , <timestamp> - till timestamp"
+                                },
+                                "interests" : {
+                                  "type" : "array",
+                                  "items" : {
+                                    "type" : "object",
+                                    "properties" : {
+                                      "id" : {
+                                        "type" : "integer",
+                                        "example" : 3
+                                      },
+                                      "title" : {
+                                        "type" : "string",
+                                        "example" : "Чтение книг"
+                                      }
+                                    }
+                                  }
+                                },
+                                "flag_online" : {
+                                  "type" : "boolean",
+                                  "description" : "user is online if last_activity_at < 30 min ago"
+                                },
+                                "last_activity_at" : {
+                                  "type" : "integer",
+                                  "description" : "last activity user"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers" : {
+              "X-User-Id" : {
+                "schema" : {
+                  "type" : "integer"
+                },
+                "description" : "Authenticated User Id"
+              }
+            }
+          }
+        },
+        "tags" : [ "dialog" ]
+      },
+      "delete" : {
+        "summary" : "Delete dialog from user(mark as deleted). If all users deleted the dialog - messages will mark as deleted.",
+        "operationId" : "DialogController/actionDelete",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "dialogId",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        },
+        "tags" : [ "dialog" ]
+      },
+      "options" : {
+        "summary" : "Return request available methods",
+        "operationId" : "DialogController/actionOptions",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "dialogId",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "dialog" ]
+      }
+    },
+    "/v1/profile" : {
+      "head" : {
+        "summary" : "Check the user is auth or not",
+        "operationId" : "self-view",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          }
+        },
+        "tags" : [ "profile" ]
+      },
+      "get" : {
+        "summary" : "Return current authenticated user data",
+        "operationId" : "self-view",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SelfUserDetail"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "profile" ]
+      },
+      "patch" : {
+        "summary" : "Update current authenticated user data",
+        "operationId" : "update",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ProfileForm"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Profile updated"
+          },
+          "422" : {
+            "description" : "Errors from ProfileForm model"
+          }
+        },
+        "tags" : [ "profile" ]
+      },
+      "delete" : {
+        "summary" : "Delete current authenticated user data",
+        "operationId" : "view",
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          },
+          "422" : {
+            "description" : "Errors from User model"
+          }
+        },
+        "tags" : [ "profile" ]
+      }
+    },
+    "/v1/profile/{userId}" : {
+      "get" : {
+        "summary" : "Return user data by given userId param. Add UserStat view item.",
+        "operationId" : "ProfileController/view",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "userId",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "in" : "url",
+          "name" : "local",
+          "required" : false,
+          "example" : "ru en es",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserDetail"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found"
+          }
+        },
+        "tags" : [ "profile" ]
+      }
+    },
+    "/v1/profile/search" : {
+      "get" : {
+        "summary" : "Search user's profile",
+        "operationId" : "ProfileController/search",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "filter",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserDetailSearchParams"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserDetailSearchResponse"
+                }
+              }
+            },
+            "headers" : {
+              "X-Pagination-Total-Count" : {
+                "$ref" : "#/components/headers/X-Pagination-Total-Count"
+              },
+              "X-Pagination-Per-Page" : {
+                "$ref" : "#/components/headers/X-Pagination-Per-Page"
+              }
+            }
+          }
+        },
+        "tags" : [ "profile" ]
+      }
+    },
+    "/v1/user/image/upload" : {
+      "post" : {
+        "summary" : "Upload image",
+        "operationId" : "UserImage/upload",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserImageUpload"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Successful with header Location. If has uploaded a file return .../IMAGEID otherwise image/list"
+          },
+          "422" : {
+            "description" : "Validation errors from uploadImageForm model or move files error array"
+          }
+        },
+        "tags" : [ "user/image" ]
+      }
+    },
+    "/v1/user/image/" : {
+      "head" : {
+        "summary" : "List images for user",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/pageParam"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "headers" : {
+              "X-Pagination-Total-Count" : {
+                "$ref" : "#/components/headers/X-Pagination-Total-Count"
+              },
+              "X-Pagination-Per-Page" : {
+                "$ref" : "#/components/headers/X-Pagination-Per-Page"
+              }
+            }
+          }
+        },
+        "tags" : [ "user/image" ]
+      },
+      "get" : {
+        "summary" : "List images for user",
+        "operationId" : "UserImage/list",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/pageParam"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "headers" : {
+              "X-Pagination-Total-Count" : {
+                "$ref" : "#/components/headers/X-Pagination-Total-Count"
+              },
+              "X-Pagination-Per-Page" : {
+                "$ref" : "#/components/headers/X-Pagination-Per-Page"
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "user_id" : {
+                      "type" : "integer",
+                      "description" : "User id"
+                    },
+                    "image_id" : {
+                      "type" : "integer",
+                      "description" : "Image id"
+                    },
+                    "image" : {
+                      "type" : "object",
+                      "properties" : {
+                        "id" : {
+                          "type" : "integer",
+                          "description" : "Image id"
+                        },
+                        "name" : {
+                          "type" : "string",
+                          "description" : "Image uploaded name",
+                          "example" : "december 2019"
+                        },
+                        "mime" : {
+                          "type" : "string",
+                          "description" : "Image's mime type",
+                          "example" : "image/jpeg"
+                        },
+                        "size" : {
+                          "type" : "integer",
+                          "description" : "Size of image bytes"
+                        },
+                        "created_at" : {
+                          "type" : "integer",
+                          "description" : "Timestamp of message's created"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "user/image" ]
+      }
+    },
+    "/v1/user/<userId>/image/" : {
+      "head" : {
+        "summary" : "List images by user",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/pageParam"
+        }, {
+          "in" : "path",
+          "name" : "userId",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "headers" : {
+              "X-Pagination-Total-Count" : {
+                "$ref" : "#/components/headers/X-Pagination-Total-Count"
+              },
+              "X-Pagination-Per-Page" : {
+                "$ref" : "#/components/headers/X-Pagination-Per-Page"
+              }
+            }
+          }
+        },
+        "tags" : [ "user/image" ]
+      },
+      "get" : {
+        "summary" : "List images for user",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/pageParam"
+        }, {
+          "in" : "path",
+          "name" : "userId",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "headers" : {
+              "X-Pagination-Total-Count" : {
+                "$ref" : "#/components/headers/X-Pagination-Total-Count"
+              },
+              "X-Pagination-Per-Page" : {
+                "$ref" : "#/components/headers/X-Pagination-Per-Page"
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "user_id" : {
+                      "type" : "integer",
+                      "description" : "User id"
+                    },
+                    "image_id" : {
+                      "type" : "integer",
+                      "description" : "Image id"
+                    },
+                    "image" : {
+                      "type" : "object",
+                      "properties" : {
+                        "id" : {
+                          "type" : "integer",
+                          "description" : "Image id"
+                        },
+                        "name" : {
+                          "type" : "string",
+                          "description" : "Image uploaded name",
+                          "example" : "december 2019"
+                        },
+                        "mime" : {
+                          "type" : "string",
+                          "description" : "Image's mime type",
+                          "example" : "image/jpeg"
+                        },
+                        "size" : {
+                          "type" : "integer",
+                          "description" : "Size of image bytes"
+                        },
+                        "created_at" : {
+                          "type" : "integer",
+                          "description" : "Timestamp of message's created"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "user/image" ]
+      }
+    },
+    "/v1/user/image/{id}" : {
+      "get" : {
+        "summary" : "Get origin image src",
+        "operationId" : "UserImage/getOriginal",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "src" : {
+                      "type" : "string",
+                      "description" : "Image src",
+                      "example" : "https://example.com/images/originals/2/1.jpg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Image not found"
+          }
+        },
+        "tags" : [ "user/image" ]
+      },
+      "delete" : {
+        "summary" : "Delete image",
+        "operationId" : "UserImage/delete",
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Image not found"
+          }
+        },
+        "tags" : [ "user/image" ]
+      },
+      "parameters" : [ {
+        "in" : "path",
+        "name" : "id",
+        "required" : true,
+        "schema" : {
+          "type" : "integer"
+        }
+      } ]
+    },
+    "/v1/user/image/{id}/thumb-{thumbType}/" : {
+      "get" : {
+        "summary" : "Get thumb image src",
+        "operationId" : "UserImage/getThumb",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "in" : "path",
+          "name" : "thumbType",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "option",
+          "description" : "inset - The original image is scaled so it is fully contained within the thumbnail dimensions (the image width/height ratio doesn't change). outbound - The thumbnail is scaled so that its smallest side equals the length of the corresponding side in the original image (the width or the height are cropped). cover - Scales the image as large as possible without stretching the image. If the proportions of the image differ from the element, it is cropped either vertically or horizontally so that no empty space remains.",
+          "example" : "inset|outbound|cover",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "src" : {
+                      "type" : "string",
+                      "description" : "Image src",
+                      "example" : "https://example.com/images/thumbs/friendlist/2/1.jpg"
+                    },
+                    "mime" : {
+                      "type" : "string",
+                      "description" : "Image mime",
+                      "example" : "image/jpeg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "NotFound"
+          }
+        },
+        "tags" : [ "user/image" ]
+      }
+    },
+    "/v1/user/image/thumb-type" : {
+      "get" : {
+        "summary" : "Show list allowed thumb types",
+        "operationId" : "UserImage/getThumbType",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "thumbtype" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "integer"
+                      },
+                      "description" : "Thumb size",
+                      "example" : [ 300, 300 ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "user/image" ]
+      }
+    },
+    "/v1/user/image/{imageId}/rotate/{degree}" : {
+      "patch" : {
+        "summary" : "Image rotate",
+        "operationId" : "UserImageController/actionRotate",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "imageId",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "in" : "path",
+          "name" : "degree",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No content"
+          }
+        },
+        "tags" : [ "user/image" ]
+      },
+      "options" : {
+        "summary" : "Return request available methods",
+        "operationId" : "UserImageController/actionRotateOptions",
+        "tags" : [ "user/image" ]
+      }
+    },
+    "/v1/user/friend" : {
+      "get" : {
+        "summary" : "Friend list",
+        "operationId" : "UserFriend/list",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/pageParam"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "headers" : {
+              "X-Pagination-Total-Count" : {
+                "$ref" : "#/components/headers/X-Pagination-Total-Count"
+              },
+              "X-Pagination-Per-Page" : {
+                "$ref" : "#/components/headers/X-Pagination-Per-Page"
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserFriendList"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "user/friend" ]
+      },
+      "post" : {
+        "summary" : "Friend request to add or add in friendlist if it is mutually",
+        "operationId" : "UserFriend/add",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserFriendForm"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Successful"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "422" : {
+            "description" : "Validation errors from FriendForm UserFriend models"
+          }
+        },
+        "tags" : [ "user/friend" ]
+      }
+    },
+    "/v1/user/friend/<userIdFriend>" : {
+      "get" : {
+        "summary" : "View friend",
+        "operationId" : "UserFriend/view",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "userIdFriend",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "integer",
+                    "description" : "-1 non friend, 0 have application, 1 we are friends"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "user/friend" ]
+      },
+      "delete" : {
+        "summary" : "Delete friend from friend list or remove outgoing request",
+        "operationId" : "UserFriend/delete",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "userIdFriend",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        },
+        "tags" : [ "user/friend" ]
+      }
+    },
+    "/v1/user/friend/outgoing" : {
+      "get" : {
+        "summary" : "View outgoing friend requests",
+        "operationId" : "UserFriend/outgoingList",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/pageParam"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserFriendRequesList"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "user/friend" ]
+      }
+    },
+    "/v1/user/friend/incoming" : {
+      "get" : {
+        "summary" : "View incoming friend request",
+        "operationId" : "UserFriend/incomingList",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/pageParam"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserFriendRequesList"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "user/friend" ]
+      }
+    },
+    "/v1/user/friend/request-refuse/<userIdFrom>" : {
+      "delete" : {
+        "summary" : "Delete incoming request",
+        "operationId" : "UserFriend/requestRefuse",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "userIdFrom",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          }
+        },
+        "tags" : [ "user/friend" ]
+      }
+    },
+    "/v1/user/favorite" : {
+      "post" : {
+        "summary" : "Add new favorite user. Add UserStat favorite item.",
+        "operationId" : "UserFavoriteController/actionAdd",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserFaforiteAdd"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Successful"
+          },
+          "422" : {
+            "description" : "Validation errors from UserFavorite model"
+          }
+        },
+        "tags" : [ "user/favorite" ]
+      },
+      "get" : {
+        "summary" : "Show all favorites",
+        "operationId" : "UserFavoriteController/actionList",
+        "responses" : {
+          "200" : {
+            "headers" : {
+              "X-Pagination-Total-Count" : {
+                "$ref" : "#/components/headers/X-Pagination-Total-Count"
+              },
+              "X-Pagination-Per-Page" : {
+                "$ref" : "#/components/headers/X-Pagination-Per-Page"
+              }
+            },
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "stat" : {
+                      "type" : "object",
+                      "properties" : {
+                        "total_view" : {
+                          "type" : "integer",
+                          "example" : 3
+                        },
+                        "today_view" : {
+                          "type" : "integer",
+                          "example" : 3
+                        },
+                        "total_favorite" : {
+                          "type" : "integer",
+                          "example" : 3
+                        },
+                        "today_favorite" : {
+                          "type" : "integer",
+                          "example" : 3
+                        }
+                      }
+                    },
+                    "item" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "user_id_favorite" : {
+                            "type" : "integer",
+                            "example" : 3
+                          },
+                          "city_name" : {
+                            "type" : "string",
+                            "description" : "if we have fake city for this couple user_id user_id_fake we will show it"
+                          },
+                          "firstname" : {
+                            "type" : "string",
+                            "description" : "User firstname"
+                          },
+                          "country_id" : {
+                            "type" : "integer",
+                            "description" : "Country id from geo tables"
+                          },
+                          "region_id" : {
+                            "type" : "integer",
+                            "description" : "Region id from geo tables"
+                          },
+                          "city_id" : {
+                            "type" : "integer",
+                            "description" : "City id from geo tables"
+                          },
+                          "image_id_avatar" : {
+                            "type" : "integer",
+                            "description" : "Avatar. Image id from image table"
+                          },
+                          "dating_gender_id" : {
+                            "type" : "integer",
+                            "description" : "Gender. Gender id from dating_gender"
+                          },
+                          "flag_online" : {
+                            "type" : "boolean",
+                            "description" : "user is online if last_activity_at < 30 min ago"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "user/favorite" ]
+      },
+      "options" : {
+        "summary" : "Return request available methods",
+        "operationId" : "UserFavoriteController/actionAddListOptions",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "user/favorite" ]
+      }
+    },
+    "/v1/user/favorite/<userId>" : {
+      "get" : {
+        "summary" : "Return boolean if userId has been favorite",
+        "operationId" : "UserFavoriteController/actionView",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "userId",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "user/favorite" ]
+      },
+      "delete" : {
+        "summary" : "Delete user from favorite list. Remove UserStat item.",
+        "operationId" : "UserFavoriteController/actionDelete",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "userId",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "user/favorite" ]
+      },
+      "options" : {
+        "summary" : "Return request available methods",
+        "operationId" : "UserFavoriteController/actionViewDeleteOptions",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "userId",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "user/favorite" ]
+      }
+    },
+    "/v1/user/blacklist" : {
+      "get" : {
+        "summary" : "Blacklist",
+        "operationId" : "UserBlackListController/list",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/pageParam"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "headers" : {
+              "X-Pagination-Total-Count" : {
+                "$ref" : "#/components/headers/X-Pagination-Total-Count"
+              },
+              "X-Pagination-Per-Page" : {
+                "$ref" : "#/components/headers/X-Pagination-Per-Page"
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserBlackList"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "user/blacklist" ]
+      },
+      "post" : {
+        "summary" : "Add user in blacklist",
+        "operationId" : "UserBlackListController/actionAdd",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "user_id" : {
+                    "type" : "integer",
+                    "description" : "id user for add to blacklist",
+                    "example" : 15265
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created"
+          },
+          "404" : {
+            "description" : "User can not find"
+          }
+        },
+        "tags" : [ "user/blacklist" ]
+      },
+      "options" : {
+        "summary" : "Return request available methods",
+        "operationId" : "UserBlackListController/actionUserInBlackListOptions",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "user/blacklist" ]
+      }
+    },
+    "/v1/user/blacklist/<user_id>" : {
+      "get" : {
+        "summary" : "View record in black list",
+        "operationId" : "UserBlackListController/actionUserInBlackList",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "integer",
+                      "description" : "blacklist id"
+                    },
+                    "author_id" : {
+                      "type" : "integer",
+                      "description" : "author user id"
+                    },
+                    "opponent_id" : {
+                      "type" : "integer",
+                      "description" : "opponent user id"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "user/blacklist" ]
+      },
+      "delete" : {
+        "summary" : "Delete user from blacklist",
+        "operationId" : "UserBlackListController/actionDelete",
+        "responses" : {
+          "200" : {
+            "description" : "deleted"
+          }
+        },
+        "tags" : [ "user/blacklist" ]
+      },
+      "options" : {
+        "summary" : "Return request available methods",
+        "operationId" : "UserBlackListController/actionUserInBlackList(useuniquename)",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "user/blacklist" ]
+      }
+    },
+    "/v1/announcement" : {
+      "get" : {
+        "summary" : "Return announce",
+        "operationId" : "AnnouncementController/actionView",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "id" : {
+                      "type" : "integer",
+                      "example" : 3
+                    },
+                    "front_id" : {
+                      "type" : "integer",
+                      "description" : "message for front id",
+                      "example" : 3
+                    },
+                    "text" : {
+                      "type" : "string",
+                      "example" : "You may have some problem with servce. We are improving our service right now"
+                    },
+                    "started_at" : {
+                      "type" : "integer",
+                      "example" : "Timestamp of period message start"
+                    },
+                    "endided_at" : {
+                      "type" : "integer",
+                      "example" : "Timestamp of period message finish"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "announcement" ]
+      },
+      "options" : {
+        "summary" : "Return request available methods",
+        "operationId" : "AnnouncementСontroller/actionViewOptions",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "announcement" ]
+      }
+    },
+    "/v1/unsubscribe/email" : {
+      "patch" : {
+        "summary" : "Unsubcribe message email notify.",
+        "operationId" : "UnsubcribeController/actionEmail",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "email" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "status" : {
+                      "type" : "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "unsubscribe" ]
+      },
+      "options" : {
+        "summary" : null,
+        "operationId" : "UnsubcribeController/actionEmailOptions",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "unsubscribe" ]
+      }
+    },
+    "/v1/geo/country" : {
+      "get" : {
+        "summary" : "Return array countries",
+        "operationId" : "Geo/country",
+        "parameters" : [ {
+          "in" : "url",
+          "name" : "local",
+          "required" : false,
+          "example" : "ru en es",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GeoList"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "geo" ]
+      }
+    },
+    "/v1/geo/region/<countryId>" : {
+      "get" : {
+        "summary" : "Return array regions of country",
+        "operationId" : "Geo/region",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "countryId",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "in" : "url",
+          "name" : "local",
+          "required" : false,
+          "example" : "ru en es",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GeoList"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "geo" ]
+      }
+    },
+    "/v1/geo/city/<regionId>" : {
+      "get" : {
+        "summary" : "Return array cities of countries",
+        "operationId" : "Geo/city",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "regionId",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "in" : "url",
+          "name" : "local",
+          "example" : "ru en es",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GeoList"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "geo" ]
+      }
+    },
+    "/v1/interest" : {
+      "get" : {
+        "summary" : "Return interests",
+        "operationId" : "Interest/view",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DatingInterestList"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "dating" ]
+      },
+      "options" : {
+        "summary" : "Return request available methods",
+        "operationId" : "Interest/view-options",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "dating" ]
+      }
+    },
+    "/v1/gender" : {
+      "get" : {
+        "summary" : "Return genders",
+        "operationId" : "GenderController/actionIndex",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DatingGenderList"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "dating" ]
+      },
+      "options" : {
+        "summary" : "Return request available methods",
+        "operationId" : "GenderController/options",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "dating" ]
+      }
+    },
+    "/v1/orientation" : {
+      "get" : {
+        "summary" : "Return orientations",
+        "operationId" : "OrientationController/actionIndex",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DatingOrientationList"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "dating" ]
+      },
+      "options" : {
+        "summary" : "Return request available methods",
+        "operationId" : "OrientationController/options",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "dating" ]
+      }
+    },
+    "/v1/purpose" : {
+      "get" : {
+        "summary" : "Return purposes",
+        "operationId" : "PurposeController/actionIndex",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DatingPurposeList"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "dating" ]
+      }
+    },
+    "/v1/search" : {
+      "get" : {
+        "summary" : "Return dating searches",
+        "operationId" : "SearchController/actionIndex",
+        "description" : "When search filter is empty (by default cookie does not exist) dating_gender_id take param from dating_search_id. Possible options ( male - I am looking for a man, female - I am looking for a woman )",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SearchPurposeList"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "dating" ]
+      },
+      "options" : {
+        "summary" : "Return request available methods",
+        "operationId" : "SearchController/options",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "dating" ]
+      }
+    },
+    "/v1/feedback" : {
+      "post" : {
+        "summary" : "Send feedback",
+        "operationId" : "FeedbackController/index",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "email" : {
+                    "type" : "string",
+                    "description" : "email"
+                  },
+                  "phone" : {
+                    "type" : "integer",
+                    "description" : "phone",
+                    "example" : 79998887766
+                  },
+                  "subject" : {
+                    "type" : "string",
+                    "description" : "Subject of topic"
+                  },
+                  "plot" : {
+                    "type" : "string",
+                    "description" : "body of message"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "created"
+          },
+          "422" : {
+            "description" : "Validation error from FeedbackForm"
+          }
+        },
+        "tags" : [ "feedback" ]
+      }
+    },
+    "/v1/article" : {
+      "get" : {
+        "summary" : "Get article list",
+        "operationId" : "ArticleController/actionIndex",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/pageParam"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "headers" : {
+              "X-Pagination-Total-Count" : {
+                "$ref" : "#/components/headers/X-Pagination-Total-Count"
+              },
+              "X-Pagination-Per-Page" : {
+                "$ref" : "#/components/headers/X-Pagination-Per-Page"
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ArticleListSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "article" ]
+      },
+      "options" : {
+        "summary" : "Return request available methods",
+        "operationId" : "ArticleController/actionOptions",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "article" ]
+      }
+    },
+    "/v1/article/<id>" : {
+      "get" : {
+        "summary" : "Get article item",
+        "operationId" : "ArticleController/actionView",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ArticleItemSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "article" ]
+      },
+      "options" : {
+        "summary" : "Return request available methods",
+        "operationId" : "ArticleController/actionOptions",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "article" ]
+      }
+    },
+    "/v1/article/category" : {
+      "get" : {
+        "summary" : "Get article categories",
+        "operationId" : "ArticleCategoryController/actionIndex",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/pageParam"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "headers" : {
+              "X-Pagination-Total-Count" : {
+                "$ref" : "#/components/headers/X-Pagination-Total-Count"
+              },
+              "X-Pagination-Per-Page" : {
+                "$ref" : "#/components/headers/X-Pagination-Per-Page"
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ArticleCategorySchema"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "article-category" ]
+      },
+      "options" : {
+        "summary" : "Return request available methods",
+        "operationId" : "ArticleCategoryController/actionOptions",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "article-category" ]
+      }
+    },
+    "/v1/review" : {
+      "get" : {
+        "summary" : "Get review list",
+        "operationId" : "ReviewController/actionIndex",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ReviewListSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "review" ]
+      },
+      "options" : {
+        "summary" : "Return request available methods",
+        "operationId" : "ReviewController/actionOptions",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "review" ]
+      }
+    },
+    "/v1/review/<id>" : {
+      "get" : {
+        "summary" : "Get review item",
+        "operationId" : "ReviewController/actionView",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ReviewItemSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "review" ]
+      },
+      "options" : {
+        "summary" : "Return request available methods",
+        "operationId" : "ReviewController/actionOptions",
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "review" ]
+      }
+    },
+    "/v1/revise" : {
+      "get" : {
+        "summary" : "Check user exists by phone number",
+        "operationId" : "ReviseController/actionIndex",
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "domain",
+          "description" : "available front domain",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "path",
+          "name" : "phone",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "status" : {
+                      "type" : "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "Validation errors from UserFavorite model"
+          }
+        },
+        "tags" : [ "revise" ]
+      },
+      "post" : {
+        "summary" : "Check user exists by phone number",
+        "operationId" : "ReviseController/actionIndex",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "domain" : {
+                    "description" : "available front domain",
+                    "required" : true,
+                    "type" : "string"
+                  },
+                  "phone" : {
+                    "required" : true,
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "status" : {
+                      "type" : "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "Validation errors from UserFavorite model"
+          }
+        },
+        "tags" : [ "revise" ]
+      }
+    },
+    "/v1/revise/join" : {
+      "get" : {
+        "summary" : "Register user with phone remote_ip, user_agent, domain param",
+        "operationId" : "ReviseController/actionJoin",
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "domain",
+          "description" : "available front domain",
+          "required" : true,
+          "example" : "domain.test",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "phone",
+          "required" : true,
+          "description" : "phone is base64 encoded",
+          "example" : "Nzk5OTg4ODc3NjY=",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "remote_ip",
+          "type" : "string",
+          "description" : "you can redeclare remote ip for example mobil send data",
+          "example" : "127.0.0.1",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "user_agent",
+          "type" : "string",
+          "description" : "you can redeclare user agent for example mobil send data",
+          "example" : "Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 5.1)",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "access_token" : {
+                      "type" : "string",
+                      "example" : "qxlGKGo0_2nSS8KgKr9-hzU9qO67V8-i_1580892730"
+                    },
+                    "login" : {
+                      "type" : "string"
+                    },
+                    "password" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "Validation error from ReviceJoinForm"
+          }
+        },
+        "tags" : [ "revise" ]
+      }
+    },
+    "/v1/i18n" : {
+      "get" : {
+        "summary" : "Return translate",
+        "operationId" : "I18nController/actionIndex",
+        "parameters" : [ {
+          "in" : "url",
+          "name" : "local",
+          "required" : false,
+          "example" : "ru en es",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "menu--home" : {
+                      "type" : "string",
+                      "example" : "Главная"
+                    }
+                  },
+                  "description" : "Key by bem and value"
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "Validation errors from Local model"
+          }
+        },
+        "tags" : [ "i18n" ]
+      }
+    },
+    "/v1/locale" : {
+      "get" : {
+        "summary" : "Return locale list",
+        "operationId" : "LocaleController/actionList",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "id" : {
+                        "type" : "integer",
+                        "example" : 1
+                      },
+                      "name" : {
+                        "type" : "string",
+                        "example" : "en"
+                      },
+                      "default" : {
+                        "type" : "boolean"
+                      },
+                      "title" : {
+                        "type" : "string",
+                        "example" : "English"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "locale" ]
+      }
+    },
+    "/v1/country-auth" : {
+      "get" : {
+        "summary" : "Return countries with methods auth",
+        "operationId" : "CountryAuthController/actionList",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "id" : {
+                        "type" : "integer",
+                        "example" : 2017370
+                      },
+                      "name" : {
+                        "type" : "string",
+                        "example" : "Россия"
+                      },
+                      "auth" : {
+                        "type" : "array",
+                        "items" : {
+                          "type" : "string"
+                        },
+                        "example" : [ "email", "sms" ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "country-auth" ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Error" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "code", "message" ]
+      },
+      "Signup" : {
+        "type" : "object",
+        "properties" : {
+          "email|phone" : {
+            "type" : "string",
+            "example" : "test@mail.ru|89997776655"
+          },
+          "password" : {
+            "type" : "string",
+            "example" : "password"
+          },
+          "country_id" : {
+            "type" : "integer"
+          },
+          "region_id" : {
+            "type" : "integer"
+          },
+          "city_id" : {
+            "type" : "integer"
+          },
+          "firstname" : {
+            "type" : "string"
+          },
+          "dating_gender_id" : {
+            "type" : "integer"
+          },
+          "dating_orientation_id" : {
+            "type" : "integer"
+          },
+          "dating_purpose_id" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "Token" : {
+        "type" : "object",
+        "properties" : {
+          "access_token" : {
+            "type" : "string",
+            "example" : "qxlGKGo0_2nSS8KgKr9-hzU9qO67V8-i_1580892730"
+          }
+        }
+      },
+      "Login" : {
+        "type" : "object",
+        "properties" : {
+          "email|phone" : {
+            "type" : "string",
+            "example" : "test@mail.ru|89997776655"
+          },
+          "password" : {
+            "type" : "string",
+            "example" : "password"
+          }
+        }
+      },
+      "sendSmsSignup" : {
+        "type" : "object",
+        "properties" : {
+          "dating_gender_id" : {
+            "type" : "integer",
+            "description" : "Gender. Gender id from dating_gender"
+          },
+          "dating_orientation_id" : {
+            "type" : "integer",
+            "description" : "Orientation. Orientation id from dating_orientation table"
+          },
+          "dating_purpose_id" : {
+            "type" : "integer",
+            "description" : "Purpose of dating. Goal id from dating_purpose table"
+          },
+          "dating_search_id" : {
+            "type" : "integer",
+            "description" : "id gender the user is looking for"
+          },
+          "country_id" : {
+            "type" : "integer",
+            "description" : "country id from geo"
+          },
+          "region_id" : {
+            "type" : "integer",
+            "description" : "region id from geo"
+          },
+          "city_id" : {
+            "type" : "integer",
+            "description" : "city id from geo"
+          },
+          "phone" : {
+            "type" : "integer",
+            "description" : "phone number",
+            "example" : 79998887766
+          }
+        },
+        "required" : [ "phone", "dating_gender_id", "dating_orientation_id", "dating_purpose_id" ]
+      },
+      "smsSignup" : {
+        "type" : "object",
+        "properties" : {
+          "dating_gender_id" : {
+            "type" : "integer",
+            "description" : "Gender. Gender id from dating_gender"
+          },
+          "dating_orientation_id" : {
+            "type" : "integer",
+            "description" : "Orientation. Orientation id from dating_orientation table"
+          },
+          "dating_purpose_id" : {
+            "type" : "integer",
+            "description" : "Purpose of dating. Goal id from dating_purpose table"
+          },
+          "firstname" : {
+            "type" : "string",
+            "description" : "User firstname"
+          },
+          "country_id" : {
+            "type" : "integer",
+            "description" : "Country id from geo tables"
+          },
+          "region_id" : {
+            "type" : "integer",
+            "description" : "Region id from geo tables"
+          },
+          "city_id" : {
+            "type" : "integer",
+            "description" : "City id from geo tables"
+          },
+          "dob" : {
+            "type" : "integer",
+            "description" : "date of brithday - timestamp"
+          },
+          "phone" : {
+            "type" : "integer",
+            "description" : "phone number",
+            "example" : 79998887766
+          },
+          "sms_code" : {
+            "type" : "integer",
+            "description" : "code received from sms",
+            "example" : 123456
+          }
+        },
+        "required" : [ "dating_purpose_id", "phone", "sms_code" ]
+      },
+      "ResetPassword" : {
+        "type" : "object",
+        "properties" : {
+          "email|sms" : {
+            "type" : "string",
+            "example" : "emailforrequestpasswordreset@ex.ru"
+          }
+        }
+      },
+      "RequestPasswordReset" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "example" : "Check your email for further instructions."
+          }
+        }
+      },
+      "RequestPasswordResetNoValid" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "example" : "Sorry, we are unable to reset password for the provided email address.|We can not reset password for this number"
+          }
+        }
+      },
+      "ResetWithTokenPassword" : {
+        "type" : "object",
+        "properties" : {
+          "password_reset_token" : {
+            "type" : "string",
+            "example" : "2nSS8KgKr9-hzU9qO67V8-i_15"
+          },
+          "password" : {
+            "type" : "string",
+            "example" : "123456"
+          },
+          "phone" : {
+            "type" : "string",
+            "example" : 79998887766
+          },
+          "sms_code" : {
+            "type" : "string",
+            "example" : "223344"
+          }
+        }
+      },
+      "MessageCreate" : {
+        "type" : "object",
+        "properties" : {
+          "to_user_id" : {
+            "type" : "integer",
+            "description" : "message target user id"
+          },
+          "contain" : {
+            "type" : "string",
+            "description" : "body message"
+          },
+          "image_files" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            },
+            "description" : "upload file",
+            "example" : [ "filepath" ]
+          }
+        },
+        "required" : [ "to_user_id", "contain", "image_files" ]
+      },
+      "MessageList" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "description" : "message id"
+          },
+          "dialog_id" : {
+            "type" : "integer"
+          },
+          "user_id_author" : {
+            "type" : "integer",
+            "description" : "Author this message"
+          },
+          "user_id_to" : {
+            "type" : "integer",
+            "description" : "Recipient this message"
+          },
+          "message_text_id" : {
+            "type" : "integer"
+          },
+          "message_image_id" : {
+            "type" : "integer"
+          },
+          "flag_deleted" : {
+            "type" : "integer",
+            "description" : "1 if message deleted"
+          },
+          "created_at" : {
+            "type" : "integer",
+            "description" : "Timestamp of message's created"
+          },
+          "updated_at" : {
+            "type" : "integer",
+            "description" : "Timestamp of message's updated"
+          },
+          "messageText" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "integer"
+              },
+              "contain" : {
+                "type" : "string",
+                "description" : "message text contain"
+              }
+            }
+          },
+          "images" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer"
+            },
+            "description" : "the array has image id, if we have null it means image deleted",
+            "example" : [ 2, 3, null ]
+          }
+        }
+      },
+      "MessageDialogList" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "description" : "message id"
+          },
+          "dialog_id" : {
+            "type" : "integer"
+          },
+          "user_id_author" : {
+            "type" : "integer",
+            "description" : "Author this message"
+          },
+          "message_text_id" : {
+            "type" : "integer"
+          },
+          "message_image_id" : {
+            "type" : "integer"
+          },
+          "flag_deleted" : {
+            "type" : "integer",
+            "description" : "1 if message deleted"
+          },
+          "created_at" : {
+            "type" : "integer",
+            "description" : "Timestamp of message's created"
+          },
+          "updated_at" : {
+            "type" : "integer",
+            "description" : "Timestamp of message's updated"
+          },
+          "messageText" : {
+            "type" : "object",
+            "properties" : {
+              "id" : {
+                "type" : "integer"
+              },
+              "contain" : {
+                "type" : "string",
+                "description" : "text of message"
+              }
+            }
+          },
+          "dialogUser" : {
+            "$ref" : "#/components/schemas/dialogUser"
+          },
+          "dialogInfo" : {
+            "type" : "object",
+            "properties" : {
+              "user_id" : {
+                "type" : "integer",
+                "description" : "User id"
+              },
+              "dating_gender_id" : {
+                "type" : "integer",
+                "description" : "Gender. Gender id from dating_gender"
+              },
+              "image_id_avatar" : {
+                "type" : "integer",
+                "description" : "Avatar. Image id from image table"
+              },
+              "firstname" : {
+                "type" : "string",
+                "description" : "User firstname"
+              }
+            }
+          }
+        }
+      },
+      "UserDetail" : {
+        "type" : "object",
+        "properties" : {
+          "user_id" : {
+            "type" : "integer",
+            "description" : "User id"
+          },
+          "country_id" : {
+            "type" : "integer",
+            "description" : "Country id from geo tables"
+          },
+          "region_id" : {
+            "type" : "integer",
+            "description" : "Region id from geo tables"
+          },
+          "city_id" : {
+            "type" : "integer",
+            "description" : "City id from geo tables"
+          },
+          "dating_purpose_id" : {
+            "type" : "integer",
+            "description" : "Purpose of dating. Goal id from dating_purpose table"
+          },
+          "dating_gender_id" : {
+            "type" : "integer",
+            "description" : "Gender. Gender id from dating_gender"
+          },
+          "dating_orientation_id" : {
+            "type" : "integer",
+            "description" : "Orientation. Orientation id from dating_orientation table"
+          },
+          "dating_search_id" : {
+            "type" : "integer",
+            "description" : "Search id from dating_search table"
+          },
+          "image_id_avatar" : {
+            "type" : "integer",
+            "description" : "Avatar. Image id from image table"
+          },
+          "firstname" : {
+            "type" : "string",
+            "description" : "User firstname"
+          },
+          "dob" : {
+            "type" : "integer",
+            "description" : "date of brithday - timestamp"
+          },
+          "plot" : {
+            "type" : "string",
+            "description" : "User description"
+          },
+          "dating_age_from" : {
+            "type" : "integer",
+            "example" : 24,
+            "description" : "Prefered dating age from"
+          },
+          "dating_age_to" : {
+            "type" : "integer",
+            "example" : 33,
+            "description" : "Prefered dating age to"
+          },
+          "last_activity_at" : {
+            "type" : "integer",
+            "description" : "last activity user"
+          },
+          "city_name" : {
+            "type" : "string",
+            "description" : "City title and if we have fake city for this couple user_id user_id_fake we will show it"
+          },
+          "interests" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "id" : {
+                  "type" : "integer",
+                  "example" : 3
+                },
+                "title" : {
+                  "type" : "string",
+                  "example" : "Чтение книг"
+                }
+              }
+            }
+          },
+          "flag_online" : {
+            "type" : "boolean",
+            "description" : "user is online if last_activity_at < 30 min ago"
+          },
+          "flag_friend" : {
+            "type" : "integer",
+            "description" : "-1 non friend, 0 have application, 1 we are friends"
+          },
+          "flag_favorite" : {
+            "type" : "boolean",
+            "description" : "if user has in favorite list"
+          }
+        }
+      },
+      "SelfUserDetail" : {
+        "type" : "object",
+        "properties" : {
+          "user_id" : {
+            "type" : "integer",
+            "description" : "User id"
+          },
+          "country_id" : {
+            "type" : "integer",
+            "description" : "Country id from geo tables"
+          },
+          "region_id" : {
+            "type" : "integer",
+            "description" : "Region id from geo tables"
+          },
+          "city_id" : {
+            "type" : "integer",
+            "description" : "City id from geo tables"
+          },
+          "dating_purpose_id" : {
+            "type" : "integer",
+            "description" : "Purpose of dating. Goal id from dating_purpose table"
+          },
+          "dating_gender_id" : {
+            "type" : "integer",
+            "description" : "Gender. Gender id from dating_gender"
+          },
+          "dating_orientation_id" : {
+            "type" : "integer",
+            "description" : "Orientation. Orientation id from dating_orientation table"
+          },
+          "dating_search_id" : {
+            "type" : "integer",
+            "description" : "Search id from dating_search table"
+          },
+          "image_id_avatar" : {
+            "type" : "integer",
+            "description" : "Avatar. Image id from image table"
+          },
+          "firstname" : {
+            "type" : "string",
+            "description" : "User firstname"
+          },
+          "dob" : {
+            "type" : "integer",
+            "description" : "date of brithday - timestamp"
+          },
+          "plot" : {
+            "type" : "string",
+            "description" : "User description"
+          },
+          "dating_age_from" : {
+            "type" : "integer",
+            "example" : 24,
+            "description" : "Prefered dating age from"
+          },
+          "dating_age_to" : {
+            "type" : "integer",
+            "example" : 33,
+            "description" : "Prefered dating age to"
+          },
+          "premium" : {
+            "type" : "integer",
+            "description" : "Is premium? -1 - termless, 0 - disable , <timestamp> - till timestamp"
+          },
+          "email_notify" : {
+            "type" : "string",
+            "description" : "email for notification"
+          },
+          "flag_premium_debt" : {
+            "type" : "boolean",
+            "description" : "if user does't pay we will show message"
+          },
+          "last_activity_at" : {
+            "type" : "integer",
+            "description" : "last activity user"
+          },
+          "phone" : {
+            "type" : "string",
+            "description" : "If we ask self profile. We show phone."
+          },
+          "city_name" : {
+            "type" : "string",
+            "description" : "City title and if we have fake city for this couple user_id user_id_fake we will show it"
+          },
+          "interests" : {
+            "type" : "array",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "id" : {
+                  "type" : "integer",
+                  "example" : 3
+                },
+                "title" : {
+                  "type" : "string",
+                  "example" : "Чтение книг"
+                }
+              }
+            }
+          },
+          "flag_online" : {
+            "type" : "boolean",
+            "description" : "user is online if last_activity_at < 30 min ago"
+          },
+          "flag_friend" : {
+            "type" : "integer",
+            "description" : "-1 non friend, 0 have application, 1 we are friends"
+          },
+          "flag_favorite" : {
+            "type" : "boolean",
+            "description" : "if user has in favorite list"
+          },
+          "locale_name" : {
+            "type" : "string",
+            "example" : "en",
+            "description" : "Locale name"
+          }
+        }
+      },
+      "UserDetailSearchParams" : {
+        "type" : "object",
+        "properties" : {
+          "user_id" : {
+            "type" : "integer",
+            "description" : "User id"
+          },
+          "country_id" : {
+            "type" : "integer",
+            "description" : "Country id from geo tables"
+          },
+          "region_id" : {
+            "type" : "integer",
+            "description" : "Region id from geo tables"
+          },
+          "city_id" : {
+            "type" : "integer",
+            "description" : "City id from geo tables"
+          },
+          "dating_gender_id" : {
+            "type" : "integer",
+            "description" : "Gender. Gender id from dating_gender"
+          },
+          "dating_purpose_id" : {
+            "type" : "integer",
+            "description" : "Purpose of dating. Goal id from dating_purpose table"
+          },
+          "dating_orientation_id" : {
+            "type" : "integer",
+            "description" : "Orientation. Orientation id from dating_orientation table"
+          },
+          "age_min" : {
+            "type" : "integer",
+            "description" : "Age minimal"
+          },
+          "age_max" : {
+            "type" : "integer",
+            "description" : "Age maximal"
+          },
+          "firstname" : {
+            "type" : "string",
+            "description" : "User firstname"
+          },
+          "plot" : {
+            "type" : "string",
+            "description" : "User description"
+          },
+          "rand" : {
+            "type" : "integer",
+            "description" : "query return 10 random records"
+          },
+          "interests" : {
+            "type" : "string",
+            "description" : "interest id from dating_interest table",
+            "example" : "3,5"
+          }
+        }
+      },
+      "UserDetailSearchResponse" : {
+        "type" : "array",
+        "items" : {
+          "type" : "object",
+          "properties" : {
+            "user_id" : {
+              "type" : "integer",
+              "description" : "User id"
+            },
+            "front_id" : {
+              "type" : "integer",
+              "description" : "Front id"
+            },
+            "country_id" : {
+              "type" : "integer",
+              "description" : "Country id from geo tables"
+            },
+            "region_id" : {
+              "type" : "integer",
+              "description" : "Region id from geo tables"
+            },
+            "city_id" : {
+              "type" : "integer",
+              "description" : "City id from geo tables"
+            },
+            "dating_gender_id" : {
+              "type" : "integer",
+              "description" : "Gender. Gender id from dating_gender"
+            },
+            "dating_purpose_id" : {
+              "type" : "integer",
+              "description" : "Purpose of dating. Goal id from dating_purpose table"
+            },
+            "dating_orientation_id" : {
+              "type" : "integer",
+              "description" : "Orientation. Orientation id from dating_orientation table"
+            },
+            "image_id_avatar" : {
+              "type" : "integer",
+              "description" : "Avatar. Image id from image table"
+            },
+            "phone" : {
+              "type" : "string",
+              "description" : "If we ask self profile. We show phone."
+            },
+            "city_name" : {
+              "type" : "string",
+              "description" : "City title and if we have fake city for this couple user_id user_id_fake we will show it"
+            },
+            "dob" : {
+              "type" : "integer",
+              "description" : "date of brithday - timestamp"
+            },
+            "firstname" : {
+              "type" : "string",
+              "description" : "User firstname"
+            },
+            "plot" : {
+              "type" : "string",
+              "description" : "User description"
+            },
+            "dating_age_from" : {
+              "type" : "integer",
+              "example" : 24,
+              "description" : "Prefered dating age from"
+            },
+            "dating_age_to" : {
+              "type" : "integer",
+              "example" : 33,
+              "description" : "Prefered dating age to"
+            },
+            "premium" : {
+              "type" : "integer",
+              "description" : "Is premium? -1 - termless, 0 - disable , <timestamp> - till timestamp"
+            },
+            "email_notify" : {
+              "type" : "string",
+              "description" : "email for notification"
+            },
+            "interests" : {
+              "type" : "string",
+              "example" : null,
+              "description" : "for search interest return null cos it does not show in front"
+            },
+            "flag_online" : {
+              "type" : "boolean",
+              "description" : "user is online if last_activity_at < 30 min ago"
+            },
+            "flag_premium_debt" : {
+              "type" : "boolean",
+              "description" : "if user does't pay we will show message"
+            },
+            "last_activity_at" : {
+              "type" : "integer",
+              "description" : "last activity user"
+            },
+            "flag_favorite" : {
+              "type" : "boolean",
+              "description" : "if user has in favorite list"
+            },
+            "flag_friend" : {
+              "type" : "integer",
+              "description" : "-1 non friend, 0 have application, 1 we are friends"
+            }
+          }
+        }
+      },
+      "ProfileForm" : {
+        "type" : "object",
+        "properties" : {
+          "country_id" : {
+            "type" : "integer",
+            "description" : "Country id from geo tables"
+          },
+          "region_id" : {
+            "type" : "integer",
+            "description" : "Region id from geo tables"
+          },
+          "city_id" : {
+            "type" : "integer",
+            "description" : "City id from geo tables"
+          },
+          "dating_purpose_id" : {
+            "type" : "integer",
+            "description" : "Purpose of dating. Goal id from dating_purpose table"
+          },
+          "dating_orientation_id" : {
+            "type" : "integer",
+            "description" : "Orientation. Orientation id from dating_orientation table"
+          },
+          "image_id_avatar" : {
+            "type" : "integer",
+            "description" : "Avatar. Image id from image table"
+          },
+          "dob" : {
+            "type" : "integer",
+            "description" : "date of brithday - timestamp"
+          },
+          "firstname" : {
+            "type" : "string",
+            "description" : "User firstname"
+          },
+          "plot" : {
+            "type" : "string",
+            "description" : "User description"
+          },
+          "email_notify" : {
+            "type" : "string",
+            "description" : "Email for notification"
+          },
+          "interests" : {
+            "type" : "array",
+            "items" : {
+              "type" : "integer"
+            },
+            "description" : "dating_interest ids"
+          },
+          "locale_name" : {
+            "type" : "string",
+            "description" : "Locale name"
+          }
+        }
+      },
+      "UserImageUpload" : {
+        "type" : "object",
+        "properties" : {
+          "image_files" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            },
+            "description" : "upload file",
+            "example" : [ "filepath" ]
+          },
+          "options" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            },
+            "description" : "degree of rotate. Warning usually we send header Content-Type application/json; but for upload file we send Content-Type multipart/form-data; because on backend receive string",
+            "example" : [ {
+              "rotate_degree" : 90
+            } ]
+          }
+        },
+        "required" : [ "image_files" ]
+      },
+      "UserFriendForm" : {
+        "type" : "object",
+        "properties" : {
+          "user_id" : {
+            "type" : "integer"
+          }
+        },
+        "required" : [ "user_id" ]
+      },
+      "UserFriendList" : {
+        "type" : "object",
+        "properties" : {
+          "user_id" : {
+            "type" : "integer",
+            "description" : "Current logined user"
+          },
+          "user_id_friend" : {
+            "type" : "integer",
+            "description" : "Friend of current logined user"
+          },
+          "created_at" : {
+            "type" : "integer",
+            "description" : "Timestamp of friend created"
+          },
+          "city_name" : {
+            "type" : "string",
+            "description" : "if we have fake city for this couple user_id user_id_fake we will show it"
+          },
+          "firstname" : {
+            "type" : "string",
+            "description" : "User firstname"
+          },
+          "country_id" : {
+            "type" : "integer",
+            "description" : "Country id from geo tables"
+          },
+          "region_id" : {
+            "type" : "integer",
+            "description" : "Region id from geo tables"
+          },
+          "city_id" : {
+            "type" : "integer",
+            "description" : "City id from geo tables"
+          },
+          "image_id_avatar" : {
+            "type" : "integer",
+            "description" : "Avatar. Image id from image table"
+          },
+          "dating_gender_id" : {
+            "type" : "integer",
+            "description" : "Gender. Gender id from dating_gender"
+          },
+          "flag_online" : {
+            "type" : "boolean",
+            "description" : "user is online if last_activity_at < 30 min ago"
+          }
+        }
+      },
+      "UserBlackList" : {
+        "type" : "object",
+        "properties" : {
+          "author_id" : {
+            "type" : "integer",
+            "description" : "Current logined user"
+          },
+          "opponent_id" : {
+            "type" : "integer",
+            "description" : "Banned user"
+          },
+          "firstname" : {
+            "type" : "string",
+            "description" : "User firstname"
+          },
+          "country_id" : {
+            "type" : "integer",
+            "description" : "Country id from geo tables"
+          },
+          "region_id" : {
+            "type" : "integer",
+            "description" : "Region id from geo tables"
+          },
+          "city_id" : {
+            "type" : "integer",
+            "description" : "City id from geo tables"
+          },
+          "image_id_avatar" : {
+            "type" : "integer",
+            "description" : "Avatar. Image id from image table"
+          },
+          "dating_gender_id" : {
+            "type" : "integer",
+            "description" : "Gender. Gender id from dating_gender"
+          },
+          "flag_online" : {
+            "type" : "boolean",
+            "description" : "user is online if last_activity_at < 30 min ago"
+          },
+          "city_name" : {
+            "type" : "string",
+            "description" : "if we have fake city for this couple user_id user_id_fake we will show it"
+          }
+        }
+      },
+      "UserFriendRequesList" : {
+        "type" : "object",
+        "properties" : {
+          "user_id_from" : {
+            "type" : "integer",
+            "description" : "User id outgoing application"
+          },
+          "user_id_to" : {
+            "type" : "integer",
+            "description" : "User id incoming application"
+          },
+          "created_at" : {
+            "type" : "integer",
+            "description" : "Timestamp of record's created"
+          },
+          "firstname" : {
+            "type" : "string",
+            "description" : "User firstname"
+          },
+          "country_id" : {
+            "type" : "integer",
+            "description" : "Country id from geo tables"
+          },
+          "region_id" : {
+            "type" : "integer",
+            "description" : "Region id from geo tables"
+          },
+          "city_id" : {
+            "type" : "integer",
+            "description" : "City id from geo tables"
+          },
+          "image_id_avatar" : {
+            "type" : "integer",
+            "description" : "Avatar. Image id from image table"
+          },
+          "dating_gender_id" : {
+            "type" : "integer",
+            "description" : "Gender. Gender id from dating_gender"
+          }
+        }
+      },
+      "GeoList" : {
+        "type" : "array",
+        "items" : {
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "integer",
+              "example" : 3,
+              "description" : "Country, region, city id"
+            },
+            "name" : {
+              "type" : "string",
+              "description" : "Country, region, city title"
+            }
+          }
+        }
+      },
+      "DatingInterestList" : {
+        "type" : "array",
+        "items" : {
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "integer"
+            },
+            "title" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "DatingGenderList" : {
+        "type" : "array",
+        "items" : {
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "integer"
+            },
+            "title" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "DatingOrientationList" : {
+        "type" : "array",
+        "items" : {
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "integer"
+            },
+            "title" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "DatingPurposeList" : {
+        "type" : "array",
+        "items" : {
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "integer"
+            },
+            "title" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "SearchPurposeList" : {
+        "type" : "array",
+        "items" : {
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "integer"
+            },
+            "title" : {
+              "type" : "string",
+              "example" : "male"
+            }
+          }
+        }
+      },
+      "dialogUser" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer"
+          },
+          "dialog_id" : {
+            "type" : "integer"
+          },
+          "user_id" : {
+            "type" : "integer"
+          },
+          "unread" : {
+            "type" : "integer"
+          },
+          "last_message_read_at" : {
+            "type" : "integer",
+            "description" : "last read message"
+          }
+        }
+      },
+      "UserFaforiteAdd" : {
+        "type" : "object",
+        "properties" : {
+          "user_id" : {
+            "type" : "string",
+            "example" : 2233
+          }
+        }
+      },
+      "ArticleCategorySchema" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "name of category"
+          },
+          "slug" : {
+            "type" : "string",
+            "description" : "slug for uri"
+          }
+        }
+      },
+      "ArticleListSchema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/ReviewItemSchema"
+        }
+      },
+      "ArticleItemSchema" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "description" : "article id"
+          },
+          "user_id" : {
+            "type" : "integer",
+            "description" : "Author this article"
+          },
+          "img" : {
+            "type" : "string",
+            "description" : "article thumbnail"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "plot of content"
+          },
+          "body" : {
+            "type" : "string",
+            "description" : "content with html tags"
+          },
+          "category" : {
+            "$ref" : "#/components/schemas/ArticleCategorySchema"
+          }
+        }
+      },
+      "ReviewListSchema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/ReviewItemSchema"
+        }
+      },
+      "ReviewItemSchema" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "description" : "review id"
+          },
+          "user_id" : {
+            "type" : "integer",
+            "description" : "Author this review"
+          },
+          "img" : {
+            "type" : "string",
+            "description" : "article thumbnail"
+          },
+          "short" : {
+            "type" : "string",
+            "description" : "short descriotion"
+          },
+          "body" : {
+            "type" : "string",
+            "description" : "content with html tags"
+          },
+          "userDetail" : {
+            "type" : "object",
+            "properties" : {
+              "user_id" : {
+                "type" : "integer",
+                "description" : "User id"
+              },
+              "firstname" : {
+                "type" : "string",
+                "description" : "User firstname"
+              },
+              "city_name" : {
+                "type" : "string",
+                "description" : "City title and if we have fake city for this couple user_id user_id_fake we will show it"
+              },
+              "dob" : {
+                "type" : "integer",
+                "description" : "date of brithday - timestamp"
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters" : {
+      "idPath" : {
+        "in" : "path",
+        "name" : "id",
+        "required" : true,
+        "description" : "id of resource",
+        "schema" : {
+          "type" : "integer"
+        }
+      },
+      "pageParam" : {
+        "in" : "query",
+        "name" : "page",
+        "description" : "Number of page",
+        "required" : false,
+        "schema" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "responses" : {
+      "NotFound" : {
+        "description" : "...",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "headers" : {
+      "X-Pagination-Total-Count" : {
+        "schema" : {
+          "type" : "integer"
+        },
+        "description" : "Items total count"
+      },
+      "X-Pagination-Per-Page" : {
+        "schema" : {
+          "type" : "integer"
+        },
+        "description" : "Count items on per page"
+      },
+      "MessageSuccessLocation" : {
+        "schema" : {
+          "type" : "string"
+        },
+        "description" : "Dialog id location"
+      }
+    }
+  }
 }
