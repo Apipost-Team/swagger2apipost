@@ -1,9 +1,15 @@
 import _url from 'url';
 import SwaggerClient from 'swagger-client';
 import { ConvertResult, getApipostMode, handleBodyJsonSchema } from './utils';
+import jsf from 'json-schema-faker';
 import { isArray, isEmpty, isPlainObject, isString } from 'lodash';
 import { v4 as uuidV4 } from 'uuid';
-
+jsf.option({
+  useExamplesValue: true, // 使用示例值（如果有）
+  useDefaultValue: true, // 使用默认值（如果有）
+  replaceEmptyByRandomValue:true,
+  alwaysFakeOptionals:true
+});
 function replaceRef(schemaObj: any) {
   try {
     for (const key in schemaObj) {
@@ -336,6 +342,10 @@ class Swagger2Apipost {
             let Raw_text = isPlainObject(Raw) ? JSON.stringify(Raw) : Raw;
             request.body.raw = Raw_text;
             request.body.raw_para = raw_para;
+            if(isEmpty(request.body.raw)){
+              let schemaJson = jsf.generate(bodyData.schema)
+              request.body.raw = isPlainObject(schemaJson) ? JSON.stringify(schemaJson) : schemaJson;
+            }
           }
         }
       }
@@ -646,13 +656,22 @@ class Swagger2Apipost {
               })
             } else if (parameter.in == 'body') {
               if ((parameter.hasOwnProperty('schema') && JSON.stringify(parameter.schema.properties) !== "{}") || parameter?.schema?.type === 'array') {
+                
+                const randomData = jsf.generate(parameter.schema);
+              
                 let raw_para: any = [];
                 let Raw = handleBodyJsonSchema(parameter.schema, raw_para)
                 let Raw_text = isPlainObject(Raw) ? JSON.stringify(Raw) : Raw;
+                
                 request.body.raw = parameter?.example || Raw_text;
+                if(isEmpty(request.body.raw)){
+                  let schemaJson = jsf.generate(parameter.schema)
+                  request.body.raw = isPlainObject(schemaJson) ? JSON.stringify(schemaJson) : schemaJson;
+                }
                 request.body.raw_para = raw_para;
               }
-
+              // console.log(request.body.raw,"request.body.raw");
+              
               if (Object.prototype.toString.call(parameter?.schema?.['$$ref']) === "[object String]") {
                 request.body.raw_schema = swaggerSchema2apipostSchema(parameter.schema);
               }
@@ -669,7 +688,8 @@ class Swagger2Apipost {
             }
           }
         }
-        request.body.raw = isEmpty(request.body.raw) ? '' : JSON.stringify(request.body.raw);
+        // request.body.raw = isEmpty(request.body.raw) ? '' : JSON.stringify(request.body.raw);
+        // console.log(request.body.raw,"request.body.raw222");
       }
       if (swaggerApi.hasOwnProperty('responses')) {
         if (Object.prototype.toString.call(swaggerApi.responses) === '[object Object]') {
@@ -988,7 +1008,7 @@ class Swagger2Apipost {
       }
       // console.log(JSON.stringify(validationResult.data.dataModel));
       
-      console.log(JSON.stringify(validationResult.data.apis?.find((it:any)=>it?.name == 'dating')));
+      // console.log(JSON.stringify(validationResult.data.apis?.find((it:any)=>it?.name == 'dating')));
 
       return validationResult;
     } catch (error: any) {

@@ -16,6 +16,7 @@
   "dependencies": {
     "@rollup/plugin-node-resolve": "^13.3.0",
     "core-js": "^3.9.0",
+    "json-schema-faker": "^0.5.3",
     "lodash": "^4.17.21",
     "rollup": "^2.74.1",
     "rollup-plugin-dts": "^4.2.2",
