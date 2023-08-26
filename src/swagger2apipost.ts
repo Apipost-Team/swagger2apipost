@@ -246,7 +246,7 @@ class Swagger2Apipost {
                 is_checked: "1", // 是否选择
                 type: "Text", // 参数值类型 Text/File
                 key: parameter?.name || '', //参数名
-                value: parameter?.example || '', //参数值
+                value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter?.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
                 field_type: "Text" // 类型
@@ -259,7 +259,7 @@ class Swagger2Apipost {
                 is_checked: "1", // 是否选择
                 type: "Text", // 参数值类型 Text/File
                 key: parameter?.name || '', //参数名
-                value: parameter?.example || '', //参数值
+                value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
                 field_type: "Text" // 类型
@@ -272,7 +272,7 @@ class Swagger2Apipost {
                 is_checked: "1", // 是否选择
                 type: "Text", // 参数值类型 Text/File
                 key: parameter?.name || '', //参数名
-                value: parameter?.example || '', //参数值
+                value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
                 field_type: "Text" // 类型
@@ -612,7 +612,7 @@ class Swagger2Apipost {
                 is_checked: "1", // 是否选择
                 type: "Text", // 参数值类型 Text/File
                 key: parameter?.name || '', //参数名
-                value: parameter?.example || parameter?.default || '', //参数值
+                value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
                 field_type: "Text" // 类型
@@ -626,7 +626,7 @@ class Swagger2Apipost {
                 is_checked: "1", // 是否选择
                 type: "Text", // 参数值类型 Text/File
                 key: parameter?.name || '', //参数名
-                value: parameter?.example || parameter?.default || '', //参数值
+                value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
                 field_type: "Text" // 类型
@@ -639,7 +639,7 @@ class Swagger2Apipost {
                 is_checked: "1", // 是否选择
                 type: "Text", // 参数值类型 Text/File
                 key: parameter?.name || '', //参数名
-                value: parameter?.example || parameter?.default || '', //参数值
+                value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
                 field_type: "Text" // 类型
@@ -661,7 +661,7 @@ class Swagger2Apipost {
                 is_checked: "1", // 是否选择
                 type: parameter.hasOwnProperty('type') && parameter.type == 'file' ? 'File' : "Text", // 参数值类型 Text/File
                 key: parameter?.name || '', //参数名
-                value: parameter?.example || parameter?.default || '', //参数值
+                value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
                 field_type: "Text" // 类型
@@ -928,7 +928,7 @@ class Swagger2Apipost {
   }
   handleGlobalTags(json: any) {
     let that = this;
-    
+
     if (isArray(json?.tags)) {
       json.tags.forEach((item: any) => {
         let folder_name = item?.name || '新建目录';
@@ -986,7 +986,9 @@ class Swagger2Apipost {
         env: this.env,
         dataModel: this.dataModel,
       }
-      console.log(JSON.stringify(validationResult.data.env));
+      // console.log(JSON.stringify(validationResult.data.dataModel));
+      
+      console.log(JSON.stringify(validationResult.data.apis?.find((it:any)=>it?.name == 'dating')));
 
       return validationResult;
     } catch (error: any) {
