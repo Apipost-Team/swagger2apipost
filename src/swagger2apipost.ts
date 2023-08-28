@@ -1,15 +1,10 @@
 import _url from 'url';
 import SwaggerClient from 'swagger-client';
 import { ConvertResult, getApipostMode, handleBodyJsonSchema } from './utils';
-import jsf from 'json-schema-faker';
+const MockSchema = require('apipost-mock-schema');
+// import MockSchema from 'apipost-mock-schema';
 import { isArray, isEmpty, isPlainObject, isString } from 'lodash';
 import { v4 as uuidV4 } from 'uuid';
-jsf.option({
-  useExamplesValue: true, // 使用示例值（如果有）
-  useDefaultValue: true, // 使用默认值（如果有）
-  replaceEmptyByRandomValue:true,
-  alwaysFakeOptionals:true
-});
 function replaceRef(schemaObj: any) {
   try {
     for (const key in schemaObj) {
@@ -197,7 +192,7 @@ class Swagger2Apipost {
       }
     }
   }
-  handlePathV3(path: string, pathItem: any, tags: any) {
+  async handlePathV3(path: string, pathItem: any, tags: any) {
     let url = path;
     // if(this.options.basePath){
     //   url=decodeURI(_url.resolve(this.basePath, path))
@@ -343,8 +338,13 @@ class Swagger2Apipost {
             request.body.raw = Raw_text;
             request.body.raw_para = raw_para;
             if(isEmpty(request.body.raw)){
-              let schemaJson = jsf.generate(bodyData.schema)
-              request.body.raw = isPlainObject(schemaJson) ? JSON.stringify(schemaJson) : schemaJson;
+              try {
+                const myMockSchema = new MockSchema();
+                let schemaJson = await myMockSchema.mock(bodyData.schema)
+                console.log(schemaJson,"schemaJson");
+                
+                request.body.raw = isPlainObject(schemaJson) ? JSON.stringify(schemaJson) : schemaJson;
+              } catch (error) {}
             }
           }
         }
@@ -505,7 +505,7 @@ class Swagger2Apipost {
       }
     }
   }
-  handlePath(path: string, pathItem: any, tags: any) {
+  async handlePath(path: string, pathItem: any, tags: any) {
     let url = path;
     if (url.charAt(0) == '/') {
       url = url.substring(1);
@@ -657,16 +657,18 @@ class Swagger2Apipost {
             } else if (parameter.in == 'body') {
               if ((parameter.hasOwnProperty('schema') && JSON.stringify(parameter.schema.properties) !== "{}") || parameter?.schema?.type === 'array') {
                 
-                const randomData = jsf.generate(parameter.schema);
-              
                 let raw_para: any = [];
                 let Raw = handleBodyJsonSchema(parameter.schema, raw_para)
                 let Raw_text = isPlainObject(Raw) ? JSON.stringify(Raw) : Raw;
                 
                 request.body.raw = parameter?.example || Raw_text;
+                
                 if(isEmpty(request.body.raw)){
-                  let schemaJson = jsf.generate(parameter.schema)
-                  request.body.raw = isPlainObject(schemaJson) ? JSON.stringify(schemaJson) : schemaJson;
+                  try {
+                    const myMockSchema = new MockSchema();
+                    let schemaJson = await myMockSchema.mock(parameter.schema)
+                    request.body.raw = isPlainObject(schemaJson) ? JSON.stringify(schemaJson) : schemaJson;
+                  } catch (error) {}
                 }
                 request.body.raw_para = raw_para;
               }
@@ -806,18 +808,18 @@ class Swagger2Apipost {
       }
     }
   }
-  handlePathsV3(json: any) {
+  async handlePathsV3(json: any) {
     var paths = json.paths;
     var tags = json.tags;
     for (const path in paths) {
-      this.handlePathV3(path, paths[path], tags);
+      await this.handlePathV3(path, paths[path], tags);
     }
   }
-  handlePaths(json: any) {
+  async handlePaths(json: any) {
     var paths = json.paths;
     var tags = json.tags;
     for (const path in paths) {
-      this.handlePath(path, paths[path], tags);
+      await this.handlePath(path, paths[path], tags);
     }
   }
   getParamsForPathItem(oldParams: any, newParams: any) {
@@ -985,10 +987,10 @@ class Swagger2Apipost {
       this.handleInfo(swagger3Json);
       if (this.version == '2.0') {
         this.setBasePath(swagger3Json);
-        this.handlePaths(swagger3Json);
+        await this.handlePaths(swagger3Json);
       } else if (this.version == '3.0') {
         this.handleServers(swagger3Json);
-        this.handlePathsV3(swagger3Json);
+        await this.handlePathsV3(swagger3Json);
       }
 
       // 添加空目录数据到apis
