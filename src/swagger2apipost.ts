@@ -964,6 +964,9 @@ class Swagger2Apipost {
       })
     }
   }
+ escapeRegExp (str: string) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape the special characters
+  }
   async convert(json: any, options: any = null) {
     try {
       if (options && options instanceof Object) {
@@ -978,6 +981,12 @@ class Swagger2Apipost {
         await SwaggerClient.resolve({ url: json }).then((swaggerJson: any) => {
           swagger3Json = swaggerJson.spec;
         })
+        try {
+          let swagger3JsonStr = JSON.stringify(swagger3Json);
+          let reg = new RegExp(`"ref":"${this.escapeRegExp(json)}`, 'g')
+          swagger3JsonStr = swagger3JsonStr.replace(reg, '');
+          swagger3Json= JSON.parse(swagger3JsonStr);
+        } catch (error) {}
       }
       var validationResult = this.validate(swagger3Json);
       if (validationResult.status === 'error') {
@@ -1008,7 +1017,7 @@ class Swagger2Apipost {
         env: this.env,
         dataModel: this.dataModel,
       }
-      // console.log(JSON.stringify(validationResult.data.dataModel));
+      // console.log(JSON.stringify(validationResult.data.apis));
       
       // console.log(JSON.stringify(validationResult.data.apis?.find((it:any)=>it?.name == 'dating')));
 
