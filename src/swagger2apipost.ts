@@ -341,7 +341,6 @@ class Swagger2Apipost {
               try {
                 const myMockSchema = new MockSchema();
                 let schemaJson = await myMockSchema.mock(bodyData.schema)
-                console.log(schemaJson,"schemaJson");
                 
                 request.body.raw = isPlainObject(schemaJson) ? JSON.stringify(schemaJson) : schemaJson;
               } catch (error) {}
@@ -672,7 +671,6 @@ class Swagger2Apipost {
                 }
                 request.body.raw_para = raw_para;
               }
-              // console.log(request.body.raw,"request.body.raw");
               
               if (Object.prototype.toString.call(parameter?.schema?.['$$ref']) === "[object String]") {
                 request.body.raw_schema = swaggerSchema2apipostSchema(parameter.schema);
@@ -691,7 +689,6 @@ class Swagger2Apipost {
           }
         }
         // request.body.raw = isEmpty(request.body.raw) ? '' : JSON.stringify(request.body.raw);
-        // console.log(request.body.raw,"request.body.raw222");
       }
       if (swaggerApi.hasOwnProperty('responses')) {
         if (Object.prototype.toString.call(swaggerApi.responses) === '[object Object]') {
@@ -983,8 +980,9 @@ class Swagger2Apipost {
         })
         try {
           let swagger3JsonStr = JSON.stringify(swagger3Json);
-          let reg = new RegExp(`"ref":"${this.escapeRegExp(json)}`, 'g')
-          swagger3JsonStr = swagger3JsonStr.replace(reg, '');
+          
+          let reg = new RegExp(`ref":"${this.escapeRegExp(json)}`, 'g')
+          swagger3JsonStr = swagger3JsonStr.replace(reg, 'ref":"');
           swagger3Json= JSON.parse(swagger3JsonStr);
         } catch (error) {}
       }
