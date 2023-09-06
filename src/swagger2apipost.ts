@@ -361,6 +361,8 @@ class Swagger2Apipost {
 
               if (Object.prototype.toString.call(element?.schema?.['$$ref']) === "[object String]") {
                 jsonSchema = swaggerSchema2apipostSchema(element.schema);
+              }else{
+                jsonSchema = element.schema
               }
               // 成功响应示例
               if (status == 200) {
@@ -407,6 +409,8 @@ class Swagger2Apipost {
 
                 if (Object.prototype.toString.call(bodyData?.schema?.['$$ref']) === "[object String]") {
                   jsonSchema = swaggerSchema2apipostSchema(bodyData.schema);
+                }else if(isPlainObject(bodyData?.schema)){
+                  jsonSchema = bodyData.schema
                 }
                 if (bodyData.hasOwnProperty('example')) {
                   let example = bodyData.example;
@@ -674,6 +678,8 @@ class Swagger2Apipost {
               
               if (Object.prototype.toString.call(parameter?.schema?.['$$ref']) === "[object String]") {
                 request.body.raw_schema = swaggerSchema2apipostSchema(parameter.schema);
+              }else{
+                request.body.raw_schema = parameter.schema;
               }
             } else if (parameter.in == 'formData') {
               parameter.name && request.body.parameter.push({
@@ -703,6 +709,8 @@ class Swagger2Apipost {
               let jsonSchema = {};
               if (Object.prototype.toString.call(element?.schema?.['$$ref']) === "[object String]") {
                 jsonSchema = swaggerSchema2apipostSchema(element.schema);
+              }else{
+                jsonSchema = element.schema;
               }
               // 成功响应示例
               if (status == 200) {
@@ -737,6 +745,8 @@ class Swagger2Apipost {
               let jsonSchema = {};
               if (Object.prototype.toString.call(bodyData?.schema?.['$$ref']) === "[object String]") {
                 jsonSchema = swaggerSchema2apipostSchema(bodyData.schema);
+              }else if(isPlainObject(bodyData?.schema)){
+                jsonSchema = bodyData.schema;
               }
 
               if (status == 200) {
