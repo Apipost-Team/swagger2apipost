@@ -534,7 +534,7 @@ class Swagger2Apipost {
             'raw': '',
             expect: {
               name: '成功',
-              isDefault: 'success',
+              isDefault: 1,
               code: "200",
               contentType: "json",
               schema: {},
@@ -547,7 +547,7 @@ class Swagger2Apipost {
             'raw': '',
             expect: {
               name: '失败',
-              isDefault: 'success',
+              isDefault: -1,
               code: "404",
               contentType: "json",
               schema: {},
