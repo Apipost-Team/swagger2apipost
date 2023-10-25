@@ -1,9 +1,10 @@
 import _url from 'url';
 import SwaggerClient from 'swagger-client';
 import { ConvertResult, getApipostMode, handleBodyJsonSchema } from './utils';
+const MockSchema = require('apipost-mock-schema');
+// import MockSchema from 'apipost-mock-schema';
 import { isArray, isEmpty, isPlainObject, isString } from 'lodash';
 import { v4 as uuidV4 } from 'uuid';
-
 function replaceRef(schemaObj: any) {
   try {
     for (const key in schemaObj) {
@@ -191,7 +192,7 @@ class Swagger2Apipost {
       }
     }
   }
-  handlePathV3(path: string, pathItem: any, tags: any) {
+  async handlePathV3(path: string, pathItem: any, tags: any) {
     let url = path;
     // if(this.options.basePath){
     //   url=decodeURI(_url.resolve(this.basePath, path))
@@ -336,6 +337,14 @@ class Swagger2Apipost {
             let Raw_text = isPlainObject(Raw) ? JSON.stringify(Raw) : Raw;
             request.body.raw = request.body.raw ? request.body.raw : Raw_text;
             request.body.raw_para = raw_para;
+            if(isEmpty(request.body.raw)){
+              try {
+                const myMockSchema = new MockSchema();
+                let schemaJson = await myMockSchema.mock(bodyData.schema)
+                
+                request.body.raw = isPlainObject(schemaJson) ? JSON.stringify(schemaJson) : schemaJson;
+              } catch (error) {}
+            }
           }
         }
       }
@@ -495,7 +504,7 @@ class Swagger2Apipost {
       }
     }
   }
-  handlePath(path: string, pathItem: any, tags: any) {
+  async handlePath(path: string, pathItem: any, tags: any) {
     let url = path;
     if (url.charAt(0) == '/') {
       url = url.substring(1);
@@ -525,7 +534,7 @@ class Swagger2Apipost {
             'raw': '',
             expect: {
               name: '成功',
-              isDefault: 'success',
+              isDefault: 1,
               code: "200",
               contentType: "json",
               schema: {},
@@ -538,7 +547,7 @@ class Swagger2Apipost {
             'raw': '',
             expect: {
               name: '失败',
-              isDefault: 'success',
+              isDefault: -1,
               code: "404",
               contentType: "json",
               schema: {},
@@ -646,13 +655,23 @@ class Swagger2Apipost {
               })
             } else if (parameter.in == 'body') {
               if ((parameter.hasOwnProperty('schema') && JSON.stringify(parameter.schema.properties) !== "{}") || parameter?.schema?.type === 'array') {
+                
                 let raw_para: any = [];
                 let Raw = handleBodyJsonSchema(parameter.schema, raw_para)
                 let Raw_text = isPlainObject(Raw) ? JSON.stringify(Raw) : Raw;
+                
                 request.body.raw = parameter?.example || Raw_text;
+                
+                if(isEmpty(request.body.raw)){
+                  try {
+                    const myMockSchema = new MockSchema();
+                    let schemaJson = await myMockSchema.mock(parameter.schema)
+                    request.body.raw = isPlainObject(schemaJson) ? JSON.stringify(schemaJson) : schemaJson;
+                  } catch (error) {}
+                }
                 request.body.raw_para = raw_para;
               }
-
+              
               if (Object.prototype.toString.call(parameter?.schema?.['$$ref']) === "[object String]") {
                 request.body.raw_schema = swaggerSchema2apipostSchema(parameter.schema);
               }
@@ -669,7 +688,7 @@ class Swagger2Apipost {
             }
           }
         }
-        request.body.raw = isEmpty(request.body.raw) ? '' : JSON.stringify(request.body.raw);
+        // request.body.raw = isEmpty(request.body.raw) ? '' : JSON.stringify(request.body.raw);
       }
       if (swaggerApi.hasOwnProperty('responses')) {
         if (Object.prototype.toString.call(swaggerApi.responses) === '[object Object]') {
@@ -786,18 +805,18 @@ class Swagger2Apipost {
       }
     }
   }
-  handlePathsV3(json: any) {
+  async handlePathsV3(json: any) {
     var paths = json.paths;
     var tags = json.tags;
     for (const path in paths) {
-      this.handlePathV3(path, paths[path], tags);
+      await this.handlePathV3(path, paths[path], tags);
     }
   }
-  handlePaths(json: any) {
+  async handlePaths(json: any) {
     var paths = json.paths;
     var tags = json.tags;
     for (const path in paths) {
-      this.handlePath(path, paths[path], tags);
+      await this.handlePath(path, paths[path], tags);
     }
   }
   getParamsForPathItem(oldParams: any, newParams: any) {
@@ -942,6 +961,9 @@ class Swagger2Apipost {
       })
     }
   }
+ escapeRegExp (str: string) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape the special characters
+  }
   async convert(json: any, options: any = null) {
     try {
       if (options && options instanceof Object) {
@@ -956,6 +978,13 @@ class Swagger2Apipost {
         await SwaggerClient.resolve({ url: json }).then((swaggerJson: any) => {
           swagger3Json = swaggerJson.spec;
         })
+        try {
+          let swagger3JsonStr = JSON.stringify(swagger3Json);
+          
+          let reg = new RegExp(`ref":"${this.escapeRegExp(json)}`, 'g')
+          swagger3JsonStr = swagger3JsonStr.replace(reg, 'ref":"');
+          swagger3Json= JSON.parse(swagger3JsonStr);
+        } catch (error) {}
       }
       var validationResult = this.validate(swagger3Json);
       if (validationResult.status === 'error') {
@@ -965,10 +994,10 @@ class Swagger2Apipost {
       this.handleInfo(swagger3Json);
       if (this.version == '2.0') {
         this.setBasePath(swagger3Json);
-        this.handlePaths(swagger3Json);
+        await this.handlePaths(swagger3Json);
       } else if (this.version == '3.0') {
         this.handleServers(swagger3Json);
-        this.handlePathsV3(swagger3Json);
+        await this.handlePathsV3(swagger3Json);
       }
 
       // 添加空目录数据到apis
@@ -988,7 +1017,7 @@ class Swagger2Apipost {
       }
       // console.log(JSON.stringify(validationResult.data.dataModel));
 
-      console.log(JSON.stringify(validationResult.data.apis?.find((it: any) => it?.name == 'dating')));
+      console.log(JSON.stringify(validationResult.data.apis));
 
       return validationResult;
     } catch (error: any) {
