@@ -334,7 +334,7 @@ class Swagger2Apipost {
             let raw_para: any = [];
             let Raw = handleBodyJsonSchema(bodyData.schema, raw_para)
             let Raw_text = isPlainObject(Raw) ? JSON.stringify(Raw) : Raw;
-            request.body.raw = Raw_text;
+            request.body.raw = request.body.raw ? request.body.raw : Raw_text;
             request.body.raw_para = raw_para;
           }
         }
@@ -987,8 +987,8 @@ class Swagger2Apipost {
         dataModel: this.dataModel,
       }
       // console.log(JSON.stringify(validationResult.data.dataModel));
-      
-      console.log(JSON.stringify(validationResult.data.apis?.find((it:any)=>it?.name == 'dating')));
+
+      console.log(JSON.stringify(validationResult.data.apis?.find((it: any) => it?.name == 'dating')));
 
       return validationResult;
     } catch (error: any) {
