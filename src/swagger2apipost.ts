@@ -334,16 +334,19 @@ class Swagger2Apipost {
             request.body.raw_schema = swaggerSchema2apipostSchema(bodyData.schema);
             let raw_para: any = [];
             let Raw = handleBodyJsonSchema(bodyData.schema, raw_para)
-            let Raw_text = isPlainObject(Raw) ? JSON.stringify(Raw) : Raw;
+            let Raw_text = isPlainObject(Raw) || Array.isArray(Raw) ? JSON.stringify(Raw) : Raw;
             request.body.raw = request.body.raw ? request.body.raw : Raw_text;
             request.body.raw_para = raw_para;
-            if(isEmpty(request.body.raw)){
+            if (isEmpty(request.body.raw)) {
               try {
                 const myMockSchema = new MockSchema();
                 let schemaJson = await myMockSchema.mock(bodyData.schema)
-                
-                request.body.raw = isPlainObject(schemaJson) ? JSON.stringify(schemaJson) : schemaJson;
-              } catch (error) {}
+
+                request.body.raw = isPlainObject(schemaJson) || Array.isArray(Raw) ? JSON.stringify(schemaJson) : schemaJson;
+              } catch (error) { }
+            }
+            if (typeof request.body.raw == 'object') {
+              request.body.raw = `${request.body.raw}`
             }
           }
         }
@@ -355,7 +358,7 @@ class Swagger2Apipost {
             if ((element.hasOwnProperty('schema') && element.schema.hasOwnProperty('properties') && JSON.stringify(element.schema.properties) !== "{}") || element?.schema?.type === 'array') {
               let raw_para: any = [];
               let Raw = handleBodyJsonSchema(element.schema, raw_para)
-              let Raw_text = isPlainObject(Raw) ? JSON.stringify(Raw) : Raw;
+              let Raw_text = isPlainObject(Raw) || Array.isArray(Raw) ? JSON.stringify(Raw) : Raw;
 
               let jsonSchema = {};
 
@@ -447,7 +450,7 @@ class Swagger2Apipost {
                   if (bodyData.hasOwnProperty('schema')) {
                     let raw_para: any = [];
                     let Raw = handleBodyJsonSchema(bodyData.schema, raw_para)
-                    let Raw_text = isPlainObject(Raw) ? JSON.stringify(Raw) : Raw;
+                    let Raw_text = isPlainObject(Raw) || Array.isArray(Raw) ? JSON.stringify(Raw) : Raw;
 
                     if (status == 200) {
                       response.success.raw = Raw_text;
@@ -655,23 +658,23 @@ class Swagger2Apipost {
               })
             } else if (parameter.in == 'body') {
               if ((parameter.hasOwnProperty('schema') && JSON.stringify(parameter.schema.properties) !== "{}") || parameter?.schema?.type === 'array') {
-                
+
                 let raw_para: any = [];
                 let Raw = handleBodyJsonSchema(parameter.schema, raw_para)
-                let Raw_text = isPlainObject(Raw) ? JSON.stringify(Raw) : Raw;
-                
+                let Raw_text = isPlainObject(Raw) || Array.isArray(Raw) ? JSON.stringify(Raw) : Raw;
+
                 request.body.raw = parameter?.example || Raw_text;
-                
-                if(isEmpty(request.body.raw)){
+
+                if (isEmpty(request.body.raw)) {
                   try {
                     const myMockSchema = new MockSchema();
                     let schemaJson = await myMockSchema.mock(parameter.schema)
-                    request.body.raw = isPlainObject(schemaJson) ? JSON.stringify(schemaJson) : schemaJson;
-                  } catch (error) {}
+                    request.body.raw = isPlainObject(schemaJson) || Array.isArray(Raw) ? JSON.stringify(schemaJson) : schemaJson;
+                  } catch (error) { }
                 }
                 request.body.raw_para = raw_para;
               }
-              
+
               if (Object.prototype.toString.call(parameter?.schema?.['$$ref']) === "[object String]") {
                 request.body.raw_schema = swaggerSchema2apipostSchema(parameter.schema);
               }
@@ -688,7 +691,7 @@ class Swagger2Apipost {
             }
           }
         }
-        // request.body.raw = isEmpty(request.body.raw) ? '' : JSON.stringify(request.body.raw);
+        request.body.raw = isEmpty(request.body.raw) ? '' : JSON.stringify(request.body.raw);
       }
       if (swaggerApi.hasOwnProperty('responses')) {
         if (Object.prototype.toString.call(swaggerApi.responses) === '[object Object]') {
@@ -699,7 +702,7 @@ class Swagger2Apipost {
             if ((element.hasOwnProperty('schema') && JSON.stringify(element.schema.properties) !== "{}") || element?.schema?.type === 'array') {
               let raw_para: any = [];
               let Raw = handleBodyJsonSchema(element.schema, raw_para)
-              let Raw_text = isPlainObject(Raw) ? JSON.stringify(Raw) : Raw;
+              let Raw_text = isPlainObject(Raw) || Array.isArray(Raw) ? JSON.stringify(Raw) : Raw;
               let jsonSchema = {};
               if (Object.prototype.toString.call(element?.schema?.['$$ref']) === "[object String]") {
                 jsonSchema = swaggerSchema2apipostSchema(element.schema);
@@ -733,7 +736,7 @@ class Swagger2Apipost {
 
               let raw_para: any = [];
               let Raw = handleBodyJsonSchema(bodyData?.schema, raw_para)
-              let Raw_text = isPlainObject(Raw) ? JSON.stringify(Raw) : Raw;
+              let Raw_text = isPlainObject(Raw) || Array.isArray(Raw) ? JSON.stringify(Raw) : Raw;
               let jsonSchema = {};
               if (Object.prototype.toString.call(bodyData?.schema?.['$$ref']) === "[object String]") {
                 jsonSchema = swaggerSchema2apipostSchema(bodyData.schema);
@@ -961,7 +964,7 @@ class Swagger2Apipost {
       })
     }
   }
- escapeRegExp (str: string) {
+  escapeRegExp(str: string) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape the special characters
   }
   async convert(json: any, options: any = null) {
@@ -980,11 +983,11 @@ class Swagger2Apipost {
         })
         try {
           let swagger3JsonStr = JSON.stringify(swagger3Json);
-          
+
           let reg = new RegExp(`ref":"${this.escapeRegExp(json)}`, 'g')
           swagger3JsonStr = swagger3JsonStr.replace(reg, 'ref":"');
-          swagger3Json= JSON.parse(swagger3JsonStr);
-        } catch (error) {}
+          swagger3Json = JSON.parse(swagger3JsonStr);
+        } catch (error) { }
       }
       var validationResult = this.validate(swagger3Json);
       if (validationResult.status === 'error') {

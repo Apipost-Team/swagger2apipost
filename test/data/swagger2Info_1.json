@@ -1,193 +1,112 @@
 {
-	"info": {
-		"title": "Gala的私有项目",
-		"description": "",
-		"version": "1.0.0"
-	},
-	"swagger": "2.0",
-	"definitions": {
-		"13213": {
-			"type": "object",
-			"properties": [],
-			"title": "21321321"
-		},
-		"新建数据模型": {
-			"type": "object",
-			"properties": {
-				"13123": {
-					"type": "string",
-					"mock": {
-						"mock": "12321"
-					},
-					"description": "312312"
-				},
-				"13213": {
-					"type": "string",
-					"mock": {
-						"mock": "321321"
-					},
-					"description": "321123"
-				}
-			},
-			"APIPOST_ORDERS": [
-				"13123",
-				"13213"
-			],
-			"required": [],
-			"title": "8888"
-		},
-		"新建数据模型21321": {
-			"type": "object",
-			"properties": [],
-			"title": "3213"
-		},
-		"新建数据模型1232112321": {
-			"type": "object",
-			"properties": [],
-			"title": "321321213"
-		}
-	},
-	"paths": {
-		"12321321": {
-			"POST": {
-				"summary": "新建接口21321",
-				"description": "",
-				"apipost_tags": [
-					"aaaa",
-					"asdsadas"
-				],
-				"tags": [
-					"目录12312"
-				],
-				"parameters": [
-					{
-						"name": "21321",
-						"in": "query",
-						"description": "",
-						"required": true,
-						"example": "13212"
-					},
-					{
-						"name": "123213",
-						"in": "header",
-						"description": "",
-						"required": true,
-						"example": "21321"
-					},
-					{
-						"in": "body",
-						"name": "body",
-						"description": "",
-						"schema": {
-							"type": "object",
-							"properties": [],
-							"APIPOST_ORDERS": [
-								"40931073592843ddbee009b33756b40c"
-							],
-							"APIPOST_REFS": {
-								"40931073592843ddbee009b33756b40c": {
-									"ref": "b8de8a53-3ccc-484c-89fc-f30c6a737d25"
-								}
-							},
-							"required": [],
-							"$ref": "#/definitions/新建数据模型"
-						},
-						"type": "string",
-						"example": "{\n\t\"13123\": \"12321\",\n\t\"13213\": \"321321\"\n}"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "成功",
-						"content": {
-							"*/*": {
-								"schema": []
-							}
-						},
-						"example": ""
-					},
-					"304": {
-						"description": "12321",
-						"content": {
-							"*/*": {
-								"schema": {
-									"type": "object",
-									"properties": [],
-									"APIPOST_ORDERS": [
-										"d95a8839fea341bf8f6d3618c2a0b255"
-									],
-									"APIPOST_REFS": {
-										"d95a8839fea341bf8f6d3618c2a0b255": {
-											"ref": "b8de8a53-3ccc-484c-89fc-f30c6a737d25"
-										}
-									},
-									"$ref": "#/definitions/新建数据模型"
-								}
-							}
-						},
-						"example": ""
-					},
-					"404": {
-						"description": "失败",
-						"content": {
-							"*/*": {
-								"schema": []
-							}
-						},
-						"example": ""
-					},
-					"500": {
-						"description": "123213",
-						"content": {
-							"*/*": {
-								"schema": {}
-							}
-						},
-						"example": ""
-					}
-				}
-			}
-		}
-	},
-	"servers": [
-		{
-			"url": "",
-			"description": "默认环境",
-			"variables": {
-				"A": {
-					"default": "0",
-					"description": ""
-				},
-				"AA": {
-					"default": "https://",
-					"description": ""
-				}
-			}
-		},
-		{
-			"url": "http://172.17.101.188:30999/mock/609e7121-d80b-4020-9c0a-f955f4b807ae/",
-			"description": "Mock环境",
-			"variables": {}
-		},
-		{
-			"url": "",
-			"description": "2",
-			"variables": {}
-		},
-		{
-			"url": "",
-			"description": "1副本",
-			"variables": {}
-		},
-		{
-			"url": "",
-			"description": "3",
-			"variables": {}
-		},
-		{
-			"url": "",
-			"description": "1",
-			"variables": {}
-		}
-	]
+  "basePath": "",
+  "paths": {
+    "/api/v1/openplat/project/{project}/app/query_apis": {
+      "get": {
+        "summary": "查询应用的API列表",
+        "description": "调用第三方接口查询应用关联的所有API列表，如果API已经发布则通过字段 created=true 标识出。\n该关联标记通过查询参数 project 与 service_id、app_uid、app 三个查询参数的组合来查询。\nproject 与此3个字段组合优先顺序依次为 service_id、app_uid、app 。",
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "additionalProperties": true,
+                "type": "object"
+              }
+            },
+            "description": "查询结果"
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project",
+            "description": "项目",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "app",
+            "description": "应用名称(内部标识)",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "current",
+            "description": "current-当前页面",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "project",
+            "description": "项目",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "description": "size-页面容量",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "description": "run-运行中API,design-设计中API",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "env",
+            "description": "版本环境",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "nameOrUrl",
+            "description": "API名称或地址",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "namespace",
+            "description": "分区",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "cluster",
+            "description": "集群",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "service_id",
+            "description": "开放服务ID",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "app_uid",
+            "description": "HDS应用的uid",
+            "type": "string"
+          }
+        ],
+        "tags": ["app"]
+      }
+    }
+  },
+  "schemes": [],
+  "definitions": {},
+  "swagger": "2.0",
+  "info": {
+    "contact": {},
+    "description": "",
+    "title": "",
+    "version": ""
+  }
 }
