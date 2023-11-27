@@ -60,7 +60,7 @@ export const handleBodyJsonSchema = (schema: any, raw_para?: any, pre = '', requ
       example.push(obj);
     }else if(itemsType === "integer"){
       let value = schema?.items?.oneOf?.[0]?.example || schema?.items?.example || 0
-      console.log(value,"valuevalue");
+      // console.log(value,"valuevalue");
       
       if (Object.prototype.toString.call(raw_para) === '[object Array]') {
         raw_para.push({

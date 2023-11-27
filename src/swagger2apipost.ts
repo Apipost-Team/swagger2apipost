@@ -1020,11 +1020,11 @@ class Swagger2Apipost {
       }
       // console.log(JSON.stringify(validationResult.data.dataModel));
 
-      console.log(JSON.stringify(validationResult.data.apis));
+      // console.log(JSON.stringify(validationResult.data.apis));
 
       return validationResult;
     } catch (error: any) {
-      console.log(error, "error");
+      // console.log(error, "error");
       if (error?.name === 'AbortError') {
         return ConvertResult('error', '数据过大，请求超时。')
       }
