@@ -22,6 +22,7 @@ export const getApipostMode = (mode: string) => {
 
 export const handleBodyJsonSchema = (schema: any, raw_para?: any, pre = '', requiredArr = [], propName = '') => {
   requiredArr = (requiredArr && Array.isArray(requiredArr)) ? requiredArr : []
+  
   let type = schema?.type ? schema.type.toLowerCase() : 'string';
   if (type === "object") {
     let properties = schema?.additionalProperties?.properties || schema?.properties || {}
@@ -30,7 +31,7 @@ export const handleBodyJsonSchema = (schema: any, raw_para?: any, pre = '', requ
     for (const key in properties) {
       if (properties.hasOwnProperty(key)) {
         const item = properties[key];
-        example[key] = handleBodyJsonSchema(item, raw_para, pre ? `${pre}.${key}` : `${key}`, item?.required, key);
+        example[key] = handleBodyJsonSchema(item, raw_para, pre ? `${pre}.${key}` : `${key}`, schema?.required, key);
       }
     }
     return example;
