@@ -250,7 +250,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter?.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type: "Text" // 类型
+                field_type:parameter?.schema?.type || "Text" // 类型
               })
             } else if (parameter.in == 'header') {
               if (!request.hasOwnProperty('header')) {
@@ -263,7 +263,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type: "Text" // 类型
+                field_type:parameter?.schema?.type || "Text" // 类型
               })
             } else if (parameter.in == 'path') {
               if (!request.hasOwnProperty('resful')) {
@@ -276,7 +276,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type: "Text" // 类型
+                field_type:parameter?.schema?.type || "Text" // 类型
               })
             }
           }
@@ -583,7 +583,7 @@ class Swagger2Apipost {
           value: thisProduces.join(', ') || "",
           not_null: "1",
           description: "",
-          field_type: "Text"
+          field_type: "string"
         });
       }
       if (thisConsumes && thisConsumes.length > 0) {
@@ -597,7 +597,7 @@ class Swagger2Apipost {
           value: thisConsumes[0] || "",
           not_null: "1",
           description: "",
-          field_type: "Text"
+          field_type: "string"
         });
       }
 
@@ -627,7 +627,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type: "Text" // 类型
+                field_type: parameter?.schema?.type || "Text" // 类型
               })
             } else if (parameter.in == 'header') {
               if (!request.hasOwnProperty('header')) {
@@ -641,7 +641,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type: "Text" // 类型
+                field_type: parameter?.schema?.type || "Text" // 类型
               })
             } else if (parameter.in == 'path') {
               if (!request.hasOwnProperty('resful')) {
@@ -654,7 +654,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type: "Text" // 类型
+                field_type: parameter?.schema?.type || "Text" // 类型
               })
             } else if (parameter.in == 'body') {
               if ((parameter.hasOwnProperty('schema') && JSON.stringify(parameter.schema.properties) !== "{}") || parameter?.schema?.type === 'array') {
@@ -686,7 +686,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type: "Text" // 类型
+                field_type: parameter?.schema?.type || "Text" // 类型
               })
             }
           }
