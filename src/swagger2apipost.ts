@@ -1,5 +1,7 @@
 import _url from 'url';
 import SwaggerClient from 'swagger-client';
+import parseUrl from 'url-parse';
+
 import { ConvertResult, getApipostMode, handleBodyJsonSchema } from './utils';
 const MockSchema = require('apipost-mock-schema');
 // import MockSchema from 'apipost-mock-schema';
@@ -33,7 +35,27 @@ function replaceRef(schemaObj: any) {
     }
   } catch (error) { }
 }
+function prependHttp(url: any, { https = true } = {}) {
+  if (typeof url !== 'string') {
+    throw new TypeError(`Expected \`url\` to be of type \`string\`, got \`${typeof url}\``);
+  }
 
+  url = url.trim();
+
+  if (/^\.*\/|^(?!localhost)\w+?:/.test(url)) {
+    return url;
+  }
+
+  return url.replace(/^(?!(?:\w+?:)?\/\/)/, https ? 'https://' : 'http://');
+}
+
+function urlParseLax(url: string, options?: any) {
+  if (typeof url !== 'string') {
+    return '';
+  }
+  const finalUrl = prependHttp(url, options);
+  return parseUrl(finalUrl);
+};
 const swaggerSchema2apipostSchema = (schemaObj: any) => {
   let jsonSchema: any = {};
   try {
@@ -210,6 +232,7 @@ class Swagger2Apipost {
         'target_type': 'api',
         'tags': swaggerApi?.apipost_tags || [],
         'url': url || '',
+        'mock_url': urlParseLax(url)?.pathname || '',
         'method': method.toUpperCase() || 'GET',
         'request': {
           'description': swaggerApi?.description || '',
@@ -250,7 +273,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter?.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type:parameter?.schema?.type || "Text" // 类型
+                field_type: parameter?.schema?.type || "Text" // 类型
               })
             } else if (parameter.in == 'header') {
               if (!request.hasOwnProperty('header')) {
@@ -263,7 +286,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type:parameter?.schema?.type || "Text" // 类型
+                field_type: parameter?.schema?.type || "Text" // 类型
               })
             } else if (parameter.in == 'path') {
               if (!request.hasOwnProperty('resful')) {
@@ -276,7 +299,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type:parameter?.schema?.type || "Text" // 类型
+                field_type: parameter?.schema?.type || "Text" // 类型
               })
             }
           }
@@ -527,6 +550,7 @@ class Swagger2Apipost {
         'tags': swaggerApi?.apipost_tags || [],
         'target_type': 'api',
         'url': url || '',
+        'mock_url': urlParseLax(url)?.pathname || '',
         'method': method.toUpperCase() || 'GET',
         'request': {
           'description': swaggerApi?.description || '',
@@ -1020,7 +1044,7 @@ class Swagger2Apipost {
       }
       // console.log(JSON.stringify(validationResult.data.dataModel));
 
-      // console.log(JSON.stringify(validationResult.data.apis));
+      console.log(JSON.stringify(validationResult.data.apis));
 
       return validationResult;
     } catch (error: any) {
