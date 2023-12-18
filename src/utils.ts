@@ -34,6 +34,17 @@ export const handleBodyJsonSchema = (schema: any, raw_para?: any, pre = '', requ
         example[key] = handleBodyJsonSchema(item, raw_para, pre ? `${pre}.${key}` : `${key}`, schema?.required, key);
       }
     }
+    if(pre){
+      raw_para.push({
+        key: `${pre}`,
+        value: schema?.example || "{}",
+        description: String(schema?.description || ''),
+        not_null: requiredArr?.find(it => it == propName) ? "1" : "-1",
+        field_type: type ? type.charAt(0).toUpperCase() + type.slice(1) : "Text",
+        type: "Text",
+        is_checked: 1,
+      });
+    }
     return example;
   } else if (type === "array") {
     const example:any = [];
