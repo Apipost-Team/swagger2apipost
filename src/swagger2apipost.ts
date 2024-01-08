@@ -12,7 +12,6 @@ function replaceRef(schemaObj: any) {
     for (const key in schemaObj) {
       const value = schemaObj[key];
       // 如果当前属性的值是一个对象，则递归遍历该对象
-
       if (typeof value === 'object' && value !== null) {
         // 查找并替换 insAppInfo 对象
         if (value.hasOwnProperty('ref') || value.hasOwnProperty('$$ref')) {
@@ -273,7 +272,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter?.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type: parameter?.schema?.type || "Text" // 类型
+                field_type: parameter?.type || "Text" // 类型
               })
             } else if (parameter.in == 'header') {
               if (!request.hasOwnProperty('header')) {
@@ -286,7 +285,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type: parameter?.schema?.type || "Text" // 类型
+                field_type: parameter?.type || "Text" // 类型
               })
             } else if (parameter.in == 'path') {
               if (!request.hasOwnProperty('resful')) {
@@ -299,7 +298,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type: parameter?.schema?.type || "Text" // 类型
+                field_type: parameter?.type || "Text" // 类型
               })
             }
           }
@@ -651,7 +650,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type: parameter?.schema?.type || "Text" // 类型
+                field_type: parameter?.type || "Text" // 类型
               })
             } else if (parameter.in == 'header') {
               if (!request.hasOwnProperty('header')) {
@@ -665,7 +664,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type: parameter?.schema?.type || "Text" // 类型
+                field_type: parameter?.type || "Text" // 类型
               })
             } else if (parameter.in == 'path') {
               if (!request.hasOwnProperty('resful')) {
@@ -678,10 +677,10 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type: parameter?.schema?.type || "Text" // 类型
+                field_type: parameter?.type || "Text" // 类型
               })
             } else if (parameter.in == 'body') {
-              if ((parameter.hasOwnProperty('schema') && JSON.stringify(parameter.schema.properties) !== "{}") || parameter?.schema?.type === 'array') {
+              if ((parameter.hasOwnProperty('schema') && JSON.stringify(parameter.schema.properties) !== "{}") || parameter?.type === 'array') {
 
                 let raw_para: any = [];
                 let Raw = handleBodyJsonSchema(parameter.schema, raw_para)
@@ -710,7 +709,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type: parameter?.schema?.type || "Text" // 类型
+                field_type: parameter?.type || "Text" // 类型
               })
             }
           }
@@ -1024,6 +1023,7 @@ class Swagger2Apipost {
         await this.handlePaths(swagger3Json);
       } else if (this.version == '3.0') {
         this.handleServers(swagger3Json);
+        console.log(JSON.stringify(validationResult));
         await this.handlePathsV3(swagger3Json);
       }
 
