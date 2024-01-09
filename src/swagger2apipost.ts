@@ -832,8 +832,8 @@ class Swagger2Apipost {
     }
   }
   async handlePathsV3(json: any) {
-    var paths = json.paths;
-    var tags = json.tags;
+    var paths = json?.openapi?.paths ||  json.paths;
+    var tags = json?.openapi?.tags || json.tags;
     for (const path in paths) {
       await this.handlePathV3(path, paths[path], tags);
     }
