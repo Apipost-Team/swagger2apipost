@@ -1,6 +1,10 @@
 {
   "name": "swagger2apipost",
+<<<<<<< HEAD
   "version": "0.1.52",
+=======
+  "version": "0.1.57",
+>>>>>>> 4a35fd3b61df46ed4f7eaeae91573eef0cd11079
   "description": "swagger2apipost",
   "main": "dist/index.js",
   "files": [
@@ -25,6 +29,7 @@
     "rollup-plugin-typescript2": "^0.31.2",
     "swagger-client": "3.18.5",
     "typescript": "4.4.0-dev.20210728",
+    "url-parse": "^1.5.10",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
