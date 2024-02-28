@@ -1,10 +1,6 @@
 {
   "name": "swagger2apipost",
-<<<<<<< HEAD
-  "version": "0.1.52",
-=======
   "version": "0.1.57",
->>>>>>> 4a35fd3b61df46ed4f7eaeae91573eef0cd11079
   "description": "swagger2apipost",
   "main": "dist/index.js",
   "files": [
@@ -20,6 +16,7 @@
   "dependencies": {
     "@rollup/plugin-node-resolve": "^13.3.0",
     "apipost-mock-schema": "^0.0.25",
+    "axios": "^1.6.7",
     "core-js": "^3.9.0",
     "lodash": "^4.17.21",
     "rollup": "^2.74.1",

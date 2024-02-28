@@ -1,5 +1,6 @@
 import _url from 'url';
 import SwaggerClient from 'swagger-client';
+import axios from 'axios'
 import parseUrl from 'url-parse';
 
 import { ConvertResult, getApipostMode, handleBodyJsonSchema } from './utils';
@@ -74,6 +75,9 @@ const swaggerSchema2apipostSchema = (schemaObj: any) => {
     jsonSchema = JSON.parse(jsonSchemaStr);
     if (jsonSchema.hasOwnProperty('ref') || jsonSchema.hasOwnProperty('$$ref')) {
       let newIuid = uuidV4();
+      if (jsonSchema?.ref && jsonSchema.ref.startsWith("http://localhost:8080/")) {
+        jsonSchema.ref = jsonSchema.ref.substring(22);
+      }
       jsonSchema = {
         APIPOST_REFS: {
           [newIuid]: {
@@ -386,7 +390,7 @@ class Swagger2Apipost {
 
               if (Object.prototype.toString.call(element?.schema?.['$$ref']) === "[object String]") {
                 jsonSchema = swaggerSchema2apipostSchema(element.schema);
-              }else{
+              } else {
                 jsonSchema = element.schema
               }
               // 成功响应示例
@@ -434,7 +438,7 @@ class Swagger2Apipost {
 
                 if (Object.prototype.toString.call(bodyData?.schema?.['$$ref']) === "[object String]") {
                   jsonSchema = swaggerSchema2apipostSchema(bodyData.schema);
-                }else if(isPlainObject(bodyData?.schema)){
+                } else if (isPlainObject(bodyData?.schema)) {
                   jsonSchema = bodyData.schema
                 }
                 if (bodyData.hasOwnProperty('example')) {
@@ -704,7 +708,7 @@ class Swagger2Apipost {
 
               if (Object.prototype.toString.call(parameter?.schema?.['$$ref']) === "[object String]") {
                 request.body.raw_schema = swaggerSchema2apipostSchema(parameter.schema);
-              }else{
+              } else {
                 request.body.raw_schema = parameter.schema;
               }
             } else if (parameter.in == 'formData') {
@@ -735,7 +739,7 @@ class Swagger2Apipost {
               let jsonSchema = {};
               if (Object.prototype.toString.call(element?.schema?.['$$ref']) === "[object String]") {
                 jsonSchema = swaggerSchema2apipostSchema(element.schema);
-              }else{
+              } else {
                 jsonSchema = element.schema;
               }
               // 成功响应示例
@@ -771,7 +775,7 @@ class Swagger2Apipost {
               let jsonSchema = {};
               if (Object.prototype.toString.call(bodyData?.schema?.['$$ref']) === "[object String]") {
                 jsonSchema = swaggerSchema2apipostSchema(bodyData.schema);
-              }else if(isPlainObject(bodyData?.schema)){
+              } else if (isPlainObject(bodyData?.schema)) {
                 jsonSchema = bodyData.schema;
               }
 
@@ -842,7 +846,7 @@ class Swagger2Apipost {
     }
   }
   async handlePathsV3(json: any) {
-    var paths = json?.openapi?.paths ||  json.paths;
+    var paths = json?.openapi?.paths || json.paths;
     var tags = json?.openapi?.tags || json.tags;
     for (const path in paths) {
       await this.handlePathV3(path, paths[path], tags);
@@ -924,7 +928,7 @@ class Swagger2Apipost {
   createNewModelData(item: any, key: any, folder_name: string) {
     var model: any = {
       model_id: `#/components/${folder_name}/${key}`,
-      name: item?.title || '新建数据模型',
+      name: item?.title || key || '新建数据模型',
       displayName: item?.title || '',
       model_type: 'model',
       description: item?.description || '',
@@ -1011,9 +1015,12 @@ class Swagger2Apipost {
           swagger3Json = swaggerJson.spec;
         })
       } else {
-        await SwaggerClient.resolve({ url: json }).then((swaggerJson: any) => {
-          swagger3Json = swaggerJson.spec;
-        })
+        const resp = await axios.get(json)
+        if (isPlainObject(resp?.data)) {
+          await SwaggerClient.resolve({ spec: resp.data }).then((swaggerJson: any) => {
+            swagger3Json = swaggerJson.spec;
+          })
+        }
         try {
           let swagger3JsonStr = JSON.stringify(swagger3Json);
 

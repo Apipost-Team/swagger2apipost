@@ -37,7 +37,7 @@ export const handleBodyJsonSchema = (schema: any, raw_para?: any, pre = '', requ
     if(pre){
       raw_para.push({
         key: `${pre}`,
-        value: schema?.example || "{}",
+        value: schema?.example || schema?.default || "{}",,
         description: String(schema?.description || ''),
         not_null: requiredArr?.find(it => it == propName) ? "1" : "-1",
         field_type: type ? type.charAt(0).toUpperCase() + type.slice(1) : "Text",
@@ -107,7 +107,7 @@ export const handleBodyJsonSchema = (schema: any, raw_para?: any, pre = '', requ
     if (Object.prototype.toString.call(raw_para) === '[object Array]') {
       raw_para.push({
         key: `${pre}`,
-        value: schema?.example || 0,
+        value: schema?.example || schema?.default || 0,
         description: String(schema?.description || ''),
         not_null: requiredArr?.find(it => it == propName) ? "1" : "-1",
         field_type: type ? type.charAt(0).toUpperCase() + type.slice(1) : "Text",
@@ -115,12 +115,12 @@ export const handleBodyJsonSchema = (schema: any, raw_para?: any, pre = '', requ
         is_checked: 1,
       });
     }
-    return schema?.example || 0;
+    return schema?.example || schema?.default || 0;
   } else {
     if (Object.prototype.toString.call(raw_para) === '[object Array]') {
       raw_para.push({
         key: `${pre}`,
-        value: schema?.example || "",
+        value: schema?.example || schema?.default || "",
         description: String(schema?.description || ''),
         not_null: requiredArr?.find(it => it == propName) ? "1" : "-1",
         field_type: type ? type.charAt(0).toUpperCase() + type.slice(1) : "Text",
@@ -128,6 +128,6 @@ export const handleBodyJsonSchema = (schema: any, raw_para?: any, pre = '', requ
         is_checked: 1,
       });
     }
-    return schema?.example || "";
+    return schema?.example || schema?.default || "";
   }
 }
