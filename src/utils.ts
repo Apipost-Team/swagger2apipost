@@ -37,7 +37,7 @@ export const handleBodyJsonSchema = (schema: any, raw_para?: any, pre = '', requ
     if(pre){
       raw_para.push({
         key: `${pre}`,
-        value: schema?.example || schema?.default || "{}",,
+        value: schema?.example || schema?.default || "{}",
         description: String(schema?.description || ''),
         not_null: requiredArr?.find(it => it == propName) ? "1" : "-1",
         field_type: type ? type.charAt(0).toUpperCase() + type.slice(1) : "Text",
