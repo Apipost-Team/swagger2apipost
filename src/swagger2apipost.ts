@@ -929,7 +929,7 @@ class Swagger2Apipost {
     var model: any = {
       model_id: `#/components/${folder_name}/${key}`,
       name: item?.title || key || '新建数据模型',
-      displayName: item?.title || '',
+      displayName: item?.title || key || '',
       model_type: 'model',
       description: item?.description || '',
       schema: {},
