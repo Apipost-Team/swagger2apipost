@@ -75,8 +75,8 @@ const swaggerSchema2apipostSchema = (schemaObj: any) => {
     jsonSchema = JSON.parse(jsonSchemaStr);
     if (jsonSchema.hasOwnProperty('ref') || jsonSchema.hasOwnProperty('$$ref')) {
       let newIuid = uuidV4();
-      if (jsonSchema?.ref && jsonSchema.ref.startsWith("http://localhost:8080/")) {
-        jsonSchema.ref = jsonSchema.ref.substring(22);
+      if (isString(jsonSchema?.ref) && jsonSchema.ref.split('#').length == 2) {
+        jsonSchema.ref = `#${jsonSchema.ref.split('#')[1]}`;
       }
       jsonSchema = {
         APIPOST_REFS: {
