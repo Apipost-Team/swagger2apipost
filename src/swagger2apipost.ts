@@ -222,8 +222,15 @@ class Swagger2Apipost {
     // if(this.options.basePath){
     //   url=decodeURI(_url.resolve(this.basePath, path))
     // }
-    if (path && path.charAt(0) == '/') {
-      url = path.substring(1);
+    if (this.options?.host) {
+      url = (this.env?.[0]?.pre_url ?? '') + url
+    }
+    if (url && url.charAt(0) == '/') {
+      url = url.substring(1);
+    }
+    //fix 导入url后前面没出现/问题修复
+    if (!isEmpty(url) && /(http|https):/.test(url) === false && /^\//.test(url) === false) {
+      url = "/" + url
     }
     for (const method in pathItem) {
       let swaggerApi = pathItem[method];
@@ -276,7 +283,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter?.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type: parameter?.type || "Text" // 类型
+                field_type: parameter?.schema?.type || parameter?.type || "Text" // 类型
               })
             } else if (parameter.in == 'header') {
               if (!request.hasOwnProperty('header')) {
@@ -289,7 +296,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type: parameter?.type || "Text" // 类型
+                field_type: parameter?.schema?.type || parameter?.type || "Text" // 类型
               })
             } else if (parameter.in == 'path') {
               if (!request.hasOwnProperty('resful')) {
@@ -302,7 +309,7 @@ class Swagger2Apipost {
                 value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
                 not_null: parameter.required ? "1" : "-1", // 是否为空
                 description: parameter?.description || '', // 参数描述
-                field_type: parameter?.type || "Text" // 类型
+                field_type: parameter?.schema?.type || parameter?.type || "Text" // 类型
               })
             }
           }
@@ -544,6 +551,10 @@ class Swagger2Apipost {
     }
     if (url.charAt(url.length - 1) == '/') {
       url = url.substring(0, url.length - 1);
+    }
+    //fix 导入url后前面没出现/问题修复
+    if (!isEmpty(url) && isEmpty(this.basePath) && /(http|https):/.test(url) === false && /^\//.test(url) === false) {
+      url = "/" + url
     }
     url = decodeURI(this.basePath + url)
 
