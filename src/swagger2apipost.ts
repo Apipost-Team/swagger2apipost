@@ -1,6 +1,6 @@
 import _url from 'url';
 import SwaggerClient from 'swagger-client';
-import axios from 'axios'
+import axios from 'axios';
 import parseUrl from 'url-parse';
 
 import { ConvertResult, getApipostMode, handleBodyJsonSchema } from './utils';
@@ -20,20 +20,20 @@ function replaceRef(schemaObj: any) {
           schemaObj[key] = {
             APIPOST_REFS: {
               [newIuid]: {
-                ref: value?.ref || value?.['$$ref']
+                ref: value?.ref || value?.['$$ref'],
               },
             },
             properties: {},
             APIPOST_ORDERS: [newIuid],
-            type: "object",
-            ref: value?.ref || value?.['$$ref']
-          }
+            type: 'object',
+            ref: value?.ref || value?.['$$ref'],
+          };
           break;
         }
         replaceRef(value);
       }
     }
-  } catch (error) { }
+  } catch (error) {}
 }
 function prependHttp(url: any, { https = true } = {}) {
   if (typeof url !== 'string') {
@@ -55,46 +55,46 @@ function urlParseLax(url: string, options?: any) {
   }
   const finalUrl = prependHttp(url, options);
   return parseUrl(finalUrl);
-};
+}
 const swaggerSchema2apipostSchema = (schemaObj: any) => {
   let jsonSchema: any = {};
   try {
     // x-apifox-orders 2 APIPOST_ORDERS x-apifox-refs 2 APIPOST_REFS  $ref 2 ref  x-apifox-overrides 2 APIPOST_OVERRIDES
     let jsonSchemaStr = JSON.stringify(schemaObj);
     // 替换 x-apifox-orders 为 APIPOST_ORDERS
-    jsonSchemaStr = jsonSchemaStr.replace(/\"x-apifox-orders\"/g, '\"APIPOST_ORDERS\"');
+    jsonSchemaStr = jsonSchemaStr.replace(/\"x-apifox-orders\"/g, '"APIPOST_ORDERS"');
     // 替换 x-apifox-refs 为 APIPOST_REFS
-    jsonSchemaStr = jsonSchemaStr.replace(/\"x-apifox-refs\"/g, '\"APIPOST_REFS\"');
+    jsonSchemaStr = jsonSchemaStr.replace(/\"x-apifox-refs\"/g, '"APIPOST_REFS"');
     // 替换 $ref 为 ref
-    jsonSchemaStr = jsonSchemaStr.replace(/\"\$ref\"/g, '\"ref\"');
+    jsonSchemaStr = jsonSchemaStr.replace(/\"\$ref\"/g, '"ref"');
     // 替换 $ref 为 ref
-    jsonSchemaStr = jsonSchemaStr.replace(/\"\$\$ref\"/g, '\"ref\"');
+    jsonSchemaStr = jsonSchemaStr.replace(/\"\$\$ref\"/g, '"ref"');
     // 替换 x-apifox-overrides 为 APIPOST_OVERRIDES
-    jsonSchemaStr = jsonSchemaStr.replace(/\"x-apifox-overrides\"/g, '\"APIPOST_OVERRIDES\"');
+    jsonSchemaStr = jsonSchemaStr.replace(/\"x-apifox-overrides\"/g, '"APIPOST_OVERRIDES"');
     // 还原为对象
     jsonSchema = JSON.parse(jsonSchemaStr);
     if (jsonSchema.hasOwnProperty('ref') || jsonSchema.hasOwnProperty('$$ref')) {
       let newIuid = uuidV4();
-      if (jsonSchema?.ref && jsonSchema.ref.startsWith("http://localhost:8080/")) {
-        jsonSchema.ref = jsonSchema.ref.substring(22);
+      if (isString(jsonSchema?.ref) && jsonSchema.ref.split('#').length == 2) {
+        jsonSchema.ref = `#${jsonSchema.ref.split('#')[1]}`;
       }
       jsonSchema = {
         APIPOST_REFS: {
           [newIuid]: {
-            ref: jsonSchema?.ref || jsonSchema?.['$$ref']
+            ref: jsonSchema?.ref || jsonSchema?.['$$ref'],
           },
         },
         properties: {},
         APIPOST_ORDERS: [newIuid],
-        type: "object",
-      }
+        type: 'object',
+      };
     } else {
-      replaceRef(jsonSchema)
+      replaceRef(jsonSchema);
     }
-  } catch (error) { }
+  } catch (error) {}
 
   return jsonSchema;
-}
+};
 
 class Swagger2Apipost {
   version: string;
@@ -120,8 +120,8 @@ class Swagger2Apipost {
     this.env = [];
     this.options = {
       basePath: true,
-      host: true
-    }
+      host: true,
+    };
     this.dataModel = [];
   }
   validate(json: any) {
@@ -146,7 +146,6 @@ class Swagger2Apipost {
     if (json.host && this.options.host) {
       this.basePath = json.host;
     }
-
 
     if (json.basePath && this.options.basePath) {
       this.basePath += json.basePath;
@@ -173,13 +172,12 @@ class Swagger2Apipost {
     }
     var servers = json.servers;
     for (const server of servers) {
-
       let newEnv: any = {
         name: server?.description || server?.url || '未命名环境',
         pre_url: server.url || '',
         type: 'custom',
         list: {},
-      }
+      };
       if (server.hasOwnProperty('variables')) {
         for (const key in server.variables) {
           newEnv.list[key] = {
@@ -222,8 +220,15 @@ class Swagger2Apipost {
     // if(this.options.basePath){
     //   url=decodeURI(_url.resolve(this.basePath, path))
     // }
-    if (path && path.charAt(0) == '/') {
-      url = path.substring(1);
+    if (this.options?.host) {
+      url = (this.env?.[0]?.pre_url ?? '') + url;
+    }
+    if (url && url.charAt(0) == '/') {
+      url = url.substring(1);
+    }
+    //fix 导入url后前面没出现/问题修复
+    if (!isEmpty(url) && /(http|https):/.test(url) === false && /^\//.test(url) === false) {
+      url = '/' + url;
     }
     for (const method in pathItem) {
       let swaggerApi = pathItem[method];
@@ -231,35 +236,35 @@ class Swagger2Apipost {
         this.handleTags(swaggerApi.tags, tags);
       }
       let api: any = {
-        'name': swaggerApi?.summary || '新建接口',
-        'target_type': 'api',
-        'tags': swaggerApi?.apipost_tags || [],
-        'url': url || '',
-        'mock_url': urlParseLax(url)?.pathname || '',
-        'method': method.toUpperCase() || 'GET',
-        'request': {
-          'description': swaggerApi?.description || '',
+        name: swaggerApi?.summary || '新建接口',
+        target_type: 'api',
+        tags: swaggerApi?.apipost_tags || [],
+        url: url || '',
+        mock_url: urlParseLax(url)?.pathname || '',
+        method: method.toUpperCase() || 'GET',
+        request: {
+          description: swaggerApi?.description || '',
         },
-        'response': {
-          'success': {
+        response: {
+          success: {
             parameter: [],
             raw: '',
             expect: {
               name: '成功',
               isDefault: 1,
               code: '200',
-              contentType: "json",
+              contentType: 'json',
               schema: {},
-              mock: "",
-              verifyType: "schema",
+              mock: '',
+              verifyType: 'schema',
             },
           },
-          'error': {
+          error: {
             parameter: [],
-            raw: ''
-          }
-        }
-      }
+            raw: '',
+          },
+        },
+      };
       const { request } = api;
       const { response } = api;
       if (swaggerApi.hasOwnProperty('parameters')) {
@@ -269,51 +274,72 @@ class Swagger2Apipost {
               if (!request.hasOwnProperty('query')) {
                 request['query'] = [];
               }
-              parameter?.name && request.query.push({
-                is_checked: "1", // 是否选择
-                type: "Text", // 参数值类型 Text/File
-                key: parameter?.name || '', //参数名
-                value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
-                not_null: parameter?.required ? "1" : "-1", // 是否为空
-                description: parameter?.description || '', // 参数描述
-                field_type: parameter?.type || "Text" // 类型
-              })
+              parameter?.name &&
+                request.query.push({
+                  is_checked: '1', // 是否选择
+                  type: 'Text', // 参数值类型 Text/File
+                  key: parameter?.name || '', //参数名
+                  value:
+                    parameter?.example ||
+                    parameter?.schema?.example ||
+                    parameter?.default ||
+                    parameter?.enum?.join('|') ||
+                    '', //参数值
+                  not_null: parameter?.required ? '1' : '-1', // 是否为空
+                  description: parameter?.description || '', // 参数描述
+                  field_type: parameter?.schema?.type || parameter?.type || 'Text', // 类型
+                });
             } else if (parameter.in == 'header') {
               if (!request.hasOwnProperty('header')) {
                 request['header'] = [];
               }
-              parameter?.name && request.header.push({
-                is_checked: "1", // 是否选择
-                type: "Text", // 参数值类型 Text/File
-                key: parameter?.name || '', //参数名
-                value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
-                not_null: parameter.required ? "1" : "-1", // 是否为空
-                description: parameter?.description || '', // 参数描述
-                field_type: parameter?.type || "Text" // 类型
-              })
+              parameter?.name &&
+                request.header.push({
+                  is_checked: '1', // 是否选择
+                  type: 'Text', // 参数值类型 Text/File
+                  key: parameter?.name || '', //参数名
+                  value:
+                    parameter?.example ||
+                    parameter?.schema?.example ||
+                    parameter?.default ||
+                    parameter?.enum?.join('|') ||
+                    '', //参数值
+                  not_null: parameter.required ? '1' : '-1', // 是否为空
+                  description: parameter?.description || '', // 参数描述
+                  field_type: parameter?.schema?.type || parameter?.type || 'Text', // 类型
+                });
             } else if (parameter.in == 'path') {
               if (!request.hasOwnProperty('resful')) {
                 request['resful'] = [];
               }
-              parameter?.name && request.resful.push({
-                is_checked: "1", // 是否选择
-                type: "Text", // 参数值类型 Text/File
-                key: parameter?.name || '', //参数名
-                value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
-                not_null: parameter.required ? "1" : "-1", // 是否为空
-                description: parameter?.description || '', // 参数描述
-                field_type: parameter?.type || "Text" // 类型
-              })
+              parameter?.name &&
+                request.resful.push({
+                  is_checked: '1', // 是否选择
+                  type: 'Text', // 参数值类型 Text/File
+                  key: parameter?.name || '', //参数名
+                  value:
+                    parameter?.example ||
+                    parameter?.schema?.example ||
+                    parameter?.default ||
+                    parameter?.enum?.join('|') ||
+                    '', //参数值
+                  not_null: parameter.required ? '1' : '-1', // 是否为空
+                  description: parameter?.description || '', // 参数描述
+                  field_type: parameter?.schema?.type || parameter?.type || 'Text', // 类型
+                });
             }
           }
         }
       }
 
-      if (swaggerApi.hasOwnProperty('requestBody') && swaggerApi.requestBody.hasOwnProperty('content')) {
+      if (
+        swaggerApi.hasOwnProperty('requestBody') &&
+        swaggerApi.requestBody.hasOwnProperty('content')
+      ) {
         let content = swaggerApi.requestBody.content;
-        let mode = content instanceof Object ? Object.keys(content)[0] : "none";
+        let mode = content instanceof Object ? Object.keys(content)[0] : 'none';
         let bodyData = content[mode];
-        let apipostMode = getApipostMode(mode)
+        let apipostMode = getApipostMode(mode);
         let properties: any = {};
         if (bodyData.hasOwnProperty('schema')) {
           let { schema } = bodyData;
@@ -324,30 +350,30 @@ class Swagger2Apipost {
           }
         }
         request.body = {
-          "mode": apipostMode,
-          "parameter": [],
-          "raw": "",
-          "raw_para": []
+          mode: apipostMode,
+          parameter: [],
+          raw: '',
+          raw_para: [],
         };
 
         if (apipostMode == 'urlencoded' || apipostMode == 'form-data') {
           for (const key in properties) {
             let item = properties[key];
 
-            key && request.body.parameter.push(
-              {
-                is_checked: "1",
+            key &&
+              request.body.parameter.push({
+                is_checked: '1',
                 type: item.hasOwnProperty('format') && item.format == 'binary' ? 'File' : 'Text',
-                key: key || "",
-                value: item?.example || "",
-                not_null: item?.required ? "1" : "-1",
-                description: item?.description || "",
-                field_type: item.hasOwnProperty('type') ? item.type.charAt(0).toUpperCase() + item.type.slice(1) : "Text"
-              })
+                key: key || '',
+                value: item?.example || item?.enum?.join('|') || '',
+                not_null: item?.required ? '1' : '-1',
+                description: item?.description || '',
+                field_type: item.hasOwnProperty('type')
+                  ? item.type.charAt(0).toUpperCase() + item.type.slice(1)
+                  : 'Text',
+              });
           }
-        }
-        else if (apipostMode == 'json') {
-
+        } else if (apipostMode == 'json') {
           if (bodyData.hasOwnProperty('example')) {
             let example = bodyData.example;
             if (typeof example == 'object') {
@@ -359,20 +385,23 @@ class Swagger2Apipost {
           if (bodyData.hasOwnProperty('schema')) {
             request.body.raw_schema = swaggerSchema2apipostSchema(bodyData.schema);
             let raw_para: any = [];
-            let Raw = handleBodyJsonSchema(bodyData.schema, raw_para)
+            let Raw = handleBodyJsonSchema(bodyData.schema, raw_para);
             let Raw_text = isPlainObject(Raw) || Array.isArray(Raw) ? JSON.stringify(Raw) : Raw;
             request.body.raw = request.body.raw ? request.body.raw : Raw_text;
             request.body.raw_para = raw_para;
             if (isEmpty(request.body.raw)) {
               try {
                 const myMockSchema = new MockSchema();
-                let schemaJson = await myMockSchema.mock(bodyData.schema)
+                let schemaJson = await myMockSchema.mock(bodyData.schema);
 
-                request.body.raw = isPlainObject(schemaJson) || Array.isArray(Raw) ? JSON.stringify(schemaJson) : schemaJson;
-              } catch (error) { }
+                request.body.raw =
+                  isPlainObject(schemaJson) || Array.isArray(Raw)
+                    ? JSON.stringify(schemaJson)
+                    : schemaJson;
+              } catch (error) {}
             }
             if (typeof request.body.raw == 'object') {
-              request.body.raw = `${request.body.raw}`
+              request.body.raw = `${request.body.raw}`;
             }
           }
         }
@@ -381,17 +410,24 @@ class Swagger2Apipost {
         if (Object.prototype.toString.call(swaggerApi.responses) === '[object Object]') {
           Object.keys(swaggerApi.responses).forEach((status: any) => {
             const element = swaggerApi.responses[status];
-            if ((element.hasOwnProperty('schema') && element.schema.hasOwnProperty('properties') && JSON.stringify(element.schema.properties) !== "{}") || element?.schema?.type === 'array') {
+            if (
+              (element.hasOwnProperty('schema') &&
+                element.schema.hasOwnProperty('properties') &&
+                JSON.stringify(element.schema.properties) !== '{}') ||
+              element?.schema?.type === 'array'
+            ) {
               let raw_para: any = [];
-              let Raw = handleBodyJsonSchema(element.schema, raw_para)
+              let Raw = handleBodyJsonSchema(element.schema, raw_para);
               let Raw_text = isPlainObject(Raw) || Array.isArray(Raw) ? JSON.stringify(Raw) : Raw;
 
               let jsonSchema = {};
 
-              if (Object.prototype.toString.call(element?.schema?.['$$ref']) === "[object String]") {
+              if (
+                Object.prototype.toString.call(element?.schema?.['$$ref']) === '[object String]'
+              ) {
                 jsonSchema = swaggerSchema2apipostSchema(element.schema);
               } else {
-                jsonSchema = element.schema
+                jsonSchema = element.schema;
               }
               // 成功响应示例
               if (status == 200) {
@@ -406,23 +442,25 @@ class Swagger2Apipost {
                     name: element?.description || status,
                     isDefault: -1,
                     code: status,
-                    contentType: "json",
+                    contentType: 'json',
                     schema: jsonSchema,
-                    mock: "",
-                    verifyType: "schema",
+                    mock: '',
+                    verifyType: 'schema',
                   },
                   raw: Raw_text,
                   parameter: raw_para,
-                }
+                };
               }
-            } else if (element.hasOwnProperty('content') && Object.keys(element.content)?.length > 0) {
+            } else if (
+              element.hasOwnProperty('content') &&
+              Object.keys(element.content)?.length > 0
+            ) {
               let content = element.content;
 
-
-              let mode = content instanceof Object ? Object.keys(content)[0] : "none";
+              let mode = content instanceof Object ? Object.keys(content)[0] : 'none';
               let bodyData = content[mode];
 
-              let apipostMode = getApipostMode(mode)
+              let apipostMode = getApipostMode(mode);
               let properties: any = {};
               if (bodyData.hasOwnProperty('schema')) {
                 let { schema } = bodyData;
@@ -436,10 +474,12 @@ class Swagger2Apipost {
               if (apipostMode == 'json') {
                 let jsonSchema = {};
 
-                if (Object.prototype.toString.call(bodyData?.schema?.['$$ref']) === "[object String]") {
+                if (
+                  Object.prototype.toString.call(bodyData?.schema?.['$$ref']) === '[object String]'
+                ) {
                   jsonSchema = swaggerSchema2apipostSchema(bodyData.schema);
                 } else if (isPlainObject(bodyData?.schema)) {
-                  jsonSchema = bodyData.schema
+                  jsonSchema = bodyData.schema;
                 }
                 if (bodyData.hasOwnProperty('example')) {
                   let example = bodyData.example;
@@ -460,14 +500,14 @@ class Swagger2Apipost {
                           name: element?.description || status,
                           isDefault: -1,
                           code: status,
-                          contentType: "json",
+                          contentType: 'json',
                           schema: jsonSchema,
-                          mock: "",
-                          verifyType: "schema",
+                          mock: '',
+                          verifyType: 'schema',
                         },
                         raw: '',
                         parameter: [],
-                      }
+                      };
                       try {
                         response[newUUID].raw = JSON.stringify({ ...example });
                       } catch (error) {
@@ -476,11 +516,11 @@ class Swagger2Apipost {
                     }
                   }
                 } else {
-
                   if (bodyData.hasOwnProperty('schema')) {
                     let raw_para: any = [];
-                    let Raw = handleBodyJsonSchema(bodyData.schema, raw_para)
-                    let Raw_text = isPlainObject(Raw) || Array.isArray(Raw) ? JSON.stringify(Raw) : Raw;
+                    let Raw = handleBodyJsonSchema(bodyData.schema, raw_para);
+                    let Raw_text =
+                      isPlainObject(Raw) || Array.isArray(Raw) ? JSON.stringify(Raw) : Raw;
 
                     if (status == 200) {
                       response.success.raw = Raw_text;
@@ -494,14 +534,14 @@ class Swagger2Apipost {
                           name: element?.description || status,
                           isDefault: -1,
                           code: status,
-                          contentType: "json",
+                          contentType: 'json',
                           schema: jsonSchema,
-                          mock: "",
-                          verifyType: "schema",
+                          mock: '',
+                          verifyType: 'schema',
                         },
                         raw: Raw_text,
                         parameter: raw_para,
-                      }
+                      };
                     }
                   }
                 }
@@ -514,16 +554,16 @@ class Swagger2Apipost {
                   name: element?.description || status,
                   isDefault: -1,
                   code: status,
-                  contentType: "json",
+                  contentType: 'json',
                   schema: '',
-                  mock: "",
-                  verifyType: "schema",
+                  mock: '',
+                  verifyType: 'schema',
                 },
                 raw: '',
                 parameter: [],
-              }
+              };
             }
-          })
+          });
         }
       }
       if (swaggerApi.hasOwnProperty('tags') && swaggerApi.tags.length > 0) {
@@ -533,7 +573,7 @@ class Swagger2Apipost {
           }
         }
       } else {
-        this.apis.push(api)
+        this.apis.push(api);
       }
     }
   }
@@ -545,7 +585,16 @@ class Swagger2Apipost {
     if (url.charAt(url.length - 1) == '/') {
       url = url.substring(0, url.length - 1);
     }
-    url = decodeURI(this.basePath + url)
+    //fix 导入url后前面没出现/问题修复
+    if (
+      !isEmpty(url) &&
+      isEmpty(this.basePath) &&
+      /(http|https):/.test(url) === false &&
+      /^\//.test(url) === false
+    ) {
+      url = '/' + url;
+    }
+    url = decodeURI(this.basePath + url);
 
     for (const method in pathItem) {
       let swaggerApi = pathItem[method];
@@ -553,44 +602,44 @@ class Swagger2Apipost {
         this.handleTags(swaggerApi.tags, tags);
       }
       let api: any = {
-        'name': swaggerApi?.summary || '新建接口',
-        'tags': swaggerApi?.apipost_tags || [],
-        'target_type': 'api',
-        'url': url || '',
-        'mock_url': urlParseLax(url)?.pathname || '',
-        'method': method.toUpperCase() || 'GET',
-        'request': {
-          'description': swaggerApi?.description || '',
-        },
-        'response': {
-          'success': {
-            'parameter': [],
-            'raw': '',
-            expect: {
-              name: '成功',
-              isDefault: 1,
-              code: "200",
-              contentType: "json",
-              schema: {},
-              mock: "",
-              verifyType: "schema",
+          name: swaggerApi?.summary || '新建接口',
+          tags: swaggerApi?.apipost_tags || [],
+          target_type: 'api',
+          url: url || '',
+          mock_url: urlParseLax(url)?.pathname || '',
+          method: method.toUpperCase() || 'GET',
+          request: {
+            description: swaggerApi?.description || '',
+          },
+          response: {
+            success: {
+              parameter: [],
+              raw: '',
+              expect: {
+                name: '成功',
+                isDefault: 1,
+                code: '200',
+                contentType: 'json',
+                schema: {},
+                mock: '',
+                verifyType: 'schema',
+              },
+            },
+            error: {
+              parameter: [],
+              raw: '',
+              expect: {
+                name: '失败',
+                isDefault: -1,
+                code: '404',
+                contentType: 'json',
+                schema: {},
+                mock: '',
+                verifyType: 'schema',
+              },
             },
           },
-          'error': {
-            'parameter': [],
-            'raw': '',
-            expect: {
-              name: '失败',
-              isDefault: -1,
-              code: "404",
-              contentType: "json",
-              schema: {},
-              mock: "",
-              verifyType: "schema",
-            },
-          }
-        }
-      },
+        },
         thisProduces,
         thisConsumes;
       if (swaggerApi.produces) {
@@ -605,45 +654,45 @@ class Swagger2Apipost {
 
       if (thisProduces && thisProduces.length > 0) {
         if (!request.hasOwnProperty('header')) {
-          request.header = []
+          request.header = [];
         }
         request.header.push({
-          is_checked: "1",
+          is_checked: '1',
           type: 'Text',
-          key: "Accept",
-          value: thisProduces.join(', ') || "",
-          not_null: "1",
-          description: "",
-          field_type: "string"
+          key: 'Accept',
+          value: thisProduces.join(', ') || '',
+          not_null: '1',
+          description: '',
+          field_type: 'string',
         });
       }
       if (thisConsumes && thisConsumes.length > 0) {
         if (!request.hasOwnProperty('header')) {
-          request.header = []
+          request.header = [];
         }
         request.header.push({
-          is_checked: "1",
+          is_checked: '1',
           type: 'Text',
-          key: "Content-Type",
-          value: thisConsumes[0] || "",
-          not_null: "1",
-          description: "",
-          field_type: "string"
+          key: 'Content-Type',
+          value: thisConsumes[0] || '',
+          not_null: '1',
+          description: '',
+          field_type: 'string',
         });
       }
 
       if (swaggerApi.hasOwnProperty('parameters')) {
-        let mode = 'none'
+        let mode = 'none';
         if (thisConsumes && thisConsumes.length > 0) {
-          mode = thisConsumes[0]
+          mode = thisConsumes[0];
         }
         let apipostMode = getApipostMode(mode);
 
         request.body = {
-          "mode": apipostMode,
-          "parameter": [],
-          "raw": {},
-          "raw_para": []
+          mode: apipostMode,
+          parameter: [],
+          raw: {},
+          raw_para: [],
         };
         for (const parameter of swaggerApi.parameters) {
           if (parameter.hasOwnProperty('in')) {
@@ -651,47 +700,56 @@ class Swagger2Apipost {
               if (!request.hasOwnProperty('query')) {
                 request['query'] = [];
               }
-              parameter?.name && request.query.push({
-                is_checked: "1", // 是否选择
-                type: "Text", // 参数值类型 Text/File
-                key: parameter?.name || '', //参数名
-                value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
-                not_null: parameter.required ? "1" : "-1", // 是否为空
-                description: parameter?.description || '', // 参数描述
-                field_type: parameter?.type || "Text" // 类型
-              })
+              parameter?.name &&
+                request.query.push({
+                  is_checked: '1', // 是否选择
+                  type: 'Text', // 参数值类型 Text/File
+                  key: parameter?.name || '', //参数名
+                  value:
+                    parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
+                  not_null: parameter.required ? '1' : '-1', // 是否为空
+                  description: parameter?.description || '', // 参数描述
+                  field_type: parameter?.type || 'Text', // 类型
+                });
             } else if (parameter.in == 'header') {
               if (!request.hasOwnProperty('header')) {
                 request['header'] = [];
               }
 
-              parameter?.name && request.header.push({
-                is_checked: "1", // 是否选择
-                type: "Text", // 参数值类型 Text/File
-                key: parameter?.name || '', //参数名
-                value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
-                not_null: parameter.required ? "1" : "-1", // 是否为空
-                description: parameter?.description || '', // 参数描述
-                field_type: parameter?.type || "Text" // 类型
-              })
+              parameter?.name &&
+                request.header.push({
+                  is_checked: '1', // 是否选择
+                  type: 'Text', // 参数值类型 Text/File
+                  key: parameter?.name || '', //参数名
+                  value:
+                    parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
+                  not_null: parameter.required ? '1' : '-1', // 是否为空
+                  description: parameter?.description || '', // 参数描述
+                  field_type: parameter?.type || 'Text', // 类型
+                });
             } else if (parameter.in == 'path') {
               if (!request.hasOwnProperty('resful')) {
                 request['resful'] = [];
               }
-              parameter?.name && request.resful.push({
-                is_checked: "1", // 是否选择
-                type: "Text", // 参数值类型 Text/File
-                key: parameter?.name || '', //参数名
-                value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
-                not_null: parameter.required ? "1" : "-1", // 是否为空
-                description: parameter?.description || '', // 参数描述
-                field_type: parameter?.type || "Text" // 类型
-              })
+              parameter?.name &&
+                request.resful.push({
+                  is_checked: '1', // 是否选择
+                  type: 'Text', // 参数值类型 Text/File
+                  key: parameter?.name || '', //参数名
+                  value:
+                    parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
+                  not_null: parameter.required ? '1' : '-1', // 是否为空
+                  description: parameter?.description || '', // 参数描述
+                  field_type: parameter?.type || 'Text', // 类型
+                });
             } else if (parameter.in == 'body') {
-              if ((parameter.hasOwnProperty('schema') && JSON.stringify(parameter.schema.properties) !== "{}") || parameter?.type === 'array') {
-
+              if (
+                (parameter.hasOwnProperty('schema') &&
+                  JSON.stringify(parameter.schema.properties) !== '{}') ||
+                parameter?.type === 'array'
+              ) {
                 let raw_para: any = [];
-                let Raw = handleBodyJsonSchema(parameter.schema, raw_para)
+                let Raw = handleBodyJsonSchema(parameter.schema, raw_para);
                 let Raw_text = isPlainObject(Raw) || Array.isArray(Raw) ? JSON.stringify(Raw) : Raw;
 
                 request.body.raw = parameter?.example || Raw_text;
@@ -699,28 +757,36 @@ class Swagger2Apipost {
                 if (isEmpty(request.body.raw)) {
                   try {
                     const myMockSchema = new MockSchema();
-                    let schemaJson = await myMockSchema.mock(parameter.schema)
-                    request.body.raw = isPlainObject(schemaJson) || Array.isArray(Raw) ? JSON.stringify(schemaJson) : schemaJson;
-                  } catch (error) { }
+                    let schemaJson = await myMockSchema.mock(parameter.schema);
+                    request.body.raw =
+                      isPlainObject(schemaJson) || Array.isArray(Raw)
+                        ? JSON.stringify(schemaJson)
+                        : schemaJson;
+                  } catch (error) {}
                 }
                 request.body.raw_para = raw_para;
               }
 
-              if (Object.prototype.toString.call(parameter?.schema?.['$$ref']) === "[object String]") {
+              if (
+                Object.prototype.toString.call(parameter?.schema?.['$$ref']) === '[object String]'
+              ) {
                 request.body.raw_schema = swaggerSchema2apipostSchema(parameter.schema);
               } else {
                 request.body.raw_schema = parameter.schema;
               }
             } else if (parameter.in == 'formData') {
-              parameter.name && request.body.parameter.push({
-                is_checked: "1", // 是否选择
-                type: parameter.hasOwnProperty('type') && parameter.type == 'file' ? 'File' : "Text", // 参数值类型 Text/File
-                key: parameter?.name || '', //参数名
-                value: parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
-                not_null: parameter.required ? "1" : "-1", // 是否为空
-                description: parameter?.description || '', // 参数描述
-                field_type: parameter?.type || "Text" // 类型
-              })
+              parameter.name &&
+                request.body.parameter.push({
+                  is_checked: '1', // 是否选择
+                  type:
+                    parameter.hasOwnProperty('type') && parameter.type == 'file' ? 'File' : 'Text', // 参数值类型 Text/File
+                  key: parameter?.name || '', //参数名
+                  value:
+                    parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
+                  not_null: parameter.required ? '1' : '-1', // 是否为空
+                  description: parameter?.description || '', // 参数描述
+                  field_type: parameter?.type || 'Text', // 类型
+                });
             }
           }
         }
@@ -731,13 +797,18 @@ class Swagger2Apipost {
           Object.keys(swaggerApi.responses).forEach((status: any) => {
             const element = swaggerApi.responses[status];
 
-
-            if ((element.hasOwnProperty('schema') && JSON.stringify(element.schema.properties) !== "{}") || element?.schema?.type === 'array') {
+            if (
+              (element.hasOwnProperty('schema') &&
+                JSON.stringify(element.schema.properties) !== '{}') ||
+              element?.schema?.type === 'array'
+            ) {
               let raw_para: any = [];
-              let Raw = handleBodyJsonSchema(element.schema, raw_para)
+              let Raw = handleBodyJsonSchema(element.schema, raw_para);
               let Raw_text = isPlainObject(Raw) || Array.isArray(Raw) ? JSON.stringify(Raw) : Raw;
               let jsonSchema = {};
-              if (Object.prototype.toString.call(element?.schema?.['$$ref']) === "[object String]") {
+              if (
+                Object.prototype.toString.call(element?.schema?.['$$ref']) === '[object String]'
+              ) {
                 jsonSchema = swaggerSchema2apipostSchema(element.schema);
               } else {
                 jsonSchema = element.schema;
@@ -755,25 +826,27 @@ class Swagger2Apipost {
                     name: element?.description || status,
                     isDefault: -1,
                     code: status,
-                    contentType: "json",
+                    contentType: 'json',
                     schema: jsonSchema,
-                    mock: "",
-                    verifyType: "schema",
+                    mock: '',
+                    verifyType: 'schema',
                   },
                   raw: Raw_text,
                   parameter: raw_para,
-                }
+                };
               }
             } else if (isPlainObject(element?.content)) {
               let content = element?.content;
-              let mode = content instanceof Object ? Object.keys(content)[0] : "none";
+              let mode = content instanceof Object ? Object.keys(content)[0] : 'none';
               let bodyData = content[mode];
 
               let raw_para: any = [];
-              let Raw = handleBodyJsonSchema(bodyData?.schema, raw_para)
+              let Raw = handleBodyJsonSchema(bodyData?.schema, raw_para);
               let Raw_text = isPlainObject(Raw) || Array.isArray(Raw) ? JSON.stringify(Raw) : Raw;
               let jsonSchema = {};
-              if (Object.prototype.toString.call(bodyData?.schema?.['$$ref']) === "[object String]") {
+              if (
+                Object.prototype.toString.call(bodyData?.schema?.['$$ref']) === '[object String]'
+              ) {
                 jsonSchema = swaggerSchema2apipostSchema(bodyData.schema);
               } else if (isPlainObject(bodyData?.schema)) {
                 jsonSchema = bodyData.schema;
@@ -791,14 +864,14 @@ class Swagger2Apipost {
                     name: element?.description || status,
                     isDefault: -1,
                     code: status,
-                    contentType: "json",
+                    contentType: 'json',
                     schema: jsonSchema,
-                    mock: "",
-                    verifyType: "schema",
+                    mock: '',
+                    verifyType: 'schema',
                   },
                   raw: Raw_text,
                   parameter: raw_para,
-                }
+                };
               }
 
               if (bodyData.hasOwnProperty('example')) {
@@ -816,32 +889,33 @@ class Swagger2Apipost {
                   name: element?.description || status,
                   isDefault: -1,
                   code: status,
-                  contentType: "json",
+                  contentType: 'json',
                   schema: '',
-                  mock: "",
-                  verifyType: "schema",
+                  mock: '',
+                  verifyType: 'schema',
                 },
                 raw: '',
                 parameter: [],
-              }
+              };
             }
-          })
+          });
         }
       }
       if (swaggerApi.hasOwnProperty('tags') && swaggerApi.tags.length > 0) {
         for (const folder of swaggerApi.tags) {
           if (this.folders.hasOwnProperty(folder)) {
-            if (Object.prototype.toString.call(this.folders[folder].children) === '[object Array]') {
+            if (
+              Object.prototype.toString.call(this.folders[folder].children) === '[object Array]'
+            ) {
               this.folders[folder].children.push({
                 ...api,
                 sort: this.folders[folder].children.length + 1,
               });
             }
-
           }
         }
       } else {
-        this.apis.push(api)
+        this.apis.push(api);
       }
     }
   }
@@ -882,8 +956,7 @@ class Swagger2Apipost {
           getBaseParam = this.baseParams[lastPart];
           retVal[lastPart] = getBaseParam;
         }
-      }
-      else {
+      } else {
         retVal[oldParams[i].name] = oldParams[i];
       }
     }
@@ -896,8 +969,7 @@ class Swagger2Apipost {
           getBaseParam = this.baseParams[lastPart];
           retVal[lastPart] = getBaseParam;
         }
-      }
-      else {
+      } else {
         retVal[newParams[i].name] = newParams[i];
       }
     }
@@ -907,21 +979,21 @@ class Swagger2Apipost {
   createNewFolder(name: string, tags: any) {
     const description = tags?.find((tag: any) => tag.name === name)?.description || '';
     var newFolder = {
-      'name': name,
-      'target_type': 'folder',
-      'description': description,
-      'children': [],
+      name: name,
+      target_type: 'folder',
+      description: description,
+      children: [],
     };
     this.folderNames[name] = true;
     return newFolder;
   }
   createDataModelNewFolder(folder_name: string) {
     var newFolder: any = {
-      'model_id': '',
-      'name': folder_name || '新建目录',
-      'model_type': 'folder',
-      'description': folder_name || '',
-      'children': [],
+      model_id: '',
+      name: folder_name || '新建目录',
+      model_type: 'folder',
+      description: folder_name || '',
+      children: [],
     };
     return newFolder;
   }
@@ -929,14 +1001,14 @@ class Swagger2Apipost {
     var model: any = {
       model_id: `#/components/${folder_name}/${key}`,
       name: item?.title || key || '新建数据模型',
-      displayName: item?.title || '',
+      displayName: item?.title || key || '',
       model_type: 'model',
       description: item?.description || '',
       schema: {},
-    }
+    };
     try {
       model.schema = swaggerSchema2apipostSchema(item);
-    } catch (error) { }
+    } catch (error) {}
     return model;
   }
   handleModelApiAndFolder(folder_name: string, modals: any) {
@@ -944,10 +1016,10 @@ class Swagger2Apipost {
     if (Object.prototype.toString.call(modals) == '[object Object]') {
       const folder = root.createDataModelNewFolder(folder_name);
       root.dataModel.push(folder);
-      Object.keys(modals).forEach(key => {
+      Object.keys(modals).forEach((key) => {
         let target = root.createNewModelData(modals[key], key, folder_name);
-        folder.children.push(target)
-      })
+        folder.children.push(target);
+      });
     }
   }
   createNewModelData2(item: any, model_name: string) {
@@ -958,28 +1030,34 @@ class Swagger2Apipost {
       model_type: 'model',
       description: item?.description || '',
       schema: {},
-    }
+    };
     try {
       model.schema = swaggerSchema2apipostSchema(item);
-    } catch (error) { }
+    } catch (error) {}
     return model;
   }
   handleModelApiAndFolder2(model_name: string, modals: any) {
     var root = this;
     if (Object.prototype.toString.call(modals) == '[object Object]') {
       let target = root.createNewModelData2(modals, model_name);
-      root.dataModel.push(target)
+      root.dataModel.push(target);
     }
   }
   handleModelData(json: any) {
-    if (json.hasOwnProperty('components') && Object.prototype.toString.call(json.components) == '[object Object]') {
+    if (
+      json.hasOwnProperty('components') &&
+      Object.prototype.toString.call(json.components) == '[object Object]'
+    ) {
       Object.keys(json.components).forEach((key) => {
         this.handleModelApiAndFolder(key, json.components[key]);
       });
     }
   }
   handleModelData2(json: any) {
-    if (json.hasOwnProperty('definitions') && Object.prototype.toString.call(json.definitions) == '[object Object]') {
+    if (
+      json.hasOwnProperty('definitions') &&
+      Object.prototype.toString.call(json.definitions) == '[object Object]'
+    ) {
       Object.keys(json.definitions).forEach((key) => {
         this.handleModelApiAndFolder2(key, json.definitions[key]);
       });
@@ -996,9 +1074,8 @@ class Swagger2Apipost {
             ...that.createNewFolder(folder_name, json.tags),
             sort: 1,
           });
-
         }
-      })
+      });
     }
   }
   escapeRegExp(str: string) {
@@ -1013,21 +1090,21 @@ class Swagger2Apipost {
       if (json instanceof Object) {
         await SwaggerClient.resolve({ spec: json }).then((swaggerJson: any) => {
           swagger3Json = swaggerJson.spec;
-        })
+        });
       } else {
-        const resp = await axios.get(json)
+        const resp = await axios.get(json);
         if (isPlainObject(resp?.data)) {
           await SwaggerClient.resolve({ spec: resp.data }).then((swaggerJson: any) => {
             swagger3Json = swaggerJson.spec;
-          })
+          });
         }
         try {
           let swagger3JsonStr = JSON.stringify(swagger3Json);
 
-          let reg = new RegExp(`ref":"${this.escapeRegExp(json)}`, 'g')
+          let reg = new RegExp(`ref":"${this.escapeRegExp(json)}`, 'g');
           swagger3JsonStr = swagger3JsonStr.replace(reg, 'ref":"');
           swagger3Json = JSON.parse(swagger3JsonStr);
-        } catch (error) { }
+        } catch (error) {}
       }
       var validationResult = this.validate(swagger3Json);
       if (validationResult.status === 'error') {
@@ -1058,7 +1135,7 @@ class Swagger2Apipost {
         apis: this.apis,
         env: this.env,
         dataModel: this.dataModel,
-      }
+      };
       // console.log(JSON.stringify(validationResult.data.dataModel));
 
       console.log(JSON.stringify(validationResult.data.apis));
@@ -1067,9 +1144,9 @@ class Swagger2Apipost {
     } catch (error: any) {
       // console.log(error, "error");
       if (error?.name === 'AbortError') {
-        return ConvertResult('error', '数据过大，请求超时。')
+        return ConvertResult('error', '数据过大，请求超时。');
       }
-      return ConvertResult('error', String(error))
+      return ConvertResult('error', String(error));
     }
   }
   endsWith(str: string, suffix: string) {
