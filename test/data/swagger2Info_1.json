@@ -1,2542 +1,384 @@
 {
+  "swagger": "2.0",
+  "info": {
+    "title": "智家通-物流规则",
+    "version": "last"
+  },
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "时效规则模块",
+      "description": null
+    }
+  ],
+  "schemes": ["http"],
   "paths": {
-    "/camel/sap/proxy/all-round/c328a4486543067d1d4d2d7fdbec23e9": {
+    "/api/v1/time/queryExpectDeliveryTime": {
       "post": {
-        "summary": "ZSD_RFC_PO_01",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/inObj6"
-              }
-            }
+        "tags": ["时效规则模块"],
+        "summary": "巨商汇B单时效查询接口",
+        "description": "入参：\n{\n  \"address\": \"大观开发区\",\n  \"area\": \"大观区\",\n  \"centerCode\": \"NB\",\n  \"city\": \"安庆市\",\n  \"deliveryType\": \"ZF\",\n  \"gbCode\": \"340803400000\",\n  \"orderTime\": \"2023-09-29 08:12:00\",\n  \"province\": \"安徽省\",\n  \"reWhCode\": \"\",\n  \"shipToCode\": \"8800180729\",\n  \"stockCode\": \"TJ10\",\n  \"stockType\": \"FZK\"\n}\n\n返参：\n{\n  \"code\": \"1\",\n  \"msg\": \"成功\",\n  \"data\": {\n    \"expectDeliveryTime\": \"2023-10-08 23:59:59\"\n  },\n  \"responseTime\": \"2023-09-28 12:27:06\"\n}",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "source",
+            "in": "header",
+            "description": "source (Only:undefined)",
+            "required": true,
+            "type": "string"
           },
-          "required": true
-        },
-        "operationId": "ZSD_RFC_PO_01UsingPost_6",
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "stockType": {
+                  "type": "string",
+                  "description": "发货仓类型  ：\n主仓：1；\n辅仓：2；\n京东前置仓统仓：JDQZTC；\n京东前置仓云仓：JDQZYC；\n非库存单：FZK；\n统仓/云仓自动转仓【与发货仓为同一仓】：3；"
+                },
+                "stockCode": {
+                  "type": "string",
+                  "description": "发货仓编码 \n例：主仓(库位简码)【DB】，辅仓(库位简码)【SZ】，基地仓编码【TJ10】，京东前置仓编码【BJSQ】，统仓/云仓自动转仓（发货仓库位简码）【JO】"
+                },
+                "centerCode": {
+                  "type": "string",
+                  "description": "主仓编码    当辅仓发货或基地仓发货时，此编码必填\n例：（库位简码）【JO】\n统仓/云仓场景 非必填"
+                },
+                "deliveryType": {
+                  "type": "string",
+                  "description": "配送方式  \n基地直发：ZF (直发单必填) 当stockType为非库存单时必填\n\n"
+                },
+                "province": {
+                  "type": "string",
+                  "description": "收货地址 -省  \n例：山东省"
+                },
+                "city": {
+                  "type": "string",
+                  "description": "收货地址 -市\n例：青岛市"
+                },
+                "area": {
+                  "type": "string",
+                  "description": "收货地址- 区\n例：崂山区"
+                },
+                "gbCode": {
+                  "type": "string",
+                  "description": "收货地址- 国标码 （三级、四级都可）\n配送至收货地址必填\n例：370212000000"
+                },
+                "address": {
+                  "type": "string",
+                  "description": "收货地址 -详细地址\n例：海尔路1号"
+                },
+                "shipToCode": {
+                  "type": "string",
+                  "description": "送达方编码  \n当有国标码的时候，国标码的优先级高\n 例：8800372138"
+                },
+                "reWhCode": {
+                  "type": "string",
+                  "description": "海尔仓库位简码\n1、京东前置仓场景下必填  \n传海尔仓库位简码，例：【 BJ】；\n2、统仓/云仓订单场景\n统仓/云仓自动转仓非必填；\n基地发货至统仓/云仓以及辅仓发货至统仓 需必填\n传收货仓库位简码，例：【JO】"
+                },
+                "orderTime": {
+                  "type": "string",
+                  "description": "订单配送时效计算起始时间\n依据订单场景赋值，直发单【PTD时间】，库存单【下单时间】，等"
+                },
+                "jshOrderNo": {
+                  "type": "string",
+                  "description": "巨商汇订单号\n下单后查询必填\n"
+                },
+                "orderType": {
+                  "type": "string",
+                  "description": "统仓：TC，云仓：YC，其他：QT"
+                },
+                "productGroup": {
+                  "type": "string",
+                  "description": "产品组"
+                }
+              },
+              "required": ["stockType", "stockCode", "shipToCode", "orderTime", "orderType"]
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/outObj6"
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "title": "empty object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "接口调用状态码：0-失败，1-成功"
+                },
+                "msg": {
+                  "type": "string",
+                  "description": "提示信息"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "expectDeliveryTime": {
+                        "type": "string",
+                        "description": "预计送达时间"
+                      }
+                    },
+                    "required": ["expectDeliveryTime"]
+                  },
+                  "description": "返回的业务数据"
+                },
+                "responseTime": {
+                  "type": "string"
+                }
+              },
+              "required": ["code", "msg", "data", "responseTime"]
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/statuteOfLimitations/queryAchieveUserOrderCut": {
+      "post": {
+        "tags": ["时效规则模块"],
+        "summary": "时效规则接口（开放接口）",
+        "description": "用户中台查询时效规则场景使用\n<span class=\"colour\" style=\"color:rgb(85, 85, 85)\">请求示例：</span>\n\n```\n{\n    \"businessCode\":\"HAIERTP\", \n    \"gbCode\":\"320613\", \n    \"locationCode\":\"5NT0\",\n    \"timeType\":\"1\",\n    \"sourceOrderNo\":\"DUP1044516459\"\n}\n\n统仓彩电缩仓：\n{\n    \"businessCode\":\"HAIERTP\",\n    \"gbCode\":\"320613\", \n    \"locationCode\":\"5NT0\",\n    \"timeType\":\"2\",\n    \"appointmentTime\":\"2023-06-18 23:59:59\",\n    \"businessMode\":\"TCSC\",\n    \"industryCode\":\"EAB\",\n    \"sourceOrderNo\":\"DUP1044320494\"\n}\n统仓极速达：\n{\n    \"businessCode\":\"HAIERTP\",\n    \"gbCode\":\"340181\", \n    \"locationCode\":\"HFX1\",\n    \"timeType\":\"1\",\n    \"businessMode\":\"J6S\",\n    \"sourceOrderNo\":\"DUP1044279520\"\n}\n\n厂送-苏宁零售云\n{\n\"businessCode\":\"CS\",\n\"gbCode\":\"140926\",\n\"locationCode\":\"5TY0\",\n\"timeType\":\"1\",\n\"businessMode\":\"SNLSY\",\n\"sourceOrderNo\":\"8939651117\"\n}\n```\n\n<br>\n<br>\n<br>\n<span class=\"colour\" style=\"color:rgb(85, 85, 85)\">响应示例：</span>\n\n```\n{\n    \"code\": \"1\", \n    \"data\": [\n        {\n            \"achieveUserOrderCut\": \"2023-01-04 23:59:59\", \n            \"cutTime\": \"2023-01-03 19:10:00\", \n            \"hour\": \"24\",\n            \"isTranfer\":\"0\"\n        }\n    ], \n    \"msg\": \"成功\", \n    \"responseTime\": \"2023-01-03T11:06:22.482\"\n}\n```",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "source",
+            "in": "header",
+            "description": "source (Only:undefined)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "gbCode": {
+                  "type": "string",
+                  "description": "收件地址3级国标码"
+                },
+                "locationCode": {
+                  "type": "string",
+                  "description": "库位编码； 库位与中心二者其一必传；易理货销售单查询场景两者非必传；\n时效类型是2、3时，库位必传"
+                },
+                "timeType": {
+                  "type": "string",
+                  "description": "时效类型  \n1：预计送达用户时间【根据下单时间计算应达用户时间】；\n2：预计出库时间【体验云hold单场景，根据用户预约送达时间计算应出库时间】；\n3：反向查询截单时间【WA小件，抖音平台订单，根据应出库时间计算截单时间】"
+                },
+                "provinceName": {
+                  "type": "string",
+                  "description": "省名称 例如：山东"
+                },
+                "cityName": {
+                  "type": "string",
+                  "description": "市名称 例如： 青岛"
+                },
+                "areaName": {
+                  "type": "string",
+                  "description": "区名称 例如：即墨区"
+                },
+                "centerCode": {
+                  "type": "string",
+                  "description": "中心编码"
+                },
+                "businessCode": {
+                  "type": "string",
+                  "description": "项目 \n 统仓ToC : HAIERTP；\n厂送：CS ；\nWA：HAIERSC；\n云仓：JSHYUN；\n"
+                },
+                "businessMode": {
+                  "type": "string",
+                  "description": "商业模式 \n1.统仓缩仓： 固定值：TCSC （timeType为1或2时，当查询缩仓模式时，需必填）\n2.统仓极速达：固定值：J6S  （timeType为1或2时 ，统仓极速达业务模式，需必填）\n3.厂送苏宁零售云/重百厂送：固定值：SNLSY，传空查原逻辑时效"
+                },
+                "industryCode": {
+                  "type": "string",
+                  "description": "产业名称，对于缩仓模式此字段必填；\n1.、彩电产业，传固定值：EAB"
+                },
+                "productGroup": {
+                  "type": "string",
+                  "description": "产品组"
+                },
+                "appointmentTime": {
+                  "type": "string",
+                  "description": "正向查询应出库时间场景，时效类型为2时必填   预约时间 yyyy-MM-dd HH:mm:ss"
+                },
+                "outWareTime": {
+                  "type": "string",
+                  "description": "反向查询截单时间场景，时效类型为3时必填   计划出库时间 yyyy-MM-dd HH:mm:ss"
+                },
+                "sourceOrderNo": {
+                  "type": "string",
+                  "description": "订单号  --所有场景下单后查询必填  "
+                }
+              },
+              "required": ["gbCode", "timeType", "businessCode"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "description": "接口调用状态码：0-失败，1-成功"
+                },
+                "msg": {
+                  "type": "string",
+                  "description": "提示信息"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "cutTime": {
+                        "type": "string",
+                        "description": "截单时间"
+                      },
+                      "achieveUserOrderCut": {
+                        "type": "string",
+                        "description": "时效类型为1时返回 预计送达用户时间"
+                      },
+                      "outTimeOrderCut": {
+                        "type": "string",
+                        "description": "时效类型为2或3时返回 预计出库时间；当为3时，即为入参的值"
+                      },
+                      "hour": {
+                        "type": "string",
+                        "description": "配送用户时效"
+                      },
+                      "isTranfer": {
+                        "type": "string",
+                        "description": "是否转运：0否 1是"
+                      }
+                    },
+                    "required": ["hour", "cutTime", "isTranfer"]
+                  },
+                  "description": "返回的业务数据"
+                },
+                "responseTime": {
+                  "type": "string"
+                }
+              },
+              "required": ["code", "msg", "data"]
+            }
+          }
+        }
+      }
+    },
+    "https://hzjt-test.haier.net/hzjt/gw/qp/api/mdt/api/v1/statuteOfLimitations/queryEffectiveness": {
+      "post": {
+        "tags": ["时效规则模块"],
+        "summary": "智家通--时效接口（内部接口）",
+        "description": "<span class=\"colour\" style=\"color:rgb(0, 0, 0)\"> {</span>\n<span class=\"colour\" style=\"color:rgb(0, 0, 0)\">        </span><span class=\"colour\" style=\"color:rgb(163, 21, 21)\">\"centerCode\"</span><span class=\"colour\" style=\"color:rgb(0, 0, 0)\">: </span><span class=\"colour\" style=\"color:rgb(4, 81, 165)\">\"C12101\"</span><span class=\"colour\" style=\"color:rgb(0, 0, 0)\">,</span>\n<span class=\"colour\" style=\"color:rgb(0, 0, 0)\">        </span><span class=\"colour\" style=\"color:rgb(163, 21, 21)\">\"gbCode\"</span><span class=\"colour\" style=\"color:rgb(0, 0, 0)\">: </span><span class=\"colour\" style=\"color:rgb(4, 81, 165)\">\"110105\"</span><span class=\"colour\" style=\"color:rgb(0, 0, 0)\">,</span>\n<span class=\"colour\" style=\"color:rgb(0, 0, 0)\">        </span><span class=\"colour\" style=\"color:rgb(163, 21, 21)\">\"businessCode\"</span><span class=\"colour\" style=\"color:rgb(0, 0, 0)\">: </span><span class=\"colour\" style=\"color:rgb(4, 81, 165)\">\"CS\"</span><span class=\"colour\" style=\"color:rgb(0, 0, 0)\">,</span>\n<span class=\"colour\" style=\"color:rgb(0, 0, 0)\">        </span><span class=\"colour\" style=\"color:rgb(163, 21, 21)\">\"orderType\"</span><span class=\"colour\" style=\"color:rgb(0, 0, 0)\">:</span><span class=\"colour\" style=\"color:rgb(4, 81, 165)\">\"1001\"</span><span class=\"colour\" style=\"color:rgb(0, 0, 0)\">,</span>\n<span class=\"colour\" style=\"color:rgb(0, 0, 0)\">        </span><span class=\"colour\" style=\"color:rgb(163, 21, 21)\">\"source\"</span><span class=\"colour\" style=\"color:rgb(0, 0, 0)\">: </span><span class=\"colour\" style=\"color:rgb(4, 81, 165)\">\"SNYGCS\"</span><span class=\"colour\" style=\"color:rgb(0, 0, 0)\">,</span>\n<span class=\"colour\" style=\"color:rgb(0, 0, 0)\">        </span><span class=\"colour\" style=\"color:rgb(163, 21, 21)\">\"orderTime\"</span><span class=\"colour\" style=\"color:rgb(0, 0, 0)\">: </span><span class=\"colour\" style=\"color:rgb(4, 81, 165)\">\"2023-04-08 23:59:59\"</span><span class=\"colour\" style=\"color:rgb(0, 0, 0)\">,</span>\n<span class=\"colour\" style=\"color:rgb(0, 0, 0)\">        </span><span class=\"colour\" style=\"color:rgb(163, 21, 21)\">\"appointmentTime\"</span><span class=\"colour\" style=\"color:rgb(0, 0, 0)\">: </span><span class=\"colour\" style=\"color:rgb(4, 81, 165)\">\"2023-04-10 23:59:59\"</span>\n<span class=\"colour\" style=\"color:rgb(0, 0, 0)\">    }</span>",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "centerCode": {
+                  "type": "string",
+                  "description": "中心编码"
+                },
+                "gbCode": {
+                  "type": "string",
+                  "description": "国标码"
+                },
+                "businessCode": {
+                  "type": "string",
+                  "description": "业务场景"
+                },
+                "orderType": {
+                  "type": "string",
+                  "description": "订单类型"
+                },
+                "source": {
+                  "type": "string",
+                  "description": "订单来源 （厂送场景必填）"
+                },
+                "orderTime": {
+                  "type": "string",
+                  "description": "下单时间"
+                },
+                "appointmentTime": {
+                  "type": "string",
+                  "description": "预约时间"
+                },
+                "businessMode": {
+                  "type": "string",
+                  "description": "商业模式 \n 1.统仓缩仓： 固定值：TCSC \n 2.统仓极速达：固定值：J6S  "
+                },
+                "industryCode": {
+                  "type": "string",
+                  "description": "产业名称，对于缩仓模式此字段必填； 1.、彩电产业，传固定值：EAB"
+                }
+              },
+              "required": ["centerCode", "gbCode", "businessCode", "orderTime"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "properties": {
+                "centerCode": {
+                  "type": "string"
+                },
+                "gbCode": {
+                  "type": "string"
+                },
+                "businessCode": {
+                  "type": "string"
+                },
+                "orderType": {
+                  "type": "string"
+                },
+                "source": {
+                  "type": "string"
+                },
+                "orderTime": {
+                  "type": "string"
+                },
+                "appointmentTime": {
+                  "type": "string"
+                },
+                "outTimeOrderCut": {
+                  "type": "string",
+                  "description": "应出库时间"
+                },
+                "achieveOutletsOrderCut": {
+                  "type": "string",
+                  "description": "应到网点时间"
+                },
+                "achieveUserOrderCut": {
+                  "type": "string",
+                  "description": "应到用户时间"
+                },
+                "cutTime": {
+                  "type": "string",
+                  "description": "截单时间"
                 }
               }
             }
           }
-        },
-        "tags": ["sap"]
+        }
       }
     }
-  },
-  "components": {
-    "schemas": {
-      "INT_WERKSReq0": {
-        "title": "INT_WERKS",
-        "type": "object",
-        "properties": {
-          "WERKS": {
-            "description": "工厂",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "inObj2": {
-        "title": "inObj2",
-        "type": "object",
-        "properties": {},
-        "required": []
-      },
-      "MT_HGVS_QM05_RESRes8": {
-        "title": "MT_HGVS_QM05_RES",
-        "type": "object",
-        "properties": {
-          "RETURN": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RETURNRes8"
-            }
-          },
-          "CHAR_REQUIREMENTS": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CHAR_REQUIREMENTSRes8"
-            }
-          },
-          "OPERATION": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OPERATIONRes8"
-            }
-          },
-          "INSP_LOT_LIST": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/INSP_LOT_LISTRes8"
-            }
-          }
-        },
-        "required": []
-      },
-      "inObj3": {
-        "title": "inObj3",
-        "type": "object",
-        "properties": {},
-        "required": []
-      },
-      "INT_RSNUMRes5": {
-        "title": "INT_RSNUM",
-        "type": "object",
-        "properties": {
-          "RSNUM": {
-            "description": "预留/相关需求的编号",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "inObj4": {
-        "title": "inObj4",
-        "type": "object",
-        "properties": {},
-        "required": []
-      },
-      "inObj5": {
-        "title": "inObj5",
-        "type": "object",
-        "properties": {
-          "CPUTM_F": {
-            "description": "输入时间",
-            "type": "Date",
-            "required": false
-          },
-          "INT_LIFNR": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/INT_LIFNRReq5"
-            }
-          },
-          "INT_MATNR": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/INT_MATNRReq5"
-            }
-          },
-          "CPUDT_F": {
-            "description": "会计凭证输入日期",
-            "type": "Date",
-            "required": false
-          },
-          "CPUTM_T": {
-            "description": "输入时间",
-            "type": "Date",
-            "required": false
-          },
-          "BUDAT_T": {
-            "description": "凭证中的过帐日期",
-            "type": "Date",
-            "required": false
-          },
-          "CPUDT_T": {
-            "description": "会计凭证输入日期",
-            "type": "Date",
-            "required": false
-          },
-          "BUDAT_F": {
-            "description": "凭证中的过帐日期",
-            "type": "Date",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "inObj6": {
-        "title": "inObj6",
-        "type": "object",
-        "properties": {
-          "LT_INPUT": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/LT_INPUTReq6"
-            }
-          },
-          "LT_OUTPUT": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/LT_OUTPUTReq6"
-            }
-          }
-        },
-        "required": ["LT_INPUT"]
-      },
-      "LT_INPUTRes6": {
-        "title": "LT_INPUT",
-        "type": "object",
-        "properties": {
-          "ADD_1": {
-            "description": "预留字段：附加1",
-            "type": "String",
-            "required": true
-          },
-          "ADD_5": {
-            "description": "预留字段：附加5",
-            "type": "String",
-            "required": true
-          },
-          "ADD_4": {
-            "description": "预留字段：附加4",
-            "type": "String",
-            "required": true
-          },
-          "WERKS": {
-            "description": "工厂",
-            "type": "String",
-            "required": false
-          },
-          "LGORT": {
-            "description": "库存地点",
-            "type": "String",
-            "required": false
-          },
-          "ADD_3": {
-            "description": "预留字段：附加3",
-            "type": "String",
-            "required": true
-          },
-          "ADD_2": {
-            "description": "预留字段：附加2",
-            "type": "String",
-            "required": true
-          },
-          "NX_LSH_CK": {
-            "description": "参考流水码",
-            "type": "String",
-            "required": false
-          },
-          "BUKRS": {
-            "description": "公司代码",
-            "type": "String",
-            "required": false
-          },
-          "EKGRP": {
-            "description": "采购组",
-            "type": "String",
-            "required": false
-          },
-          "EKORG": {
-            "description": "采购组织",
-            "type": "String",
-            "required": false
-          },
-          "POSNR": {
-            "description": "采购凭证的项目编号",
-            "type": "String",
-            "required": false
-          },
-          "KWMENG": {
-            "description": "以销售单位表示的累计订单数量",
-            "type": "BigDecimal",
-            "required": false
-          },
-          "AUDAT": {
-            "description": "凭证日期 (接收/发送日期)",
-            "type": "Date",
-            "required": false
-          },
-          "JIDI_CODE": {
-            "description": "基地代码",
-            "type": "String",
-            "required": false
-          },
-          "BSART": {
-            "description": "订单类型（采购）",
-            "type": "String",
-            "required": false
-          },
-          "LIFNR": {
-            "description": "供应商或债权人的帐号",
-            "type": "String",
-            "required": false
-          },
-          "VBELN_LSH": {
-            "description": "OEM系统流水号",
-            "type": "String",
-            "required": false
-          },
-          "ZSDG_ZSPO": {
-            "description": "采购价格",
-            "type": "BigDecimal",
-            "required": false
-          },
-          "MATNR": {
-            "description": "物料号",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": ["ADD_1", "ADD_5", "ADD_4", "ADD_3", "ADD_2"]
-      },
-      "outObj0": {
-        "title": "outObj0",
-        "type": "object",
-        "properties": {
-          "MSG": {
-            "description": "注释",
-            "type": "String",
-            "required": false
-          },
-          "FLAG": {
-            "description": "单一字符标识",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "inObj7": {
-        "title": "inObj7",
-        "type": "object",
-        "properties": {
-          "BUKRS": {
-            "description": "null",
-            "type": "String",
-            "required": false
-          },
-          "KUNNR": {
-            "description": "null",
-            "type": "String",
-            "required": false
-          },
-          "CPUDT_B": {
-            "description": "null",
-            "type": "Date",
-            "required": false
-          },
-          "CPUDT_E": {
-            "description": "null",
-            "type": "Date",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "OUTPUTRes13": {
-        "title": "OUTPUT",
-        "type": "object",
-        "properties": {
-          "BSTKD_E": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "LFIMG2": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ERZET_RK": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ERDAT_FD": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD9": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ERDAT_CK": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD7": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD8": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD5": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD6": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADDD10": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD3": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD4": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ERZET_PC": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD1": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD2": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ERZET_CK": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "SHUXING": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "BSTKD": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ERZET_FD": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ERDAT_RK": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ERDAT_PC": {
-            "description": "",
-            "type": "",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "OUTPUTReq15": {
-        "title": "OUTPUT",
-        "type": "object",
-        "properties": {
-          "ROUTE": {
-            "description": "途径",
-            "type": "String",
-            "required": false
-          },
-          "BEZEI": {
-            "description": "途径描述",
-            "type": "String",
-            "required": false
-          },
-          "PONO1": {
-            "description": "基地",
-            "type": "String",
-            "required": false
-          },
-          "PONO2": {
-            "description": "物流中心",
-            "type": "String",
-            "required": false
-          },
-          "TRAZTD": {
-            "description": "以日历天计的运输时间",
-            "type": "BigDecimal",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "inObj8": {
-        "title": "inObj8",
-        "type": "object",
-        "properties": {
-          "INPUT": {
-            "$ref": "#/components/schemas/INPUTReq8"
-          }
-        },
-        "required": []
-      },
-      "ET_OUTPUTReq1": {
-        "title": "ET_OUTPUT",
-        "type": "object",
-        "properties": {
-          "MESSAGE": {
-            "description": "消息文本",
-            "type": "String",
-            "required": false
-          },
-          "MJAHR": {
-            "description": "物料凭证年度",
-            "type": "String",
-            "required": false
-          },
-          "STATUS": {
-            "description": "处理状态",
-            "type": "String",
-            "required": false
-          },
-          "BSTKD": {
-            "description": "客户采购订单编号",
-            "type": "String",
-            "required": false
-          },
-          "MBLNR": {
-            "description": "物料凭证编号",
-            "type": "String",
-            "required": false
-          },
-          "MJAHR_VL": {
-            "description": "物料凭证年度",
-            "type": "String",
-            "required": false
-          },
-          "BARCODE": {
-            "description": "条码",
-            "type": "String",
-            "required": false
-          },
-          "TYPE": {
-            "description": "消息类型",
-            "type": "String",
-            "required": false
-          },
-          "MBLNR_VL": {
-            "description": "物料凭证编号",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "inObj9": {
-        "title": "inObj9",
-        "type": "object",
-        "properties": {
-          "INPUT": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/INPUTReq9"
-            }
-          }
-        },
-        "required": []
-      },
-      "OUTPUTRes15": {
-        "title": "OUTPUT",
-        "type": "object",
-        "properties": {
-          "ROUTE": {
-            "description": "途径",
-            "type": "String",
-            "required": false
-          },
-          "BEZEI": {
-            "description": "途径描述",
-            "type": "String",
-            "required": false
-          },
-          "PONO1": {
-            "description": "基地",
-            "type": "String",
-            "required": false
-          },
-          "PONO2": {
-            "description": "物流中心",
-            "type": "String",
-            "required": false
-          },
-          "TRAZTD": {
-            "description": "以日历天计的运输时间",
-            "type": "BigDecimal",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "outObj3": {
-        "title": "outObj3",
-        "type": "object",
-        "properties": {},
-        "required": []
-      },
-      "LT_OUTPUTReq6": {
-        "title": "LT_OUTPUT",
-        "type": "object",
-        "properties": {
-          "ADD_1": {
-            "description": "预留字段：附加1",
-            "type": "String",
-            "required": false
-          },
-          "ADD_5": {
-            "description": "预留字段：附加5",
-            "type": "String",
-            "required": false
-          },
-          "ADD_4": {
-            "description": "预留字段：附加4",
-            "type": "String",
-            "required": false
-          },
-          "WERKS": {
-            "description": "工厂",
-            "type": "String",
-            "required": false
-          },
-          "ADD_3": {
-            "description": "预留字段：附加3",
-            "type": "String",
-            "required": false
-          },
-          "ADD_2": {
-            "description": "预留字段：附加2",
-            "type": "String",
-            "required": false
-          },
-          "FLAG_LES": {
-            "description": "推送LES成功标识",
-            "type": "String",
-            "required": false
-          },
-          "FLAG": {
-            "description": "一般标记",
-            "type": "String",
-            "required": false
-          },
-          "NX_LSH_CK": {
-            "description": "参考流水码",
-            "type": "String",
-            "required": false
-          },
-          "BUKRS": {
-            "description": "公司代码",
-            "type": "String",
-            "required": false
-          },
-          "MESSAGE": {
-            "description": "该步骤处理失败消息",
-            "type": "String",
-            "required": false
-          },
-          "KWMENG": {
-            "description": "以销售单位表示的累计订单数量",
-            "type": "BigDecimal",
-            "required": false
-          },
-          "VBELN_LES": {
-            "description": "LES返回SO",
-            "type": "String",
-            "required": false
-          },
-          "JIDI_CODE": {
-            "description": "基地代码",
-            "type": "String",
-            "required": false
-          },
-          "BSART": {
-            "description": "订单类型（采购）",
-            "type": "String",
-            "required": false
-          },
-          "ZSDG_ZSPO": {
-            "description": "采购价格",
-            "type": "BigDecimal",
-            "required": false
-          },
-          "MATNR": {
-            "description": "物料号",
-            "type": "String",
-            "required": false
-          },
-          "EBELN": {
-            "description": "采购凭证号",
-            "type": "String",
-            "required": false
-          },
-          "LGORT": {
-            "description": "库存地点",
-            "type": "String",
-            "required": false
-          },
-          "EKGRP": {
-            "description": "采购组",
-            "type": "String",
-            "required": false
-          },
-          "EKORG": {
-            "description": "采购组织",
-            "type": "String",
-            "required": false
-          },
-          "POSNR": {
-            "description": "采购凭证的项目编号",
-            "type": "String",
-            "required": false
-          },
-          "AUDAT": {
-            "description": "凭证日期 (接收/发送日期)",
-            "type": "Date",
-            "required": false
-          },
-          "LIFNR": {
-            "description": "供应商或债权人的帐号",
-            "type": "String",
-            "required": false
-          },
-          "VBELN_LSH": {
-            "description": "OEM系统流水号",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "outObj4": {
-        "title": "outObj4",
-        "type": "object",
-        "properties": {},
-        "required": []
-      },
-      "outObj1": {
-        "title": "outObj1",
-        "type": "object",
-        "properties": {
-          "IT_INPUT": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IT_INPUTRes1"
-            }
-          },
-          "ET_OUTPUT": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ET_OUTPUTRes1"
-            }
-          },
-          "EX_FLAG": {
-            "description": "消息类型: S 成功,E 错误,W 警告,I 信息,A 中断",
-            "type": "String",
-            "required": false
-          },
-          "EX_MESSAGE": {
-            "description": "消息文本",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "outObj2": {
-        "title": "outObj2",
-        "type": "object",
-        "properties": {},
-        "required": []
-      },
-      "outObj7": {
-        "title": "outObj7",
-        "type": "object",
-        "properties": {},
-        "required": []
-      },
-      "outObj8": {
-        "title": "outObj8",
-        "type": "object",
-        "properties": {
-          "OUTPUT": {
-            "$ref": "#/components/schemas/OUTPUTRes8"
-          }
-        },
-        "required": []
-      },
-      "outObj5": {
-        "title": "outObj5",
-        "type": "object",
-        "properties": {
-          "MSG": {
-            "description": "注释",
-            "type": "String",
-            "required": false
-          },
-          "INT_RSNUM": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/INT_RSNUMRes5"
-            }
-          },
-          "INT_LIFNR": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/INT_LIFNRRes5"
-            }
-          },
-          "FLAG": {
-            "description": "单一字符标识",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "outObj6": {
-        "title": "outObj6",
-        "type": "object",
-        "properties": {
-          "LT_INPUT": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/LT_INPUTRes6"
-            }
-          },
-          "LT_OUTPUT": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/LT_OUTPUTRes6"
-            }
-          }
-        },
-        "required": ["LT_INPUT"]
-      },
-      "INPUTReq11": {
-        "title": "INPUT",
-        "type": "object",
-        "properties": {
-          "KUNNR": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "VBELN": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "VBELN_Z001": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "LSCOD": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ERDAT1": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "POSEX": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "IHREZ": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ERZET": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD1": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "SUCOD": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "BEIZHU": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "VKORG": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "SPART": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "POSNR": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "KWMENG": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "BSTKD": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ZFFLAG": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ERDAT": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "KUNNR_SH": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "KUKLA": {
-            "description": "",
-            "type": "",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "outObj9": {
-        "title": "outObj9",
-        "type": "object",
-        "properties": {
-          "MESSAGE": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "OUTPUT": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OUTPUTRes9"
-            }
-          },
-          "FLAG": {
-            "description": "",
-            "type": "",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "INPUTReq10": {
-        "title": "INPUT",
-        "type": "object",
-        "properties": {
-          "AUTIME": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD9": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD7": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD8": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD5": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD6": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "FLAG": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD3": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD4": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD1": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD2": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD10": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "BSTKD": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "AUDAT": {
-            "description": "",
-            "type": "",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "inObj11": {
-        "title": "inObj11",
-        "type": "object",
-        "properties": {
-          "INPUT": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/INPUTReq11"
-            }
-          }
-        },
-        "required": []
-      },
-      "inObj12": {
-        "title": "inObj12",
-        "type": "object",
-        "properties": {
-          "VBELN": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ABGRU": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "VBELN_DN": {
-            "description": "",
-            "type": "",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "inObj10": {
-        "title": "inObj10",
-        "type": "object",
-        "properties": {
-          "INPUT": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/INPUTReq10"
-            }
-          }
-        },
-        "required": []
-      },
-      "inObj15": {
-        "title": "inObj15",
-        "type": "object",
-        "properties": {
-          "OUTPUT": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OUTPUTReq15"
-            }
-          }
-        },
-        "required": []
-      },
-      "inObj16": {
-        "title": "inObj16",
-        "type": "object",
-        "properties": {
-          "VBELN_SO": {
-            "description": "Sales Document",
-            "type": "String",
-            "required": false
-          },
-          "ERDAT_B": {
-            "description": "Date on which the record was created",
-            "type": "Date",
-            "required": false
-          },
-          "IM_VKORG": {
-            "description": "Sales Organization",
-            "type": "String",
-            "required": false
-          },
-          "IN_VBELN_SO": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IN_VBELN_SOReq16"
-            }
-          },
-          "ERDAT_E": {
-            "description": "Date on which the record was created",
-            "type": "Date",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "inObj13": {
-        "title": "inObj13",
-        "type": "object",
-        "properties": {
-          "ERZET_E": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ERDAT_B": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ERDAT_E": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ERZET_B": {
-            "description": "",
-            "type": "",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "IT_INPUTRes1": {
-        "title": "IT_INPUT",
-        "type": "object",
-        "properties": {
-          "EBELN": {
-            "description": "采购凭证号",
-            "type": "String",
-            "required": false
-          },
-          "BSTKD": {
-            "description": "客户采购订单编号",
-            "type": "String",
-            "required": false
-          },
-          "VBELN_VL": {
-            "description": "交货",
-            "type": "String",
-            "required": false
-          },
-          "BARCODE": {
-            "description": "条码",
-            "type": "String",
-            "required": false
-          },
-          "VBELN_VA": {
-            "description": "销售凭证",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "inObj14": {
-        "title": "inObj14",
-        "type": "object",
-        "properties": {
-          "BSTKD": {
-            "description": "",
-            "type": "",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "INSP_LOT_LISTRes8": {
-        "title": "INSP_LOT_LIST",
-        "type": "object",
-        "properties": {
-          "PLANT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "TXT_LOT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "MATERIAL_EXTERNAL": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "PO_ITEM": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "CREAT_DAT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "MAT_DOC": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "TXT_MAT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "DOC_YEAR": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "MATERIAL_VERSION": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "PO_NUMBER": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "INSPLOT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "MATDOC_ITM": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "SKIPLOT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "VENDOR": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "BATCH": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "INSPPOINTS": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "MATERIAL_GUID": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "MATERIAL": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "OUTPUTRes9": {
-        "title": "OUTPUT",
-        "type": "object",
-        "properties": {
-          "MESSAGE": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "BSTKD": {
-            "description": "",
-            "type": "",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "OUTPUTRes8": {
-        "title": "OUTPUT",
-        "type": "object",
-        "properties": {
-          "MT_HGVS_QM05_RES": {
-            "$ref": "#/components/schemas/MT_HGVS_QM05_RESRes8"
-          }
-        },
-        "required": []
-      },
-      "OPERATIONRes8": {
-        "title": "OPERATION",
-        "type": "object",
-        "properties": {
-          "PLANT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "TXT_WORKC": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "TXT_OPER": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "PLNT_WORKC": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "INSPLOT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "INSPOPER": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "WORKCENTER": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "IDI_SUBSYS": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "INT_LIFNRRes5": {
-        "title": "INT_LIFNR",
-        "type": "object",
-        "properties": {
-          "LIFNR": {
-            "description": "供应商帐户号",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "inObj0": {
-        "title": "inObj0",
-        "type": "object",
-        "properties": {
-          "CPUTM_F": {
-            "description": "输入时间",
-            "type": "Date",
-            "required": false
-          },
-          "CPUDT_F": {
-            "description": "会计凭证输入日期",
-            "type": "Date",
-            "required": false
-          },
-          "CPUTM_T": {
-            "description": "输入时间",
-            "type": "Date",
-            "required": false
-          },
-          "BUDAT_T": {
-            "description": "凭证中的过帐日期",
-            "type": "Date",
-            "required": false
-          },
-          "INT_WERKS": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/INT_WERKSReq0"
-            }
-          },
-          "CPUDT_T": {
-            "description": "会计凭证输入日期",
-            "type": "Date",
-            "required": false
-          },
-          "BUDAT_F": {
-            "description": "凭证中的过帐日期",
-            "type": "Date",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "inObj1": {
-        "title": "inObj1",
-        "type": "object",
-        "properties": {
-          "IT_INPUT": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IT_INPUTReq1"
-            }
-          },
-          "ET_OUTPUT": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ET_OUTPUTReq1"
-            }
-          }
-        },
-        "required": []
-      },
-      "INPUTReq8": {
-        "title": "INPUT",
-        "type": "object",
-        "properties": {
-          "MT_HGVS_QM05_REQ": {
-            "$ref": "#/components/schemas/MT_HGVS_QM05_REQReq8"
-          }
-        },
-        "required": []
-      },
-      "ET_OUTPUTRes1": {
-        "title": "ET_OUTPUT",
-        "type": "object",
-        "properties": {
-          "MESSAGE": {
-            "description": "消息文本",
-            "type": "String",
-            "required": false
-          },
-          "MJAHR": {
-            "description": "物料凭证年度",
-            "type": "String",
-            "required": false
-          },
-          "STATUS": {
-            "description": "处理状态",
-            "type": "String",
-            "required": false
-          },
-          "BSTKD": {
-            "description": "客户采购订单编号",
-            "type": "String",
-            "required": false
-          },
-          "MBLNR": {
-            "description": "物料凭证编号",
-            "type": "String",
-            "required": false
-          },
-          "MJAHR_VL": {
-            "description": "物料凭证年度",
-            "type": "String",
-            "required": false
-          },
-          "BARCODE": {
-            "description": "条码",
-            "type": "String",
-            "required": false
-          },
-          "TYPE": {
-            "description": "消息类型",
-            "type": "String",
-            "required": false
-          },
-          "MBLNR_VL": {
-            "description": "物料凭证编号",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "INPUTReq9": {
-        "title": "INPUT",
-        "type": "object",
-        "properties": {
-          "CHARG": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "KUNNR": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "LFIMG": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD3": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ERZET": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "IHREZ": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD1": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ADD2": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "POSNR": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "KWMENG": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "BSTKD": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "ERDAT": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "MATNR": {
-            "description": "",
-            "type": "",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "ET_OUTPUTRes16": {
-        "title": "ET_OUTPUT",
-        "type": "object",
-        "properties": {
-          "ZIEME_SO": {
-            "description": "Target Quantity UoM",
-            "type": "String",
-            "required": false
-          },
-          "BARCODE": {
-            "description": "Barcode",
-            "type": "String",
-            "required": false
-          },
-          "ERDAT_DN": {
-            "description": "Date on which the record was created",
-            "type": "Date",
-            "required": false
-          },
-          "ERDAT_BL": {
-            "description": "Date on which the record was created",
-            "type": "Date",
-            "required": false
-          },
-          "MATNR_SO": {
-            "description": "Material Number",
-            "type": "String",
-            "required": false
-          },
-          "POSNR_DN": {
-            "description": "Delivery Item",
-            "type": "String",
-            "required": false
-          },
-          "FKSTK_DN": {
-            "description": "Billing Status",
-            "type": "String",
-            "required": false
-          },
-          "POSNR_BL": {
-            "description": "Billing Item",
-            "type": "String",
-            "required": false
-          },
-          "FKART_BL": {
-            "description": "Billing Type",
-            "type": "String",
-            "required": false
-          },
-          "VBELN_SO": {
-            "description": "Sales Document",
-            "type": "String",
-            "required": false
-          },
-          "FKIMG_BL": {
-            "description": "Actual billed quantity",
-            "type": "BigDecimal",
-            "required": false
-          },
-          "FKDAT_BL": {
-            "description": "Billing Date",
-            "type": "Date",
-            "required": false
-          },
-          "LFIMG_DN": {
-            "description": "Actual quantity delivered (in sales units)",
-            "type": "BigDecimal",
-            "required": false
-          },
-          "VRKME_DN": {
-            "description": "Sales unit",
-            "type": "String",
-            "required": false
-          },
-          "VRKME_BL": {
-            "description": "Sales unit",
-            "type": "String",
-            "required": false
-          },
-          "NETWR_BL": {
-            "description": "Net value of the billing item in document currency",
-            "type": "BigDecimal",
-            "required": false
-          },
-          "WADAT_IST_DN": {
-            "description": "Actual Goods Movement Date",
-            "type": "Date",
-            "required": false
-          },
-          "LFART_DN": {
-            "description": "Delivery Type",
-            "type": "String",
-            "required": false
-          },
-          "ZMENG_SO": {
-            "description": "Target Quantity in Sales Units",
-            "type": "BigDecimal",
-            "required": false
-          },
-          "ERDAT_SO": {
-            "description": "Date on which the record was created",
-            "type": "Date",
-            "required": false
-          },
-          "RFBSK_BL": {
-            "description": "Status for Transfer to Accounting",
-            "type": "String",
-            "required": false
-          },
-          "WBSTK_DN": {
-            "description": "Goods Movement Status (All Items)",
-            "type": "String",
-            "required": false
-          },
-          "VKORG": {
-            "description": "Sales Organization",
-            "type": "String",
-            "required": false
-          },
-          "AUART_SO": {
-            "description": "Sales Document Type",
-            "type": "String",
-            "required": false
-          },
-          "VBELN_DN": {
-            "description": "Delivery",
-            "type": "String",
-            "required": false
-          },
-          "VBELN_BL": {
-            "description": "Billing Document",
-            "type": "String",
-            "required": false
-          },
-          "POSNR_SO": {
-            "description": "Sales Document Item",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "RETURNRes8": {
-        "title": "RETURN",
-        "type": "object",
-        "properties": {
-          "MESSAGE": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "INSPLOT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "INSPOPER": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "TYPE": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "LT_INPUTReq6": {
-        "title": "LT_INPUT",
-        "type": "object",
-        "properties": {
-          "ADD_1": {
-            "description": "预留字段：附加1",
-            "type": "String",
-            "required": true
-          },
-          "ADD_5": {
-            "description": "预留字段：附加5",
-            "type": "String",
-            "required": true
-          },
-          "ADD_4": {
-            "description": "预留字段：附加4",
-            "type": "String",
-            "required": true
-          },
-          "WERKS": {
-            "description": "工厂",
-            "type": "String",
-            "required": false
-          },
-          "LGORT": {
-            "description": "库存地点",
-            "type": "String",
-            "required": false
-          },
-          "ADD_3": {
-            "description": "预留字段：附加3",
-            "type": "String",
-            "required": true
-          },
-          "ADD_2": {
-            "description": "预留字段：附加2",
-            "type": "String",
-            "required": true
-          },
-          "NX_LSH_CK": {
-            "description": "参考流水码",
-            "type": "String",
-            "required": false
-          },
-          "BUKRS": {
-            "description": "公司代码",
-            "type": "String",
-            "required": false
-          },
-          "EKGRP": {
-            "description": "采购组",
-            "type": "String",
-            "required": false
-          },
-          "EKORG": {
-            "description": "采购组织",
-            "type": "String",
-            "required": false
-          },
-          "POSNR": {
-            "description": "采购凭证的项目编号",
-            "type": "String",
-            "required": false
-          },
-          "KWMENG": {
-            "description": "以销售单位表示的累计订单数量",
-            "type": "BigDecimal",
-            "required": false
-          },
-          "AUDAT": {
-            "description": "凭证日期 (接收/发送日期)",
-            "type": "Date",
-            "required": false
-          },
-          "JIDI_CODE": {
-            "description": "基地代码",
-            "type": "String",
-            "required": false
-          },
-          "BSART": {
-            "description": "订单类型（采购）",
-            "type": "String",
-            "required": false
-          },
-          "LIFNR": {
-            "description": "供应商或债权人的帐号",
-            "type": "String",
-            "required": false
-          },
-          "VBELN_LSH": {
-            "description": "OEM系统流水号",
-            "type": "String",
-            "required": false
-          },
-          "ZSDG_ZSPO": {
-            "description": "采购价格",
-            "type": "BigDecimal",
-            "required": false
-          },
-          "MATNR": {
-            "description": "物料号",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": ["ADD_1", "ADD_5", "ADD_4", "ADD_3", "ADD_2"]
-      },
-      "ROWReq8": {
-        "title": "ROW",
-        "type": "object",
-        "properties": {
-          "PLANT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "MANUFACTURER": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "PO_ITEM": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "MAX_ROWS": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "CREAT_DAT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "MAT_DOC": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "PO_NUMBER": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "GETDETAIL": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "MATDOC_ITM": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "INSPLOT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "VENDOR": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "BATCH": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "INSPOPER": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "MATERIAL": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "LS_EAI_OUTRes12": {
-        "title": "LS_EAI_OUT",
-        "type": "object",
-        "properties": {
-          "FIELD2": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "FIELD3": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "FIELD4": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "FIELD5": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "MAIN_RECORD_CNT": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "CALLBACK": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "MESSAGE_CODE": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "MESSAGE_DETAIL": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "CHILD_RECORD_CNT": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "FIELD1": {
-            "description": "",
-            "type": "",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "IT_INPUTReq1": {
-        "title": "IT_INPUT",
-        "type": "object",
-        "properties": {
-          "EBELN": {
-            "description": "采购凭证号",
-            "type": "String",
-            "required": false
-          },
-          "BSTKD": {
-            "description": "客户采购订单编号",
-            "type": "String",
-            "required": false
-          },
-          "VBELN_VL": {
-            "description": "交货",
-            "type": "String",
-            "required": false
-          },
-          "BARCODE": {
-            "description": "条码",
-            "type": "String",
-            "required": false
-          },
-          "VBELN_VA": {
-            "description": "销售凭证",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "INT_MATNRReq5": {
-        "title": "INT_MATNR",
-        "type": "object",
-        "properties": {
-          "MATNR": {
-            "description": "物料号",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "LT_OUTPUTRes6": {
-        "title": "LT_OUTPUT",
-        "type": "object",
-        "properties": {
-          "ADD_1": {
-            "description": "预留字段：附加1",
-            "type": "String",
-            "required": false
-          },
-          "ADD_5": {
-            "description": "预留字段：附加5",
-            "type": "String",
-            "required": false
-          },
-          "ADD_4": {
-            "description": "预留字段：附加4",
-            "type": "String",
-            "required": false
-          },
-          "WERKS": {
-            "description": "工厂",
-            "type": "String",
-            "required": false
-          },
-          "ADD_3": {
-            "description": "预留字段：附加3",
-            "type": "String",
-            "required": false
-          },
-          "ADD_2": {
-            "description": "预留字段：附加2",
-            "type": "String",
-            "required": false
-          },
-          "FLAG_LES": {
-            "description": "推送LES成功标识",
-            "type": "String",
-            "required": false
-          },
-          "FLAG": {
-            "description": "一般标记",
-            "type": "String",
-            "required": false
-          },
-          "NX_LSH_CK": {
-            "description": "参考流水码",
-            "type": "String",
-            "required": false
-          },
-          "BUKRS": {
-            "description": "公司代码",
-            "type": "String",
-            "required": false
-          },
-          "MESSAGE": {
-            "description": "该步骤处理失败消息",
-            "type": "String",
-            "required": false
-          },
-          "KWMENG": {
-            "description": "以销售单位表示的累计订单数量",
-            "type": "BigDecimal",
-            "required": false
-          },
-          "VBELN_LES": {
-            "description": "LES返回SO",
-            "type": "String",
-            "required": false
-          },
-          "JIDI_CODE": {
-            "description": "基地代码",
-            "type": "String",
-            "required": false
-          },
-          "BSART": {
-            "description": "订单类型（采购）",
-            "type": "String",
-            "required": false
-          },
-          "ZSDG_ZSPO": {
-            "description": "采购价格",
-            "type": "BigDecimal",
-            "required": false
-          },
-          "MATNR": {
-            "description": "物料号",
-            "type": "String",
-            "required": false
-          },
-          "EBELN": {
-            "description": "采购凭证号",
-            "type": "String",
-            "required": false
-          },
-          "LGORT": {
-            "description": "库存地点",
-            "type": "String",
-            "required": false
-          },
-          "EKGRP": {
-            "description": "采购组",
-            "type": "String",
-            "required": false
-          },
-          "EKORG": {
-            "description": "采购组织",
-            "type": "String",
-            "required": false
-          },
-          "POSNR": {
-            "description": "采购凭证的项目编号",
-            "type": "String",
-            "required": false
-          },
-          "AUDAT": {
-            "description": "凭证日期 (接收/发送日期)",
-            "type": "Date",
-            "required": false
-          },
-          "LIFNR": {
-            "description": "供应商或债权人的帐号",
-            "type": "String",
-            "required": false
-          },
-          "VBELN_LSH": {
-            "description": "OEM系统流水号",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "IN_VBELN_SOReq16": {
-        "title": "IN_VBELN_SO",
-        "type": "object",
-        "properties": {
-          "VBELN_SO": {
-            "description": "Sales Document",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "CHAR_REQUIREMENTSRes8": {
-        "title": "CHAR_REQUIREMENTS",
-        "type": "object",
-        "properties": {
-          "CHAR_TYPE": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "DOCU_REQU": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "MEAS_UNITC": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "ACCEPT_NO": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "UP_TOL_LMT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "K_FACTOR": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "STATUS": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "MEAS_UNITT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "INSP_POINT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "CHARACTERISTIC_NAME": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "NO_RECORDING": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "INSPLOT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "SAMPLES_NO": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "MEAS_UNIT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "INSPOPER": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "SAMPLES": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "INSPCHAR": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "PMSTR_CHAR": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "CHAR_RES": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "SMPL_UNITC": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "OBLIGATORY": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "REJECT_NO": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "CONFIRM_NO": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "PSEL_SET1": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "SMPL_UNIT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "LW_TOL_LMT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "CHAR_DESCR": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "PHYS_SMPL": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "GRID": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "CAT_TYPE1": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "DEC_PLACES": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "SMPL_UNITT": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "VMSTR_CHAR": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "TARGET_VAL": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "SAMPLE_RES": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "VALN_TYPE": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "SEL_SET1": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "SINGLE_RES": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          },
-          "MSTR_CHAR": {
-            "description": "-",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "MT_HGVS_QM05_REQReq8": {
-        "title": "MT_HGVS_QM05_REQ",
-        "type": "object",
-        "properties": {
-          "ROW": {
-            "$ref": "#/components/schemas/ROWReq8"
-          }
-        },
-        "required": []
-      },
-      "outObj15": {
-        "title": "outObj15",
-        "type": "object",
-        "properties": {
-          "OUTPUT": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OUTPUTRes15"
-            }
-          }
-        },
-        "required": []
-      },
-      "outObj14": {
-        "title": "outObj14",
-        "type": "object",
-        "properties": {
-          "MESSAGE": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "FLAG": {
-            "description": "",
-            "type": "",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "OUTPUTRes10": {
-        "title": "OUTPUT",
-        "type": "object",
-        "properties": {
-          "MESSAGE": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "BSTKD": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "FLAG": {
-            "description": "",
-            "type": "",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "outObj16": {
-        "title": "outObj16",
-        "type": "object",
-        "properties": {
-          "ET_OUTPUT": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ET_OUTPUTRes16"
-            }
-          }
-        },
-        "required": []
-      },
-      "INT_LIFNRReq5": {
-        "title": "INT_LIFNR",
-        "type": "object",
-        "properties": {
-          "LIFNR": {
-            "description": "供应商帐户号",
-            "type": "String",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "outObj11": {
-        "title": "outObj11",
-        "type": "object",
-        "properties": {
-          "MESSAGE": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "FLAG": {
-            "description": "",
-            "type": "",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "outObj10": {
-        "title": "outObj10",
-        "type": "object",
-        "properties": {
-          "OUTPUT": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OUTPUTRes10"
-            }
-          }
-        },
-        "required": []
-      },
-      "outObj13": {
-        "title": "outObj13",
-        "type": "object",
-        "properties": {
-          "MESSAGE": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "OUTPUT": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OUTPUTRes13"
-            }
-          },
-          "FLAG": {
-            "description": "",
-            "type": "",
-            "required": false
-          }
-        },
-        "required": []
-      },
-      "outObj12": {
-        "title": "outObj12",
-        "type": "object",
-        "properties": {
-          "MESSAGE": {
-            "description": "",
-            "type": "",
-            "required": false
-          },
-          "LS_EAI_OUT": {
-            "$ref": "#/components/schemas/LS_EAI_OUTRes12"
-          },
-          "FLAG": {
-            "description": "",
-            "type": "",
-            "required": false
-          }
-        },
-        "required": []
-      }
-    }
-  },
-  "openapi": "3.0.0",
-  "swagger": "2.0",
-  "version": "v0.0.123"
+  }
 }

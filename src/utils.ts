@@ -29,8 +29,12 @@ export const handleBodyJsonSchema = (
 ) => {
   requiredArr = requiredArr && Array.isArray(requiredArr) ? requiredArr : [];
   // console.log(requiredArr, propName, 'requiredArrrequiredArr');
-
-  let type = schema?.type ? schema.type.toLowerCase() : 'string';
+  let type = 'string';
+  try {
+    type = schema?.type ? schema?.type?.toLowerCase() : 'string';
+  } catch (error) {
+    type = 'array';
+  }
   if (type === 'object') {
     let properties = schema?.additionalProperties?.properties || schema?.properties || {};
 

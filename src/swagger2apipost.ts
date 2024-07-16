@@ -6,7 +6,7 @@ import parseUrl from 'url-parse';
 import { ConvertResult, getApipostMode, handleBodyJsonSchema } from './utils';
 const MockSchema = require('apipost-mock-schema');
 // import MockSchema from 'apipost-mock-schema';
-import { isArray, isEmpty, isPlainObject, isString } from 'lodash';
+import { isArray, isEmpty, isObject, isPlainObject, isString } from 'lodash';
 import { v4 as uuidV4 } from 'uuid';
 function replaceRef(schemaObj: any) {
   try {
@@ -274,6 +274,7 @@ class Swagger2Apipost {
               if (!request.hasOwnProperty('query')) {
                 request['query'] = [];
               }
+
               parameter?.name &&
                 request.query.push({
                   is_checked: '1', // 是否选择
@@ -706,7 +707,11 @@ class Swagger2Apipost {
                   type: 'Text', // 参数值类型 Text/File
                   key: parameter?.name || '', //参数名
                   value:
-                    parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
+                    parameter?.example ||
+                    parameter?.schema?.example ||
+                    parameter?.default ||
+                    parameter?.enum?.join('|') ||
+                    '', //参数值
                   not_null: parameter.required ? '1' : '-1', // 是否为空
                   description: parameter?.description || '', // 参数描述
                   field_type: parameter?.type || 'Text', // 类型
@@ -722,7 +727,11 @@ class Swagger2Apipost {
                   type: 'Text', // 参数值类型 Text/File
                   key: parameter?.name || '', //参数名
                   value:
-                    parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
+                    parameter?.example ||
+                    parameter?.schema?.example ||
+                    parameter?.default ||
+                    parameter?.enum?.join('|') ||
+                    '', //参数值
                   not_null: parameter.required ? '1' : '-1', // 是否为空
                   description: parameter?.description || '', // 参数描述
                   field_type: parameter?.type || 'Text', // 类型
@@ -737,7 +746,11 @@ class Swagger2Apipost {
                   type: 'Text', // 参数值类型 Text/File
                   key: parameter?.name || '', //参数名
                   value:
-                    parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
+                    parameter?.example ||
+                    parameter?.schema?.example ||
+                    parameter?.default ||
+                    parameter?.enum?.join('|') ||
+                    '', //参数值
                   not_null: parameter.required ? '1' : '-1', // 是否为空
                   description: parameter?.description || '', // 参数描述
                   field_type: parameter?.type || 'Text', // 类型
@@ -750,7 +763,9 @@ class Swagger2Apipost {
               ) {
                 let raw_para: any = [];
                 let Raw = handleBodyJsonSchema(parameter.schema, raw_para);
-                let Raw_text = isPlainObject(Raw) || Array.isArray(Raw) ? JSON.stringify(Raw) : Raw;
+
+                let Raw_text = isObject(Raw) || Array.isArray(Raw) ? JSON.stringify(Raw) : Raw;
+                console.log(Raw_text, parameter?.example, ' parameter?.example');
 
                 request.body.raw = parameter?.example || Raw_text;
 
@@ -758,6 +773,8 @@ class Swagger2Apipost {
                   try {
                     const myMockSchema = new MockSchema();
                     let schemaJson = await myMockSchema.mock(parameter.schema);
+                    console.log(schemaJson, isPlainObject(schemaJson), 'schemaJson');
+
                     request.body.raw =
                       isPlainObject(schemaJson) || Array.isArray(Raw)
                         ? JSON.stringify(schemaJson)
@@ -765,6 +782,7 @@ class Swagger2Apipost {
                   } catch (error) {}
                 }
                 request.body.raw_para = raw_para;
+                console.log(request.body, 'request.body');
               }
 
               if (
@@ -782,7 +800,11 @@ class Swagger2Apipost {
                     parameter.hasOwnProperty('type') && parameter.type == 'file' ? 'File' : 'Text', // 参数值类型 Text/File
                   key: parameter?.name || '', //参数名
                   value:
-                    parameter?.example || parameter?.schema?.example || parameter?.default || '', //参数值
+                    parameter?.example ||
+                    parameter?.schema?.example ||
+                    parameter?.default ||
+                    parameter?.enum?.join('|') ||
+                    '', //参数值
                   not_null: parameter.required ? '1' : '-1', // 是否为空
                   description: parameter?.description || '', // 参数描述
                   field_type: parameter?.type || 'Text', // 类型
@@ -804,7 +826,9 @@ class Swagger2Apipost {
             ) {
               let raw_para: any = [];
               let Raw = handleBodyJsonSchema(element.schema, raw_para);
-              let Raw_text = isPlainObject(Raw) || Array.isArray(Raw) ? JSON.stringify(Raw) : Raw;
+              console.log(Raw, 'handleBodyJsonSchemaRes');
+
+              let Raw_text = isObject(Raw) || Array.isArray(Raw) ? JSON.stringify(Raw) : Raw;
               let jsonSchema = {};
               if (
                 Object.prototype.toString.call(element?.schema?.['$$ref']) === '[object String]'
@@ -1117,7 +1141,7 @@ class Swagger2Apipost {
         await this.handlePaths(swagger3Json);
       } else if (this.version == '3.0') {
         this.handleServers(swagger3Json);
-        console.log(JSON.stringify(validationResult));
+        // console.log(JSON.stringify(validationResult));
         await this.handlePathsV3(swagger3Json);
       }
 
@@ -1138,7 +1162,7 @@ class Swagger2Apipost {
       };
       // console.log(JSON.stringify(validationResult.data.dataModel));
 
-      console.log(JSON.stringify(validationResult.data.apis));
+      console.log(JSON.stringify(validationResult.data.apis), 'validationResult.data.apis');
 
       return validationResult;
     } catch (error: any) {
